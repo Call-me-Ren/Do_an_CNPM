@@ -1,0 +1,76 @@
+@startuml
+!pragma layout smetana
+left to right direction
+skinparam packageStyle rectangle
+
+actor Nguoi
+actor NguoiDung
+actor Admin
+actor ThietBiLuuAmThanh
+
+NguoiDung --|> Nguoi
+Admin --|> Nguoi
+
+rectangle "HT Thuyet Minh Tu Dong Da Ngon Ngu" {
+  usecase "Đăng Kí" as DangKi
+  usecase "Đăng Nhập" as DangNhap
+  usecase "QuênMK" as QuenMK
+  usecase "DangXuat" as DangXuat
+  usecase "TimKiem" as TimKiem
+  usecase "ChuyenDoiNgon Ngu" as ChuyenDoiNgonNgu
+  usecase "DocND" as DocND
+  usecase "XemHinhAnh" as XemHinhAnh
+  usecase "XemHoSoBaoTang" as XemHoSoBaoTang
+  usecase "LuuSVYeuThich" as LuuSVYeuThich
+  usecase "QuetMaQR" as QuetMaQR
+  usecase "NgheThuyetMinh" as NgheThuyetMinh
+  usecase "XemPhuDe" as XemPhuDe
+  usecase "PhatLuongDLAmThanh" as PhatLuongDLAmThanh
+  usecase "XemThongKeLuotNghe" as XemThongKeLuotNghe
+  usecase "QLSuVat" as QLSuVat
+  usecase "QLSoDo" as QLSoDo
+  usecase "ChinhSuaQR" as ChinhSuaQR
+  usecase "QLTepAmThanh" as QLTepAmThanh
+  usecase "LuuTruTepAmThanh" as LuuTruTepAmThanh
+}
+
+' --- associations: Nguoi (base actor)
+Nguoi -- DangNhap
+Nguoi -- DangXuat
+
+' --- associations: NguoiDung
+NguoiDung -- DangKi
+NguoiDung -- DocND
+NguoiDung -- XemHinhAnh
+NguoiDung -- ChuyenDoiNgonNgu
+NguoiDung -- XemHoSoBaoTang
+NguoiDung -- LuuSVYeuThich
+NguoiDung -- QuetMaQR
+NguoiDung -- NgheThuyetMinh
+NguoiDung -- TimKiem
+
+' --- associations: Admin
+QLTepAmThanh -- Admin
+ChinhSuaQR -- Admin
+XemThongKeLuotNghe -- Admin
+QLSuVat -- Admin
+QLSoDo -- Admin
+
+' --- associations: audio device (not drawn in the source General page; taken from UC04)
+PhatLuongDLAmThanh -- ThietBiLuuAmThanh
+LuuTruTepAmThanh -- ThietBiLuuAmThanh
+
+' --- include / extend
+XemPhuDe ..> NgheThuyetMinh : <<extend>>
+QuenMK ..> DangNhap : <<extend>>
+NgheThuyetMinh ..> DangNhap : <<include>>
+NgheThuyetMinh ..> PhatLuongDLAmThanh : <<include>>
+LuuSVYeuThich ..> DangNhap : <<include>>
+DangNhap <.. XemThongKeLuotNghe : <<include>>
+DangNhap <.. QLSuVat : <<include>>
+DangNhap <.. QLSoDo : <<include>>
+DangNhap <.. ChinhSuaQR : <<include>>
+DangNhap <.. QLTepAmThanh : <<include>>
+LuuTruTepAmThanh ..> QLTepAmThanh : <<include>>
+QuetMaQR ..> ChinhSuaQR : <<include>>
+@enduml

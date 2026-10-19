@@ -1,0 +1,13 @@
+usecase-beta
+    direction LR
+
+    actor Admin
+
+    systemBoundary SB[" "]
+        QuanLySuVat("QuanLySuVat")
+        DangNhap("Đăng nhập")
+    end
+
+    Admin --> QuanLySuVat
+
+    QuanLySuVat ..> : include DangNhap

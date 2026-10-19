@@ -1,0 +1,78 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Trang-1" id="5VKXDNWDBlsGdfQpdtTx">
+    <mxGraphModel grid="1" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="KUorQR8aLoqxehhcP923-1" parent="1" style="ellipse;html=1;shape=startState;fillColor=#000000;strokeColor=#ff0000;" value="" vertex="1">
+          <mxGeometry height="30" width="30" x="325" y="240" as="geometry" />
+        </mxCell>
+        <mxCell id="KUorQR8aLoqxehhcP923-2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="NguoiDung chọn chức năng Chuyển đổi ngôn ngữ" vertex="1">
+          <mxGeometry height="60" width="140" x="270" y="310" as="geometry" />
+        </mxCell>
+        <mxCell id="KUorQR8aLoqxehhcP923-3" edge="1" parent="1" source="KUorQR8aLoqxehhcP923-2" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="360" y="500" as="sourcePoint" />
+            <mxPoint x="340" y="430" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="KUorQR8aLoqxehhcP923-4" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="Hệ Thống hiển thị danh sách ngôn ngữ được hỗ trợ" vertex="1">
+          <mxGeometry height="60" width="120" x="280" y="430" as="geometry" />
+        </mxCell>
+        <mxCell id="KUorQR8aLoqxehhcP923-5" edge="1" parent="1" source="KUorQR8aLoqxehhcP923-1" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="KUorQR8aLoqxehhcP923-2" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="360" y="360" as="sourcePoint" />
+            <mxPoint x="410" y="310" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="KUorQR8aLoqxehhcP923-6" edge="1" parent="1" source="KUorQR8aLoqxehhcP923-4" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="330" y="520" as="sourcePoint" />
+            <mxPoint x="340" y="550" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="KUorQR8aLoqxehhcP923-7" parent="1" style="rounded=1;whiteSpace=wrap;html=1;roundedPerimeter=1;" value="Người dùng chọn ngôn ngữ mong muốn" vertex="1">
+          <mxGeometry height="60" width="120" x="280" y="550" as="geometry" />
+        </mxCell>
+        <mxCell id="KUorQR8aLoqxehhcP923-8" edge="1" parent="1" source="KUorQR8aLoqxehhcP923-7" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="330" y="520" as="sourcePoint" />
+            <mxPoint x="340" y="670" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="KUorQR8aLoqxehhcP923-9" parent="1" style="rounded=1;whiteSpace=wrap;html=1;roundedPerimeter=1;" value="&lt;span style=&quot;font-size:10.0pt;font-family:&amp;quot;Times New Roman&amp;quot;,&amp;quot;serif&amp;quot;;&lt;br/&gt;mso-fareast-font-family:&amp;quot;Times New Roman&amp;quot;;mso-ansi-language:EN-US;mso-fareast-language:&lt;br/&gt;EN-US;mso-bidi-language:AR-SA&quot;&gt;Hệ thống ghi nhận thiết lập ngôn ngữ mới&amp;nbsp;&lt;/span&gt;" vertex="1">
+          <mxGeometry height="60" width="120" x="280" y="670" as="geometry" />
+        </mxCell>
+        <mxCell id="KUorQR8aLoqxehhcP923-10" edge="1" parent="1" source="KUorQR8aLoqxehhcP923-9" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="390" y="510" as="sourcePoint" />
+            <mxPoint x="340" y="790.7999877929688" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="KUorQR8aLoqxehhcP923-11" parent="1" style="rounded=1;whiteSpace=wrap;html=1;roundedPerimeter=1;" value="&lt;span style=&quot;font-size:10.0pt;font-family:&amp;quot;Times New Roman&amp;quot;,&amp;quot;serif&amp;quot;;&lt;br/&gt;mso-fareast-font-family:&amp;quot;Times New Roman&amp;quot;;mso-ansi-language:EN-US;mso-fareast-language:&lt;br/&gt;EN-US;mso-bidi-language:AR-SA&quot;&gt;Hệ thống tải lại tài nguyên giao diện, nội dung theo ngôn ngữ mới&amp;nbsp;&lt;/span&gt;" vertex="1">
+          <mxGeometry height="60" width="180" x="250" y="790" as="geometry" />
+        </mxCell>
+        <mxCell id="KUorQR8aLoqxehhcP923-12" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="KUorQR8aLoqxehhcP923-13" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="340" y="850" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="KUorQR8aLoqxehhcP923-13" parent="1" style="ellipse;html=1;shape=endState;fillColor=#000000;strokeColor=#ff0000;" value="" vertex="1">
+          <mxGeometry height="30" width="30" x="325" y="910" as="geometry" />
+        </mxCell>
+        <mxCell id="OFE3VLWWgKRtm0pL_u5c-4" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" value="NguoiDung" vertex="1">
+          <mxGeometry height="60" width="30" x="220" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="OFE3VLWWgKRtm0pL_u5c-5" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;" value="ChuyenDoiNgonNgu" vertex="1">
+          <mxGeometry height="60" width="120" x="330" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="OFE3VLWWgKRtm0pL_u5c-6" edge="1" parent="1" style="endArrow=open;endFill=1;endSize=12;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="OFE3VLWWgKRtm0pL_u5c-5" value="">
+          <mxGeometry relative="1" width="160" as="geometry">
+            <mxPoint x="270" y="180" as="sourcePoint" />
+            <mxPoint x="430" y="300" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

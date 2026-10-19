@@ -1,0 +1,19 @@
+usecase-beta
+    direction LR
+
+    actor NguoiDung
+    actor ThietBiLuuAmThanh
+
+    systemBoundary SB[" "]
+        NgheThuyetMinh("NgheThuyetMinh")
+        DangNhap("Đăng nhập")
+        PhatLuonDLAmThanh("PhatLuonDLAmThanh")
+        XemPhuDe("XemPhuDe")
+    end
+
+    NguoiDung --> NgheThuyetMinh
+    ThietBiLuuAmThanh --> PhatLuonDLAmThanh
+
+    NgheThuyetMinh ..> : include DangNhap
+    NgheThuyetMinh ..> : include PhatLuonDLAmThanh
+    XemPhuDe ..> : extend NgheThuyetMinh

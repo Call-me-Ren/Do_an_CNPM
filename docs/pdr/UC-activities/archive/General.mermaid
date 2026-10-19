@@ -1,0 +1,69 @@
+usecase-beta
+    direction LR
+
+    actor Nguoi
+    actor NguoiDung
+    actor Admin
+    actor ThietBiLuuAmThanh
+
+    systemBoundary HT["HT Thuyet Minh Tu Dong Da Ngon Ngu"]@{ type: package }
+        DangKi("Đăng Kí")
+        DangNhap("Đăng Nhập")
+        QuenMK("QuênMK")
+        DangXuat("DangXuat")
+        TimKiem("TimKiem")
+        ChuyenDoiNgonNgu("ChuyenDoiNgon Ngu")
+        DocND("DocND")
+        XemHinhAnh("XemHinhAnh")
+        XemHoSoBaoTang("XemHoSoBaoTang")
+        LuuSVYeuThich("LuuSVYeuThich")
+        QuetMaQR("QuetMaQR")
+        NgheThuyetMinh("NgheThuyetMinh")
+        XemPhuDe("XemPhuDe")
+        PhatLuongDLAmThanh("PhatLuongDLAmThanh")
+        XemThongKeLuotNghe("XemThongKeLuotNghe")
+        QLSuVat("QLSuVat")
+        QLSoDo("QLSoDo")
+        ChinhSuaQR("ChinhSuaQR")
+        QLTepAmThanh("QLTepAmThanh")
+        LuuTruTepAmThanh("LuuTruTepAmThanh")
+    end
+
+    NguoiDung --|> Nguoi
+    Admin --|> Nguoi
+
+    Nguoi --> DangNhap
+    Nguoi --> DangXuat
+
+    NguoiDung --> DangKi
+    NguoiDung --> TimKiem
+    NguoiDung --> ChuyenDoiNgonNgu
+    NguoiDung --> DocND
+    NguoiDung --> XemHinhAnh
+    NguoiDung --> XemHoSoBaoTang
+    NguoiDung --> LuuSVYeuThich
+    NguoiDung --> QuetMaQR
+    NguoiDung --> NgheThuyetMinh
+
+    Admin --> QLTepAmThanh
+    Admin --> ChinhSuaQR
+    Admin --> XemThongKeLuotNghe
+    Admin --> QLSuVat
+    Admin --> QLSoDo
+
+    ThietBiLuuAmThanh --> PhatLuongDLAmThanh
+    ThietBiLuuAmThanh --> LuuTruTepAmThanh
+
+    XemPhuDe ..> : extend NgheThuyetMinh
+    QuenMK ..> : extend DangNhap
+
+    NgheThuyetMinh ..> : include DangNhap
+    NgheThuyetMinh ..> : include PhatLuongDLAmThanh
+    LuuSVYeuThich ..> : include DangNhap
+    XemThongKeLuotNghe ..> : include DangNhap
+    QLSuVat ..> : include DangNhap
+    QLSoDo ..> : include DangNhap
+    ChinhSuaQR ..> : include DangNhap
+    QLTepAmThanh ..> : include DangNhap
+    LuuTruTepAmThanh ..> : include QLTepAmThanh
+    QuetMaQR ..> : include ChinhSuaQR

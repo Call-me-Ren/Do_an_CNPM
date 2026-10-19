@@ -1,0 +1,13 @@
+usecase-beta
+    direction LR
+
+    actor Admin
+
+    systemBoundary SB[" "]
+        ChinhSuaQR("ChinhSuaQR")
+        DangNhap("Đăng Nhập")
+    end
+
+    Admin --> ChinhSuaQR
+
+    ChinhSuaQR ..> : include DangNhap

@@ -1,0 +1,140 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Trang-1" id="CwdJ4Xs66psHV_UWS-wo">
+    <mxGraphModel grid="1" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="fOKYPfpPNOhrKLgcB5oH-1" parent="1" style="ellipse;html=1;shape=startState;fillColor=#000000;strokeColor=#ff0000;" value="" vertex="1">
+          <mxGeometry height="30" width="30" x="355" y="90" as="geometry" />
+        </mxCell>
+        <mxCell id="fOKYPfpPNOhrKLgcB5oH-3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="NguoiDung chọn chức năng Quét mã QR&amp;nbsp;" vertex="1">
+          <mxGeometry height="60" width="140" x="300" y="160" as="geometry" />
+        </mxCell>
+        <mxCell id="fOKYPfpPNOhrKLgcB5oH-4" edge="1" parent="1" source="fOKYPfpPNOhrKLgcB5oH-3" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="390" y="350" as="sourcePoint" />
+            <mxPoint x="370" y="280" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="fOKYPfpPNOhrKLgcB5oH-5" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="Hệ Thống thông báo kích hoạt camera và hiển thị khung quét&amp;nbsp;" vertex="1">
+          <mxGeometry height="60" width="120" x="310" y="280" as="geometry" />
+        </mxCell>
+        <mxCell id="fOKYPfpPNOhrKLgcB5oH-6" edge="1" parent="1" style="endArrow=classic;html=1;rounded=0;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="370" y="340" as="sourcePoint" />
+            <mxPoint x="370" y="390" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="fOKYPfpPNOhrKLgcB5oH-8" parent="1" style="rhombus;whiteSpace=wrap;html=1;shapeInside=1;" value="" vertex="1">
+          <mxGeometry height="80" width="80" x="330" y="390" as="geometry" />
+        </mxCell>
+        <mxCell id="fOKYPfpPNOhrKLgcB5oH-9" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Bật camera" vertex="1">
+          <mxGeometry height="30" width="60" x="384" y="380" as="geometry" />
+        </mxCell>
+        <mxCell id="fOKYPfpPNOhrKLgcB5oH-10" edge="1" parent="1" source="fOKYPfpPNOhrKLgcB5oH-8" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="390" y="460" as="sourcePoint" />
+            <mxPoint x="370" y="520" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="fOKYPfpPNOhrKLgcB5oH-11" edge="1" parent="1" source="fOKYPfpPNOhrKLgcB5oH-8" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=1;entryDx=0;entryDy=0;" target="fOKYPfpPNOhrKLgcB5oH-29" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <Array as="points">
+              <mxPoint x="550" y="430" />
+              <mxPoint x="550" y="1035.61" />
+            </Array>
+            <mxPoint x="604" y="484.5" as="sourcePoint" />
+            <mxPoint x="444" y="484.5" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="fOKYPfpPNOhrKLgcB5oH-12" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Không" vertex="1">
+          <mxGeometry height="30" width="60" x="470" y="400" as="geometry" />
+        </mxCell>
+        <mxCell id="fOKYPfpPNOhrKLgcB5oH-13" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Có" vertex="1">
+          <mxGeometry height="30" width="60" x="370" y="470" as="geometry" />
+        </mxCell>
+        <mxCell id="fOKYPfpPNOhrKLgcB5oH-14" parent="1" style="rounded=1;whiteSpace=wrap;html=1;roundedPerimeter=1;" value="&lt;span style=&quot;font-size:10.0pt;font-family:&amp;quot;Times New Roman&amp;quot;,&amp;quot;serif&amp;quot;;&lt;br/&gt;mso-fareast-font-family:&amp;quot;Times New Roman&amp;quot;;mso-ansi-language:EN-US;mso-fareast-language:&lt;br/&gt;EN-US;mso-bidi-language:AR-SA&quot;&gt;Người dùng hướng camera về phía mã QR&amp;nbsp;&lt;/span&gt;" vertex="1">
+          <mxGeometry height="60" width="120" x="310" y="520" as="geometry" />
+        </mxCell>
+        <mxCell id="fOKYPfpPNOhrKLgcB5oH-15" edge="1" parent="1" source="fOKYPfpPNOhrKLgcB5oH-14" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="390" y="560" as="sourcePoint" />
+            <mxPoint x="370" y="640" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="fOKYPfpPNOhrKLgcB5oH-16" parent="1" style="rounded=1;whiteSpace=wrap;html=1;roundedPerimeter=1;" value="&lt;span style=&quot;font-size:10.0pt;font-family:&amp;quot;Times New Roman&amp;quot;,&amp;quot;serif&amp;quot;;&lt;br/&gt;mso-fareast-font-family:&amp;quot;Times New Roman&amp;quot;;mso-ansi-language:EN-US;mso-fareast-language:&lt;br/&gt;EN-US;mso-bidi-language:AR-SA&quot;&gt;Hệ thống nhận diện và giải mã chuỗi định danh QR&amp;nbsp;&lt;/span&gt;" vertex="1">
+          <mxGeometry height="60" width="120" x="310" y="640" as="geometry" />
+        </mxCell>
+        <mxCell id="fOKYPfpPNOhrKLgcB5oH-17" edge="1" parent="1" source="fOKYPfpPNOhrKLgcB5oH-16" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="390" y="560" as="sourcePoint" />
+            <mxPoint x="370" y="750" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="fOKYPfpPNOhrKLgcB5oH-18" parent="1" style="rhombus;whiteSpace=wrap;html=1;shapeInside=1;" value="" vertex="1">
+          <mxGeometry height="80" width="80" x="330" y="750" as="geometry" />
+        </mxCell>
+        <mxCell id="fOKYPfpPNOhrKLgcB5oH-19" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Nhận diện được không" vertex="1">
+          <mxGeometry height="30" width="80" x="380" y="730" as="geometry" />
+        </mxCell>
+        <mxCell id="fOKYPfpPNOhrKLgcB5oH-20" edge="1" parent="1" source="fOKYPfpPNOhrKLgcB5oH-18" style="endArrow=classic;html=1;rounded=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="390" y="760" as="sourcePoint" />
+            <mxPoint x="240" y="790" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="fOKYPfpPNOhrKLgcB5oH-21" parent="1" style="rounded=1;whiteSpace=wrap;html=1;roundedPerimeter=1;" value="Hiển thị thông báo không quét được mã QR" vertex="1">
+          <mxGeometry height="60" width="120" x="120" y="760" as="geometry" />
+        </mxCell>
+        <mxCell id="fOKYPfpPNOhrKLgcB5oH-22" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Không" vertex="1">
+          <mxGeometry height="30" width="60" x="270" y="760" as="geometry" />
+        </mxCell>
+        <mxCell id="fOKYPfpPNOhrKLgcB5oH-25" edge="1" parent="1" source="fOKYPfpPNOhrKLgcB5oH-18" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="390" y="770" as="sourcePoint" />
+            <mxPoint x="370" y="890" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="fOKYPfpPNOhrKLgcB5oH-28" parent="1" style="rounded=1;whiteSpace=wrap;html=1;roundedPerimeter=1;" value="Mở ra chi tiết hiện vật" vertex="1">
+          <mxGeometry height="60" width="120" x="310" y="890" as="geometry" />
+        </mxCell>
+        <mxCell id="fOKYPfpPNOhrKLgcB5oH-29" parent="1" style="ellipse;html=1;shape=endState;fillColor=#000000;strokeColor=#ff0000;" value="" vertex="1">
+          <mxGeometry height="30" width="30" x="355" y="1010" as="geometry" />
+        </mxCell>
+        <mxCell id="fOKYPfpPNOhrKLgcB5oH-30" edge="1" parent="1" source="fOKYPfpPNOhrKLgcB5oH-28" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="fOKYPfpPNOhrKLgcB5oH-29" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="390" y="870" as="sourcePoint" />
+            <mxPoint x="440" y="820" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="fOKYPfpPNOhrKLgcB5oH-32" edge="1" parent="1" source="fOKYPfpPNOhrKLgcB5oH-21" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=1;entryDx=0;entryDy=0;" target="fOKYPfpPNOhrKLgcB5oH-29" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <Array as="points">
+              <mxPoint x="180" y="1040" />
+            </Array>
+            <mxPoint x="390" y="810" as="sourcePoint" />
+            <mxPoint x="440" y="760" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="fOKYPfpPNOhrKLgcB5oH-33" edge="1" parent="1" source="fOKYPfpPNOhrKLgcB5oH-1" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="fOKYPfpPNOhrKLgcB5oH-3" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="390" y="210" as="sourcePoint" />
+            <mxPoint x="440" y="160" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="u36cm73FGCCTtvEKi8Lw-1" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" value="NguoiDung" vertex="1">
+          <mxGeometry height="60" width="30" x="250" y="1130" as="geometry" />
+        </mxCell>
+        <mxCell id="u36cm73FGCCTtvEKi8Lw-2" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;" value="QuetMaQR" vertex="1">
+          <mxGeometry height="80" width="120" x="430" y="1120" as="geometry" />
+        </mxCell>
+        <mxCell id="u36cm73FGCCTtvEKi8Lw-3" edge="1" parent="1" style="endArrow=open;endFill=1;endSize=12;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="u36cm73FGCCTtvEKi8Lw-2" value="">
+          <mxGeometry relative="1" width="160" as="geometry">
+            <mxPoint x="320" y="1160" as="sourcePoint" />
+            <mxPoint x="600" y="1320" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

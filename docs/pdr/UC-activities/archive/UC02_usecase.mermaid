@@ -1,0 +1,18 @@
+usecase-beta
+    direction LR
+
+    actor Admin
+    actor NguoiDung
+    actor Nguoi
+
+    Admin --|> Nguoi
+    NguoiDung --|> Nguoi
+
+    systemBoundary SB[" "]
+        DangNhap("Đăng Nhập")
+        QuenMK("QuênMK")
+    end
+
+    Nguoi --> DangNhap
+
+    QuenMK ..> : extend DangNhap
