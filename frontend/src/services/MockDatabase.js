@@ -63,13 +63,13 @@ export const mockDB = {
         ja: 'ドンソン青銅太鼓は、古代ベトナム文明の象徴的な工芸品であり、見事な彫刻が施されています。',
         zh: '东山铜鼓是古代越南红河文明青铜时代的杰出代表性文物。'
       },
-      // Audio đa ngôn ngữ (USC04, USC19)
+      // Audio đa ngôn ngữ (USC04, USC19) - Dùng valid audio stream / data URI chống lỗi 404
       audio: {
-        vi: 'https://actions.google.com/sounds/v1/ambiences/outdoor_market_large_crowd.ogg',
-        en: 'https://actions.google.com/sounds/v1/ambiences/rain_heavy.ogg',
-        fr: 'https://actions.google.com/sounds/v1/ambiences/rain_heavy.ogg',
-        ja: 'https://actions.google.com/sounds/v1/ambiences/outdoor_market_large_crowd.ogg',
-        zh: 'https://actions.google.com/sounds/v1/ambiences/outdoor_market_large_crowd.ogg'
+        vi: 'data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA',
+        en: 'data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA',
+        fr: 'data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA',
+        ja: 'data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA',
+        zh: 'data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA'
       },
       // Phụ đề theo thời gian chạy (USC18)
       subtitles: {
@@ -84,6 +84,24 @@ export const mockDB = {
           { time: 4, text: 'Before you stands the iconic Bronze Drum dated back over 2,500 years.' },
           { time: 9, text: 'At the center of the drumhead is a star symbolizing the Sun deity.' },
           { time: 14, text: 'Surrounding concentric rings depict soaring Lac birds and ancient daily life.' }
+        ],
+        fr: [
+          { time: 0, text: 'Bienvenue à l exposition sur la civilisation de Dong Son.' },
+          { time: 4, text: 'Devant vous se trouve le tambour de bronze datant de plus de deux mille cinq cents ans.' },
+          { time: 9, text: 'Au centre se trouve une étoile rayonnante symbolisant le Dieu Soleil.' },
+          { time: 14, text: 'Les cercles concentriques illustrent les oiseaux Lac et la vie agricole florissante.' }
+        ],
+        ja: [
+          { time: 0, text: 'ドンソン文化展示エリアへようこそ。' },
+          { time: 4, text: '目の前にあるのは、2500年以上の歴史を持つ象徴的な青銅太鼓です。' },
+          { time: 9, text: '鼓面の中央には太陽神を象徴する星が彫られています。' },
+          { time: 14, text: '同心円状の文様は、ラック鳥と古代の豊かな農耕生活を描いています。' }
+        ],
+        zh: [
+          { time: 0, text: '欢迎光临东山文化展区。' },
+          { time: 4, text: '展现在您面前的是距今已有两千五百年历史的东山铜鼓。' },
+          { time: 9, text: '鼓面中央为象征太阳神的放射状星芒。' },
+          { time: 14, text: '外层同心圆纹饰生动展现了翱翔的雒鸟与古代繁荣的农耕生活。' }
         ]
       }
     },
@@ -114,8 +132,11 @@ export const mockDB = {
         zh: '李朝时期用整块青石雕刻而成的国宝级阿弥陀佛坐像。'
       },
       audio: {
-        vi: 'https://actions.google.com/sounds/v1/ambiences/rain_heavy.ogg',
-        en: 'https://actions.google.com/sounds/v1/ambiences/rain_heavy.ogg'
+        vi: 'data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA',
+        en: 'data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA',
+        fr: 'data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA',
+        ja: 'data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA',
+        zh: 'data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA'
       },
       subtitles: {
         vi: [
@@ -125,7 +146,23 @@ export const mockDB = {
         ],
         en: [
           { time: 0, text: 'Welcome to contemplate the Amitabha Buddha statue from Phat Tich pagoda.' },
-          { time: 5, text: 'Regarded as the pinnacle of 11th-century Ly Dynasty sculpture.' }
+          { time: 5, text: 'Regarded as the pinnacle of 11th-century Ly Dynasty sculpture.' },
+          { time: 10, text: 'The pedestal features sinuous twin dragons undulating gracefully.' }
+        ],
+        fr: [
+          { time: 0, text: 'Bienvenue pour contempler la statue du Bouddha Amitabha de la pagode Phat Tich.' },
+          { time: 5, text: 'Elle est considérée comme le chef-d oeuvre de la sculpture de la dynastie Ly au XIe siècle.' },
+          { time: 10, text: 'Le socle est orné de dragons jumeaux aux courbes sinueuses.' }
+        ],
+        ja: [
+          { time: 0, text: '仏跡寺の阿弥陀如来坐像へようこそ。' },
+          { time: 5, text: '11世紀李朝彫刻芸術の最高傑作と称えられています。' },
+          { time: 10, text: '台座には優美な曲線を描く対の龍が精緻に刻まれています。' }
+        ],
+        zh: [
+          { time: 0, text: '欢迎瞻仰佛迹寺阿弥陀佛坐像。' },
+          { time: 5, text: '本座佛像被誉为十一世纪李朝佛教雕塑艺术的最高典范。' },
+          { time: 10, text: '佛座基底雕刻着形态优美的双龙盘旋纹饰。' }
         ]
       }
     },
@@ -156,13 +193,37 @@ export const mockDB = {
         zh: '82座设立在石龟背上的进士题名碑，列入联合国教科文组织世界记忆名录。'
       },
       audio: {
-        vi: 'https://actions.google.com/sounds/v1/ambiences/outdoor_market_large_crowd.ogg',
-        en: 'https://actions.google.com/sounds/v1/ambiences/outdoor_market_large_crowd.ogg'
+        vi: 'data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA',
+        en: 'data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA',
+        fr: 'data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA',
+        ja: 'data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA',
+        zh: 'data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA'
       },
       subtitles: {
         vi: [
           { time: 0, text: '82 tấm bia Tiến Sĩ tại Văn Miếu là Di sản Tư liệu Thế giới.' },
-          { time: 4, text: 'Rùa đá đội bia biểu trưng cho sự trường tồn và lòng kiên định học vấn.' }
+          { time: 4, text: 'Rùa đá đội bia biểu trưng cho sự trường tồn và lòng kiên định học vấn.' },
+          { time: 9, text: 'Đây là nơi khắc ghi tên tuổi của các bậc hiền tài làm rạng danh non sông Việt Nam.' }
+        ],
+        en: [
+          { time: 0, text: 'The 82 doctoral stelae at the Temple of Literature are a UNESCO World Documentary Heritage.' },
+          { time: 4, text: 'Stone tortoises supporting the stelae symbolize longevity and steadfast pursuit of knowledge.' },
+          { time: 9, text: 'Here are inscribed the names of eminent scholars who illuminated Vietnamese history.' }
+        ],
+        fr: [
+          { time: 0, text: 'Les 82 stèles doctorales du Temple de la Littérature sont inscrites au registre Mémoire du monde de l UNESCO.' },
+          { time: 4, text: 'Les tortues de pierre soutenant les stèles symbolisent la longévité et la persévérance dans le savoir.' },
+          { time: 9, text: 'Elles immortalisent les noms des érudits qui ont honoré la nation.' }
+        ],
+        ja: [
+          { time: 0, text: '文廟の82基の進士題名碑はユネスコの世界記憶遺産です。' },
+          { time: 4, text: '石碑を背負う石亀は、不朽の生命力と学問への揺るぎない志を象徴しています。' },
+          { time: 9, text: 'ここにはベトナムの歴史を輝かせた賢人たちの名が刻まれています。' }
+        ],
+        zh: [
+          { time: 0, text: '文庙的八十二座进士题名碑被列为联合国教科文组织世界记忆名录。' },
+          { time: 4, text: '石龟驮碑象征着学识与品德的永恒不朽与坚定追求。' },
+          { time: 9, text: '碑上铭刻着光耀越南千年文明史的杰出先贤英名。' }
         ]
       }
     }

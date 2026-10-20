@@ -54,6 +54,53 @@ class AppController {
     ClientSession.subscribe(() => {
       this.renderNavbar();
     });
+
+    // Lắng nghe thay đổi MediaPlayer để đồng bộ trạng thái nút Play/Pause trên view
+    MediaPlayer.subscribe((state) => {
+      this.syncPlayButtons(state);
+    });
+  }
+
+  syncPlayButtons(state) {
+    const isPlaying = state.isPlaying;
+    const currentId = state.currentArtifact ? state.currentArtifact.id : null;
+    const t = this.t;
+
+    // 1. Đồng bộ nút trong trang Chi tiết (Detail View)
+    const detailBtn = document.getElementById('detail-play-btn');
+    if (detailBtn && this.selectedArtifact) {
+      if (currentId === this.selectedArtifact.id && isPlaying) {
+        detailBtn.innerHTML = `
+          <svg class="w-5 h-5 fill-current pointer-events-none" viewBox="0 0 24 24"><path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/></svg>
+          <span class="pointer-events-none">${t.btnPauseAudio || 'Tạm Dừng Thuyết Minh'}</span>
+        `;
+        detailBtn.className = 'w-full bg-slate-800 hover:bg-slate-700 text-amber-400 border border-amber-500/40 font-bold py-3 rounded-xl text-sm flex items-center justify-center space-x-2 shadow-lg transition';
+      } else {
+        detailBtn.innerHTML = `
+          <svg class="w-5 h-5 fill-current pointer-events-none" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+          <span class="pointer-events-none">${t.btnStartAudio || 'Bắt Đầu Phát Thuyết Minh'}</span>
+        `;
+        detailBtn.className = 'w-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold py-3 rounded-xl text-sm flex items-center justify-center space-x-2 shadow-lg transition';
+      }
+    }
+
+    // 2. Đồng bộ các nút trên Card hiện vật (Home & Favorites View)
+    document.querySelectorAll('.play-audio-btn').forEach(btn => {
+      const artId = btn.getAttribute('data-id');
+      if (artId === currentId && isPlaying) {
+        btn.innerHTML = `
+          <svg class="w-4 h-4 fill-current pointer-events-none" viewBox="0 0 24 24"><path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/></svg>
+          <span class="pointer-events-none">${t.btnPauseShort || 'Tạm dừng'}</span>
+        `;
+        btn.className = 'play-audio-btn flex-1 bg-slate-800 hover:bg-slate-700 text-amber-400 border border-amber-500/40 font-bold py-2 px-3 rounded-xl text-xs flex items-center justify-center space-x-1.5 shadow transition';
+      } else {
+        btn.innerHTML = `
+          <svg class="w-4 h-4 fill-current pointer-events-none" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+          <span class="pointer-events-none">${t.btnListenAudio || 'Nghe Thuyết Minh'}</span>
+        `;
+        btn.className = 'play-audio-btn flex-1 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold py-2 px-3 rounded-xl text-xs flex items-center justify-center space-x-1.5 shadow transition';
+      }
+    });
   }
 
   get t() {
@@ -399,8 +446,12 @@ class AppController {
         const id = btn.getAttribute('data-id');
         const art = mockDB.artifacts.find(a => a.id === id);
         if (art) {
-          MediaPlayer.loadArtifact(art, this.currentLang);
-          MediaPlayer.play();
+          if (MediaPlayer.currentArtifact && MediaPlayer.currentArtifact.id === art.id) {
+            MediaPlayer.togglePlay();
+          } else {
+            MediaPlayer.loadArtifact(art, this.currentLang);
+            MediaPlayer.play();
+          }
         }
       };
     });
@@ -526,8 +577,12 @@ class AppController {
     };
 
     container.querySelector('#detail-play-btn').onclick = () => {
-      MediaPlayer.loadArtifact(art, this.currentLang);
-      MediaPlayer.play();
+      if (MediaPlayer.currentArtifact && MediaPlayer.currentArtifact.id === art.id) {
+        MediaPlayer.togglePlay();
+      } else {
+        MediaPlayer.loadArtifact(art, this.currentLang);
+        MediaPlayer.play();
+      }
     };
 
     container.querySelector('#detail-fav-btn').onclick = () => {

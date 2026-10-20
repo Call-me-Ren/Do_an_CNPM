@@ -1,4 +1,4 @@
-// === FILE: frontend/src/services/MockDatabase.js ===
+﻿// === FILE: frontend/src/services/MockDatabase.js ===
 /**
  * Mock Database cho Hệ thống Thuyết minh tự động đa ngôn ngữ
  * Cung cấp đầy đủ dữ liệu hiện vật, âm thanh mẫu, phụ đề đa ngôn ngữ và tài khoản
@@ -64,13 +64,13 @@ const mockDB = {
         ja: 'ドンソン青銅太鼓は、古代ベトナム文明の象徴的な工芸品であり、見事な彫刻が施されています。',
         zh: '东山铜鼓是古代越南红河文明青铜时代的杰出代表性文物。'
       },
-      // Audio đa ngôn ngữ (USC04, USC19)
+      // Audio đa ngôn ngữ (USC04, USC19) - Dùng valid audio stream / data URI chống lỗi 404
       audio: {
-        vi: 'https://actions.google.com/sounds/v1/ambiences/outdoor_market_large_crowd.ogg',
-        en: 'https://actions.google.com/sounds/v1/ambiences/rain_heavy.ogg',
-        fr: 'https://actions.google.com/sounds/v1/ambiences/rain_heavy.ogg',
-        ja: 'https://actions.google.com/sounds/v1/ambiences/outdoor_market_large_crowd.ogg',
-        zh: 'https://actions.google.com/sounds/v1/ambiences/outdoor_market_large_crowd.ogg'
+        vi: 'data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA',
+        en: 'data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA',
+        fr: 'data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA',
+        ja: 'data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA',
+        zh: 'data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA'
       },
       // Phụ đề theo thời gian chạy (USC18)
       subtitles: {
@@ -85,6 +85,24 @@ const mockDB = {
           { time: 4, text: 'Before you stands the iconic Bronze Drum dated back over 2,500 years.' },
           { time: 9, text: 'At the center of the drumhead is a star symbolizing the Sun deity.' },
           { time: 14, text: 'Surrounding concentric rings depict soaring Lac birds and ancient daily life.' }
+        ],
+        fr: [
+          { time: 0, text: 'Bienvenue à l exposition sur la civilisation de Dong Son.' },
+          { time: 4, text: 'Devant vous se trouve le tambour de bronze datant de plus de deux mille cinq cents ans.' },
+          { time: 9, text: 'Au centre se trouve une étoile rayonnante symbolisant le Dieu Soleil.' },
+          { time: 14, text: 'Les cercles concentriques illustrent les oiseaux Lac et la vie agricole florissante.' }
+        ],
+        ja: [
+          { time: 0, text: 'ドンソン文化展示エリアへようこそ。' },
+          { time: 4, text: '目の前にあるのは、2500年以上の歴史を持つ象徴的な青銅太鼓です。' },
+          { time: 9, text: '鼓面の中央には太陽神を象徴する星が彫られています。' },
+          { time: 14, text: '同心円状の文様は、ラック鳥と古代の豊かな農耕生活を描いています。' }
+        ],
+        zh: [
+          { time: 0, text: '欢迎光临东山文化展区。' },
+          { time: 4, text: '展现在您面前的是距今已有两千五百年历史的东山铜鼓。' },
+          { time: 9, text: '鼓面中央为象征太阳神的放射状星芒。' },
+          { time: 14, text: '外层同心圆纹饰生动展现了翱翔的雒鸟与古代繁荣的农耕生活。' }
         ]
       }
     },
@@ -115,8 +133,11 @@ const mockDB = {
         zh: '李朝时期用整块青石雕刻而成的国宝级阿弥陀佛坐像。'
       },
       audio: {
-        vi: 'https://actions.google.com/sounds/v1/ambiences/rain_heavy.ogg',
-        en: 'https://actions.google.com/sounds/v1/ambiences/rain_heavy.ogg'
+        vi: 'data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA',
+        en: 'data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA',
+        fr: 'data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA',
+        ja: 'data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA',
+        zh: 'data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA'
       },
       subtitles: {
         vi: [
@@ -126,7 +147,23 @@ const mockDB = {
         ],
         en: [
           { time: 0, text: 'Welcome to contemplate the Amitabha Buddha statue from Phat Tich pagoda.' },
-          { time: 5, text: 'Regarded as the pinnacle of 11th-century Ly Dynasty sculpture.' }
+          { time: 5, text: 'Regarded as the pinnacle of 11th-century Ly Dynasty sculpture.' },
+          { time: 10, text: 'The pedestal features sinuous twin dragons undulating gracefully.' }
+        ],
+        fr: [
+          { time: 0, text: 'Bienvenue pour contempler la statue du Bouddha Amitabha de la pagode Phat Tich.' },
+          { time: 5, text: 'Elle est considérée comme le chef-d oeuvre de la sculpture de la dynastie Ly au XIe siècle.' },
+          { time: 10, text: 'Le socle est orné de dragons jumeaux aux courbes sinueuses.' }
+        ],
+        ja: [
+          { time: 0, text: '仏跡寺の阿弥陀如来坐像へようこそ。' },
+          { time: 5, text: '11世紀李朝彫刻芸術の最高傑作と称えられています。' },
+          { time: 10, text: '台座には優美な曲線を描く対の龍が精緻に刻まれています。' }
+        ],
+        zh: [
+          { time: 0, text: '欢迎瞻仰佛迹寺阿弥陀佛坐像。' },
+          { time: 5, text: '本座佛像被誉为十一世纪李朝佛教雕塑艺术的最高典范。' },
+          { time: 10, text: '佛座基底雕刻着形态优美的双龙盘旋纹饰。' }
         ]
       }
     },
@@ -157,13 +194,37 @@ const mockDB = {
         zh: '82座设立在石龟背上的进士题名碑，列入联合国教科文组织世界记忆名录。'
       },
       audio: {
-        vi: 'https://actions.google.com/sounds/v1/ambiences/outdoor_market_large_crowd.ogg',
-        en: 'https://actions.google.com/sounds/v1/ambiences/outdoor_market_large_crowd.ogg'
+        vi: 'data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA',
+        en: 'data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA',
+        fr: 'data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA',
+        ja: 'data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA',
+        zh: 'data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA'
       },
       subtitles: {
         vi: [
           { time: 0, text: '82 tấm bia Tiến Sĩ tại Văn Miếu là Di sản Tư liệu Thế giới.' },
-          { time: 4, text: 'Rùa đá đội bia biểu trưng cho sự trường tồn và lòng kiên định học vấn.' }
+          { time: 4, text: 'Rùa đá đội bia biểu trưng cho sự trường tồn và lòng kiên định học vấn.' },
+          { time: 9, text: 'Đây là nơi khắc ghi tên tuổi của các bậc hiền tài làm rạng danh non sông Việt Nam.' }
+        ],
+        en: [
+          { time: 0, text: 'The 82 doctoral stelae at the Temple of Literature are a UNESCO World Documentary Heritage.' },
+          { time: 4, text: 'Stone tortoises supporting the stelae symbolize longevity and steadfast pursuit of knowledge.' },
+          { time: 9, text: 'Here are inscribed the names of eminent scholars who illuminated Vietnamese history.' }
+        ],
+        fr: [
+          { time: 0, text: 'Les 82 stèles doctorales du Temple de la Littérature sont inscrites au registre Mémoire du monde de l UNESCO.' },
+          { time: 4, text: 'Les tortues de pierre soutenant les stèles symbolisent la longévité et la persévérance dans le savoir.' },
+          { time: 9, text: 'Elles immortalisent les noms des érudits qui ont honoré la nation.' }
+        ],
+        ja: [
+          { time: 0, text: '文廟の82基の進士題名碑はユネスコの世界記憶遺産です。' },
+          { time: 4, text: '石碑を背負う石亀は、不朽の生命力と学問への揺るぎない志を象徴しています。' },
+          { time: 9, text: 'ここにはベトナムの歴史を輝かせた賢人たちの名が刻まれています。' }
+        ],
+        zh: [
+          { time: 0, text: '文庙的八十二座进士题名碑被列为联合国教科文组织世界记忆名录。' },
+          { time: 4, text: '石龟驮碑象征着学识与品德的永恒不朽与坚定追求。' },
+          { time: 9, text: '碑上铭刻着光耀越南千年文明史的杰出先贤英名。' }
         ]
       }
     }
@@ -205,7 +266,6 @@ const mockDB = {
     ]
   }
 };
-
 
 // === FILE: frontend/src/services/I18nService.js ===
 /**
@@ -256,6 +316,8 @@ const translations = {
     audioStreamingTitle: 'Thuyết Minh Tự Động (USC04)',
     audioMultiLang: 'Đa ngôn ngữ',
     btnStartAudio: 'Bắt Đầu Phát Thuyết Minh',
+    btnPauseAudio: 'Tạm Dừng Thuyết Minh',
+    btnPauseShort: 'Tạm dừng',
     historyInfoTitle: 'Thông Tin Lịch Sử Di Sản',
     storageInfo: 'Được lưu trữ bởi: AudioStreamer / MediaArchive',
     totalListens: 'Lượt nghe:',
@@ -401,6 +463,8 @@ const translations = {
     audioStreamingTitle: 'Automated Audio Guide (USC04)',
     audioMultiLang: 'Multilingual Stream',
     btnStartAudio: 'Start Audio Narration',
+    btnPauseAudio: 'Pause Narration',
+    btnPauseShort: 'Pause',
     historyInfoTitle: 'Historical & Heritage Background',
     storageInfo: 'Streamed via: AudioStreamer / MediaArchive',
     totalListens: 'Total listens:',
@@ -546,6 +610,8 @@ const translations = {
     audioStreamingTitle: 'Guide Audio Automatique (USC04)',
     audioMultiLang: 'Flux Multilingue',
     btnStartAudio: 'Lancer l’Écoute Audio',
+    btnPauseAudio: 'Mettre en Pause',
+    btnPauseShort: 'Pause',
     historyInfoTitle: 'Contexte Historique et Patrimonial',
     storageInfo: 'Diffusé via: AudioStreamer / MediaArchive',
     totalListens: 'Écoutes totales:',
@@ -691,6 +757,8 @@ const translations = {
     audioStreamingTitle: '自動音声ガイド (USC04)',
     audioMultiLang: '多言語ストリーミング',
     btnStartAudio: '音声解説を開始',
+    btnPauseAudio: '音声解説を一時停止',
+    btnPauseShort: '一時停止',
     historyInfoTitle: '歴史的背景・解説',
     storageInfo: '配信サーバー: AudioStreamer / MediaArchive',
     totalListens: '再生回数:',
@@ -836,6 +904,8 @@ const translations = {
     audioStreamingTitle: '自动语音解说 (USC04)',
     audioMultiLang: '多语言实时音频流',
     btnStartAudio: '开始播放语音解说',
+    btnPauseAudio: '暂停语音解说',
+    btnPauseShort: '暂停',
     historyInfoTitle: '文物历史背景与文化内涵',
     storageInfo: '媒体存储源: AudioStreamer / MediaArchive',
     totalListens: '播放次数:',
@@ -948,14 +1018,12 @@ function getI18n(lang = 'vi') {
   return translations[lang] || translations['vi'];
 }
 
-
 // === FILE: frontend/src/services/ClientSession.js ===
 /**
  * ClientSession Component - Mô phỏng theo Component Diagram (Client Session)
  * Giao tiếp với I_Auth để xác thực người dùng, lưu trữ Token JWT và quản lý phiên.
  * Tương ứng USC01, USC02, USC16, USC17
  */
-
 class ClientSessionService {
   constructor() {
     this.STORAGE_KEY = 'museum_auth_session';
@@ -1148,13 +1216,11 @@ class ClientSessionService {
 
 const ClientSession = new ClientSessionService();
 
-
 // === FILE: frontend/src/services/ArtifactService.js ===
 /**
  * ArtifactService - Cổng giao tiếp I_Artifact với ArtifactManager
  * Phục vụ USC03 (Quét QR), USC07 (Quản lý sự vật), USC08 (Chỉnh sửa QR), USC12 (Đọc nội dung), USC15 (Tìm kiếm)
  */
-
 class ArtifactService {
   async getAllArtifacts() {
     return [...mockDB.artifacts];
@@ -1261,12 +1327,12 @@ class ArtifactService {
 
 const ArtifactServiceInstance = new ArtifactService();
 
-
 // === FILE: frontend/src/services/MediaPlayer.js ===
 /**
  * MediaPlayer Component - Mô phỏng theo Component Diagram (Media Player)
  * Giao tiếp với AudioStreamer qua I_Audio
  * Hiện thực USC04 (Nghe thuyết minh), USC05 (Chuyển đổi ngôn ngữ), USC18 (Xem phụ đề), USC19 (Phát luồng dữ liệu)
+ * Hỗ trợ Đa phương thức: Web Speech API (TTS đa ngôn ngữ), Web Audio API (Âm báo Tour Guide) & HTMLAudioElement
  */
 class MediaPlayerController {
   constructor() {
@@ -1275,44 +1341,171 @@ class MediaPlayerController {
     this.currentLang = 'vi';
     this.isPlaying = false;
     this.currentTime = 0;
-    this.duration = 0;
+    this.duration = 20;
     this.playbackRate = 1.0;
     this.subtitlesEnabled = true; // USC18
     this.currentSubtitleText = '';
     this.subscribers = [];
 
-    this.initAudioEvents();
+    this.timer = null;
+    this.currentUtterance = null;
+    this.lastSpokenIndex = -1;
+    this.audioCtx = null;
+    this.ambientOsc = null;
+    this.ambientGain = null;
+
+    this.voices = [];
+    this.initVoices();
   }
 
-  initAudioEvents() {
-    this.audioElement.addEventListener('timeupdate', () => {
-      this.currentTime = this.audioElement.currentTime;
-      this.duration = this.audioElement.duration || 0;
-      this.updateSubtitle();
-      this.emitChange();
-    });
+  initVoices() {
+    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+      this.voices = window.speechSynthesis.getVoices() || [];
+      window.speechSynthesis.onvoiceschanged = () => {
+        this.voices = window.speechSynthesis.getVoices() || [];
+      };
+    }
+  }
 
-    this.audioElement.addEventListener('play', () => {
-      this.isPlaying = true;
-      this.emitChange();
-    });
+  getVoice(langCode) {
+    if (!this.voices || this.voices.length === 0) {
+      if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+        this.voices = window.speechSynthesis.getVoices() || [];
+      }
+    }
+    const prefixMap = {
+      vi: ['vi-vn', 'vi'],
+      en: ['en-us', 'en-gb', 'en'],
+      fr: ['fr-fr', 'fr'],
+      ja: ['ja-jp', 'ja'],
+      zh: ['zh-cn', 'zh-tw', 'zh']
+    };
+    const targets = prefixMap[langCode] || [langCode];
+    for (const t of targets) {
+      const match = this.voices.find(v => v.lang && v.lang.toLowerCase().replace('_', '-').startsWith(t));
+      if (match) return match;
+    }
+    return null;
+  }
 
-    this.audioElement.addEventListener('pause', () => {
-      this.isPlaying = false;
-      this.emitChange();
-    });
+  playChime() {
+    try {
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      if (!AudioCtx) return;
+      if (!this.audioCtx || this.audioCtx.state === 'closed') {
+        this.audioCtx = new AudioCtx();
+      }
+      if (this.audioCtx.state === 'suspended') {
+        this.audioCtx.resume();
+      }
+      const now = this.audioCtx.currentTime;
 
-    this.audioElement.addEventListener('ended', () => {
-      this.isPlaying = false;
-      this.currentTime = 0;
-      this.currentSubtitleText = '';
-      this.emitChange();
-    });
+      // Bell Tone 1 (D5 - 587Hz)
+      const osc1 = this.audioCtx.createOscillator();
+      const gain1 = this.audioCtx.createGain();
+      osc1.type = 'sine';
+      osc1.frequency.setValueAtTime(587.33, now);
+      gain1.gain.setValueAtTime(0.12, now);
+      gain1.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+      osc1.connect(gain1);
+      gain1.connect(this.audioCtx.destination);
+      osc1.start(now);
+      osc1.stop(now + 0.35);
 
-    this.audioElement.addEventListener('error', (e) => {
-      console.warn('Lỗi luồng âm thanh:', e);
-      this.emitChange({ error: 'Không thể tải luồng âm thanh thuyết minh (USC04-E1).' });
-    });
+      // Bell Tone 2 (A5 - 880Hz)
+      const osc2 = this.audioCtx.createOscillator();
+      const gain2 = this.audioCtx.createGain();
+      osc2.type = 'sine';
+      osc2.frequency.setValueAtTime(880.0, now + 0.12);
+      gain2.gain.setValueAtTime(0.15, now + 0.12);
+      gain2.gain.exponentialRampToValueAtTime(0.001, now + 0.55);
+      osc2.connect(gain2);
+      gain2.connect(this.audioCtx.destination);
+      osc2.start(now + 0.12);
+      osc2.stop(now + 0.55);
+    } catch (e) {
+      console.warn('Audio chime note:', e);
+    }
+  }
+
+  startAmbient() {
+    try {
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      if (!AudioCtx) return;
+      if (!this.audioCtx || this.audioCtx.state === 'closed') {
+        this.audioCtx = new AudioCtx();
+      }
+      if (this.audioCtx.state === 'suspended') {
+        this.audioCtx.resume();
+      }
+      this.stopAmbient();
+
+      const osc = this.audioCtx.createOscillator();
+      const gain = this.audioCtx.createGain();
+      const filter = this.audioCtx.createBiquadFilter();
+
+      filter.type = 'lowpass';
+      filter.frequency.setValueAtTime(280, this.audioCtx.currentTime);
+
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(146.83, this.audioCtx.currentTime); // D3 soft tone
+
+      gain.gain.setValueAtTime(0.001, this.audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.02, this.audioCtx.currentTime + 0.5);
+
+      osc.connect(filter);
+      filter.connect(gain);
+      gain.connect(this.audioCtx.destination);
+
+      osc.start();
+      this.ambientOsc = osc;
+      this.ambientGain = gain;
+    } catch (e) {
+      // ignore
+    }
+  }
+
+  stopAmbient() {
+    try {
+      if (this.ambientOsc) {
+        this.ambientOsc.stop();
+        this.ambientOsc.disconnect();
+        this.ambientOsc = null;
+      }
+      if (this.ambientGain) {
+        this.ambientGain.disconnect();
+        this.ambientGain = null;
+      }
+    } catch (e) {}
+  }
+
+  getSubtitlesList() {
+    if (!this.currentArtifact) return [];
+    const art = this.currentArtifact;
+    if (art.subtitles && art.subtitles[this.currentLang] && art.subtitles[this.currentLang].length > 0) {
+      return art.subtitles[this.currentLang];
+    }
+    if (art.subtitles && art.subtitles.vi && art.subtitles.vi.length > 0) {
+      return art.subtitles.vi;
+    }
+    // Fallback: sinh phụ đề từ description của hiện vật
+    const descText = (art.description && (art.description[this.currentLang] || art.description.vi)) || '';
+    if (descText) {
+      const sentences = descText.split(/(?<=[.!?])\s+/).filter(s => s.trim().length > 0);
+      return sentences.map((sentence, idx) => ({
+        time: idx * 5,
+        text: sentence.trim()
+      }));
+    }
+    const title = (art.name && (art.name[this.currentLang] || art.name.vi)) || 'Hiện vật bảo tàng';
+    return [{ time: 0, text: title }];
+  }
+
+  calculateDuration() {
+    const subs = this.getSubtitlesList();
+    if (subs.length === 0) return 20;
+    const lastSub = subs[subs.length - 1];
+    return Math.max(lastSub.time + 6, 18);
   }
 
   subscribe(callback) {
@@ -1323,46 +1516,126 @@ class MediaPlayerController {
   }
 
   emitChange(extra = {}) {
-    this.subscribers.forEach(cb => cb({
-      isPlaying: this.isPlaying,
-      currentTime: this.currentTime,
-      duration: this.duration,
-      currentArtifact: this.currentArtifact,
-      currentLang: this.currentLang,
-      playbackRate: this.playbackRate,
-      subtitlesEnabled: this.subtitlesEnabled,
-      currentSubtitleText: this.currentSubtitleText,
-      ...extra
-    }));
-  }
-
-  // Tải hiện vật và bắt đầu phát (USC04, USC19)
-  loadArtifact(artifact, lang = 'vi') {
-    this.currentArtifact = artifact;
-    this.currentLang = lang;
-    
-    // Lấy URL audio theo ngôn ngữ hoặc fallback về tiếng Việt
-    const audioSrc = artifact.audio[lang] || artifact.audio['vi'] || artifact.audio['en'];
-    if (!audioSrc) {
-      alert('Chưa có bản ghi âm thanh cho ngôn ngữ này (USC12-E1).');
-      return;
-    }
-
-    this.audioElement.src = audioSrc;
-    this.audioElement.load();
-    this.currentTime = 0;
-    this.currentSubtitleText = '';
-    this.emitChange();
-  }
-
-  play() {
-    this.audioElement.play().catch(e => {
-      console.error('Không thể tự động phát:', e);
+    this.subscribers.forEach(cb => {
+      try {
+        cb({
+          isPlaying: this.isPlaying,
+          currentTime: this.currentTime,
+          duration: this.duration,
+          currentArtifact: this.currentArtifact,
+          currentLang: this.currentLang,
+          playbackRate: this.playbackRate,
+          subtitlesEnabled: this.subtitlesEnabled,
+          currentSubtitleText: this.currentSubtitleText,
+          ...extra
+        });
+      } catch (err) {
+        console.error('Subscriber callback error:', err);
+      }
     });
   }
 
+  loadArtifact(artifact, lang = 'vi') {
+    this.pause();
+    this.currentArtifact = artifact;
+    this.currentLang = lang;
+    this.currentTime = 0;
+    this.lastSpokenIndex = -1;
+    this.duration = this.calculateDuration();
+    this.currentSubtitleText = '';
+
+    // Tăng lượt nghe (listenCount)
+    if (artifact && typeof artifact.listenCount === 'number') {
+      artifact.listenCount++;
+    }
+
+    this.updateSubtitle();
+    this.emitChange();
+  }
+
+  speakText(text) {
+    if (typeof window === 'undefined' || !('speechSynthesis' in window)) return;
+    try {
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.rate = Math.max(0.7, Math.min(1.6, this.playbackRate));
+      utterance.pitch = 1.0;
+      utterance.volume = 1.0;
+
+      const langMap = {
+        vi: 'vi-VN',
+        en: 'en-US',
+        fr: 'fr-FR',
+        ja: 'ja-JP',
+        zh: 'zh-CN'
+      };
+      utterance.lang = langMap[this.currentLang] || 'vi-VN';
+      const voice = this.getVoice(this.currentLang);
+      if (voice) {
+        utterance.voice = voice;
+      }
+
+      this.currentUtterance = utterance;
+      window.speechSynthesis.speak(utterance);
+    } catch (e) {
+      console.warn('Speech synthesis error:', e);
+    }
+  }
+
+  stopSpeaking() {
+    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+      try {
+        if (window.speechSynthesis.paused) {
+          window.speechSynthesis.resume();
+        }
+        window.speechSynthesis.cancel();
+      } catch (e) {
+        console.warn('Speech cancel error:', e);
+      }
+    }
+    this.currentUtterance = null;
+  }
+
+  play() {
+    if (!this.currentArtifact) return;
+    if (this.isPlaying) return;
+
+    this.isPlaying = true;
+    if (this.currentTime < 0.5) {
+      this.playChime();
+    }
+    this.startAmbient();
+
+    const subs = this.getSubtitlesList();
+    let currentIdx = -1;
+    for (let i = 0; i < subs.length; i++) {
+      if (this.currentTime >= subs[i].time) {
+        currentIdx = i;
+      }
+    }
+
+    if (currentIdx >= 0 && subs[currentIdx]) {
+      this.lastSpokenIndex = currentIdx;
+      this.speakText(subs[currentIdx].text);
+    } else if (subs.length > 0) {
+      this.lastSpokenIndex = 0;
+      this.speakText(subs[0].text);
+    }
+
+    this.startTimer();
+    this.updateSubtitle();
+    this.emitChange();
+  }
+
   pause() {
-    this.audioElement.pause();
+    this.isPlaying = false;
+    if (this.timer) {
+      clearInterval(this.timer);
+      this.timer = null;
+    }
+    this.stopSpeaking();
+    this.stopAmbient();
+    this.emitChange();
   }
 
   togglePlay() {
@@ -1373,61 +1646,117 @@ class MediaPlayerController {
     }
   }
 
-  // Tua audio đến thời điểm bất kỳ (USC19-A1)
-  seek(seconds) {
-    if (this.audioElement.duration) {
-      this.audioElement.currentTime = Math.max(0, Math.min(seconds, this.audioElement.duration));
-      this.currentTime = this.audioElement.currentTime;
+  startTimer() {
+    if (this.timer) clearInterval(this.timer);
+    this.timer = setInterval(() => {
+      if (!this.isPlaying) {
+        clearInterval(this.timer);
+        this.timer = null;
+        return;
+      }
+
+      // Khắc phục bug Chrome tạm dừng TTS sau 15s
+      if (typeof window !== 'undefined' && window.speechSynthesis && window.speechSynthesis.paused) {
+        window.speechSynthesis.resume();
+      }
+
+      this.currentTime += 0.1 * this.playbackRate;
+
+      // Hết bài
+      if (this.currentTime >= this.duration) {
+        this.currentTime = 0;
+        this.isPlaying = false;
+        this.lastSpokenIndex = -1;
+        this.stopSpeaking();
+        this.stopAmbient();
+        clearInterval(this.timer);
+        this.timer = null;
+        this.updateSubtitle();
+        this.emitChange();
+        return;
+      }
+
+      // Kiểm tra chuyển đoạn phụ đề
+      const subs = this.getSubtitlesList();
+      let currentIdx = -1;
+      for (let i = 0; i < subs.length; i++) {
+        if (this.currentTime >= subs[i].time) {
+          currentIdx = i;
+        }
+      }
+
+      if (currentIdx !== this.lastSpokenIndex && currentIdx >= 0 && subs[currentIdx]) {
+        this.lastSpokenIndex = currentIdx;
+        this.speakText(subs[currentIdx].text);
+      }
+
       this.updateSubtitle();
       this.emitChange();
-    }
+    }, 100);
   }
 
-  // Thay đổi tốc độ đọc (0.75x, 1x, 1.25x, 1.5x)
-  setPlaybackRate(rate) {
-    this.playbackRate = rate;
-    this.audioElement.playbackRate = rate;
+  seek(seconds) {
+    this.currentTime = Math.max(0, Math.min(seconds, this.duration));
+    const subs = this.getSubtitlesList();
+    let currentIdx = -1;
+    for (let i = 0; i < subs.length; i++) {
+      if (this.currentTime >= subs[i].time) {
+        currentIdx = i;
+      }
+    }
+    this.lastSpokenIndex = currentIdx;
+    if (this.isPlaying && currentIdx >= 0 && subs[currentIdx]) {
+      this.speakText(subs[currentIdx].text);
+    }
+    this.updateSubtitle();
     this.emitChange();
   }
 
-  // Bật/tắt phụ đề (USC18)
+  setPlaybackRate(rate) {
+    this.playbackRate = rate;
+    if (this.isPlaying) {
+      const subs = this.getSubtitlesList();
+      if (this.lastSpokenIndex >= 0 && subs[this.lastSpokenIndex]) {
+        this.speakText(subs[this.lastSpokenIndex].text);
+      }
+    }
+    this.emitChange();
+  }
+
   toggleSubtitles() {
     this.subtitlesEnabled = !this.subtitlesEnabled;
     this.updateSubtitle();
     this.emitChange();
   }
 
-  // Chuyển đổi ngôn ngữ âm thanh & phụ đề đồng thời (USC05)
   changeLanguage(newLang) {
     if (this.currentLang === newLang) return;
     this.currentLang = newLang;
-    if (this.currentArtifact) {
-      const savedTime = this.currentTime;
-      const wasPlaying = this.isPlaying;
-      
-      const audioSrc = this.currentArtifact.audio[newLang] || this.currentArtifact.audio['vi'];
-      if (audioSrc) {
-        this.audioElement.src = audioSrc;
-        this.audioElement.currentTime = savedTime;
-        if (wasPlaying) {
-          this.play();
+    this.duration = this.calculateDuration();
+    if (this.isPlaying) {
+      const subs = this.getSubtitlesList();
+      let currentIdx = -1;
+      for (let i = 0; i < subs.length; i++) {
+        if (this.currentTime >= subs[i].time) {
+          currentIdx = i;
         }
+      }
+      this.lastSpokenIndex = currentIdx;
+      if (currentIdx >= 0 && subs[currentIdx]) {
+        this.speakText(subs[currentIdx].text);
       }
     }
     this.updateSubtitle();
     this.emitChange();
   }
 
-  // Đồng bộ phụ đề theo mốc thời gian thời gian thực (USC18)
   updateSubtitle() {
     if (!this.subtitlesEnabled || !this.currentArtifact) {
       this.currentSubtitleText = '';
       return;
     }
 
-    const subs = (this.currentArtifact.subtitles && (this.currentArtifact.subtitles[this.currentLang] || this.currentArtifact.subtitles['vi'])) || [];
-    
-    // Tìm dòng phụ đề phù hợp với currentTime
+    const subs = this.getSubtitlesList();
     let activeText = '';
     for (let i = 0; i < subs.length; i++) {
       if (this.currentTime >= subs[i].time) {
@@ -1440,13 +1769,11 @@ class MediaPlayerController {
 
 const MediaPlayer = new MediaPlayerController();
 
-
 // === FILE: frontend/src/components/QRScanner.js ===
 /**
  * QRScanner Component - Tương ứng Component Diagram (QR Scanner)
  * Xử lý USC03: Quét mã QR hiện vật (đa ngôn ngữ giao diện)
  */
-
 class QRScannerModal {
   constructor(onSuccess, onError, getCurrentLang) {
     this.onSuccess = onSuccess;
@@ -1606,13 +1933,11 @@ class QRScannerModal {
   }
 }
 
-
 // === FILE: frontend/src/components/AuthModal.js ===
 /**
  * AuthModal Component - Hiện thực USC01 (Đăng ký), USC02 (Đăng nhập), USC17 (Quên mật khẩu)
  * Đã hỗ trợ đa ngôn ngữ đầy đủ theo ngữ cảnh i18n
  */
-
 class AuthModal {
   constructor(onSuccess, getCurrentLang) {
     this.onSuccess = onSuccess;
@@ -1921,23 +2246,31 @@ class AuthModal {
   }
 }
 
-
 // === FILE: frontend/src/components/PlayerBar.js ===
 /**
  * PlayerBar Component - Thanh phát âm thanh cố định góc dưới màn hình
  * Hỗ trợ USC04 (Nghe thuyết minh), USC18 (Phụ đề), USC19 (Tua audio), USC05 (Đổi ngôn ngữ)
- * Đã hỗ trợ đa ngôn ngữ đầy đủ (I18n)
+ * Thiết kế tối ưu DOM: Không render lại toàn bộ innerHTML mỗi tick để nút Play/Pause luôn nhận click 100%
  */
-
 class PlayerBar {
   constructor(onOpenDetail, getCurrentLang) {
     this.onOpenDetail = onOpenDetail;
     this.getCurrentLang = getCurrentLang || (() => 'vi');
+    this.renderedArtifactId = null;
+    this.renderedLang = null;
+    this.latestState = null;
     this.init();
   }
 
   get t() {
     return getI18n(this.getCurrentLang());
+  }
+
+  formatTime(seconds) {
+    if (isNaN(seconds) || seconds < 0) return '00:00';
+    const m = Math.floor(seconds / 60);
+    const s = Math.floor(seconds % 60);
+    return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
   }
 
   init() {
@@ -1950,42 +2283,53 @@ class PlayerBar {
     }
 
     MediaPlayer.subscribe((state) => {
+      this.latestState = state;
       this.render(state);
     });
   }
 
-  formatTime(seconds) {
-    if (isNaN(seconds)) return '00:00';
-    const m = Math.floor(seconds / 60);
-    const s = Math.floor(seconds % 60);
-    return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
-  }
-
   render(state) {
     const el = document.getElementById('global-player-bar');
+    if (!el) return;
+
     if (!state.currentArtifact) {
       el.classList.add('translate-y-full');
+      this.renderedArtifactId = null;
       return;
     }
     el.classList.remove('translate-y-full');
 
+    const art = state.currentArtifact;
+    const currentLang = state.currentLang || this.getCurrentLang();
+
+    // 1. Chỉ khởi tạo/tái cấu trúc HTML khung nếu đổi hiện vật hoặc đổi ngôn ngữ
+    if (this.renderedArtifactId !== art.id || this.renderedLang !== currentLang) {
+      this.buildSkeleton(el, state);
+      this.renderedArtifactId = art.id;
+      this.renderedLang = currentLang;
+    }
+
+    // 2. Cập nhật các thành phần động mà KHÔNG hủy DOM elements
+    this.updateDynamicFields(el, state);
+  }
+
+  buildSkeleton(el, state) {
     const t = this.t;
     const art = state.currentArtifact;
-    const name = art.name[state.currentLang] || art.name.vi;
+    const currentLang = state.currentLang || this.getCurrentLang();
+    const name = (art.name && (art.name[currentLang] || art.name.vi)) || 'Hiện vật';
 
     el.innerHTML = `
       <!-- Subtitle Floating Box (USC18) -->
-      ${state.subtitlesEnabled && state.currentSubtitleText ? `
-        <div class="absolute -top-12 inset-x-0 flex justify-center pointer-events-none">
-          <div class="bg-black/85 text-amber-300 border border-amber-500/30 text-xs md:text-sm px-4 py-1.5 rounded-full shadow-lg backdrop-blur-md max-w-xl text-center truncate">
-            💬 ${state.currentSubtitleText}
-          </div>
+      <div id="player-sub-box" class="absolute -top-12 inset-x-0 flex justify-center pointer-events-none transition-opacity duration-200 ${state.subtitlesEnabled && state.currentSubtitleText ? 'opacity-100' : 'opacity-0'}">
+        <div id="player-sub-text" class="bg-black/85 text-amber-300 border border-amber-500/30 text-xs md:text-sm px-4 py-1.5 rounded-full shadow-lg backdrop-blur-md max-w-xl text-center truncate">
+          💬 ${state.currentSubtitleText || ''}
         </div>
-      ` : ''}
+      </div>
 
-      <!-- Progress bar -->
+      <!-- Progress bar container -->
       <div class="w-full bg-slate-800 h-1.5 cursor-pointer relative group" id="player-progress-container">
-        <div class="bg-amber-500 h-full relative" style="width: ${(state.currentTime / (state.duration || 1)) * 100}%">
+        <div id="player-progress-fill" class="bg-amber-500 h-full relative" style="width: 0%">
           <div class="absolute right-0 top-1/2 -translate-y-1/2 w-3 h-3 bg-amber-300 rounded-full shadow opacity-0 group-hover:opacity-100 transition"></div>
         </div>
       </div>
@@ -2003,77 +2347,173 @@ class PlayerBar {
         <!-- Controls Central -->
         <div class="flex flex-col items-center">
           <div class="flex items-center space-x-4">
-            <button id="player-rewind-btn" title="${t.rewindBtnTitle}" class="text-slate-400 hover:text-white p-1">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12.066 11.2a1 1 0 000 1.6l5.334 4A1 1 0 0019 16V8a1 1 0 00-1.6-.8l-5.334 4zM4.066 11.2a1 1 0 000 1.6l5.334 4A1 1 0 0011 16V8a1 1 0 00-1.6-.8l-5.334 4z"></path></svg>
+            <button type="button" id="player-rewind-btn" title="${t.rewindBtnTitle}" class="text-slate-400 hover:text-white p-2 transition">
+              <svg class="w-5 h-5 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12.066 11.2a1 1 0 000 1.6l5.334 4A1 1 0 0019 16V8a1 1 0 00-1.6-.8l-5.334 4zM4.066 11.2a1 1 0 000 1.6l5.334 4A1 1 0 0011 16V8a1 1 0 00-1.6-.8l-5.334 4z"></path></svg>
             </button>
 
-            <button id="player-play-btn" class="w-10 h-10 rounded-full bg-amber-500 hover:bg-amber-400 text-slate-950 flex items-center justify-center font-bold shadow-lg transition">
-              ${state.isPlaying ? `
-                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/></svg>
-              ` : `
-                <svg class="w-5 h-5 ml-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-              `}
+            <button type="button" id="player-play-btn" class="w-10 h-10 rounded-full bg-amber-500 hover:bg-amber-400 active:scale-95 text-slate-950 flex items-center justify-center font-bold shadow-lg transition">
+              <span id="player-play-icon" class="pointer-events-none">
+                <!-- Icon injected dynamically -->
+              </span>
             </button>
 
-            <button id="player-forward-btn" title="${t.forwardBtnTitle}" class="text-slate-400 hover:text-white p-1">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.933 12.8a1 1 0 000-1.6L6.6 7.2A1 1 0 005 8v8a1 1 0 001.6.8l5.333-4zM19.933 12.8a1 1 0 000-1.6l-5.333-4A1 1 0 0013 8v8a1 1 0 001.6.8l5.333-4z"></path></svg>
+            <button type="button" id="player-forward-btn" title="${t.forwardBtnTitle}" class="text-slate-400 hover:text-white p-2 transition">
+              <svg class="w-5 h-5 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.933 12.8a1 1 0 000-1.6L6.6 7.2A1 1 0 005 8v8a1 1 0 001.6.8l5.333-4zM19.933 12.8a1 1 0 000-1.6l-5.333-4A1 1 0 0013 8v8a1 1 0 001.6.8l5.333-4z"></path></svg>
             </button>
           </div>
           <div class="text-[11px] text-slate-400 mt-1 font-mono">
-            <span>${this.formatTime(state.currentTime)}</span> / <span>${this.formatTime(state.duration)}</span>
+            <span id="player-time-current">00:00</span> / <span id="player-time-duration">00:00</span>
           </div>
         </div>
 
-        <!-- Extra Tools: Speed, Subtitle, Lang -->
+        <!-- Extra Tools: Speed, Subtitle -->
         <div class="flex items-center space-x-2 flex-shrink-0">
-          <button id="player-speed-btn" class="text-xs px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 font-mono" title="${t.playbackSpeedTitle}">
+          <button type="button" id="player-speed-btn" class="text-xs px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 font-mono" title="${t.playbackSpeedTitle}">
             ${state.playbackRate}x
           </button>
 
-          <button id="player-sub-btn" class="text-xs px-2.5 py-1 rounded ${state.subtitlesEnabled ? 'bg-amber-500/20 text-amber-400 border border-amber-500/40' : 'bg-slate-800 text-slate-400'} font-medium" title="${t.ccSubtitleTitle}">
+          <button type="button" id="player-sub-btn" class="text-xs px-2.5 py-1 rounded transition font-medium" title="${t.ccSubtitleTitle}">
             ${t.ccBtnText}
           </button>
         </div>
       </div>
     `;
 
-    this.bindEvents(el, state);
+    this.bindEvents(el);
   }
 
-  bindEvents(el, state) {
-    el.querySelector('#player-play-btn').onclick = () => MediaPlayer.togglePlay();
+  bindEvents(el) {
+    const playBtn = el.querySelector('#player-play-btn');
+    if (playBtn) {
+      playBtn.onclick = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        MediaPlayer.togglePlay();
+      };
+    }
 
-    el.querySelector('#player-rewind-btn').onclick = () => MediaPlayer.seek(state.currentTime - 10);
-    el.querySelector('#player-forward-btn').onclick = () => MediaPlayer.seek(state.currentTime + 10);
+    const rewindBtn = el.querySelector('#player-rewind-btn');
+    if (rewindBtn) {
+      rewindBtn.onclick = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const curr = this.latestState ? this.latestState.currentTime : 0;
+        MediaPlayer.seek(curr - 10);
+      };
+    }
 
-    el.querySelector('#player-progress-container').onclick = (e) => {
-      const rect = e.currentTarget.getBoundingClientRect();
-      const pos = (e.clientX - rect.left) / rect.width;
-      MediaPlayer.seek(pos * (state.duration || 1));
-    };
+    const forwardBtn = el.querySelector('#player-forward-btn');
+    if (forwardBtn) {
+      forwardBtn.onclick = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const curr = this.latestState ? this.latestState.currentTime : 0;
+        MediaPlayer.seek(curr + 10);
+      };
+    }
 
-    el.querySelector('#player-speed-btn').onclick = () => {
-      const rates = [1.0, 1.25, 1.5, 0.75];
-      const nextIdx = (rates.indexOf(state.playbackRate) + 1) % rates.length;
-      MediaPlayer.setPlaybackRate(rates[nextIdx]);
-    };
+    const progContainer = el.querySelector('#player-progress-container');
+    if (progContainer) {
+      progContainer.onclick = (e) => {
+        const rect = progContainer.getBoundingClientRect();
+        const pos = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+        const dur = (this.latestState && this.latestState.duration) || 1;
+        MediaPlayer.seek(pos * dur);
+      };
+    }
 
-    el.querySelector('#player-sub-btn').onclick = () => MediaPlayer.toggleSubtitles();
+    const speedBtn = el.querySelector('#player-speed-btn');
+    if (speedBtn) {
+      speedBtn.onclick = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const currentRate = (this.latestState && this.latestState.playbackRate) || 1.0;
+        const rates = [1.0, 1.25, 1.5, 0.75];
+        const nextIdx = (rates.indexOf(currentRate) + 1) % rates.length;
+        MediaPlayer.setPlaybackRate(rates[nextIdx]);
+      };
+    }
+
+    const subBtn = el.querySelector('#player-sub-btn');
+    if (subBtn) {
+      subBtn.onclick = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        MediaPlayer.toggleSubtitles();
+      };
+    }
 
     const info = el.querySelector('#player-artifact-info');
     if (info && this.onOpenDetail) {
-      info.onclick = () => this.onOpenDetail(state.currentArtifact);
+      info.onclick = () => {
+        if (this.latestState && this.latestState.currentArtifact) {
+          this.onOpenDetail(this.latestState.currentArtifact);
+        }
+      };
+    }
+  }
+
+  updateDynamicFields(el, state) {
+    // 1. Play / Pause icon
+    const iconContainer = el.querySelector('#player-play-icon');
+    if (iconContainer) {
+      if (state.isPlaying) {
+        iconContainer.innerHTML = `<svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/></svg>`;
+      } else {
+        iconContainer.innerHTML = `<svg class="w-5 h-5 ml-0.5 fill-current" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>`;
+      }
+    }
+
+    // 2. Progress fill
+    const fill = el.querySelector('#player-progress-fill');
+    if (fill) {
+      const dur = state.duration || 1;
+      const pct = Math.max(0, Math.min(100, (state.currentTime / dur) * 100));
+      fill.style.width = `${pct}%`;
+    }
+
+    // 3. Time labels
+    const curTime = el.querySelector('#player-time-current');
+    if (curTime) curTime.textContent = this.formatTime(state.currentTime);
+
+    const durTime = el.querySelector('#player-time-duration');
+    if (durTime) durTime.textContent = this.formatTime(state.duration);
+
+    // 4. Subtitle floating box
+    const subBox = el.querySelector('#player-sub-box');
+    const subText = el.querySelector('#player-sub-text');
+    if (subBox && subText) {
+      if (state.subtitlesEnabled && state.currentSubtitleText) {
+        subText.textContent = `💬 ${state.currentSubtitleText}`;
+        subBox.classList.remove('opacity-0');
+        subBox.classList.add('opacity-100');
+      } else {
+        subBox.classList.remove('opacity-100');
+        subBox.classList.add('opacity-0');
+      }
+    }
+
+    // 5. Speed label
+    const speedBtn = el.querySelector('#player-speed-btn');
+    if (speedBtn) speedBtn.textContent = `${state.playbackRate}x`;
+
+    // 6. Subtitle toggle button style
+    const subBtn = el.querySelector('#player-sub-btn');
+    if (subBtn) {
+      if (state.subtitlesEnabled) {
+        subBtn.className = 'text-xs px-2.5 py-1 rounded bg-amber-500/20 text-amber-400 border border-amber-500/40 font-medium transition';
+      } else {
+        subBtn.className = 'text-xs px-2.5 py-1 rounded bg-slate-800 text-slate-400 hover:text-white font-medium transition';
+      }
     }
   }
 }
-
 
 // === FILE: frontend/src/components/AdminDashboard.js ===
 /**
  * AdminDashboard - Màn hình Quản trị viên (Admin)
  * Hỗ trợ USC07, USC08, USC09, USC10, USC11 và đa ngôn ngữ I18n
  */
-
 class AdminDashboard {
   constructor(onRefresh, getCurrentLang) {
     this.onRefresh = onRefresh;
@@ -2329,14 +2769,12 @@ class AdminDashboard {
   }
 }
 
-
 // === FILE: frontend/src/app.js ===
 /**
  * App.js - Single-Page Application Central Controller (GUI.spa)
  * Điều phối Router, Navbar, Trang chủ, Trang chi tiết hiện vật, Yêu thích, Sơ đồ và Auth
  * ĐÃ TÍCH HỢP HOÀN CHỈNH ĐA NGÔN NGỮ (I18N) TOÀN DIỆN CHO TẤT CẢ GIAO DIỆN
  */
-
 class AppController {
   constructor() {
     this.currentLang = localStorage.getItem('museum_preferred_lang') || 'vi'; // USC05
@@ -2377,6 +2815,53 @@ class AppController {
     // Lắng nghe thay đổi auth
     ClientSession.subscribe(() => {
       this.renderNavbar();
+    });
+
+    // Lắng nghe thay đổi MediaPlayer để đồng bộ trạng thái nút Play/Pause trên view
+    MediaPlayer.subscribe((state) => {
+      this.syncPlayButtons(state);
+    });
+  }
+
+  syncPlayButtons(state) {
+    const isPlaying = state.isPlaying;
+    const currentId = state.currentArtifact ? state.currentArtifact.id : null;
+    const t = this.t;
+
+    // 1. Đồng bộ nút trong trang Chi tiết (Detail View)
+    const detailBtn = document.getElementById('detail-play-btn');
+    if (detailBtn && this.selectedArtifact) {
+      if (currentId === this.selectedArtifact.id && isPlaying) {
+        detailBtn.innerHTML = `
+          <svg class="w-5 h-5 fill-current pointer-events-none" viewBox="0 0 24 24"><path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/></svg>
+          <span class="pointer-events-none">${t.btnPauseAudio || 'Tạm Dừng Thuyết Minh'}</span>
+        `;
+        detailBtn.className = 'w-full bg-slate-800 hover:bg-slate-700 text-amber-400 border border-amber-500/40 font-bold py-3 rounded-xl text-sm flex items-center justify-center space-x-2 shadow-lg transition';
+      } else {
+        detailBtn.innerHTML = `
+          <svg class="w-5 h-5 fill-current pointer-events-none" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+          <span class="pointer-events-none">${t.btnStartAudio || 'Bắt Đầu Phát Thuyết Minh'}</span>
+        `;
+        detailBtn.className = 'w-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold py-3 rounded-xl text-sm flex items-center justify-center space-x-2 shadow-lg transition';
+      }
+    }
+
+    // 2. Đồng bộ các nút trên Card hiện vật (Home & Favorites View)
+    document.querySelectorAll('.play-audio-btn').forEach(btn => {
+      const artId = btn.getAttribute('data-id');
+      if (artId === currentId && isPlaying) {
+        btn.innerHTML = `
+          <svg class="w-4 h-4 fill-current pointer-events-none" viewBox="0 0 24 24"><path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/></svg>
+          <span class="pointer-events-none">${t.btnPauseShort || 'Tạm dừng'}</span>
+        `;
+        btn.className = 'play-audio-btn flex-1 bg-slate-800 hover:bg-slate-700 text-amber-400 border border-amber-500/40 font-bold py-2 px-3 rounded-xl text-xs flex items-center justify-center space-x-1.5 shadow transition';
+      } else {
+        btn.innerHTML = `
+          <svg class="w-4 h-4 fill-current pointer-events-none" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+          <span class="pointer-events-none">${t.btnListenAudio || 'Nghe Thuyết Minh'}</span>
+        `;
+        btn.className = 'play-audio-btn flex-1 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold py-2 px-3 rounded-xl text-xs flex items-center justify-center space-x-1.5 shadow transition';
+      }
     });
   }
 
@@ -2723,8 +3208,12 @@ class AppController {
         const id = btn.getAttribute('data-id');
         const art = mockDB.artifacts.find(a => a.id === id);
         if (art) {
-          MediaPlayer.loadArtifact(art, this.currentLang);
-          MediaPlayer.play();
+          if (MediaPlayer.currentArtifact && MediaPlayer.currentArtifact.id === art.id) {
+            MediaPlayer.togglePlay();
+          } else {
+            MediaPlayer.loadArtifact(art, this.currentLang);
+            MediaPlayer.play();
+          }
         }
       };
     });
@@ -2850,8 +3339,12 @@ class AppController {
     };
 
     container.querySelector('#detail-play-btn').onclick = () => {
-      MediaPlayer.loadArtifact(art, this.currentLang);
-      MediaPlayer.play();
+      if (MediaPlayer.currentArtifact && MediaPlayer.currentArtifact.id === art.id) {
+        MediaPlayer.togglePlay();
+      } else {
+        MediaPlayer.loadArtifact(art, this.currentLang);
+        MediaPlayer.play();
+      }
     };
 
     container.querySelector('#detail-fav-btn').onclick = () => {
@@ -2950,3 +3443,14 @@ document.addEventListener('DOMContentLoaded', () => {
   const app = new AppController();
   app.init();
 });
+
+// Khởi chạy App khi trang tải xong
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', () => {
+    const app = new AppController();
+    app.init();
+  });
+} else {
+  const app = new AppController();
+  app.init();
+}
