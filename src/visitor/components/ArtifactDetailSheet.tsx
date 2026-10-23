@@ -3,7 +3,7 @@ import { Artifact } from '../../shared/types';
 import { useLangStore } from '../../shared/stores/langStore';
 import { usePlayerStore } from '../../shared/stores/playerStore';
 import { useFavStore } from '../../shared/stores/favStore';
-import { X, Volume2, Heart, MapPin, ArrowLeft, Layers } from 'lucide-react';
+import { X, Volume2, Heart, MapPin, Layers } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 interface Props {
@@ -54,38 +54,27 @@ export const ArtifactDetailSheet: React.FC<Props> = ({ artifact, onClose }) => {
 
         {/* Right Column: Info & Narration Controller */}
         <div className="w-full md:w-1/2 flex flex-col justify-between overflow-y-auto p-6 sm:p-8 bg-white">
-          {/* Top Actions: Back, Favorite, Close */}
-          <div className="flex items-center justify-between gap-3 pb-4 border-b border-slate-100">
+          {/* Top Actions: Favorite, Close */}
+          <div className="flex items-center justify-end gap-2 pb-4 border-b border-slate-100">
             <button
-              onClick={onClose}
-              className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 transition flex items-center gap-1.5 text-xs font-bold"
-              title={t('back')}
+              onClick={() => toggleFavorite(artifact.id)}
+              className={`p-2.5 rounded-xl transition ${
+                fav
+                  ? 'bg-red-500 text-white shadow-md'
+                  : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+              }`}
+              title={t('favorites')}
             >
-              <ArrowLeft className="w-4 h-4" />
-              <span>{t('back')}</span>
+              <Heart className={`w-4 h-4 ${fav ? 'fill-current' : ''}`} />
             </button>
 
-            <div className="flex items-center gap-2">
-              <button
-                onClick={() => toggleFavorite(artifact.id)}
-                className={`p-2.5 rounded-xl transition ${
-                  fav
-                    ? 'bg-red-500 text-white shadow-md'
-                    : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
-                }`}
-                title={t('favorites')}
-              >
-                <Heart className={`w-4 h-4 ${fav ? 'fill-current' : ''}`} />
-              </button>
-
-              <button
-                onClick={onClose}
-                className="p-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 transition"
-                title={t('close')}
-              >
-                <X className="w-4 h-4" />
-              </button>
-            </div>
+            <button
+              onClick={onClose}
+              className="p-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 transition"
+              title={t('close')}
+            >
+              <X className="w-4 h-4" />
+            </button>
           </div>
 
           {/* Details Body */}
