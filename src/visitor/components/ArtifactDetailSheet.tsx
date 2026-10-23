@@ -48,7 +48,7 @@ export const ArtifactDetailSheet: React.FC<Props> = ({ artifact, onClose }) => {
 
           <div className="absolute bottom-4 right-4 bg-slate-900/85 backdrop-blur-md text-slate-300 font-semibold text-xs px-3 py-1.5 rounded-xl shadow-md flex items-center gap-1.5 border border-slate-800">
             <Layers className="w-3.5 h-3.5 text-amber-400" />
-            <span>Tầng {artifact.floorId}</span>
+            <span>{t('floorPrefix')} {artifact.floorId}</span>
           </div>
         </div>
 
@@ -91,7 +91,7 @@ export const ArtifactDetailSheet: React.FC<Props> = ({ artifact, onClose }) => {
           {/* Details Body */}
           <div className="py-5 flex flex-col gap-3 flex-1 overflow-y-auto">
             <span className="text-xs uppercase font-extrabold tracking-wider text-amber-600">
-              Cổ vật bảo tàng &bull; {artifact.code}
+              {t('museumArtifactTag')} &bull; {artifact.code}
             </span>
             <h2 className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-slate-900 leading-snug">
               {artifact.title[currentLang] || artifact.title['vi']}

@@ -31,7 +31,7 @@ export const FavoritesView: React.FC<Props> = ({ artifacts, onSelectArtifact }) 
             </span>
           </h2>
           <p className="text-xs sm:text-sm text-slate-500 mt-0.5">
-            Danh sách các bảo vật và hiện vật yêu thích bạn đã lưu để xem lại hoặc nghe thuyết minh.
+            {t('favoritesSubtitle')}
           </p>
         </div>
       </div>
@@ -43,7 +43,7 @@ export const FavoritesView: React.FC<Props> = ({ artifacts, onSelectArtifact }) 
           </div>
           <div className="text-slate-800 font-bold text-base">{t('noFavorites')}</div>
           <p className="text-slate-400 text-xs sm:text-sm">
-            Hãy khám phá danh mục hiện vật và nhấn vào biểu tượng trái tim để lưu lại những hiện vật ấn tượng.
+            {t('favoritesEmptyHint')}
           </p>
         </div>
       ) : (
@@ -75,7 +75,7 @@ export const FavoritesView: React.FC<Props> = ({ artifacts, onSelectArtifact }) 
                       toggleFavorite(artifact.id);
                     }}
                     className="absolute top-3 right-3 p-2 rounded-full bg-red-500 text-white shadow transition hover:scale-110"
-                    title="Xóa khỏi yêu thích"
+                    title={t('removeFromFavorites')}
                   >
                     <Heart className="w-4 h-4 fill-current" />
                   </button>
@@ -84,7 +84,7 @@ export const FavoritesView: React.FC<Props> = ({ artifacts, onSelectArtifact }) 
                 <div className="p-4 flex flex-col flex-1 justify-between gap-3">
                   <div>
                     <div className="text-[11px] font-semibold text-amber-600 uppercase tracking-wider mb-1">
-                      Tầng {artifact.floorId}
+                      {t('floorPrefix')} {artifact.floorId}
                     </div>
                     <h4 className="font-bold text-slate-900 text-base leading-snug line-clamp-1 group-hover:text-amber-600 transition-colors">
                       {artifact.title[currentLang] || artifact.title['vi']}

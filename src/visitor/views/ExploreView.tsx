@@ -48,11 +48,11 @@ export const ExploreView: React.FC<Props> = ({ artifacts, onSelectArtifact }) =>
           </div>
 
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-white leading-tight">
-            Khám Phá Di Sản & Cổ Vật Lịch Sử
+            {t('heroTitle')}
           </h2>
 
           <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
-            Hệ thống thuyết minh tự động nhận diện hiện vật qua định vị GPS không gian và quét mã QR tương tác thông minh.
+            {t('heroSubtitle')}
           </p>
 
           {/* Search Input Bar */}
@@ -69,7 +69,7 @@ export const ExploreView: React.FC<Props> = ({ artifacts, onSelectArtifact }) =>
 
           {/* Quick Filter Floor Pills */}
           <div className="flex items-center gap-2 mt-1 overflow-x-auto pb-1 text-xs">
-            <span className="text-slate-400 font-medium shrink-0">Lọc theo:</span>
+            <span className="text-slate-400 font-medium shrink-0">{t('filterBy')}</span>
             <button
               onClick={() => setSelectedFloorFilter('all')}
               className={`px-3 py-1.5 rounded-xl font-semibold transition shrink-0 ${
@@ -88,7 +88,7 @@ export const ExploreView: React.FC<Props> = ({ artifacts, onSelectArtifact }) =>
                   : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
               }`}
             >
-              Tầng 1
+              {t('floorPrefix')} 1
             </button>
             <button
               onClick={() => setSelectedFloorFilter(2)}
@@ -98,7 +98,7 @@ export const ExploreView: React.FC<Props> = ({ artifacts, onSelectArtifact }) =>
                   : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
               }`}
             >
-              Tầng 2
+              {t('floorPrefix')} 2
             </button>
           </div>
         </div>
@@ -134,7 +134,7 @@ export const ExploreView: React.FC<Props> = ({ artifacts, onSelectArtifact }) =>
       <div>
         <div className="flex items-center justify-between mb-4 px-1">
           <h3 className="font-extrabold text-slate-900 text-lg sm:text-xl tracking-tight">
-            Danh Sách Hiện Vật Trưng Bày ({filtered.length})
+            {t('exhibitsList')} ({filtered.length})
           </h3>
         </div>
 
@@ -189,7 +189,7 @@ export const ExploreView: React.FC<Props> = ({ artifacts, onSelectArtifact }) =>
                   <div className="p-4 flex flex-col flex-1 justify-between gap-3">
                     <div>
                       <div className="text-[11px] font-semibold text-amber-600 uppercase tracking-wider mb-1">
-                        Tầng {artifact.floorId}
+                        {t('floorPrefix')} {artifact.floorId}
                       </div>
                       <h4 className="font-bold text-slate-900 text-base leading-snug line-clamp-1 group-hover:text-amber-600 transition-colors">
                         {artifact.title[currentLang] || artifact.title['vi']}

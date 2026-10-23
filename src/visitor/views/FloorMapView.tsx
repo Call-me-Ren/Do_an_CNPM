@@ -27,10 +27,10 @@ export const FloorMapView: React.FC<Props> = ({ floors, artifacts, onSelectArtif
         <div>
           <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight flex items-center gap-2.5">
             <Layers className="w-6 h-6 text-amber-600" />
-            <span>Sơ Đồ Tầng & Không Gian Trưng Bày</span>
+            <span>{t('floorMapTitle')}</span>
           </h2>
           <p className="text-xs sm:text-sm text-slate-500 mt-0.5">
-            Chọn tầng để xem bản đồ bố trí các hiện vật và chạm vào vị trí để nghe thuyết minh.
+            {t('floorMapSubtitle')}
           </p>
         </div>
 
@@ -112,7 +112,7 @@ export const FloorMapView: React.FC<Props> = ({ floors, artifacts, onSelectArtif
           <div className="flex flex-col gap-3 max-h-[500px] overflow-y-auto pr-1">
             {floorArtifacts.length === 0 ? (
               <div className="py-10 text-center text-slate-400 text-xs">
-                Chưa có hiện vật nào được gắn vào tầng này.
+                {t('noArtifactsInFloor')}
               </div>
             ) : (
               floorArtifacts.map((artifact) => {

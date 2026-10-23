@@ -167,6 +167,18 @@
         "en": [
           { "start": 0, "end": 5, "text": "The statue of Vishnu was discovered in the Mekong Delta region." },
           { "start": 5, "end": 10, "text": "This piece reflects ancient cultural and religious exchanges with India." }
+        ],
+        "zh": [
+          { "start": 0, "end": 5, "text": "该毗湿奴神像发现于湄公河三角洲地区。" },
+          { "start": 5, "end": 10, "text": "作品反映了古印度文化与宗教在此地的深厚交融。" }
+        ],
+        "ko": [
+          { "start": 0, "end": 5, "text": "비슈누 신상은 메콩 삼각주 지역에서 발견되었습니다." },
+          { "start": 5, "end": 10, "text": "이 작품은 고대 인도와의 문화 및 종교적 교류를 반영합니다." }
+        ],
+        "ja": [
+          { "start": 0, "end": 5, "text": "このヴィシュヌ神像はメコンデルタ地域で発見されました。" },
+          { "start": 5, "end": 10, "text": "古代インドとの活発な文化・宗教交流を今に伝える貴重な遺物です。" }
         ]
       }
     },
@@ -214,6 +226,18 @@
         "en": [
           { "start": 0, "end": 4, "text": "The Nguyen Dynasty dragon seal embodies Hue imperial craftsmanship." },
           { "start": 4, "end": 9, "text": "The handle features an intricately carved five-clawed imperial dragon." }
+        ],
+        "zh": [
+          { "start": 0, "end": 4, "text": "阮朝御龙印彰显顺化宫廷工艺的极致精湛。" },
+          { "start": 4, "end": 9, "text": "印纽雕刻威严的五爪御龙，象征至尊皇权。" }
+        ],
+        "ko": [
+          { "start": 0, "end": 4, "text": "응우옌 왕조 용 인장은 후에 황실 공예의 정교함을 보여줍니다." },
+          { "start": 4, "end": 9, "text": "손잡이에는 위엄 있는 오조룡이 정교하게 조각되어 있습니다." }
+        ],
+        "ja": [
+          { "start": 0, "end": 4, "text": "グエン朝の龍の御印は、フエ宮廷工芸の精緻さを象徴しています。" },
+          { "start": 4, "end": 9, "text": "つまみには威厳ある五爪の龍が精巧に彫刻されています。" }
         ]
       }
     }

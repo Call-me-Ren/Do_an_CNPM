@@ -158,7 +158,7 @@ export const AudioPlayerBar: React.FC = () => {
                   <Volume2 className="w-3.5 h-3.5 animate-pulse" />
                   <span>{currentArtifact.code}</span>
                   <span className="hidden sm:inline text-slate-500">&bull;</span>
-                  <span className="hidden sm:inline text-slate-400">Tầng {currentArtifact.floorId}</span>
+                  <span className="hidden sm:inline text-slate-400">{t('floorPrefix')} {currentArtifact.floorId}</span>
                 </div>
               </div>
             </div>

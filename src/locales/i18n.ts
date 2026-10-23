@@ -39,7 +39,19 @@ const resources = {
       pause: "Tạm dừng",
       resume: "Phát tiếp",
       backToExplore: "Quay lại trang khám phá",
-      noMapData: "Chưa có dữ liệu bản đồ"
+      noMapData: "Chưa có dữ liệu bản đồ",
+      heroTitle: "Khám Phá Di Sản & Cổ Vật Lịch Sử",
+      heroSubtitle: "Hệ thống thuyết minh tự động nhận diện hiện vật qua định vị GPS không gian và quét mã QR tương tác thông minh.",
+      filterBy: "Lọc theo:",
+      floorPrefix: "Tầng",
+      exhibitsList: "Danh Sách Hiện Vật Trưng Bày",
+      floorMapTitle: "Sơ Đồ Tầng & Không Gian Trưng Bày",
+      floorMapSubtitle: "Chọn tầng để xem bản đồ bố trí các hiện vật và chạm vào vị trí để nghe thuyết minh.",
+      noArtifactsInFloor: "Chưa có hiện vật nào được gắn vào tầng này.",
+      favoritesSubtitle: "Danh sách các bảo vật và hiện vật yêu thích bạn đã lưu để xem lại hoặc nghe thuyết minh.",
+      favoritesEmptyHint: "Hãy khám phá danh mục hiện vật và nhấn vào biểu tượng trái tim để lưu lại những hiện vật ấn tượng.",
+      removeFromFavorites: "Xóa khỏi yêu thích",
+      museumArtifactTag: "Cổ vật bảo tàng"
     }
   },
   en: {
@@ -79,7 +91,19 @@ const resources = {
       pause: "Pause",
       resume: "Resume",
       backToExplore: "Back to Explore",
-      noMapData: "No map data available"
+      noMapData: "No map data available",
+      heroTitle: "Explore Heritage & Historical Artifacts",
+      heroSubtitle: "Smart audio guide system featuring spatial GPS exhibit detection and interactive QR scanning.",
+      filterBy: "Filter by:",
+      floorPrefix: "Floor",
+      exhibitsList: "Exhibition Artifacts List",
+      floorMapTitle: "Floor Map & Exhibition Space",
+      floorMapSubtitle: "Select a floor to view exhibit layouts and tap pins to listen to narration.",
+      noArtifactsInFloor: "No artifacts pinned on this floor yet.",
+      favoritesSubtitle: "List of your saved favorite treasures and artifacts to revisit or listen to.",
+      favoritesEmptyHint: "Explore the exhibits and tap the heart icon to save artifacts you love.",
+      removeFromFavorites: "Remove from favorites",
+      museumArtifactTag: "Museum Artifact"
     }
   },
   zh: {
@@ -119,7 +143,19 @@ const resources = {
       pause: "暂停",
       resume: "继续播放",
       backToExplore: "返回探索页面",
-      noMapData: "暂无地图数据"
+      noMapData: "暂无地图数据",
+      heroTitle: "探索历史文化遗产与珍贵文物",
+      heroSubtitle: "智能导览系统，支持空间GPS展品感应与互动二维码扫描。",
+      filterBy: "筛选：",
+      floorPrefix: "楼层",
+      exhibitsList: "展品陈列列表",
+      floorMapTitle: "楼层导览图与展区空间",
+      floorMapSubtitle: "选择楼层查看展品布局，点击图钉即可聆听语音讲解。",
+      noArtifactsInFloor: "该楼层暂无关联文物。",
+      favoritesSubtitle: "您收藏的珍贵文物列表，可随时重温或收听讲解。",
+      favoritesEmptyHint: "探索文物目录，点击心形图标收藏给您留下深刻印象的展品。",
+      removeFromFavorites: "取消收藏",
+      museumArtifactTag: "馆藏文物"
     }
   },
   ko: {
@@ -159,7 +195,19 @@ const resources = {
       pause: "일시 중지",
       resume: "계속 재생",
       backToExplore: "탐색으로 돌아가기",
-      noMapData: "지도 데이터가 없습니다"
+      noMapData: "지도 데이터가 없습니다",
+      heroTitle: "역사적 유산과 고대 유물 탐색",
+      heroSubtitle: "공간 GPS 유물 감지 및 대화형 QR 스캔을 지원하는 스마트 오디오 가이드 시스템입니다.",
+      filterBy: "필터:",
+      floorPrefix: "층",
+      exhibitsList: "전시 유물 목록",
+      floorMapTitle: "안내도 및 전시 공간",
+      floorMapSubtitle: "층을 선택하여 유물 배치를 확인하고 핀을 탭하여 해설을 들어보세요.",
+      noArtifactsInFloor: "이 층에 등록된 유물이 없습니다.",
+      favoritesSubtitle: "다시 보거나 해설을 들을 수 있도록 저장된 즐겨찾기 유물 목록입니다.",
+      favoritesEmptyHint: "유물 목록을 살펴보고 마음에 드는 유물의 하트 아이콘을 눌러 저장해보세요.",
+      removeFromFavorites: "즐겨찾기에서 제거",
+      museumArtifactTag: "박물관 소장 유물"
     }
   },
   ja: {
@@ -199,7 +247,19 @@ const resources = {
       pause: "一時停止",
       resume: "再生再開",
       backToExplore: "探索に戻る",
-      noMapData: "マップデータがありません"
+      noMapData: "マップデータがありません",
+      heroTitle: "歴史的遺産と古代の遺物を探る",
+      heroSubtitle: "空間GPS展示検出とインタラクティブなQRスキャンを備えたスマート音声ガイドシステム。",
+      filterBy: "絞り込み：",
+      floorPrefix: "階",
+      exhibitsList: "展示品一覧",
+      floorMapTitle: "フロアマップと展示スペース",
+      floorMapSubtitle: "フロアを選択して展示配置を確認し、ピンをタップして解説を聴くことができます。",
+      noArtifactsInFloor: "このフロアにはまだ展示品が配置されていません。",
+      favoritesSubtitle: "後で再確認したり解説を聴くために保存したお気に入りの展示品リストです。",
+      favoritesEmptyHint: "展示品を探して、ハートアイコンをタップして気になる展示品を保存してください。",
+      removeFromFavorites: "お気に入りから削除",
+      museumArtifactTag: "博物館所蔵の遺物"
     }
   }
 };
