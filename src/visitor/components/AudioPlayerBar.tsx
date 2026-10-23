@@ -122,6 +122,9 @@ export const AudioPlayerBar: React.FC = () => {
               <img
                 src={currentArtifact.images[0]}
                 alt={currentArtifact.title[currentLang]}
+                onError={(e) => {
+                  e.currentTarget.src = 'https://images.metmuseum.org/CRDImages/mi/web-large/DP331225.jpg';
+                }}
                 className="w-10 h-10 rounded-xl object-cover shadow shrink-0"
               />
               <div className="truncate">

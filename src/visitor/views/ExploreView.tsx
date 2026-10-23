@@ -85,6 +85,10 @@ export const ExploreView: React.FC<Props> = ({ artifacts, onSelectArtifact }) =>
                 <img
                   src={artifact.images[0]}
                   alt={artifact.title[currentLang]}
+                  onError={(e) => {
+                    // Fallback to local image or placeholder
+                    e.currentTarget.src = 'https://images.metmuseum.org/CRDImages/mi/web-large/DP331225.jpg';
+                  }}
                   className="w-20 h-20 rounded-2xl object-cover shrink-0 group-hover:scale-105 transition-transform duration-300"
                 />
                 <div className="flex-1 min-w-0">

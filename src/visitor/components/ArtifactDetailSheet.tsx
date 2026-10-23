@@ -62,6 +62,9 @@ export const ArtifactDetailSheet: React.FC<Props> = ({ artifact, onClose }) => {
           <img
             src={artifact.images[0]}
             alt={artifact.title[currentLang]}
+            onError={(e) => {
+              e.currentTarget.src = 'https://images.metmuseum.org/CRDImages/mi/web-large/DP331225.jpg';
+            }}
             className="w-full h-full object-cover"
           />
           <div className="absolute bottom-3 left-4 bg-slate-900/80 backdrop-blur-md text-amber-400 font-mono text-xs px-2.5 py-1 rounded-md shadow flex items-center gap-1.5">
