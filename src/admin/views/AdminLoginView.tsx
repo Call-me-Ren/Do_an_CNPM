@@ -4,17 +4,23 @@ import { useAdminAuthStore } from '../../shared/stores/adminAuthStore';
 import { ShieldCheck, Lock, User, AlertCircle, ArrowLeft } from 'lucide-react';
 
 export const AdminLoginView: React.FC = () => {
-  const [username, setUsername] = useState('admin@museum.vn');
-  const [password, setPassword] = useState('admin123');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
-  const { login } = useAdminAuthStore();
+  const { login, isAuthenticated } = useAdminAuthStore();
   const navigate = useNavigate();
+
+  React.useEffect(() => {
+    if (isAuthenticated()) {
+      navigate('/admin', { replace: true });
+    }
+  }, [isAuthenticated, navigate]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (username === 'admin@museum.vn' && password === 'admin123') {
+    if (username.trim() === 'admin@museum.vn' && password === 'admin123') {
       login('mock-jwt-token-xyz-123', 'Quản Trị Viên', 'ADMIN');
-      navigate('/admin');
+      navigate('/admin', { replace: true });
     } else {
       setError('Tên đăng nhập hoặc mật khẩu không chính xác.');
     }

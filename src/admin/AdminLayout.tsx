@@ -23,7 +23,7 @@ export const AdminLayout: React.FC = () => {
 
   const handleLogout = () => {
     logout();
-    navigate('/admin/login');
+    navigate('/admin/login', { replace: true });
   };
 
   const menuItems = [
@@ -36,10 +36,11 @@ export const AdminLayout: React.FC = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-slate-900 text-slate-100 flex flex-col md:flex-row">
-      {/* Sidebar for Desktop - Sticky and Pinned */}
-      <aside className="w-full md:w-64 bg-slate-950 border-r border-slate-800 p-5 flex flex-col justify-between shrink-0 md:sticky md:top-0 md:h-screen md:overflow-y-auto">
-        <div className="flex flex-col gap-6">
+    <div className="h-screen w-screen overflow-hidden bg-slate-900 text-slate-100 flex flex-col md:flex-row">
+      {/* Sidebar for Desktop - Strictly fixed, pinned to viewport */}
+      <aside className="w-full md:w-64 h-auto md:h-screen bg-slate-950 border-r border-slate-800 flex flex-col justify-between shrink-0 z-40 select-none">
+        {/* Top Branding & Navigation Items */}
+        <div className="p-5 flex flex-col gap-6 overflow-y-auto flex-1">
           <div className="flex items-center gap-2.5">
             <div className="p-2 bg-amber-500 rounded-xl text-slate-950 font-bold">
               <ShieldAlert className="w-5 h-5" />
@@ -75,21 +76,21 @@ export const AdminLayout: React.FC = () => {
           </nav>
         </div>
 
-        {/* Pinned Bottom Logout & Account Bar */}
-        <div className="border-t border-slate-800/80 pt-4 flex flex-col gap-3 mt-auto">
+        {/* Permanently Pinned Bottom Logout & Account Bar (Never moves, never flickers) */}
+        <div className="p-4 border-t border-slate-800/90 bg-slate-950 shrink-0 flex flex-col gap-3">
           <div className="flex items-center gap-3 px-1">
             <div className="w-8 h-8 rounded-full bg-amber-500/20 text-amber-400 flex items-center justify-center font-bold text-xs shrink-0">
               AD
             </div>
             <div className="text-xs min-w-0 flex-1">
-              <div className="font-bold text-white truncate">{username}</div>
+              <div className="font-bold text-white truncate">{username || 'Quản Trị Viên'}</div>
               <div className="text-[10px] text-slate-500 truncate">Quản Trị Viên Hệ Thống</div>
             </div>
           </div>
 
           <button
             onClick={handleLogout}
-            className="w-full flex items-center justify-center gap-2 py-2.5 px-3 bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/30 rounded-xl text-xs font-bold transition shadow-xs"
+            className="w-full flex items-center justify-center gap-2 py-2.5 px-3 bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/30 rounded-xl text-xs font-bold transition shadow-xs cursor-pointer"
             title="Đăng xuất quản trị viên"
           >
             <LogOut className="w-4 h-4" />
@@ -98,9 +99,9 @@ export const AdminLayout: React.FC = () => {
         </div>
       </aside>
 
-      {/* Main Admin Area */}
-      <div className="flex-1 flex flex-col overflow-y-auto">
-        <header className="sticky top-0 z-30 bg-slate-900/90 backdrop-blur-md px-6 py-3.5 border-b border-slate-800 flex items-center justify-between">
+      {/* Main Admin Area - Scrollable Independently */}
+      <div className="flex-1 h-screen overflow-y-auto flex flex-col min-w-0">
+        <header className="sticky top-0 z-30 bg-slate-900/95 backdrop-blur-md px-6 py-3.5 border-b border-slate-800 flex items-center justify-between shrink-0">
           <div className="text-sm text-slate-400">
             Khu vực quản trị / <span className="text-slate-200 font-semibold">{location.pathname}</span>
           </div>
@@ -109,14 +110,6 @@ export const AdminLayout: React.FC = () => {
             <span className="text-xs text-slate-400 font-mono hidden sm:inline">
               Bảo tàng Chứng tích Chiến tranh
             </span>
-            <button
-              onClick={handleLogout}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-red-500/15 hover:bg-red-500/25 text-red-400 border border-red-500/30 text-xs font-bold transition shadow-xs"
-              title="Đăng xuất quản trị viên"
-            >
-              <LogOut className="w-3.5 h-3.5" />
-              <span>Đăng xuất</span>
-            </button>
           </div>
         </header>
 

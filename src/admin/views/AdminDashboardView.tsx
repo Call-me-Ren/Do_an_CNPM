@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import QRCode from 'qrcode';
 import {
   Users,
   Headphones,
@@ -31,6 +32,7 @@ export const AdminDashboardView: React.FC = () => {
   const [listenEvents, setListenEvents] = useState<ListenEvent[]>([]);
   const [artifacts, setArtifacts] = useState<Artifact[]>([]);
   const [floors, setFloors] = useState<Floor[]>([]);
+  const [qrDataUrl, setQrDataUrl] = useState<string>('');
 
   // Load Real Data & Set up Live Presence Polling
   const refreshData = () => {
@@ -43,6 +45,18 @@ export const AdminDashboardView: React.FC = () => {
       setArtifacts(res.artifacts);
       setFloors(res.floors);
     });
+
+    // Generate reliable dynamic QR Data-URL
+    QRCode.toDataURL('https://call-me-ren.github.io/Test_CNPM/', {
+      width: 400,
+      margin: 2,
+      color: {
+        dark: '#0f172a',
+        light: '#ffffff'
+      }
+    })
+      .then(setQrDataUrl)
+      .catch(console.error);
 
     refreshData();
     const interval = setInterval(() => {
@@ -229,18 +243,24 @@ export const AdminDashboardView: React.FC = () => {
 
           {/* QR Code Preview */}
           <div className="bg-white p-3 rounded-2xl self-center shadow-lg border border-slate-200">
-            <img
-              src="/qr/museum_portal_qr.png"
-              alt="Mã QR Truy Cập Bảo Tàng"
-              className="w-36 h-36 object-contain"
-            />
+            {qrDataUrl ? (
+              <img
+                src={qrDataUrl}
+                alt="Mã QR Truy Cập Bảo Tàng"
+                className="w-36 h-36 object-contain"
+              />
+            ) : (
+              <div className="w-36 h-36 flex items-center justify-center text-slate-400 text-xs font-mono">
+                Đang tạo mã QR...
+              </div>
+            )}
           </div>
 
           <div className="flex flex-col gap-2 pt-2 border-t border-slate-700/80">
             <a
-              href="/qr/museum_portal_qr.png"
+              href={qrDataUrl || '#'}
               download="Ma_QR_Bao_Tang_Chung_Tich_Chien_Tranh.png"
-              className="w-full py-2.5 px-3 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-xs rounded-xl flex items-center justify-center gap-2 transition shadow-xs"
+              className="w-full py-2.5 px-3 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-xs rounded-xl flex items-center justify-center gap-2 transition shadow-xs cursor-pointer"
             >
               <Download className="w-4 h-4" />
               <span>Tải Mã QR In Ấn (PNG)</span>

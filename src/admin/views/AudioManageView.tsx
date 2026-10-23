@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Artifact, SupportedLanguage, SubtitleCue } from '../../shared/types';
 import { museumApi } from '../../shared/services/api';
 import { ttsService } from '../../shared/services/tts';
+import { AlertModal } from '../../shared/components/AlertModal';
 import {
   Music,
   Upload,
@@ -23,6 +24,11 @@ export const AudioManageView: React.FC = () => {
   const [uploadProgress, setUploadProgress] = useState(0);
   const [previewPlaying, setPreviewPlaying] = useState(false);
   const [deletingCueIndex, setDeletingCueIndex] = useState<number | null>(null);
+  const [modalAlert, setModalAlert] = useState<{
+    title?: string;
+    message: string;
+    type?: 'info' | 'success' | 'warning' | 'error';
+  } | null>(null);
 
   useEffect(() => {
     museumApi.getMuseumData().then((res) => {
@@ -50,7 +56,11 @@ export const AudioManageView: React.FC = () => {
     if (!file) return;
 
     if (file.size > 50 * 1024 * 1024) {
-      alert('Tệp âm thanh vượt quá dung lượng tối đa 50MB!');
+      setModalAlert({
+        title: 'Giới Hạn Dung Lượng',
+        message: 'Tệp âm thanh vượt quá dung lượng tối đa 50MB!',
+        type: 'warning'
+      });
       return;
     }
 
@@ -61,7 +71,11 @@ export const AudioManageView: React.FC = () => {
         if (prev >= 100) {
           clearInterval(interval);
           setIsUploading(false);
-          alert(`Đã tải lên tệp âm thanh [${file.name}] cho ngôn ngữ [${selectedLang.toUpperCase()}] thành công!`);
+          setModalAlert({
+            title: 'Tải Lên Thành Công',
+            message: `Đã tải lên tệp âm thanh [${file.name}] cho ngôn ngữ [${selectedLang.toUpperCase()}] thành công!`,
+            type: 'success'
+          });
           return 100;
         }
         return prev + 30;
@@ -108,10 +122,18 @@ export const AudioManageView: React.FC = () => {
           const updatedArt = { ...selectedArtifact, subtitles: updatedSubtitles };
           setSelectedArtifact(updatedArt);
           setArtifacts(artifacts.map((a) => (a.id === updatedArt.id ? updatedArt : a)));
-          alert(`Đã nhập thành công ${newCues.length} mốc phụ đề từ tệp [${file.name}]!`);
+          setModalAlert({
+            title: 'Nhập Phụ Đề Thành Công',
+            message: `Đã nhập thành công ${newCues.length} mốc phụ đề từ tệp [${file.name}]!`,
+            type: 'success'
+          });
         }
       } catch (err: any) {
-        alert('Không thể đọc file phụ đề: ' + (err?.message || 'Định dạng không hợp lệ'));
+        setModalAlert({
+          title: 'Lỗi Đọc Tệp',
+          message: 'Không thể đọc file phụ đề: ' + (err?.message || 'Định dạng không hợp lệ'),
+          type: 'error'
+        });
       }
     };
     reader.readAsText(file);
@@ -405,6 +427,15 @@ export const AudioManageView: React.FC = () => {
           </div>
         </div>
       )}
+
+      {/* In-App Alert Popup Modal */}
+      <AlertModal
+        isOpen={!!modalAlert}
+        title={modalAlert?.title}
+        message={modalAlert?.message || ''}
+        type={modalAlert?.type || 'info'}
+        onClose={() => setModalAlert(null)}
+      />
     </div>
   );
 };

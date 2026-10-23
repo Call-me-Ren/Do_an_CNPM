@@ -3,7 +3,8 @@ import { Artifact } from '../../shared/types';
 import { useFavStore as useFavorites } from '../../shared/stores/favStore';
 import { useLangStore } from '../../shared/stores/langStore';
 import { usePlayerStore } from '../../shared/stores/playerStore';
-import { Heart, Volume2 } from 'lucide-react';
+import { resolveAssetUrl, getArtifactFallbackImage } from '../../shared/utils/assetHelper';
+import { Heart, Volume2, Square } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 interface Props {
@@ -15,7 +16,7 @@ export const FavoritesView: React.FC<Props> = ({ artifacts, onSelectArtifact }) 
   const { t } = useTranslation();
   const { currentLang } = useLangStore();
   const { favorites, toggleFavorite } = useFavorites();
-  const { playArtifact, currentArtifact, isPlaying } = usePlayerStore();
+  const { playArtifact, stop, currentArtifact, isPlaying } = usePlayerStore();
 
   const favArtifacts = artifacts.filter((a) => favorites.includes(a.id));
 
@@ -58,11 +59,15 @@ export const FavoritesView: React.FC<Props> = ({ artifacts, onSelectArtifact }) 
               >
                 <div className="aspect-[4/3] bg-slate-100 overflow-hidden relative">
                   <img
-                    src={artifact.images[0]}
+                    src={resolveAssetUrl(artifact.images[0])}
                     alt={artifact.title[currentLang] || artifact.title['vi']}
                     onError={(e) => {
-                      e.currentTarget.src =
-                        'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=800&q=80';
+                      e.currentTarget.onerror = null;
+                      e.currentTarget.src = getArtifactFallbackImage(
+                        artifact.code,
+                        artifact.title[currentLang] || artifact.title['vi'],
+                        artifact.floorId
+                      );
                     }}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
@@ -97,7 +102,11 @@ export const FavoritesView: React.FC<Props> = ({ artifacts, onSelectArtifact }) 
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
-                      playArtifact(artifact);
+                      if (isPlayingThis) {
+                        stop();
+                      } else {
+                        playArtifact(artifact, 0, 0, false);
+                      }
                     }}
                     className={`w-full py-2.5 px-3 rounded-xl font-bold text-xs flex items-center justify-center gap-2 transition shadow-xs ${
                       isPlayingThis
@@ -105,8 +114,17 @@ export const FavoritesView: React.FC<Props> = ({ artifacts, onSelectArtifact }) 
                         : 'bg-amber-50 hover:bg-amber-500 hover:text-white text-amber-700'
                     }`}
                   >
-                    <Volume2 className="w-4 h-4" />
-                    <span>{isPlayingThis ? t('playing') : t('listenGuide')}</span>
+                    {isPlayingThis ? (
+                      <>
+                        <Square className="w-3.5 h-3.5 fill-current" />
+                        <span>Dừng phát</span>
+                      </>
+                    ) : (
+                      <>
+                        <Volume2 className="w-4 h-4" />
+                        <span>{t('listenGuide')}</span>
+                      </>
+                    )}
                   </button>
                 </div>
               </div>

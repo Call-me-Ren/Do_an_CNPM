@@ -15,6 +15,7 @@ import { useLangStore } from '../shared/stores/langStore';
 import { useFavStore } from '../shared/stores/favStore';
 import { Compass, Map, Heart, Info, QrCode, Building2 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { AlertModal } from '../shared/components/AlertModal';
 import { Link } from 'react-router-dom';
 
 export const VisitorLayout: React.FC = () => {
@@ -24,6 +25,7 @@ export const VisitorLayout: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'explore' | 'map' | 'favorites' | 'info'>('explore');
   const [selectedArtifact, setSelectedArtifact] = useState<Artifact | null>(null);
   const [isQRScannerOpen, setIsQRScannerOpen] = useState(false);
+  const [scanAlert, setScanAlert] = useState<string | null>(null);
 
   const { setUserLocation, setNearestArtifactId, setIsTracking, setPermissionGranted } = useGeofenceStore();
   const { playArtifact, currentArtifact, stop } = usePlayerStore();
@@ -107,7 +109,7 @@ export const VisitorLayout: React.FC = () => {
       handleSelectArtifact(found);
       playArtifact(found);
     } else {
-      alert(`Đã quét: ${decoded}. Không tìm thấy hiện vật tương ứng.`);
+      setScanAlert(`Đã quét mã: "${decoded}".\nKhông tìm thấy hiện vật tương ứng trong danh mục.`);
     }
   };
 
@@ -276,6 +278,15 @@ export const VisitorLayout: React.FC = () => {
         isOpen={isQRScannerOpen}
         onClose={() => setIsQRScannerOpen(false)}
         onScanSuccess={handleScanSuccess}
+      />
+
+      {/* Scan Result In-App Alert Modal */}
+      <AlertModal
+        isOpen={!!scanAlert}
+        title="Quét Mã QR"
+        message={scanAlert || ''}
+        type="warning"
+        onClose={() => setScanAlert(null)}
       />
 
       {/* Synchronized Audio Player Bar */}

@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Artifact, SupportedLanguage } from '../../shared/types';
 import { museumApi } from '../../shared/services/api';
+import { resolveAssetUrl, getArtifactFallbackImage } from '../../shared/utils/assetHelper';
+import { AlertModal } from '../../shared/components/AlertModal';
 import { Plus, Edit, Trash2, CheckCircle2, AlertCircle, X } from 'lucide-react';
 
 export const ArtifactsManageView: React.FC = () => {
   const [artifacts, setArtifacts] = useState<Artifact[]>([]);
   const [loading, setLoading] = useState(true);
+  const [alertMessage, setAlertMessage] = useState<string | null>(null);
 
   // Modal State
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -72,7 +75,7 @@ export const ArtifactsManageView: React.FC = () => {
   const handleSave = (e: React.FormEvent) => {
     e.preventDefault();
     if (!formTitles.vi.trim()) {
-      alert('Vui lòng nhập tên hiện vật bằng Tiếng Việt!');
+      setAlertMessage('Vui lòng nhập tên hiện vật bằng Tiếng Việt!');
       return;
     }
 
@@ -155,8 +158,12 @@ export const ArtifactsManageView: React.FC = () => {
                     </td>
                     <td className="py-3.5 px-4 font-medium text-white flex items-center gap-3">
                       <img
-                        src={item.images[0]}
+                        src={resolveAssetUrl(item.images[0])}
                         alt={item.title['vi']}
+                        onError={(e) => {
+                          e.currentTarget.onerror = null;
+                          e.currentTarget.src = getArtifactFallbackImage(item.code, item.title['vi'], item.floorId);
+                        }}
                         className="w-10 h-10 rounded-lg object-cover shrink-0"
                       />
                       <div>
@@ -386,6 +393,15 @@ export const ArtifactsManageView: React.FC = () => {
           </div>
         </div>
       )}
+
+      {/* In-App Alert Popup Modal */}
+      <AlertModal
+        isOpen={!!alertMessage}
+        title="Thông Báo"
+        message={alertMessage || ''}
+        type="warning"
+        onClose={() => setAlertMessage(null)}
+      />
     </div>
   );
 };

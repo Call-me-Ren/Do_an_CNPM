@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import {
   BarChart3,
   Globe,
-  FileSpreadsheet
+  FileSpreadsheet,
+  Headphones
 } from 'lucide-react';
 import {
   BarChart,
@@ -20,6 +21,7 @@ import {
 import { analyticsService, ListenEvent } from '../../shared/services/analytics';
 import { museumApi } from '../../shared/services/api';
 import { Artifact } from '../../shared/types';
+import { resolveAssetUrl, getArtifactFallbackImage } from '../../shared/utils/assetHelper';
 
 export const AnalyticsView: React.FC = () => {
   const [events, setEvents] = useState<ListenEvent[]>([]);
@@ -82,6 +84,23 @@ export const AnalyticsView: React.FC = () => {
     }))
     .sort((a, b) => b.listens - a.listens)
     .slice(0, 6);
+
+  // Full detailed listen breakdown for every artifact (all 15 exhibits)
+  const allArtifactsWithListens = artifacts
+    .map((a) => {
+      const count = artifactListenMap[a.id] || 0;
+      const pct = totalListens > 0 ? ((count / totalListens) * 100).toFixed(1) : '0.0';
+      return {
+        id: a.id,
+        code: a.code,
+        name: a.title['vi'] || a.title['en'] || a.code,
+        floorId: a.floorId,
+        image: a.images?.[0] || '',
+        count,
+        percentage: Number(pct),
+      };
+    })
+    .sort((a, b) => b.count - a.count);
 
   // Daily Trend over last 7 days
   const last7Days = Array.from({ length: 7 }, (_, i) => {
@@ -286,6 +305,94 @@ export const AnalyticsView: React.FC = () => {
               </div>
             ))}
           </div>
+        </div>
+      </div>
+
+      {/* Detailed Breakdown Table of Every Single Exhibit */}
+      <div className="bg-slate-800 border border-slate-700/80 rounded-2xl p-5 flex flex-col gap-4 shadow-sm">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-3 border-b border-slate-700 gap-2">
+          <div>
+            <h3 className="text-base font-bold text-white flex items-center gap-2">
+              <Headphones className="w-4 h-4 text-amber-400" />
+              <span>Bảng Thống Kê Số Lượt Nghe Chi Tiết Của Từng Hiện Vật ({allArtifactsWithListens.length} Hiện Vật)</span>
+            </h3>
+            <p className="text-xs text-slate-400 mt-0.5">
+              Số liệu theo dõi trực tiếp từ các tương tác phát thuyết minh của khách tham quan.
+            </p>
+          </div>
+          <span className="text-xs font-mono font-bold text-amber-400 bg-amber-500/10 border border-amber-500/30 px-3 py-1 rounded-xl self-start sm:self-auto">
+            Tổng lượt: {totalListens}
+          </span>
+        </div>
+
+        <div className="overflow-x-auto">
+          <table className="w-full text-left text-xs">
+            <thead>
+              <tr className="border-b border-slate-700 text-slate-400 uppercase font-semibold text-[11px] tracking-wider">
+                <th className="py-3 px-3 w-12 text-center">#</th>
+                <th className="py-3 px-3">Mã & Hình ảnh</th>
+                <th className="py-3 px-3">Tên hiện vật</th>
+                <th className="py-3 px-3">Khu vực / Tầng</th>
+                <th className="py-3 px-3 text-right">Số lượt nghe</th>
+                <th className="py-3 px-3 w-40 text-right">Tỷ lệ đóng góp</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-700/50">
+              {allArtifactsWithListens.length === 0 ? (
+                <tr>
+                  <td colSpan={6} className="py-8 text-center text-slate-500 italic">
+                    Đang tải danh sách hiện vật...
+                  </td>
+                </tr>
+              ) : (
+                allArtifactsWithListens.map((art, idx) => (
+                  <tr key={art.id} className="hover:bg-slate-750/50 transition">
+                    <td className="py-3 px-3 text-center font-mono font-bold text-slate-400">
+                      {idx + 1}
+                    </td>
+                    <td className="py-3 px-3">
+                      <div className="flex items-center gap-2.5">
+                        <img
+                          src={resolveAssetUrl(art.image)}
+                          alt={art.name}
+                          onError={(e) => {
+                            e.currentTarget.onerror = null;
+                            e.currentTarget.src = getArtifactFallbackImage(art.code, art.name, art.floorId);
+                          }}
+                          className="w-10 h-10 rounded-lg object-cover border border-slate-700 bg-slate-900 shrink-0"
+                        />
+                        <span className="font-mono font-bold text-amber-400">{art.code}</span>
+                      </div>
+                    </td>
+                    <td className="py-3 px-3 font-semibold text-white">
+                      {art.name}
+                    </td>
+                    <td className="py-3 px-3 text-slate-400">
+                      <span className="bg-slate-900 px-2.5 py-1 rounded-lg border border-slate-700/60 font-mono text-[11px]">
+                        {art.floorId === 1 ? 'Sân Ngoài Trời' : `Tầng ${art.floorId}`}
+                      </span>
+                    </td>
+                    <td className="py-3 px-3 text-right font-mono font-bold text-amber-400 text-sm">
+                      {art.count} <span className="text-[11px] text-slate-400 font-normal">lượt</span>
+                    </td>
+                    <td className="py-3 px-3 text-right">
+                      <div className="flex items-center justify-end gap-2">
+                        <div className="w-20 bg-slate-700/60 h-2 rounded-full overflow-hidden">
+                          <div
+                            className="bg-amber-500 h-full rounded-full transition-all duration-500"
+                            style={{ width: `${Math.min(100, Math.max(art.count > 0 ? 5 : 0, art.percentage))}%` }}
+                          />
+                        </div>
+                        <span className="font-mono text-slate-300 font-semibold w-10 text-right">
+                          {art.percentage}%
+                        </span>
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
         </div>
       </div>
     </div>

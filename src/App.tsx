@@ -27,6 +27,7 @@ export const App: React.FC = () => {
         <Route path="maps" element={<FloorMapEditorView />} />
         <Route path="sessions" element={<SessionManageView />} />
         <Route path="analytics" element={<AnalyticsView />} />
+        <Route path="*" element={<Navigate to="/admin" replace />} />
       </Route>
 
       {/* Fallback */}

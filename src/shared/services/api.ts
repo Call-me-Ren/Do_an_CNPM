@@ -4,11 +4,21 @@ import { MuseumData, Floor, Artifact } from '../types';
 const isProduction = import.meta.env.PROD;
 const basePath = isProduction ? '/Test_CNPM' : '';
 
-const STORAGE_CUSTOM_FLOORS = 'museum_custom_floors_v1';
-const STORAGE_CUSTOM_ARTIFACTS = 'museum_custom_artifacts_v1';
+const STORAGE_CUSTOM_FLOORS = 'museum_custom_floors_v2';
+const STORAGE_CUSTOM_ARTIFACTS = 'museum_custom_artifacts_v2';
 
 export const museumApi = {
   getMuseumData: async (): Promise<MuseumData> => {
+    // Clear legacy v1 cached artifacts to prevent stale shared images
+    if (typeof window !== 'undefined') {
+      try {
+        localStorage.removeItem('museum_custom_artifacts_v1');
+        localStorage.removeItem('museum_custom_floors_v1');
+      } catch {
+        // ignore
+      }
+    }
+
     const res = await axios.get<MuseumData>(`${basePath}/mock/museum_data.json`);
     const data = res.data;
 

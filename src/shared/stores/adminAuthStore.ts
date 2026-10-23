@@ -9,24 +9,64 @@ interface AdminUserState {
   isAuthenticated: () => boolean;
 }
 
-export const useAdminAuthStore = create<AdminUserState>((set, get) => ({
-  token: localStorage.getItem('admin_token'),
-  username: localStorage.getItem('admin_user'),
-  role: localStorage.getItem('admin_role'),
+export const useAdminAuthStore = create<AdminUserState>((set, get) => {
+  // Purge any legacy localStorage tokens so users must strictly authenticate
+  if (typeof window !== 'undefined') {
+    try {
+      localStorage.removeItem('admin_token');
+      localStorage.removeItem('admin_user');
+      localStorage.removeItem('admin_role');
+    } catch {
+      // ignore
+    }
+  }
 
-  login: (token, username, role) => {
-    localStorage.setItem('admin_token', token);
-    localStorage.setItem('admin_user', username);
-    localStorage.setItem('admin_role', role);
-    set({ token, username, role });
-  },
+  const initialToken =
+    typeof window !== 'undefined'
+      ? sessionStorage.getItem('admin_session_token')
+      : null;
+  const initialUser =
+    typeof window !== 'undefined'
+      ? sessionStorage.getItem('admin_session_user')
+      : null;
+  const initialRole =
+    typeof window !== 'undefined'
+      ? sessionStorage.getItem('admin_session_role')
+      : null;
 
-  logout: () => {
-    localStorage.removeItem('admin_token');
-    localStorage.removeItem('admin_user');
-    localStorage.removeItem('admin_role');
-    set({ token: null, username: null, role: null });
-  },
+  return {
+    token: initialToken,
+    username: initialUser,
+    role: initialRole,
 
-  isAuthenticated: () => !!get().token,
-}));
+    login: (token, username, role) => {
+      if (typeof window !== 'undefined') {
+        sessionStorage.setItem('admin_session_token', token);
+        sessionStorage.setItem('admin_session_user', username);
+        sessionStorage.setItem('admin_session_role', role);
+      }
+      set({ token, username, role });
+    },
+
+    logout: () => {
+      if (typeof window !== 'undefined') {
+        sessionStorage.removeItem('admin_session_token');
+        sessionStorage.removeItem('admin_session_user');
+        sessionStorage.removeItem('admin_session_role');
+        localStorage.removeItem('admin_token');
+        localStorage.removeItem('admin_user');
+        localStorage.removeItem('admin_role');
+      }
+      set({ token: null, username: null, role: null });
+    },
+
+    isAuthenticated: () => {
+      const activeToken =
+        get().token ||
+        (typeof window !== 'undefined'
+          ? sessionStorage.getItem('admin_session_token')
+          : null);
+      return Boolean(activeToken);
+    },
+  };
+});

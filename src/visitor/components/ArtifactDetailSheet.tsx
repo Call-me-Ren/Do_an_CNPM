@@ -3,8 +3,9 @@ import { Artifact } from '../../shared/types';
 import { useLangStore } from '../../shared/stores/langStore';
 import { usePlayerStore } from '../../shared/stores/playerStore';
 import { useFavStore } from '../../shared/stores/favStore';
+import { resolveAssetUrl, getArtifactFallbackImage } from '../../shared/utils/assetHelper';
 import { LiveTranscriptCard } from './LiveTranscriptCard';
-import { X, Volume2, Heart, MapPin, Layers, FileText } from 'lucide-react';
+import { X, Volume2, Square, Heart, MapPin, Layers, FileText } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 interface Props {
@@ -23,7 +24,8 @@ export const ArtifactDetailSheet: React.FC<Props> = ({ artifact, onClose }) => {
     playbackRate,
     showSubtitle,
     setShowSubtitle,
-    seekToCue
+    seekToCue,
+    stop
   } = usePlayerStore();
   const { isFavorite, toggleFavorite } = useFavStore();
 
@@ -53,12 +55,15 @@ export const ArtifactDetailSheet: React.FC<Props> = ({ artifact, onClose }) => {
         {/* Left Column: Image Showcase (Top on mobile, Left on desktop) */}
         <div className="w-full md:w-1/2 h-64 sm:h-80 md:h-auto bg-slate-950 overflow-hidden relative shrink-0 flex items-center justify-center">
           <img
-            src={artifact.images[0]}
+            src={resolveAssetUrl(artifact.images[0])}
             alt={artifact.title[currentLang] || artifact.title['vi']}
             onError={(e) => {
               e.currentTarget.onerror = null;
-              e.currentTarget.src =
-                'https://images.unsplash.com/photo-1582555172866-f73bb12a2ab3?auto=format&fit=crop&w=800&q=80';
+              e.currentTarget.src = getArtifactFallbackImage(
+                artifact.code,
+                artifact.title[currentLang] || artifact.title['vi'],
+                artifact.floorId
+              );
             }}
             className="w-full h-full object-cover md:object-contain"
           />
@@ -154,15 +159,30 @@ export const ArtifactDetailSheet: React.FC<Props> = ({ artifact, onClose }) => {
           {/* Bottom Sticky Action: Play Audio */}
           <div className="pt-4 border-t border-slate-100 flex items-center gap-3">
             <button
-              onClick={() => playArtifact(artifact)}
+              onClick={() => {
+                if (isCurrentPlaying) {
+                  stop();
+                } else {
+                  playArtifact(artifact, 0, 0, showSubtitle);
+                }
+              }}
               className={`flex-1 flex items-center justify-center gap-2.5 py-4 rounded-2xl font-bold text-sm sm:text-base shadow-lg transition-all ${
                 isCurrentPlaying
                   ? 'bg-amber-600 text-white animate-pulse'
                   : 'bg-amber-500 hover:bg-amber-600 text-white shadow-amber-500/25'
               }`}
             >
-              <Volume2 className="w-5 h-5" />
-              <span>{isCurrentPlaying ? t('playing') : t('listenGuide')}</span>
+              {isCurrentPlaying ? (
+                <>
+                  <Square className="w-4 h-4 fill-current" />
+                  <span>Dừng thuyết minh</span>
+                </>
+              ) : (
+                <>
+                  <Volume2 className="w-5 h-5" />
+                  <span>{t('listenGuide')}</span>
+                </>
+              )}
             </button>
           </div>
         </div>

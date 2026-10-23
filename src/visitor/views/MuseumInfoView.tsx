@@ -1,6 +1,7 @@
 import React from 'react';
 import { MuseumInfo } from '../../shared/types';
 import { useLangStore } from '../../shared/stores/langStore';
+import { resolveAssetUrl } from '../../shared/utils/assetHelper';
 import { MapPin, Clock, Phone, Building2 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
@@ -17,12 +18,11 @@ export const MuseumInfoView: React.FC<Props> = ({ museum }) => {
       {/* Web Hero Banner */}
       <div className="w-full h-64 sm:h-80 lg:h-96 rounded-3xl overflow-hidden shadow-xl relative border border-slate-200">
         <img
-          src={museum.banner}
+          src={resolveAssetUrl(museum.banner || '/images/museum/war_remnants_museum_banner.svg')}
           alt={museum.name[currentLang] || museum.name['vi']}
           onError={(e) => {
             e.currentTarget.onerror = null;
-            e.currentTarget.src =
-              'https://images.unsplash.com/photo-1582555172866-f73bb12a2ab3?auto=format&fit=crop&w=1200&q=80';
+            e.currentTarget.src = resolveAssetUrl('/images/museum/war_remnants_museum_banner.svg');
           }}
           className="w-full h-full object-cover"
         />

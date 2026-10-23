@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1c281e"/>
+      <stop offset="100%" stop-color="#0d150e"/>
+    </linearGradient>
+    <radialGradient id="vignette" cx="50%" cy="50%" r="70%">
+      <stop offset="40%" stop-color="#ffffff" stop-opacity="0.06"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0.85"/>
+    </radialGradient>
+    <pattern id="gridPattern" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#ffffff" stroke-width="0.75" stroke-opacity="0.05"/>
+    </pattern>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="600" fill="url(#bgGrad)"/>
+  <rect width="800" height="600" fill="url(#gridPattern)"/>
+  <rect width="800" height="600" fill="url(#vignette)"/>
+
+  <!-- Top Museum Header Bar -->
+  <rect x="40" y="35" width="720" height="40" rx="10" fill="#000000" fill-opacity="0.5" stroke="#ffffff" stroke-opacity="0.1"/>
+  <text x="60" y="60" fill="#f59e0b" font-family="system-ui, sans-serif" font-weight="900" font-size="13" letter-spacing="1.5">BẢO TÀNG CHỨNG TÍCH CHIẾN TRANH &bull; TP. HỒ CHÍ MINH</text>
+  <rect x="620" y="43" width="125" height="24" rx="6" fill="#4ade80" fill-opacity="0.2" stroke="#4ade80" stroke-width="1.5"/>
+  <text x="682" y="59" fill="#4ade80" font-family="monospace" font-weight="bold" font-size="11" text-anchor="middle">OUTDOOR ARMOR</text>
+
+  <!-- Center Graphic Vector Artwork -->
+  
+      <!-- TANK VECTOR -->
+      <g transform="translate(160, 180) scale(1.2)">
+        <!-- Tank Treads -->
+        <rect x="40" y="160" width="320" height="45" rx="22" fill="#2d3748" stroke="#4a5568" stroke-width="4"/>
+        <circle cx="70" cy="182" r="16" fill="#1a202c" stroke="#718096" stroke-width="3"/>
+        <circle cx="120" cy="182" r="16" fill="#1a202c" stroke="#718096" stroke-width="3"/>
+        <circle cx="170" cy="182" r="16" fill="#1a202c" stroke="#718096" stroke-width="3"/>
+        <circle cx="220" cy="182" r="16" fill="#1a202c" stroke="#718096" stroke-width="3"/>
+        <circle cx="270" cy="182" r="16" fill="#1a202c" stroke="#718096" stroke-width="3"/>
+        <circle cx="320" cy="182" r="16" fill="#1a202c" stroke="#718096" stroke-width="3"/>
+        <!-- Tank Hull -->
+        <polygon points="50,160 350,160 330,110 90,110" fill="#3b4d3c" stroke="#243325" stroke-width="4"/>
+        <!-- Turret -->
+        <path d="M 130,110 Q 180,50 250,70 L 270,110 Z" fill="#4a614b" stroke="#243325" stroke-width="4"/>
+        <rect x="180" y="65" width="45" height="15" rx="4" fill="#2d3748"/>
+        <!-- 90mm Main Cannon Barrel -->
+        <rect x="250" y="80" width="180" height="12" fill="#2d3748" stroke="#1a202c" stroke-width="2"/>
+        <rect x="415" y="76" width="22" height="20" rx="3" fill="#1a202c"/>
+        <!-- US Army Star Insignia -->
+        <polygon points="190,125 195,138 208,138 197,146 201,158 190,150 179,158 183,146 172,138 185,138" fill="#fbbf24"/>
+      </g>
+    
+
+  <!-- Bottom Info Plate -->
+  <rect x="40" y="475" width="720" height="90" rx="16" fill="#0f172a" fill-opacity="0.9" stroke="#334155" stroke-width="1.5"/>
+  <rect x="55" y="492" width="100" height="28" rx="8" fill="#f59e0b" fill-opacity="0.2" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="105" y="511" fill="#fbbf24" font-family="monospace" font-weight="900" font-size="13" text-anchor="middle">TANK-M48</text>
+
+  <text x="175" y="512" fill="#ffffff" font-family="system-ui, sans-serif" font-weight="800" font-size="20">Xe tăng M48A3 Patton</text>
+  <text x="175" y="538" fill="#94a3b8" font-family="system-ui, sans-serif" font-weight="500" font-size="13">52-Ton Heavy Armor • 90mm Gun</text>
+
+  <!-- Corner watermark logo -->
+  <circle cx="715" cy="520" r="18" fill="#4ade80" fill-opacity="0.15"/>
+  <text x="715" y="525" fill="#4ade80" font-family="sans-serif" font-weight="bold" font-size="14" text-anchor="middle">&#x2714;</text>
+</svg>

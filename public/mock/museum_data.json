@@ -29,7 +29,7 @@
       "ja": "1975年9月4日に設立された戦争証跡博物館は、国際平和博物館ネットワーク（INMP）およびICOMの加盟館です。2万点以上の資料、遺物、写真を保存・展示し、ベトナム侵略戦争の惨禍を伝えるとともに、平和と国際友好の大切さを訴え続けています。"
     },
     "hotline": "(028) 3930 5587 - (028) 3930 6664",
-    "banner": "https://images.unsplash.com/photo-1582555172866-f73bb12a2ab3?auto=format&fit=crop&w=1200&q=80"
+    "banner": "/images/museum/war_remnants_museum_banner.svg"
   },
   "floors": [
     {
@@ -113,7 +113,7 @@
         "ja": "アメリカ製52トンの主力戦車であり、ベトナム戦争でアメリカ軍の主要地上戦闘車両として配備されました。"
       },
       "images": [
-        "https://images.unsplash.com/photo-1563245372-f21724e3856d?auto=format&fit=crop&w=800&q=80"
+        "/images/artifacts/WRM001_tank.svg"
       ],
       "mapCoordinates": {
         "x": 180,
@@ -279,7 +279,7 @@
         "ja": "米ノースロップ社製の超音速戦闘機。マッハ1.4の最高速度を誇り、20mm機関砲とミサイルを装備していました。"
       },
       "images": [
-        "https://images.unsplash.com/photo-1519074069444-1ba4ea16e872?auto=format&fit=crop&w=800&q=80"
+        "/images/artifacts/WRM002_f5a.svg"
       ],
       "mapCoordinates": {
         "x": 340,
@@ -420,7 +420,7 @@
         "ja": "タンデムローター式の大型輸送ヘリコプター。兵員33名または約10トンの物資を輸送可能でした。"
       },
       "images": [
-        "https://images.unsplash.com/photo-1508614589041-895b88991e3e?auto=format&fit=crop&w=800&q=80"
+        "/images/artifacts/WRM003_chinook.svg"
       ],
       "mapCoordinates": {
         "x": 520,
@@ -536,7 +536,7 @@
         "ja": "ベトナム戦争の象徴とされる多目的ヘリコプター。ミニガンやロケット弾ポッドを装備。"
       },
       "images": [
-        "https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?auto=format&fit=crop&w=800&q=80"
+        "/images/artifacts/WRM004_uh1.svg"
       ],
       "mapCoordinates": {
         "x": 450,
@@ -627,7 +627,7 @@
         "ja": "低空からの対地近接支援に特化した攻撃機。8箇所のパイロンに計2.5トンの爆弾を搭載可能。"
       },
       "images": [
-        "https://images.unsplash.com/photo-1579783902614-a3fb3927b675?auto=format&fit=crop&w=800&q=80"
+        "/images/artifacts/WRM005_a37.svg"
       ],
       "mapCoordinates": {
         "x": 620,
@@ -718,7 +718,7 @@
         "ja": "砲身長9メートル、最大射程34キロを誇り、当時米軍から「戦場の王」と呼ばれた長距離自走砲。"
       },
       "images": [
-        "https://images.unsplash.com/photo-1595590424283-b8f17842773f?auto=format&fit=crop&w=800&q=80"
+        "/images/artifacts/WRM006_m107.svg"
       ],
       "mapCoordinates": {
         "x": 240,
@@ -809,7 +809,7 @@
         "ja": "重量約7トンに達する超大型通常爆弾。爆風により半径100メートルの密林を一瞬でなぎ倒しました。"
       },
       "images": [
-        "https://images.unsplash.com/photo-1569074187119-c87815b476da?auto=format&fit=crop&w=800&q=80"
+        "/images/artifacts/WRM007_blu82.svg"
       ],
       "mapCoordinates": {
         "x": 680,
@@ -900,7 +900,7 @@
         "ja": "政治犯や愛国者を過酷に監禁・拷問したコンダオ島刑務所の秘密独房「トラの檻」の再現展示。"
       },
       "images": [
-        "https://images.unsplash.com/photo-1584467735871-8e85353a8413?auto=format&fit=crop&w=800&q=80"
+        "/images/artifacts/WRM008_cage.svg"
       ],
       "mapCoordinates": {
         "x": 120,
@@ -1016,7 +1016,7 @@
         "ja": "フランス統治期に持ち込まれ、10/59法令下で南ベトナム各地で愛国者の処刑に用いられたギロチン。"
       },
       "images": [
-        "https://images.unsplash.com/photo-1582555172866-f73bb12a2ab3?auto=format&fit=crop&w=800&q=80"
+        "/images/artifacts/WRM009_guillotine.svg"
       ],
       "mapCoordinates": {
         "x": 140,
@@ -1107,7 +1107,7 @@
         "ja": "1973年ピュリッツァー賞受賞作。1972年にナパーム弾の火傷を負い逃げ惑う少女ファン・ティ・キム・フックを撮影した歴史的一枚。"
       },
       "images": [
-        "https://images.unsplash.com/photo-1461360370896-922624d12aa1?auto=format&fit=crop&w=800&q=80"
+        "/images/artifacts/WRM010_napalm.svg"
       ],
       "mapCoordinates": {
         "x": 300,
@@ -1223,7 +1223,7 @@
         "ja": "1968年のテト攻勢時、サイゴンの路上で捕虜が即決射殺された瞬間を捉えたエディ・アダムズの衝撃作。"
       },
       "images": [
-        "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?auto=format&fit=crop&w=800&q=80"
+        "/images/artifacts/WRM011_exec.svg"
       ],
       "mapCoordinates": {
         "x": 480,
@@ -1314,7 +1314,7 @@
         "ja": "約8,000万リットルの枯葉剤散布による壊滅的被害と、今なお第4世代にまで及ぶ深刻な後遺症を伝える展示。"
       },
       "images": [
-        "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80"
+        "/images/artifacts/WRM012_dioxin.svg"
       ],
       "mapCoordinates": {
         "x": 650,
@@ -1430,7 +1430,7 @@
         "ja": "インドシナ戦争の取材中に命を落とした11カ国・134名の報道写真家たちが命がけで遺した貴重な作品群。"
       },
       "images": [
-        "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=800&q=80"
+        "/images/artifacts/WRM013_requiem.svg"
       ],
       "mapCoordinates": {
         "x": 380,
@@ -1546,7 +1546,7 @@
         "ja": "アメリカの退役軍人たちが謝罪と和解の証としてベトナム人民に返還した勲章や手紙。"
       },
       "images": [
-        "https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&w=800&q=80"
+        "/images/artifacts/WRM014_medals.svg"
       ],
       "mapCoordinates": {
         "x": 260,
@@ -1637,7 +1637,7 @@
         "ja": "各国の子供たちが描いた平和の絵画や白い鳩の造形が並び、戦争のない未来への願いを発信しています。"
       },
       "images": [
-        "https://images.unsplash.com/photo-1577083552431-6e5fd01aa342?auto=format&fit=crop&w=800&q=80"
+        "/images/artifacts/WRM015_peace.svg"
       ],
       "mapCoordinates": {
         "x": 580,

@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { usePlayerStore } from '../../shared/stores/playerStore';
 import { useLangStore } from '../../shared/stores/langStore';
 import { ttsService } from '../../shared/services/tts';
+import { resolveAssetUrl, getArtifactFallbackImage } from '../../shared/utils/assetHelper';
 import { LiveTranscriptCard } from './LiveTranscriptCard';
 import { Play, Pause, Subtitles, Volume2, X, Sparkles } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
@@ -195,14 +196,15 @@ export const AudioPlayerBar: React.FC<Props> = ({ isDetailSheetOpen = false }) =
           <div className="flex items-center justify-between gap-4">
             <div className="flex items-center gap-3 overflow-hidden flex-1 min-w-0">
               <img
-                src={
-                  currentArtifact.images?.[0] ||
-                  'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=400&q=80'
-                }
+                src={resolveAssetUrl(currentArtifact.images?.[0])}
                 alt={currentArtifact?.title?.[currentLang] || currentArtifact?.title?.['vi'] || ''}
                 onError={(e) => {
-                  e.currentTarget.src =
-                    'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=400&q=80';
+                  e.currentTarget.onerror = null;
+                  e.currentTarget.src = getArtifactFallbackImage(
+                    currentArtifact.code,
+                    currentArtifact.title[currentLang] || currentArtifact.title['vi'],
+                    currentArtifact.floorId
+                  );
                 }}
                 className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl object-cover shadow shrink-0"
               />
