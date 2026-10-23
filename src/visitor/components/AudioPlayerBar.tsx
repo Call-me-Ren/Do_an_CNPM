@@ -6,9 +6,16 @@ import { LiveTranscriptCard } from './LiveTranscriptCard';
 import { Play, Pause, Subtitles, Volume2, X, Sparkles } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
-export const AudioPlayerBar: React.FC = () => {
+interface Props {
+  isDetailSheetOpen?: boolean;
+}
+
+export const AudioPlayerBar: React.FC<Props> = ({ isDetailSheetOpen = false }) => {
   const { t } = useTranslation();
   const { currentLang } = useLangStore();
+  const prevArtifactIdRef = React.useRef<string | null>(null);
+  const prevStartCueIndexRef = React.useRef<number>(-1);
+  const prevLangRef = React.useRef<string>(currentLang);
 
   const {
     currentArtifact,
@@ -25,6 +32,7 @@ export const AudioPlayerBar: React.FC = () => {
     setDuration,
     setPlaybackRate,
     toggleSubtitle,
+    setShowSubtitle,
     seekToCue,
     seekToTime
   } = usePlayerStore();
@@ -77,14 +85,24 @@ export const AudioPlayerBar: React.FC = () => {
       }
     });
 
+    const artifactChanged = prevArtifactIdRef.current !== currentArtifact.id;
+    const cueChanged = prevStartCueIndexRef.current !== startCueIndex;
+    const langChanged = prevLangRef.current !== currentLang;
+
+    prevArtifactIdRef.current = currentArtifact.id;
+    prevStartCueIndexRef.current = startCueIndex;
+    prevLangRef.current = currentLang;
+
     if (isPlaying) {
-      if (!ttsService.getIsCuePlaying()) {
+      if (artifactChanged || cueChanged || langChanged || !ttsService.getIsCuePlaying()) {
         ttsService.playCues(
           activeSubtitles,
           startCueIndex,
           currentLang,
           playbackRate
         );
+      } else if (ttsService.getIsPaused()) {
+        ttsService.resume();
       }
     } else {
       ttsService.pause();
@@ -123,12 +141,13 @@ export const AudioPlayerBar: React.FC = () => {
   const handleStopAndClose = (e: React.MouseEvent) => {
     e.stopPropagation();
     stop();
+    setShowSubtitle(false);
   };
 
   return (
     <>
-      {/* Floating Subtitle Transcript Card matching reference */}
-      {showSubtitle && activeSubtitles.length > 0 && (
+      {/* Floating Subtitle Transcript Card matching reference (only shown when modal detail is closed) */}
+      {showSubtitle && !isDetailSheetOpen && activeSubtitles.length > 0 && (
         <div className="fixed bottom-40 md:bottom-28 left-4 right-4 z-40 flex justify-center pointer-events-none">
           <div className="bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl border border-slate-200/90 max-w-lg w-full p-3 pointer-events-auto animate-fade-in">
             <div className="flex items-center justify-between px-2 pb-2 mb-1 border-b border-slate-100">
@@ -178,12 +197,12 @@ export const AudioPlayerBar: React.FC = () => {
               <img
                 src={
                   currentArtifact.images?.[0] ||
-                  'https://images.metmuseum.org/CRDImages/mi/web-large/DP331225.jpg'
+                  'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=400&q=80'
                 }
                 alt={currentArtifact?.title?.[currentLang] || currentArtifact?.title?.['vi'] || ''}
                 onError={(e) => {
                   e.currentTarget.src =
-                    'https://images.metmuseum.org/CRDImages/mi/web-large/DP331225.jpg';
+                    'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=400&q=80';
                 }}
                 className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl object-cover shadow shrink-0"
               />

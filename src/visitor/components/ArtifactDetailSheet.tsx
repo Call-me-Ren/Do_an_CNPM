@@ -4,7 +4,7 @@ import { useLangStore } from '../../shared/stores/langStore';
 import { usePlayerStore } from '../../shared/stores/playerStore';
 import { useFavStore } from '../../shared/stores/favStore';
 import { LiveTranscriptCard } from './LiveTranscriptCard';
-import { X, Volume2, Heart, MapPin, Layers, FileText, Subtitles } from 'lucide-react';
+import { X, Volume2, Heart, MapPin, Layers, FileText } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 interface Props {
@@ -22,7 +22,6 @@ export const ArtifactDetailSheet: React.FC<Props> = ({ artifact, onClose }) => {
     currentTime,
     playbackRate,
     showSubtitle,
-    toggleSubtitle,
     setShowSubtitle,
     seekToCue
   } = usePlayerStore();
@@ -58,7 +57,7 @@ export const ArtifactDetailSheet: React.FC<Props> = ({ artifact, onClose }) => {
             alt={artifact.title[currentLang] || artifact.title['vi']}
             onError={(e) => {
               e.currentTarget.src =
-                'https://images.metmuseum.org/CRDImages/mi/web-large/DP331225.jpg';
+                'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=800&q=80';
             }}
             className="w-full h-full object-cover md:object-contain"
           />
@@ -123,42 +122,30 @@ export const ArtifactDetailSheet: React.FC<Props> = ({ artifact, onClose }) => {
             </div>
 
             {/* Detailed Narration & Subtitle Transcript Timeline */}
-            {artifact.subtitles?.[currentLang] && artifact.subtitles[currentLang]!.length > 0 && (
+            {showSubtitle && artifact.subtitles?.[currentLang] && artifact.subtitles[currentLang]!.length > 0 && (
               <div className="flex flex-col gap-2">
                 <div className="flex items-center justify-between">
                   <span className="text-[11px] font-bold text-amber-600 uppercase tracking-wider flex items-center gap-1.5">
                     <FileText className="w-3.5 h-3.5" />
                     <span>{t('detailedNarration')}</span>
                   </span>
-
-                  {/* CC Button to toggle subtitles */}
-                  <button
-                    onClick={toggleSubtitle}
-                    className={`flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-xs font-bold transition shadow-xs ${
-                      showSubtitle
-                        ? 'bg-amber-500 text-white shadow-amber-500/20'
-                        : 'bg-slate-100 text-slate-500 hover:bg-slate-200'
-                    }`}
-                    title={showSubtitle ? 'Ẩn phụ đề (CC)' : 'Hiện phụ đề (CC)'}
-                  >
-                    <Subtitles className="w-3.5 h-3.5" />
-                    <span>CC</span>
-                  </button>
                 </div>
 
-                {showSubtitle && (
-                  <LiveTranscriptCard
-                    subtitles={artifact.subtitles[currentLang]!}
-                    currentTime={currentArtifact?.id === artifact.id && isPlaying ? currentTime : -1}
-                    onSeekCue={(sec, index) => {
-                      const cues =
-                        artifact.subtitles?.[currentLang] ||
-                        artifact.subtitles?.['vi'] ||
-                        [];
+                <LiveTranscriptCard
+                  subtitles={artifact.subtitles[currentLang]!}
+                  currentTime={currentArtifact?.id === artifact.id && isPlaying ? currentTime : -1}
+                  onSeekCue={(sec, index) => {
+                    const cues =
+                      artifact.subtitles?.[currentLang] ||
+                      artifact.subtitles?.['vi'] ||
+                      [];
+                    if (currentArtifact?.id !== artifact.id || !isPlaying) {
+                      playArtifact(artifact, index, sec);
+                    } else {
                       seekToCue(index, sec, artifact, cues, currentLang, playbackRate);
-                    }}
-                  />
-                )}
+                    }
+                  }}
+                />
               </div>
             )}
           </div>

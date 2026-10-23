@@ -1,5 +1,5 @@
 import React from 'react';
-import { Outlet, Link, useNavigate, useLocation } from 'react-router-dom';
+import { Outlet, Link, useNavigate, useLocation, Navigate } from 'react-router-dom';
 import { useAdminAuthStore } from '../shared/stores/adminAuthStore';
 import {
   LayoutDashboard,
@@ -21,8 +21,7 @@ export const AdminLayout: React.FC = () => {
   const location = useLocation();
 
   if (!isAuthenticated()) {
-    navigate('/admin/login');
-    return null;
+    return <Navigate to="/admin/login" replace />;
   }
 
   const handleLogout = () => {

@@ -258,8 +258,10 @@ export const ArtifactsManageView: React.FC = () => {
                     onChange={(e) => setFormFloorId(Number(e.target.value))}
                     className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none"
                   >
-                    <option value={1}>Tầng 1 - Văn hóa Tiền sử & Cổ đại</option>
-                    <option value={2}>Tầng 2 - Triều đại Phong kiến</option>
+                    <option value={1}>Sân Ngoài Trời - Vũ Khí Hạng Nặng & Chuồng Cọp</option>
+                    <option value={2}>Tầng 1 - Chế Độ Lao Tù & Thế Giới Ủng Hộ</option>
+                    <option value={3}>Tầng 2 - Tội Ác Chiến Tranh & Hậu Quả Da Cam</option>
+                    <option value={4}>Tầng 3 - Hồi Niệm (Requiem) & Hòa Bình</option>
                   </select>
                 </div>
               </div>
@@ -316,7 +318,7 @@ export const ArtifactsManageView: React.FC = () => {
 
                 <div>
                   <label className="block text-xs font-semibold text-slate-400 mb-1">
-                    Nội dung thuyết minh ({activeLangTab.toUpperCase()})
+                    Mô tả sơ lược ({activeLangTab.toUpperCase()})
                   </label>
                   <textarea
                     rows={4}

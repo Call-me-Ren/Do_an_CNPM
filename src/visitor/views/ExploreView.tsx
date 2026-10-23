@@ -15,7 +15,7 @@ interface Props {
 export const ExploreView: React.FC<Props> = ({ artifacts, onSelectArtifact }) => {
   const { t } = useTranslation();
   const { currentLang } = useLangStore();
-  const { playArtifact, currentArtifact, isPlaying } = usePlayerStore();
+  const { playArtifact, pause, currentArtifact, isPlaying } = usePlayerStore();
   const { nearestArtifactId } = useGeofenceStore();
   const { isFavorite, toggleFavorite } = useFavStore();
 
@@ -202,7 +202,7 @@ export const ExploreView: React.FC<Props> = ({ artifacts, onSelectArtifact }) =>
                       alt={artifact.title[currentLang] || artifact.title['vi']}
                       onError={(e) => {
                         e.currentTarget.src =
-                          'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/War_Remnants_Museum_in_Ho_Chi_Minh_City_01.jpg/1280px-War_Remnants_Museum_in_Ho_Chi_Minh_City_01.jpg';
+                          'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=800&q=80';
                       }}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
@@ -249,7 +249,11 @@ export const ExploreView: React.FC<Props> = ({ artifacts, onSelectArtifact }) =>
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
-                        playArtifact(artifact);
+                        if (isPlayingThis) {
+                          pause();
+                        } else {
+                          playArtifact(artifact);
+                        }
                       }}
                       className={`w-full py-2.5 px-3 rounded-xl font-bold text-xs flex items-center justify-center gap-2 transition shadow-xs ${
                         isPlayingThis

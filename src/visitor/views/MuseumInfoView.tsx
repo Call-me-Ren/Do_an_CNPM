@@ -19,6 +19,10 @@ export const MuseumInfoView: React.FC<Props> = ({ museum }) => {
         <img
           src={museum.banner}
           alt={museum.name[currentLang] || museum.name['vi']}
+          onError={(e) => {
+            e.currentTarget.src =
+              'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=1200&q=80';
+          }}
           className="w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/40 to-transparent flex items-end p-6 sm:p-10">

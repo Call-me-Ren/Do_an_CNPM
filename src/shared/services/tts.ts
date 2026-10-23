@@ -319,7 +319,15 @@ class TTSService {
     this.isCuePlaying = true;
     this.clearProgressTimer();
 
-    // Cancel currently speaking utterance and ignore its events
+    // Detach listeners from any active utterance before canceling to avoid stray callbacks
+    if (this.currentUtterance) {
+      this.currentUtterance.onstart = null;
+      this.currentUtterance.onend = null;
+      this.currentUtterance.onerror = null;
+      this.currentUtterance = null;
+    }
+
+    // Cancel currently speaking utterance
     this.isCancelling = true;
     window.speechSynthesis.cancel();
 
@@ -329,7 +337,7 @@ class TTSService {
       if (this.isCuePlaying) {
         this.speakCurrentCue();
       }
-    }, 60);
+    }, 70);
   }
 
   public seekToSeconds(seconds: number): void {
@@ -401,11 +409,16 @@ class TTSService {
       clearTimeout(this.seekTimeout);
       this.seekTimeout = null;
     }
+    if (this.currentUtterance) {
+      this.currentUtterance.onstart = null;
+      this.currentUtterance.onend = null;
+      this.currentUtterance.onerror = null;
+      this.currentUtterance = null;
+    }
     this.isCancelling = true;
     if (this.isSupported()) {
       window.speechSynthesis.cancel();
     }
-    this.currentUtterance = null;
     setTimeout(() => {
       this.isCancelling = false;
     }, 60);

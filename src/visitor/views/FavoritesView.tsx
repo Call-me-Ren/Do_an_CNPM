@@ -62,7 +62,7 @@ export const FavoritesView: React.FC<Props> = ({ artifacts, onSelectArtifact }) 
                     alt={artifact.title[currentLang] || artifact.title['vi']}
                     onError={(e) => {
                       e.currentTarget.src =
-                        'https://images.metmuseum.org/CRDImages/mi/web-large/DP331225.jpg';
+                        'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=800&q=80';
                     }}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />

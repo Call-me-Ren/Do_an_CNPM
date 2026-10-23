@@ -6,39 +6,86 @@ interface TourSession {
   name: string;
   date: string;
   timeSlot: string;
-  status: 'active' | 'scheduled' | 'closed';
+  statusOverride?: 'active' | 'scheduled' | 'closed';
   visitorsCount: number;
   listenCount: number;
   notes?: string;
 }
 
+const getTodayDateStr = (offsetDays: number = 0) => {
+  const d = new Date();
+  d.setDate(d.getDate() + offsetDays);
+  const year = d.getFullYear();
+  const month = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+};
+
+export const computeSessionStatus = (
+  dateStr: string,
+  timeSlot: string,
+  override?: 'active' | 'scheduled' | 'closed'
+): 'active' | 'scheduled' | 'closed' => {
+  if (override) return override;
+
+  try {
+    const now = new Date();
+    const parts = timeSlot.split('-').map((s) => s.trim());
+    if (parts.length < 2) return 'scheduled';
+
+    const [startH, startM] = parts[0].split(':').map((s) => parseInt(s, 10));
+    const [endH, endM] = parts[1].split(':').map((s) => parseInt(s, 10));
+
+    const [y, m, d] = dateStr.split('-').map((s) => parseInt(s, 10));
+    const startDate = new Date(y, m - 1, d, startH || 0, startM || 0, 0);
+    const endDate = new Date(y, m - 1, d, endH || 0, endM || 0, 0);
+
+    const nowTime = now.getTime();
+    if (nowTime < startDate.getTime()) {
+      return 'scheduled';
+    } else if (nowTime > endDate.getTime()) {
+      return 'closed';
+    } else {
+      return 'active';
+    }
+  } catch {
+    return 'scheduled';
+  }
+};
+
 const initialSessions: TourSession[] = [
   {
     id: 'SES-01',
-    name: 'Ca Chiều Thường Nhật',
-    date: '2026-10-23',
-    timeSlot: '13:00 - 17:00',
-    status: 'active',
-    visitorsCount: 142,
-    listenCount: 420,
-    notes: 'Khách quốc tế chiếm 45%'
-  },
-  {
-    id: 'SES-02',
     name: 'Ca Sáng Thường Nhật',
-    date: '2026-10-23',
-    timeSlot: '08:00 - 12:00',
-    status: 'closed',
+    date: getTodayDateStr(0),
+    timeSlot: '07:30 - 11:30',
     visitorsCount: 326,
     listenCount: 864,
     notes: 'Đón 2 đoàn học sinh'
   },
   {
+    id: 'SES-02',
+    name: 'Ca Chiều Thường Nhật',
+    date: getTodayDateStr(0),
+    timeSlot: '13:00 - 17:30',
+    visitorsCount: 142,
+    listenCount: 420,
+    notes: 'Khách quốc tế chiếm 45%'
+  },
+  {
     id: 'SES-03',
+    name: 'Ca Mở Rộng Buổi Tối & Trưng Bày Đêm',
+    date: getTodayDateStr(0),
+    timeSlot: '18:00 - 22:30',
+    visitorsCount: 85,
+    listenCount: 210,
+    notes: 'Phục vụ khách tham quan chuyên đề đêm'
+  },
+  {
+    id: 'SES-04',
     name: 'Đoàn Khách Ngoại Giao Pháp',
-    date: '2026-10-24',
+    date: getTodayDateStr(1),
     timeSlot: '09:30 - 11:30',
-    status: 'scheduled',
     visitorsCount: 0,
     listenCount: 0,
     notes: 'Ưu tiên thuyết minh tiếng Pháp'
@@ -49,8 +96,8 @@ export const SessionManageView: React.FC = () => {
   const [sessions, setSessions] = useState<TourSession[]>(initialSessions);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newSessionName, setNewSessionName] = useState('');
-  const [newSessionDate, setNewSessionDate] = useState('2026-10-24');
-  const [newSessionTime, setNewSessionTime] = useState('14:00 - 16:30');
+  const [newSessionDate, setNewSessionDate] = useState(getTodayDateStr(0));
+  const [newSessionTime, setNewSessionTime] = useState('08:00 - 11:30');
   const [newSessionNotes, setNewSessionNotes] = useState('');
 
   const handleCreateSession = (e: React.FormEvent) => {
@@ -62,7 +109,6 @@ export const SessionManageView: React.FC = () => {
       name: newSessionName,
       date: newSessionDate,
       timeSlot: newSessionTime,
-      status: 'scheduled',
       visitorsCount: 0,
       listenCount: 0,
       notes: newSessionNotes
@@ -74,12 +120,17 @@ export const SessionManageView: React.FC = () => {
     setNewSessionNotes('');
   };
 
-  const toggleStatus = (id: string) => {
+  const toggleStatus = (id: string, currentComputedStatus: 'active' | 'scheduled' | 'closed') => {
     setSessions(
       sessions.map((s) => {
         if (s.id === id) {
-          const nextStatus = s.status === 'active' ? 'closed' : s.status === 'scheduled' ? 'active' : 'scheduled';
-          return { ...s, status: nextStatus };
+          const nextStatus =
+            currentComputedStatus === 'active'
+              ? 'closed'
+              : currentComputedStatus === 'scheduled'
+              ? 'active'
+              : 'scheduled';
+          return { ...s, statusOverride: nextStatus };
         }
         return s;
       })
@@ -110,28 +161,30 @@ export const SessionManageView: React.FC = () => {
 
       {/* Sessions Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {sessions.map((s) => (
-          <div
-            key={s.id}
-            className="bg-slate-800 border border-slate-700/80 rounded-2xl p-5 flex flex-col justify-between gap-4 shadow-sm"
-          >
-            <div>
-              <div className="flex items-center justify-between mb-2">
-                <span className="font-mono text-xs font-semibold text-amber-500">{s.id}</span>
-                <span
-                  onClick={() => toggleStatus(s.id)}
-                  className={`px-2.5 py-0.5 rounded-full text-xs font-bold cursor-pointer transition flex items-center gap-1 ${
-                    s.status === 'active'
-                      ? 'bg-amber-500/20 text-amber-400 border border-amber-500/40 animate-pulse'
-                      : s.status === 'closed'
-                      ? 'bg-slate-700 text-slate-400'
-                      : 'bg-blue-500/20 text-blue-400 border border-blue-500/40'
-                  }`}
-                  title="Nhấp để đổi trạng thái"
-                >
-                  {s.status === 'active' ? 'Đang mở' : s.status === 'closed' ? 'Đã đóng' : 'Sắp diễn ra'}
-                </span>
-              </div>
+        {sessions.map((s) => {
+          const currentStatus = computeSessionStatus(s.date, s.timeSlot, s.statusOverride);
+          return (
+            <div
+              key={s.id}
+              className="bg-slate-800 border border-slate-700/80 rounded-2xl p-5 flex flex-col justify-between gap-4 shadow-sm"
+            >
+              <div>
+                <div className="flex items-center justify-between mb-2">
+                  <span className="font-mono text-xs font-semibold text-amber-500">{s.id}</span>
+                  <span
+                    onClick={() => toggleStatus(s.id, currentStatus)}
+                    className={`px-2.5 py-0.5 rounded-full text-xs font-bold cursor-pointer transition flex items-center gap-1 ${
+                      currentStatus === 'active'
+                        ? 'bg-amber-500/20 text-amber-400 border border-amber-500/40 animate-pulse'
+                        : currentStatus === 'closed'
+                        ? 'bg-slate-700 text-slate-400'
+                        : 'bg-blue-500/20 text-blue-400 border border-blue-500/40'
+                    }`}
+                    title="Nhấp để chuyển đổi ghi đè trạng thái"
+                  >
+                    {currentStatus === 'active' ? 'Đang mở' : currentStatus === 'closed' ? 'Đã đóng' : 'Sắp diễn ra'}
+                  </span>
+                </div>
 
               <h3 className="font-bold text-white text-base leading-snug">{s.name}</h3>
 
@@ -158,7 +211,8 @@ export const SessionManageView: React.FC = () => {
               </div>
             </div>
           </div>
-        ))}
+        );
+      })}
       </div>
 
       {/* Modal Create Session */}

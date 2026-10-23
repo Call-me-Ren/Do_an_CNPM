@@ -6,12 +6,10 @@ import {
   Activity,
   Layers,
   Radio,
-  Sparkles,
   Smartphone,
   Monitor,
   Tablet,
-  CheckCircle2,
-  RotateCcw
+  CheckCircle2
 } from 'lucide-react';
 import {
   BarChart,
@@ -78,33 +76,15 @@ export const AdminDashboardView: React.FC = () => {
     .slice(0, 5);
 
   // Hourly Chart Data from Real Events Today
-  const hours = ['08:00', '10:00', '12:00', '14:00', '16:00', '18:00'];
+  const hours = ['08:00', '10:00', '12:00', '14:00', '16:00', '18:00', '20:00', '22:00'];
   const chartData = hours.map((hourLabel) => {
     const h = parseInt(hourLabel.split(':')[0], 10);
     const count = todayEvents.filter((e) => {
       const eventHour = new Date(e.timestamp).getHours();
-      return eventHour >= h - 1 && eventHour < h + 1;
+      return eventHour >= h && eventHour < h + 2;
     }).length;
     return { name: hourLabel, listens: count };
   });
-
-  // Helper to Seed Realistic Historical Data for demonstration
-  const handleSeedRealData = () => {
-    const langs = ['vi', 'en', 'zh', 'ko', 'ja'];
-    if (artifacts.length === 0) return;
-
-    for (let i = 0; i < 25; i++) {
-      const art = artifacts[Math.floor(Math.random() * artifacts.length)];
-      const lang = langs[Math.floor(Math.random() * langs.length)];
-      analyticsService.trackListen(art.id, art.code, art.title['vi'], lang);
-    }
-    refreshData();
-  };
-
-  const handleClearHistory = () => {
-    analyticsService.clearAllEvents();
-    refreshData();
-  };
 
   return (
     <div className="flex flex-col gap-6">
@@ -131,13 +111,6 @@ export const AdminDashboardView: React.FC = () => {
             <div className="text-sm font-mono font-bold text-emerald-400 flex items-center gap-1 justify-end">
               <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
               <span>Trực Tuyến (Online)</span>
-            </div>
-          </div>
-          <div className="text-right">
-            <span className="text-xs text-slate-400">Thiết bị đang truy cập ngay lúc này</span>
-            <div className="text-sm font-mono font-bold text-amber-400 flex items-center justify-end gap-1.5">
-              <Radio className="w-3.5 h-3.5 animate-pulse text-amber-400" />
-              <span>{Math.max(1, activeSessions.length)} thiết bị</span>
             </div>
           </div>
         </div>
@@ -290,24 +263,6 @@ export const AdminDashboardView: React.FC = () => {
               <p className="text-xs text-slate-400 mt-0.5">
                 Ghi nhận theo từng lượt bấm nghe của khách tham quan.
               </p>
-            </div>
-            <div className="flex items-center gap-2">
-              <button
-                onClick={handleSeedRealData}
-                className="text-xs text-slate-400 hover:text-amber-400 bg-slate-900 border border-slate-700 px-2.5 py-1.5 rounded-xl transition flex items-center gap-1"
-                title="Tạo thêm 25 lượt nghe thực tế để kiểm tra biểu đồ"
-              >
-                <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-                <span>Nạp 25 lượt test</span>
-              </button>
-              <button
-                onClick={handleClearHistory}
-                className="text-xs text-slate-400 hover:text-red-400 bg-slate-900 border border-slate-700 px-2.5 py-1.5 rounded-xl transition flex items-center gap-1"
-                title="Xóa sạch lịch sử để bắt đầu lại từ 0"
-              >
-                <RotateCcw className="w-3.5 h-3.5" />
-                <span>Đặt lại 0</span>
-              </button>
             </div>
           </div>
 

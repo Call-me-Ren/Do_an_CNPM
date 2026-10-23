@@ -26,14 +26,17 @@ export const VisitorLayout: React.FC = () => {
   const [isQRScannerOpen, setIsQRScannerOpen] = useState(false);
 
   const { setUserLocation, setNearestArtifactId, setIsTracking, setPermissionGranted } = useGeofenceStore();
-  const { playArtifact, currentArtifact } = usePlayerStore();
+  const { playArtifact, currentArtifact, stop } = usePlayerStore();
   const { currentLang } = useLangStore();
-  const { favorites } = useFavStore();
+  const { favorites, cleanInvalidFavorites } = useFavStore();
 
   useEffect(() => {
     museumApi.getMuseumData().then((res) => {
       setData(res);
       setLoading(false);
+      if (res?.artifacts) {
+        cleanInvalidFavorites(res.artifacts.map((a) => a.id));
+      }
     });
   }, []);
 
@@ -87,6 +90,13 @@ export const VisitorLayout: React.FC = () => {
     };
   }, [data, currentArtifact]);
 
+  const handleSelectArtifact = (art: Artifact) => {
+    if (currentArtifact && currentArtifact.id !== art.id) {
+      stop();
+    }
+    setSelectedArtifact(art);
+  };
+
   const handleScanSuccess = (decoded: string) => {
     setIsQRScannerOpen(false);
     if (!data) return;
@@ -94,7 +104,7 @@ export const VisitorLayout: React.FC = () => {
       (a) => a.id === decoded || a.code === decoded || decoded.includes(a.code) || decoded.includes(a.id)
     );
     if (found) {
-      setSelectedArtifact(found);
+      handleSelectArtifact(found);
       playArtifact(found);
     } else {
       alert(`Đã quét: ${decoded}. Không tìm thấy hiện vật tương ứng.`);
@@ -214,7 +224,7 @@ export const VisitorLayout: React.FC = () => {
         {activeTab === 'explore' && (
           <ExploreView
             artifacts={data.artifacts}
-            onSelectArtifact={(art) => setSelectedArtifact(art)}
+            onSelectArtifact={handleSelectArtifact}
           />
         )}
 
@@ -222,14 +232,14 @@ export const VisitorLayout: React.FC = () => {
           <FloorMapView
             floors={data.floors}
             artifacts={data.artifacts}
-            onSelectArtifact={(art) => setSelectedArtifact(art)}
+            onSelectArtifact={handleSelectArtifact}
           />
         )}
 
         {activeTab === 'favorites' && (
           <FavoritesView
             artifacts={data.artifacts}
-            onSelectArtifact={(art) => setSelectedArtifact(art)}
+            onSelectArtifact={handleSelectArtifact}
           />
         )}
 
@@ -269,7 +279,7 @@ export const VisitorLayout: React.FC = () => {
       />
 
       {/* Synchronized Audio Player Bar */}
-      <AudioPlayerBar />
+      <AudioPlayerBar isDetailSheetOpen={Boolean(selectedArtifact)} />
 
       {/* Mobile-Only Bottom Navigation Bar (Hidden on md and larger) */}
       <nav className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200 py-1.5 px-6 shadow-lg">

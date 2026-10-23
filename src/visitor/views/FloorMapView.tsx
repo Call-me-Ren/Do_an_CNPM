@@ -129,7 +129,7 @@ export const FloorMapView: React.FC<Props> = ({ floors, artifacts, onSelectArtif
                         alt={artifact.title[currentLang] || artifact.title['vi']}
                         onError={(e) => {
                           e.currentTarget.src =
-                            'https://images.metmuseum.org/CRDImages/mi/web-large/DP331225.jpg';
+                            'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=400&q=80';
                         }}
                         className="w-12 h-12 rounded-xl object-cover shrink-0 group-hover:scale-105 transition-transform"
                       />
