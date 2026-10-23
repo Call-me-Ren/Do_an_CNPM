@@ -19,8 +19,11 @@ export interface ListenEvent {
   timestamp: number;
 }
 
-const STORAGE_KEY_SESSIONS = 'museum_active_sessions_v1';
-const STORAGE_KEY_EVENTS = 'museum_listen_events_v1';
+const STORAGE_KEY_SESSIONS = 'museum_active_sessions_v2';
+const STORAGE_KEY_EVENTS = 'museum_listen_events_v2';
+
+// 5 minutes timeout for active devices so background tabs / idle visitors are not prematurely dropped
+const SESSION_TIMEOUT_MS = 5 * 60 * 1000;
 
 class AnalyticsService {
   private currentSessionId: string = '';
@@ -35,7 +38,7 @@ class AnalyticsService {
   private initSession(): void {
     if (typeof window === 'undefined') return;
 
-    // Do not register admin portal users as visitor devices
+    // Do not register admin portal as visitor devices
     if (window.location.pathname.includes('/admin')) {
       return;
     }
@@ -51,10 +54,15 @@ class AnalyticsService {
       this.sendHeartbeat();
     }, 3000);
 
-    // Clean up presence on page unload
-    window.addEventListener('beforeunload', () => {
-      this.removeCurrentSession();
+    // Refresh presence whenever tab becomes visible, focused, or receives user interaction
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') {
+        this.sendHeartbeat();
+      }
     });
+    window.addEventListener('focus', () => this.sendHeartbeat());
+    window.addEventListener('click', () => this.sendHeartbeat());
+    window.addEventListener('touchstart', () => this.sendHeartbeat());
   }
 
   public sendHeartbeat(
@@ -64,7 +72,7 @@ class AnalyticsService {
   ): void {
     if (typeof window === 'undefined') return;
 
-    // Do not register admin portal users as visitor devices
+    // Do not register admin portal as visitor devices
     if (window.location.pathname.includes('/admin')) return;
 
     try {
@@ -130,13 +138,13 @@ class AnalyticsService {
       if (!Array.isArray(parsed)) return [];
 
       const now = Date.now();
-      // Only keep sessions active within the last 15 seconds that are legitimate visitor sessions
+      // Keep sessions active within SESSION_TIMEOUT_MS (5 minutes) so background tabs / idle sessions are preserved
       const fresh = parsed.filter(
         (s) =>
           typeof s === 'object' &&
           s !== null &&
           typeof s.lastActive === 'number' &&
-          now - s.lastActive < 15000 &&
+          now - s.lastActive < SESSION_TIMEOUT_MS &&
           typeof s.sessionId === 'string' &&
           !s.sessionId.startsWith('admin_')
       );

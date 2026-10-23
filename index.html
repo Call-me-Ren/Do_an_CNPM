@@ -7,6 +7,22 @@
     <meta name="referrer" content="no-referrer" />
     <title>Thuyết Minh Tự Động Đa Ngôn Ngữ</title>
     <script type="text/javascript">
+      // Immediately unregister any legacy service workers and clear stale caches
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.getRegistrations().then(function(registrations) {
+          for (var reg of registrations) {
+            reg.unregister();
+          }
+        });
+      }
+      if ('caches' in window) {
+        caches.keys().then(function(names) {
+          for (var name of names) {
+            caches.delete(name);
+          }
+        });
+      }
+
       // Ensure trailing slash or proper base handling on GitHub Pages
       (function(l) {
         // If accessed as /Test_CNPM without trailing slash, normalize to /Test_CNPM/

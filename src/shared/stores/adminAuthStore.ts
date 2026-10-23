@@ -10,63 +10,36 @@ interface AdminUserState {
 }
 
 export const useAdminAuthStore = create<AdminUserState>((set, get) => {
-  // Purge any legacy localStorage tokens so users must strictly authenticate
+  // Clear any existing localStorage or sessionStorage tokens on module initialization
   if (typeof window !== 'undefined') {
     try {
       localStorage.removeItem('admin_token');
       localStorage.removeItem('admin_user');
       localStorage.removeItem('admin_role');
+      sessionStorage.removeItem('admin_session_token');
+      sessionStorage.removeItem('admin_session_user');
+      sessionStorage.removeItem('admin_session_role');
     } catch {
       // ignore
     }
   }
 
-  const initialToken =
-    typeof window !== 'undefined'
-      ? sessionStorage.getItem('admin_session_token')
-      : null;
-  const initialUser =
-    typeof window !== 'undefined'
-      ? sessionStorage.getItem('admin_session_user')
-      : null;
-  const initialRole =
-    typeof window !== 'undefined'
-      ? sessionStorage.getItem('admin_session_role')
-      : null;
-
   return {
-    token: initialToken,
-    username: initialUser,
-    role: initialRole,
+    // Strictly in-memory on each page load. Direct typing in URL bar ALWAYS starts at null!
+    token: null,
+    username: null,
+    role: null,
 
     login: (token, username, role) => {
-      if (typeof window !== 'undefined') {
-        sessionStorage.setItem('admin_session_token', token);
-        sessionStorage.setItem('admin_session_user', username);
-        sessionStorage.setItem('admin_session_role', role);
-      }
       set({ token, username, role });
     },
 
     logout: () => {
-      if (typeof window !== 'undefined') {
-        sessionStorage.removeItem('admin_session_token');
-        sessionStorage.removeItem('admin_session_user');
-        sessionStorage.removeItem('admin_session_role');
-        localStorage.removeItem('admin_token');
-        localStorage.removeItem('admin_user');
-        localStorage.removeItem('admin_role');
-      }
       set({ token: null, username: null, role: null });
     },
 
     isAuthenticated: () => {
-      const activeToken =
-        get().token ||
-        (typeof window !== 'undefined'
-          ? sessionStorage.getItem('admin_session_token')
-          : null);
-      return Boolean(activeToken);
+      return Boolean(get().token);
     },
   };
 });
