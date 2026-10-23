@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {
   BarChart3,
   Globe,
-  FileSpreadsheet,
-  Sparkles
+  FileSpreadsheet
 } from 'lucide-react';
 import {
   BarChart,
@@ -54,17 +53,20 @@ export const AnalyticsView: React.FC = () => {
   // Language Breakdown from actual events
   const langCounts: Record<string, number> = { vi: 0, en: 0, zh: 0, ko: 0, ja: 0 };
   filteredEvents.forEach((e) => {
-    const l = e.lang || 'vi';
+    const l = (e.lang || 'vi').toLowerCase();
     langCounts[l] = (langCounts[l] || 0) + 1;
   });
 
   const languageData = [
-    { name: 'Tiếng Việt', value: langCounts.vi, color: '#f59e0b' },
-    { name: 'English', value: langCounts.en, color: '#3b82f6' },
-    { name: '中文 (Chinese)', value: langCounts.zh, color: '#ec4899' },
-    { name: '한국어 (Korean)', value: langCounts.ko, color: '#10b981' },
-    { name: '日本語 (Japanese)', value: langCounts.ja, color: '#8b5cf6' },
+    { code: 'vi', name: 'Tiếng Việt', value: langCounts.vi, color: '#f59e0b' },
+    { code: 'en', name: 'English', value: langCounts.en, color: '#3b82f6' },
+    { code: 'zh', name: '中文 (Chinese)', value: langCounts.zh, color: '#ec4899' },
+    { code: 'ko', name: '한국어 (Korean)', value: langCounts.ko, color: '#10b981' },
+    { code: 'ja', name: '日本語 (Japanese)', value: langCounts.ja, color: '#8b5cf6' },
   ];
+
+  const activeLanguageData = languageData.filter((l) => l.value > 0);
+  const totalListens = filteredEvents.length;
 
   // Top Listened War Remnants Museum Artifacts
   const artifactListenMap: Record<string, number> = {};
@@ -109,17 +111,6 @@ export const AnalyticsView: React.FC = () => {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-  };
-
-  const handleSeedDemo = () => {
-    const langs = ['vi', 'en', 'zh', 'ko', 'ja'];
-    if (artifacts.length === 0) return;
-    for (let i = 0; i < 30; i++) {
-      const art = artifacts[Math.floor(Math.random() * artifacts.length)];
-      const lang = langs[Math.floor(Math.random() * langs.length)];
-      analyticsService.trackListen(art.id, art.code, art.title['vi'], lang);
-    }
-    refreshData();
   };
 
   return (
@@ -211,13 +202,6 @@ export const AnalyticsView: React.FC = () => {
               <h3 className="text-base font-bold text-white">Xu Hướng Lượt Nghe 7 Ngày Gần Nhất</h3>
               <p className="text-xs text-slate-400 mt-0.5">Phân bổ theo tiếng Việt, tiếng Anh và ngôn ngữ khác</p>
             </div>
-            <button
-              onClick={handleSeedDemo}
-              className="text-xs text-slate-400 hover:text-amber-400 bg-slate-900 border border-slate-700 px-2.5 py-1 rounded-xl transition flex items-center gap-1"
-            >
-              <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-              <span>Thêm dữ liệu test</span>
-            </button>
           </div>
 
           <div className="h-72 w-full">
@@ -253,32 +237,42 @@ export const AnalyticsView: React.FC = () => {
             <p className="text-xs text-slate-400 mt-0.5">Tỷ trọng các ngôn ngữ được khách lựa chọn</p>
           </div>
 
-          <div className="h-56 w-full">
-            <ResponsiveContainer width="100%" height="100%">
-              <PieChart>
-                <Pie
-                  data={languageData.filter((l) => l.value > 0)}
-                  dataKey="value"
-                  nameKey="name"
-                  cx="50%"
-                  cy="50%"
-                  outerRadius={75}
-                  label={({ name, percent }) => `${name} (${(percent * 100).toFixed(0)}%)`}
-                >
-                  {languageData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={entry.color} />
-                  ))}
-                </Pie>
-                <Tooltip
-                  contentStyle={{
-                    backgroundColor: '#0f172a',
-                    border: '1px solid #334155',
-                    borderRadius: '12px',
-                    color: '#fff',
-                  }}
-                />
-              </PieChart>
-            </ResponsiveContainer>
+          <div className="h-56 w-full flex items-center justify-center">
+            {activeLanguageData.length === 0 ? (
+              <div className="text-xs text-slate-500 italic text-center p-6 bg-slate-900/60 rounded-xl w-full">
+                Chưa có dữ liệu lượt nghe nào trong khoảng thời gian này.
+              </div>
+            ) : (
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie
+                    data={activeLanguageData}
+                    dataKey="value"
+                    nameKey="name"
+                    cx="50%"
+                    cy="50%"
+                    outerRadius={70}
+                    label={({ name, percent }) => `${name.split(' ')[0]} ${((percent || 0) * 100).toFixed(0)}%`}
+                  >
+                    {activeLanguageData.map((entry) => (
+                      <Cell key={entry.code} fill={entry.color} />
+                    ))}
+                  </Pie>
+                  <Tooltip
+                    contentStyle={{
+                      backgroundColor: '#0f172a',
+                      border: '1px solid #334155',
+                      borderRadius: '12px',
+                      color: '#fff',
+                    }}
+                    formatter={(val: any, name: any) => [
+                      `${val} lượt (${totalListens > 0 ? ((Number(val) / totalListens) * 100).toFixed(1) : 0}%)`,
+                      name
+                    ]}
+                  />
+                </PieChart>
+              </ResponsiveContainer>
+            )}
           </div>
 
           <div className="flex flex-col gap-1.5 text-xs">

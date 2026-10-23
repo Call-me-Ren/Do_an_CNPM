@@ -5,7 +5,6 @@ import { AdminLayout } from './admin/AdminLayout';
 import { AdminLoginView } from './admin/views/AdminLoginView';
 import { AdminDashboardView } from './admin/views/AdminDashboardView';
 import { ArtifactsManageView } from './admin/views/ArtifactsManageView';
-import { QRManageView } from './admin/views/QRManageView';
 import { AudioManageView } from './admin/views/AudioManageView';
 import { FloorMapEditorView } from './admin/views/FloorMapEditorView';
 import { SessionManageView } from './admin/views/SessionManageView';
@@ -24,7 +23,6 @@ export const App: React.FC = () => {
       <Route path="/admin" element={<AdminLayout />}>
         <Route index element={<AdminDashboardView />} />
         <Route path="artifacts" element={<ArtifactsManageView />} />
-        <Route path="qr" element={<QRManageView />} />
         <Route path="audio" element={<AudioManageView />} />
         <Route path="maps" element={<FloorMapEditorView />} />
         <Route path="sessions" element={<SessionManageView />} />

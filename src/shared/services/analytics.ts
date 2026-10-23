@@ -34,9 +34,16 @@ class AnalyticsService {
   }
 
   private initSession(): void {
+    if (typeof window === 'undefined') return;
+
+    // Do not register admin portal users as visitor devices
+    if (window.location.pathname.includes('/admin')) {
+      return;
+    }
+
     let sid = sessionStorage.getItem(STORAGE_KEY_SESSION_ID);
     if (!sid) {
-      sid = `dev_${Math.random().toString(36).substring(2, 9)}_${Date.now().toString(36)}`;
+      sid = `vis_${Math.random().toString(36).substring(2, 9)}_${Date.now().toString(36)}`;
       sessionStorage.setItem(STORAGE_KEY_SESSION_ID, sid);
     }
     this.currentSessionId = sid;
@@ -54,10 +61,26 @@ class AnalyticsService {
     });
   }
 
-  public sendHeartbeat(artifactId: string | null = null, artifactTitle: string | null = null, lang: string = 'vi'): void {
+  public sendHeartbeat(
+    artifactId: string | null = null,
+    artifactTitle: string | null = null,
+    lang: string = 'vi'
+  ): void {
     if (typeof window === 'undefined') return;
 
+    // Do not register admin portal users as visitor devices
+    if (window.location.pathname.includes('/admin')) return;
+
     try {
+      if (!this.currentSessionId) {
+        let sid = sessionStorage.getItem(STORAGE_KEY_SESSION_ID);
+        if (!sid) {
+          sid = `vis_${Math.random().toString(36).substring(2, 9)}_${Date.now().toString(36)}`;
+          sessionStorage.setItem(STORAGE_KEY_SESSION_ID, sid);
+        }
+        this.currentSessionId = sid;
+      }
+
       const now = Date.now();
       const sessions = this.getActiveSessions();
       const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
@@ -113,9 +136,23 @@ class AnalyticsService {
       const raw = localStorage.getItem(STORAGE_KEY_SESSIONS);
       if (!raw) return [];
       const parsed: ActiveSession[] = JSON.parse(raw);
+      if (!Array.isArray(parsed)) return [];
+
       const now = Date.now();
-      // Only keep sessions active within the last 15 seconds
-      const fresh = parsed.filter((s) => now - s.lastActive < 15000);
+      // Only keep sessions active within the last 15 seconds that are legitimate visitor sessions
+      const fresh = parsed.filter(
+        (s) =>
+          typeof s === 'object' &&
+          s !== null &&
+          typeof s.lastActive === 'number' &&
+          now - s.lastActive < 15000 &&
+          typeof s.sessionId === 'string' &&
+          !s.sessionId.startsWith('admin_')
+      );
+
+      if (fresh.length !== parsed.length) {
+        localStorage.setItem(STORAGE_KEY_SESSIONS, JSON.stringify(fresh));
+      }
       return fresh;
     } catch {
       return [];
@@ -123,7 +160,7 @@ class AnalyticsService {
   }
 
   public getActiveDevicesCount(): number {
-    return Math.max(1, this.getActiveSessions().length);
+    return this.getActiveSessions().length;
   }
 
   public trackListen(
@@ -139,11 +176,11 @@ class AnalyticsService {
       const events = this.getListenEvents();
       const newEvent: ListenEvent = {
         id: `evt_${now}_${Math.random().toString(36).substring(2, 6)}`,
-        sessionId: this.currentSessionId,
+        sessionId: this.currentSessionId || `vis_${now}`,
         artifactId,
         artifactCode,
         artifactTitle,
-        lang,
+        lang: lang || 'vi',
         timestamp: now,
       };
 
@@ -167,7 +204,8 @@ class AnalyticsService {
     try {
       const raw = localStorage.getItem(STORAGE_KEY_EVENTS);
       if (!raw) return [];
-      return JSON.parse(raw);
+      const parsed = JSON.parse(raw);
+      return Array.isArray(parsed) ? parsed : [];
     } catch {
       return [];
     }

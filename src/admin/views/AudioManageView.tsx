@@ -1,7 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { Artifact, SupportedLanguage } from '../../shared/types';
+import { Artifact, SupportedLanguage, SubtitleCue } from '../../shared/types';
 import { museumApi } from '../../shared/services/api';
-import { Music, Upload, Play, Pause, Subtitles, CheckCircle2, AlertCircle, FileAudio, Trash2 } from 'lucide-react';
+import { ttsService } from '../../shared/services/tts';
+import {
+  Music,
+  Upload,
+  Play,
+  Pause,
+  Subtitles,
+  CheckCircle2,
+  AlertCircle,
+  FileAudio,
+  Trash2,
+  FileText
+} from 'lucide-react';
 
 export const AudioManageView: React.FC = () => {
   const [artifacts, setArtifacts] = useState<Artifact[]>([]);
@@ -10,6 +22,7 @@ export const AudioManageView: React.FC = () => {
   const [isUploading, setIsUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [previewPlaying, setPreviewPlaying] = useState(false);
+  const [deletingCueIndex, setDeletingCueIndex] = useState<number | null>(null);
 
   useEffect(() => {
     museumApi.getMuseumData().then((res) => {
@@ -18,6 +31,10 @@ export const AudioManageView: React.FC = () => {
         setSelectedArtifact(res.artifacts[0]);
       }
     });
+
+    return () => {
+      ttsService.stop();
+    };
   }, []);
 
   const languages: { code: SupportedLanguage; label: string }[] = [
@@ -44,7 +61,7 @@ export const AudioManageView: React.FC = () => {
         if (prev >= 100) {
           clearInterval(interval);
           setIsUploading(false);
-          alert(`Đã tải lên tệp ${file.name} cho ngôn ngữ [${selectedLang.toUpperCase()}] thành công!`);
+          alert(`Đã tải lên tệp âm thanh [${file.name}] cho ngôn ngữ [${selectedLang.toUpperCase()}] thành công!`);
           return 100;
         }
         return prev + 30;
@@ -52,18 +69,112 @@ export const AudioManageView: React.FC = () => {
     }, 400);
   };
 
-  const currentAudioSrc = selectedArtifact?.audio[selectedLang];
-  const currentSubtitles = selectedArtifact?.subtitles?.[selectedLang] || [];
+  const handleSubtitleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file || !selectedArtifact) return;
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      try {
+        const text = event.target?.result as string;
+        let newCues: SubtitleCue[] = [];
+
+        if (file.name.endsWith('.json')) {
+          const parsed = JSON.parse(text);
+          if (Array.isArray(parsed)) newCues = parsed;
+        } else {
+          // Parse lines or SRT/VTT formatted text
+          const lines = text
+            .split(/\r?\n/)
+            .map((l) => l.trim())
+            .filter((l) => l !== '' && !l.startsWith('WEBVTT') && !/^\d+$/.test(l) && !l.includes('-->'));
+
+          let curTime = 0;
+          lines.forEach((line) => {
+            newCues.push({
+              start: curTime,
+              end: curTime + 6,
+              text: line
+            });
+            curTime += 6;
+          });
+        }
+
+        if (newCues.length > 0) {
+          const updatedSubtitles = {
+            ...(selectedArtifact.subtitles || {}),
+            [selectedLang]: newCues
+          };
+          const updatedArt = { ...selectedArtifact, subtitles: updatedSubtitles };
+          setSelectedArtifact(updatedArt);
+          setArtifacts(artifacts.map((a) => (a.id === updatedArt.id ? updatedArt : a)));
+          alert(`Đã nhập thành công ${newCues.length} mốc phụ đề từ tệp [${file.name}]!`);
+        }
+      } catch (err: any) {
+        alert('Không thể đọc file phụ đề: ' + (err?.message || 'Định dạng không hợp lệ'));
+      }
+    };
+    reader.readAsText(file);
+  };
+
+  const currentSubtitles: SubtitleCue[] = selectedArtifact?.subtitles?.[selectedLang] || [];
+  const currentDesc = selectedArtifact?.description?.[selectedLang] || selectedArtifact?.description?.['vi'] || '';
+
+  const handleTogglePreview = () => {
+    if (previewPlaying) {
+      ttsService.stop();
+      setPreviewPlaying(false);
+    } else {
+      if (currentSubtitles.length > 0) {
+        setPreviewPlaying(true);
+        ttsService.playCues(
+          currentSubtitles,
+          0,
+          selectedLang,
+          1.0,
+          {
+            onFinish: () => setPreviewPlaying(false),
+            onError: () => setPreviewPlaying(false)
+          }
+        );
+      } else if (currentDesc) {
+        setPreviewPlaying(true);
+        ttsService.speak(
+          currentDesc,
+          selectedLang,
+          1.0,
+          {
+            onEnd: () => setPreviewPlaying(false),
+            onError: () => setPreviewPlaying(false)
+          }
+        );
+      }
+    }
+  };
+
+  const confirmDeleteCue = () => {
+    if (deletingCueIndex === null || !selectedArtifact) return;
+    const currentList = selectedArtifact.subtitles?.[selectedLang] || [];
+    const nextList = currentList.filter((_, idx) => idx !== deletingCueIndex);
+    const updatedSubtitles = {
+      ...(selectedArtifact.subtitles || {}),
+      [selectedLang]: nextList
+    };
+    const updatedArt = { ...selectedArtifact, subtitles: updatedSubtitles };
+    setSelectedArtifact(updatedArt);
+    setArtifacts(artifacts.map((a) => (a.id === updatedArt.id ? updatedArt : a)));
+    setDeletingCueIndex(null);
+  };
 
   return (
     <div className="flex flex-col gap-6">
       <div>
         <h2 className="text-xl font-bold text-white flex items-center gap-2">
           <Music className="w-5 h-5 text-amber-500" />
-          Quản Lý Tệp Âm Thanh & Phụ Đề
+          Quản Lý Tệp Âm Thanh & Phụ Đề Đồng Bộ
         </h2>
         <p className="text-xs text-slate-400 mt-0.5">
-          Tải lên bài thuyết minh audio và file phụ đề đồng bộ mốc thời gian theo từng ngôn ngữ.
+          Hệ thống Thuyết minh tự động đa ngôn ngữ &bull; Nghe thử phát âm AI thực tế theo từng ngôn ngữ.
         </p>
       </div>
 
@@ -71,13 +182,14 @@ export const AudioManageView: React.FC = () => {
         {/* Left: Artifact Selection */}
         <div className="bg-slate-800 border border-slate-700/80 rounded-2xl p-5 flex flex-col gap-4">
           <h3 className="font-bold text-white text-sm">Chọn Hiện Vật Cần Cập Nhật</h3>
-          <div className="flex flex-col gap-2 max-h-[500px] overflow-y-auto pr-1">
+          <div className="flex flex-col gap-2 max-h-[520px] overflow-y-auto pr-1">
             {artifacts.map((art) => (
               <button
                 key={art.id}
                 onClick={() => {
-                  setSelectedArtifact(art);
+                  ttsService.stop();
                   setPreviewPlaying(false);
+                  setSelectedArtifact(art);
                 }}
                 className={`p-3 rounded-xl border text-left transition flex items-center gap-3 ${
                   selectedArtifact?.id === art.id
@@ -106,18 +218,24 @@ export const AudioManageView: React.FC = () => {
           {selectedArtifact ? (
             <>
               {/* Language Switcher Tabs */}
-              <div className="flex items-center gap-2 border-b border-slate-700/80 pb-3">
-                <span className="text-xs text-slate-400 font-semibold uppercase mr-2">Ngôn ngữ:</span>
+              <div className="flex items-center gap-2 border-b border-slate-700/80 pb-3 overflow-x-auto">
+                <span className="text-xs text-slate-400 font-semibold uppercase mr-2 shrink-0">Ngôn ngữ:</span>
                 {languages.map((l) => {
-                  const hasAudio = !!selectedArtifact.audio[l.code];
+                  const hasAudio = Boolean(
+                    selectedArtifact.audio?.[l.code] ||
+                    (selectedArtifact.subtitles?.[l.code] && selectedArtifact.subtitles[l.code]!.length > 0) ||
+                    selectedArtifact.description?.[l.code]
+                  );
+
                   return (
                     <button
                       key={l.code}
                       onClick={() => {
-                        setSelectedLang(l.code);
+                        ttsService.stop();
                         setPreviewPlaying(false);
+                        setSelectedLang(l.code);
                       }}
-                      className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition flex items-center gap-1.5 ${
+                      className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition flex items-center gap-1.5 shrink-0 ${
                         selectedLang === l.code
                           ? 'bg-amber-500 text-slate-950 font-bold'
                           : 'bg-slate-900 text-slate-400 hover:text-white'
@@ -136,30 +254,31 @@ export const AudioManageView: React.FC = () => {
 
               {/* Audio Status & Upload Area */}
               <div className="bg-slate-900 border border-slate-700/80 rounded-2xl p-5 flex flex-col gap-4">
-                <div className="flex items-center justify-between">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                   <div>
-                    <span className="text-xs text-slate-400 font-mono">Tệp âm thanh hiện tại:</span>
+                    <span className="text-xs text-slate-400 font-mono">Nguồn âm thanh phát:</span>
                     <div className="text-sm font-semibold text-white mt-0.5 flex items-center gap-2">
                       <FileAudio className="w-4 h-4 text-amber-400" />
-                      {currentAudioSrc ? (
-                        <span>Audio_{selectedArtifact.code}_{selectedLang.toUpperCase()}.mp3</span>
-                      ) : (
-                        <span className="text-slate-500 italic">Chưa có tệp âm thanh</span>
-                      )}
+                      <span>
+                        AI Voice Thuyết Minh Đa Ngữ ({selectedLang.toUpperCase()}) &bull;{' '}
+                        {currentSubtitles.length > 0 ? `${currentSubtitles.length} câu phụ đề` : 'Mô tả tóm tắt'}
+                      </span>
                     </div>
                   </div>
 
-                  {currentAudioSrc && (
-                    <div className="flex items-center gap-2">
-                      <button
-                        onClick={() => setPreviewPlaying(!previewPlaying)}
-                        className="px-3 py-1.5 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-xs rounded-lg flex items-center gap-1.5"
-                      >
-                        {previewPlaying ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5" />}
-                        <span>{previewPlaying ? 'Tạm dừng' : 'Nghe thử'}</span>
-                      </button>
-                    </div>
-                  )}
+                  <div className="flex items-center gap-2 shrink-0">
+                    <button
+                      onClick={handleTogglePreview}
+                      className={`px-3.5 py-2 rounded-xl font-bold text-xs flex items-center gap-2 transition shadow-md ${
+                        previewPlaying
+                          ? 'bg-red-500 hover:bg-red-600 text-white animate-pulse'
+                          : 'bg-amber-500 hover:bg-amber-600 text-slate-950'
+                      }`}
+                    >
+                      {previewPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4 fill-current ml-0.5" />}
+                      <span>{previewPlaying ? 'Dừng phát' : `Nghe thử giọng đọc (${selectedLang.toUpperCase()})`}</span>
+                    </button>
+                  </div>
                 </div>
 
                 {/* Upload Action */}
@@ -172,7 +291,7 @@ export const AudioManageView: React.FC = () => {
                   />
                   <Upload className="w-6 h-6 text-slate-400" />
                   <div className="text-sm text-slate-300 font-medium">
-                    Kéo thả hoặc nhấp để chọn tệp âm thanh mới (MP3, WAV, AAC &le; 50MB)
+                    Kéo thả hoặc nhấp để chọn tệp âm thanh ghi âm riêng (MP3, WAV, AAC &le; 50MB)
                   </div>
                   <div className="text-xs text-slate-500">
                     Sẽ lưu cho ngôn ngữ: <span className="text-amber-400 font-bold uppercase">{selectedLang}</span>
@@ -200,34 +319,44 @@ export const AudioManageView: React.FC = () => {
                 <div className="flex items-center justify-between">
                   <h4 className="font-bold text-white text-sm flex items-center gap-2">
                     <Subtitles className="w-4 h-4 text-amber-500" />
-                    Phụ Đề Đồng Bộ Thời Gian ({currentSubtitles.length} mốc)
+                    <span>Phụ Đề Đồng Bộ Thời Gian ({currentSubtitles.length} mốc)</span>
                   </h4>
-                  <button
-                    onClick={() => alert('Mở trình soạn thảo phụ đề VTT trực quan')}
-                    className="text-xs text-amber-400 hover:underline"
-                  >
-                    + Thêm mốc phụ đề
-                  </button>
+
+                  {/* Upload file phụ đề tự động đồng bộ */}
+                  <label className="text-xs text-amber-400 hover:text-amber-300 font-semibold cursor-pointer flex items-center gap-1.5 bg-slate-900 border border-slate-700 px-3 py-1.5 rounded-xl transition">
+                    <FileText className="w-3.5 h-3.5" />
+                    <span>Nhập file phụ đề (.srt, .vtt, .txt, .json)</span>
+                    <input
+                      type="file"
+                      accept=".srt,.vtt,.txt,.json"
+                      onChange={handleSubtitleFileUpload}
+                      className="hidden"
+                    />
+                  </label>
                 </div>
 
                 {currentSubtitles.length === 0 ? (
-                  <div className="text-xs text-slate-500 italic p-4 bg-slate-900 rounded-xl text-center">
-                    Chưa có phụ đề cho ngôn ngữ này.
+                  <div className="text-xs text-slate-500 italic p-6 bg-slate-900 rounded-xl text-center border border-slate-800">
+                    Chưa có phụ đề cho ngôn ngữ này. Hãy tải lên tệp .srt, .vtt hoặc .json để hệ thống tự tạo mốc đồng bộ.
                   </div>
                 ) : (
-                  <div className="flex flex-col gap-2 max-h-48 overflow-y-auto pr-1">
+                  <div className="flex flex-col gap-2 max-h-56 overflow-y-auto pr-1">
                     {currentSubtitles.map((cue, idx) => (
                       <div
                         key={idx}
                         className="p-3 bg-slate-900 border border-slate-700/60 rounded-xl flex items-center justify-between text-xs"
                       >
-                        <div className="flex items-center gap-3">
-                          <span className="font-mono bg-slate-800 px-2 py-0.5 rounded text-amber-400 font-semibold">
+                        <div className="flex items-center gap-3 min-w-0 pr-2">
+                          <span className="font-mono bg-slate-800 px-2 py-0.5 rounded text-amber-400 font-semibold shrink-0">
                             {cue.start}s - {cue.end}s
                           </span>
-                          <span className="text-slate-200">{cue.text}</span>
+                          <span className="text-slate-200 truncate">{cue.text}</span>
                         </div>
-                        <button className="text-slate-500 hover:text-red-400 p-1">
+                        <button
+                          onClick={() => setDeletingCueIndex(idx)}
+                          className="text-slate-500 hover:text-red-400 p-1.5 rounded-lg hover:bg-slate-800 transition shrink-0"
+                          title="Xóa mốc phụ đề này"
+                        >
                           <Trash2 className="w-3.5 h-3.5" />
                         </button>
                       </div>
@@ -243,6 +372,39 @@ export const AudioManageView: React.FC = () => {
           )}
         </div>
       </div>
+
+      {/* Delete Confirmation Modal for Subtitle Cue */}
+      {deletingCueIndex !== null && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/70 backdrop-blur-sm p-4 animate-fade-in">
+          <div className="bg-slate-800 border border-slate-700 rounded-3xl p-6 w-full max-w-sm shadow-2xl flex flex-col gap-4 text-white text-center">
+            <div className="w-12 h-12 rounded-full bg-red-500/10 text-red-400 mx-auto flex items-center justify-center border border-red-500/20">
+              <Trash2 className="w-6 h-6" />
+            </div>
+            <div>
+              <h3 className="text-lg font-bold text-white">Xóa Mốc Phụ Đề</h3>
+              <p className="text-xs text-slate-400 mt-1.5 leading-relaxed">
+                Bạn có chắc chắn muốn xóa mốc phụ đề thứ <span className="text-amber-400 font-bold">{deletingCueIndex + 1}</span> ({currentSubtitles[deletingCueIndex]?.start}s - {currentSubtitles[deletingCueIndex]?.end}s)?
+              </p>
+            </div>
+            <div className="grid grid-cols-2 gap-3 mt-1">
+              <button
+                type="button"
+                onClick={() => setDeletingCueIndex(null)}
+                className="px-4 py-2.5 rounded-xl border border-slate-600 hover:bg-slate-700 text-slate-300 font-bold text-xs transition"
+              >
+                Hủy bỏ
+              </button>
+              <button
+                type="button"
+                onClick={confirmDeleteCue}
+                className="px-4 py-2.5 rounded-xl bg-red-500 hover:bg-red-600 text-white font-bold text-xs transition shadow-md shadow-red-500/20"
+              >
+                Xác nhận xóa
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

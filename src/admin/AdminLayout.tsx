@@ -4,15 +4,12 @@ import { useAdminAuthStore } from '../shared/stores/adminAuthStore';
 import {
   LayoutDashboard,
   Package,
-  QrCode,
   Music,
   Map,
   BarChart3,
   Calendar,
   LogOut,
-  ShieldAlert,
-  Radio,
-  ExternalLink
+  ShieldAlert
 } from 'lucide-react';
 
 export const AdminLayout: React.FC = () => {
@@ -32,7 +29,6 @@ export const AdminLayout: React.FC = () => {
   const menuItems = [
     { path: '/admin', label: 'Dashboard Trực Quan', icon: LayoutDashboard },
     { path: '/admin/artifacts', label: 'Quản Lý Hiện Vật', icon: Package },
-    { path: '/admin/qr', label: 'Mã QR Trưng Bày', icon: QrCode },
     { path: '/admin/audio', label: 'Tệp Âm Thanh & Sub', icon: Music },
     { path: '/admin/maps', label: 'Sơ Đồ Khu Vực', icon: Map },
     { path: '/admin/sessions', label: 'Quản Lý Phiên', icon: Calendar },
@@ -79,33 +75,26 @@ export const AdminLayout: React.FC = () => {
           </nav>
         </div>
 
-        {/* Footer Sidebar Actions */}
-        <div className="border-t border-slate-800/80 pt-4 flex flex-col gap-3">
-          <Link
-            to="/"
-            target="_blank"
-            className="flex items-center justify-between px-3 py-2 text-xs font-semibold text-slate-400 hover:text-amber-400 rounded-lg hover:bg-slate-900 transition"
-          >
-            <span className="flex items-center gap-2">
-              <Radio className="w-3.5 h-3.5 text-emerald-400 animate-pulse" />
-              Mở trang khách (Visitor)
-            </span>
-            <ExternalLink className="w-3.5 h-3.5" />
-          </Link>
-
-          <div className="flex items-center justify-between px-3 pt-2">
-            <div className="text-xs">
-              <div className="font-bold text-white truncate max-w-[120px]">{username}</div>
-              <div className="text-[10px] text-slate-500">Super Administrator</div>
+        {/* Pinned Bottom Logout & Account Bar */}
+        <div className="border-t border-slate-800/80 pt-4 flex flex-col gap-3 mt-auto">
+          <div className="flex items-center gap-3 px-1">
+            <div className="w-8 h-8 rounded-full bg-amber-500/20 text-amber-400 flex items-center justify-center font-bold text-xs shrink-0">
+              AD
             </div>
-            <button
-              onClick={handleLogout}
-              className="p-2 text-slate-400 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition"
-              title="Đăng xuất"
-            >
-              <LogOut className="w-4 h-4" />
-            </button>
+            <div className="text-xs min-w-0 flex-1">
+              <div className="font-bold text-white truncate">{username}</div>
+              <div className="text-[10px] text-slate-500 truncate">Quản Trị Viên Hệ Thống</div>
+            </div>
           </div>
+
+          <button
+            onClick={handleLogout}
+            className="w-full flex items-center justify-center gap-2 py-2.5 px-3 bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/30 rounded-xl text-xs font-bold transition shadow-xs"
+            title="Đăng xuất quản trị viên"
+          >
+            <LogOut className="w-4 h-4" />
+            <span>Đăng xuất Quản trị viên</span>
+          </button>
         </div>
       </aside>
 
@@ -116,11 +105,8 @@ export const AdminLayout: React.FC = () => {
             Khu vực quản trị / <span className="text-slate-200 font-semibold">{location.pathname}</span>
           </div>
 
-          <div className="flex items-center gap-3">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-              Live Sync
-            </span>
+          <div className="text-xs text-slate-400 font-mono">
+            Bảo tàng Chứng tích Chiến tranh
           </div>
         </header>
 

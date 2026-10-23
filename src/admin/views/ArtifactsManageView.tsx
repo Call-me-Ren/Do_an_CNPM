@@ -10,6 +10,7 @@ export const ArtifactsManageView: React.FC = () => {
   // Modal State
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingArtifact, setEditingArtifact] = useState<Artifact | null>(null);
+  const [deletingArtifact, setDeletingArtifact] = useState<{ id: string; code: string; title: string } | null>(null);
   const [activeLangTab, setActiveLangTab] = useState<SupportedLanguage>('vi');
 
   // Form Fields
@@ -66,12 +67,6 @@ export const ArtifactsManageView: React.FC = () => {
     setFormDescriptions({ ...art.description });
     setActiveLangTab('vi');
     setIsModalOpen(true);
-  };
-
-  const handleDelete = (id: string, code: string) => {
-    if (window.confirm(`Bạn có chắc chắn muốn xóa hiện vật ${code} khỏi hệ thống?`)) {
-      setArtifacts(artifacts.filter((a) => a.id !== id));
-    }
   };
 
   const handleSave = (e: React.FormEvent) => {
@@ -175,7 +170,11 @@ export const ArtifactsManageView: React.FC = () => {
                     <td className="py-3.5 px-4">
                       <div className="flex items-center gap-1.5">
                         {langs.map((l) => {
-                          const hasAudio = !!item.audio[l.code];
+                          const hasAudio = Boolean(
+                            item.audio?.[l.code] ||
+                            (item.subtitles?.[l.code] && item.subtitles[l.code]!.length > 0) ||
+                            item.description?.[l.code]
+                          );
                           return (
                             <span
                               key={l.code}
@@ -184,7 +183,7 @@ export const ArtifactsManageView: React.FC = () => {
                                   ? 'bg-emerald-500/20 text-emerald-400'
                                   : 'bg-slate-700 text-slate-500'
                               }`}
-                              title={`${l.label}: ${hasAudio ? 'Đã có audio' : 'Chưa có audio'}`}
+                              title={`${l.label}: ${hasAudio ? 'Sẵn sàng thuyết minh đa ngữ (AI TTS & Subtitles)' : 'Chưa có nội dung'}`}
                             >
                               {l.code}
                               {hasAudio ? (
@@ -207,7 +206,7 @@ export const ArtifactsManageView: React.FC = () => {
                           <Edit className="w-4 h-4" />
                         </button>
                         <button
-                          onClick={() => handleDelete(item.id, item.code)}
+                          onClick={() => setDeletingArtifact({ id: item.id, code: item.code, title: item.title['vi'] || item.code })}
                           className="p-1.5 text-slate-400 hover:text-red-400 rounded-lg transition"
                           title="Xóa"
                         >
@@ -219,6 +218,42 @@ export const ArtifactsManageView: React.FC = () => {
                 ))}
               </tbody>
             </table>
+          </div>
+        </div>
+      )}
+
+      {/* Delete Confirmation Modal Popup */}
+      {deletingArtifact && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/70 backdrop-blur-sm p-4 animate-fade-in">
+          <div className="bg-slate-800 border border-slate-700 rounded-3xl p-6 w-full max-w-sm shadow-2xl flex flex-col gap-4 text-white text-center">
+            <div className="w-12 h-12 rounded-full bg-red-500/10 text-red-400 mx-auto flex items-center justify-center border border-red-500/20">
+              <Trash2 className="w-6 h-6" />
+            </div>
+            <div>
+              <h3 className="text-lg font-bold text-white">Xác Nhận Xóa Hiện Vật</h3>
+              <p className="text-xs text-slate-400 mt-1.5 leading-relaxed">
+                Bạn có chắc chắn muốn xóa hiện vật <span className="text-amber-400 font-mono font-bold">[{deletingArtifact.code}]</span> - <span className="text-slate-200 font-semibold">{deletingArtifact.title}</span>? Hành động này sẽ loại bỏ hiện vật khỏi danh mục tham quan.
+              </p>
+            </div>
+            <div className="grid grid-cols-2 gap-3 mt-1">
+              <button
+                type="button"
+                onClick={() => setDeletingArtifact(null)}
+                className="px-4 py-2.5 rounded-xl border border-slate-600 hover:bg-slate-700 text-slate-300 font-bold text-xs transition"
+              >
+                Hủy bỏ
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setArtifacts(artifacts.filter((a) => a.id !== deletingArtifact.id));
+                  setDeletingArtifact(null);
+                }}
+                className="px-4 py-2.5 rounded-xl bg-red-500 hover:bg-red-600 text-white font-bold text-xs transition shadow-md shadow-red-500/20"
+              >
+                Xác nhận xóa
+              </button>
+            </div>
           </div>
         </div>
       )}
