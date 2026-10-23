@@ -7,7 +7,14 @@ import './index.css';
 import './locales/i18n';
 
 // In production on GitHub Pages (repo Test_CNPM), base URL is /Test_CNPM/
-const basename = import.meta.env.BASE_URL;
+// React Router v6 basename MUST NOT end with a trailing slash!
+const rawBase = import.meta.env.BASE_URL || '/';
+const basename =
+  rawBase.endsWith('/') && rawBase !== '/'
+    ? rawBase.slice(0, -1)
+    : rawBase === '/'
+    ? undefined
+    : rawBase;
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

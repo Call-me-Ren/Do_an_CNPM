@@ -21,7 +21,6 @@ export interface ListenEvent {
 
 const STORAGE_KEY_SESSIONS = 'museum_active_sessions_v1';
 const STORAGE_KEY_EVENTS = 'museum_listen_events_v1';
-const STORAGE_KEY_SESSION_ID = 'museum_local_session_id';
 
 class AnalyticsService {
   private currentSessionId: string = '';
@@ -41,19 +40,16 @@ class AnalyticsService {
       return;
     }
 
-    let sid = sessionStorage.getItem(STORAGE_KEY_SESSION_ID);
-    if (!sid) {
-      sid = `vis_${Math.random().toString(36).substring(2, 9)}_${Date.now().toString(36)}`;
-      sessionStorage.setItem(STORAGE_KEY_SESSION_ID, sid);
-    }
-    this.currentSessionId = sid;
+    // Always assign a distinct unique sessionId per tab instance in memory.
+    // This guarantees duplicating tabs or opening multiple tabs/windows counts as distinct devices.
+    this.currentSessionId = `vis_${Math.random().toString(36).substring(2, 9)}_${Date.now().toString(36)}`;
 
     // Start background presence heartbeat
     this.sendHeartbeat();
     if (this.heartbeatInterval) clearInterval(this.heartbeatInterval);
     this.heartbeatInterval = setInterval(() => {
       this.sendHeartbeat();
-    }, 4000);
+    }, 3000);
 
     // Clean up presence on page unload
     window.addEventListener('beforeunload', () => {
@@ -73,12 +69,7 @@ class AnalyticsService {
 
     try {
       if (!this.currentSessionId) {
-        let sid = sessionStorage.getItem(STORAGE_KEY_SESSION_ID);
-        if (!sid) {
-          sid = `vis_${Math.random().toString(36).substring(2, 9)}_${Date.now().toString(36)}`;
-          sessionStorage.setItem(STORAGE_KEY_SESSION_ID, sid);
-        }
-        this.currentSessionId = sid;
+        this.currentSessionId = `vis_${Math.random().toString(36).substring(2, 9)}_${Date.now().toString(36)}`;
       }
 
       const now = Date.now();
