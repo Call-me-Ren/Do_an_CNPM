@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="referrer" content="no-referrer" />
+    <title>Thuyết Minh Tự Động Đa Ngôn Ngữ</title>
+    <script type="text/javascript">
+      // Immediately unregister any legacy service workers and clear stale caches
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.getRegistrations().then(function(registrations) {
+          for (var reg of registrations) {
+            reg.unregister();
+          }
+        });
+      }
+      if ('caches' in window) {
+        caches.keys().then(function(names) {
+          for (var name of names) {
+            caches.delete(name);
+          }
+        });
+      }
+
+      // Ensure trailing slash or proper base handling on GitHub Pages
+      (function(l) {
+        // If accessed as /Test_CNPM without trailing slash, normalize to /Test_CNPM/
+        if (l.pathname === '/Test_CNPM') {
+          window.history.replaceState(null, null, '/Test_CNPM/' + l.search + l.hash);
+        }
+
+        // Single Page Apps for GitHub Pages
+        if (l.search[1] === '/' ) {
+          var decoded = l.search.slice(1).split('&').map(function(s) { 
+            return s.replace(/~and~/g, '&')
+          }).join('?');
+          var basePath = l.pathname.endsWith('/') ? l.pathname.slice(0, -1) : l.pathname;
+          window.history.replaceState(null, null,
+              basePath + decoded + l.hash
+          );
+        }
+      }(window.location))
+    </script>
+    <script type="module" crossorigin src="/Test_CNPM/assets/index.js"></script>
+    <link rel="stylesheet" crossorigin href="/Test_CNPM/assets/index.css">
+  </head>
+  <body class="bg-slate-50 text-slate-900 antialiased selection:bg-amber-500 selection:text-white">
+    <div id="root"></div>
+  </body>
+</html>
