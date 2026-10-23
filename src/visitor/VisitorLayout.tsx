@@ -111,17 +111,28 @@ export const VisitorLayout: React.FC = () => {
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col max-w-md mx-auto shadow-2xl relative border-x border-slate-200">
       {/* Top Header */}
-      <header className="sticky top-0 z-30 bg-white/80 backdrop-blur-md px-4 py-3 border-b border-slate-200 flex items-center justify-between">
-        <div>
-          <span className="text-xs uppercase font-bold tracking-widest text-amber-600">
-            {t('appName')}
-          </span>
-          <h1 className="text-base font-extrabold text-slate-900 truncate">
-            {data.museum.name}
-          </h1>
+      <header className="sticky top-0 z-30 bg-white/90 backdrop-blur-md px-4 py-3 border-b border-slate-200 flex items-center justify-between gap-3">
+        <div className="flex items-center gap-2 min-w-0">
+          {activeTab !== 'explore' && (
+            <button
+              onClick={() => setActiveTab('explore')}
+              className="p-1.5 rounded-full hover:bg-slate-100 text-slate-700 transition shrink-0"
+              title="Quay lại trang khám phá"
+            >
+              <Compass className="w-5 h-5 text-amber-600" />
+            </button>
+          )}
+          <div className="min-w-0">
+            <span className="text-[10px] uppercase font-bold tracking-widest text-amber-600 block">
+              {t('appName')}
+            </span>
+            <h1 className="text-sm md:text-base font-extrabold text-slate-900 truncate">
+              {data.museum.name}
+            </h1>
+          </div>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="shrink-0">
           <LanguageSwitcher />
         </div>
       </header>

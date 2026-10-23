@@ -3,7 +3,7 @@ import { Artifact } from '../../shared/types';
 import { useLangStore } from '../../shared/stores/langStore';
 import { usePlayerStore } from '../../shared/stores/playerStore';
 import { useFavStore } from '../../shared/stores/favStore';
-import { X, Volume2, Heart, MapPin } from 'lucide-react';
+import { X, Volume2, Heart, MapPin, ArrowLeft } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 interface Props {
@@ -26,21 +26,35 @@ export const ArtifactDetailSheet: React.FC<Props> = ({ artifact, onClose }) => {
     <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-slate-950/60 backdrop-blur-sm animate-fade-in p-0 sm:p-4">
       <div className="bg-white w-full max-w-lg rounded-t-3xl sm:rounded-3xl max-h-[90vh] flex flex-col overflow-hidden shadow-2xl relative">
         {/* Header Action Bar */}
-        <div className="absolute top-4 right-4 z-10 flex items-center gap-2">
-          <button
-            onClick={() => toggleFavorite(artifact.id)}
-            className={`p-2.5 rounded-full backdrop-blur-md shadow-md transition-colors ${
-              fav ? 'bg-red-500 text-white' : 'bg-white/80 text-slate-700 hover:bg-white'
-            }`}
-          >
-            <Heart className={`w-5 h-5 ${fav ? 'fill-current' : ''}`} />
-          </button>
+        <div className="absolute top-4 left-4 right-4 z-10 flex items-center justify-between pointer-events-none">
+          {/* Nút lùi về (Back) */}
           <button
             onClick={onClose}
-            className="p-2.5 rounded-full bg-white/80 backdrop-blur-md text-slate-700 hover:bg-white shadow-md transition-colors"
+            className="p-2.5 rounded-full bg-white/90 backdrop-blur-md text-slate-800 hover:bg-white shadow-md transition pointer-events-auto flex items-center gap-1.5 text-xs font-bold"
+            title="Quay lại"
           >
-            <X className="w-5 h-5" />
+            <ArrowLeft className="w-4 h-4" />
+            <span>Quay lại</span>
           </button>
+
+          <div className="flex items-center gap-2 pointer-events-auto">
+            <button
+              onClick={() => toggleFavorite(artifact.id)}
+              className={`p-2.5 rounded-full backdrop-blur-md shadow-md transition-colors ${
+                fav ? 'bg-red-500 text-white' : 'bg-white/90 text-slate-700 hover:bg-white'
+              }`}
+              title="Lưu yêu thích"
+            >
+              <Heart className={`w-5 h-5 ${fav ? 'fill-current' : ''}`} />
+            </button>
+            <button
+              onClick={onClose}
+              className="p-2.5 rounded-full bg-white/90 backdrop-blur-md text-slate-700 hover:bg-white shadow-md transition-colors"
+              title="Đóng"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
         </div>
 
         {/* Image Showcase */}

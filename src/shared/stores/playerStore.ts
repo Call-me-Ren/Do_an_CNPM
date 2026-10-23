@@ -36,7 +36,7 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
 
   pause: () => set({ isPlaying: false }),
   resume: () => set({ isPlaying: true }),
-  stop: () => set({ isPlaying: false, currentTime: 0 }),
+  stop: () => set({ currentArtifact: null, isPlaying: false, currentTime: 0 }),
   setCurrentTime: (currentTime) => set({ currentTime }),
   setDuration: (duration) => set({ duration }),
   setPlaybackRate: (playbackRate) => set({ playbackRate }),

@@ -53,11 +53,11 @@
         "longitude": 106.7051
       },
       "audio": {
-        "vi": "https://actions.google.com/sounds/v1/ambiences/coffee_shop.ogg",
-        "en": "https://actions.google.com/sounds/v1/ambiences/coffee_shop.ogg",
-        "zh": "https://actions.google.com/sounds/v1/ambiences/coffee_shop.ogg",
-        "ko": "https://actions.google.com/sounds/v1/ambiences/coffee_shop.ogg",
-        "ja": "https://actions.google.com/sounds/v1/ambiences/coffee_shop.ogg"
+        "vi": "/audio/guide_sample.wav",
+        "en": "/audio/guide_sample.wav",
+        "zh": "/audio/guide_sample.wav",
+        "ko": "/audio/guide_sample.wav",
+        "ja": "/audio/guide_sample.wav"
       },
       "subtitles": {
         "vi": [
@@ -102,8 +102,8 @@
         "longitude": 106.7055
       },
       "audio": {
-        "vi": "https://actions.google.com/sounds/v1/ambiences/coffee_shop.ogg",
-        "en": "https://actions.google.com/sounds/v1/ambiences/coffee_shop.ogg"
+        "vi": "/audio/guide_sample.wav",
+        "en": "/audio/guide_sample.wav"
       },
       "subtitles": {
         "vi": [
@@ -146,8 +146,8 @@
         "longitude": 106.7058
       },
       "audio": {
-        "vi": "https://actions.google.com/sounds/v1/ambiences/coffee_shop.ogg",
-        "en": "https://actions.google.com/sounds/v1/ambiences/coffee_shop.ogg"
+        "vi": "/audio/guide_sample.wav",
+        "en": "/audio/guide_sample.wav"
       },
       "subtitles": {
         "vi": [
