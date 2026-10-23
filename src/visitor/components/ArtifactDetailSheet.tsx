@@ -20,10 +20,10 @@ export const ArtifactDetailSheet: React.FC<Props> = ({ artifact, onClose }) => {
     currentArtifact,
     isPlaying,
     currentTime,
-    setCurrentTime,
     showSubtitle,
     toggleSubtitle,
-    setShowSubtitle
+    setShowSubtitle,
+    seekToCue
   } = usePlayerStore();
   const { isFavorite, toggleFavorite } = useFavStore();
 
@@ -149,11 +149,12 @@ export const ArtifactDetailSheet: React.FC<Props> = ({ artifact, onClose }) => {
                   <LiveTranscriptCard
                     subtitles={artifact.subtitles[currentLang]!}
                     currentTime={isCurrentPlaying ? currentTime : -1}
-                    onSeekCue={(sec) => {
-                      if (!isCurrentPlaying) {
-                        playArtifact(artifact);
+                    onSeekCue={(sec, index) => {
+                      if (currentArtifact?.id !== artifact.id) {
+                        playArtifact(artifact, index, sec);
+                      } else {
+                        seekToCue(index, sec);
                       }
-                      setCurrentTime(sec);
                     }}
                   />
                 )}

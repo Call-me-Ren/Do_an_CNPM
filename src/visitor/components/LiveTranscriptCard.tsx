@@ -5,7 +5,7 @@ import { Headphones } from 'lucide-react';
 interface Props {
   subtitles: SubtitleCue[];
   currentTime: number;
-  onSeekCue?: (startSeconds: number) => void;
+  onSeekCue?: (startSeconds: number, index: number) => void;
   className?: string;
   title?: string;
 }
@@ -65,7 +65,7 @@ export const LiveTranscriptCard: React.FC<Props> = ({
             <div
               key={idx}
               ref={isActive ? activeCueRef : null}
-              onClick={() => onSeekCue?.(cue.start)}
+              onClick={() => onSeekCue?.(cue.start, idx)}
               className={`flex items-start gap-3 px-3 py-2 rounded-xl text-xs sm:text-sm transition-all cursor-pointer ${
                 isActive
                   ? 'bg-slate-100 text-slate-900 font-bold shadow-xs ring-1 ring-slate-300/60'

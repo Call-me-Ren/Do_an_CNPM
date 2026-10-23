@@ -1,4 +1,4 @@
-import { SupportedLanguage } from '../types';
+import { SupportedLanguage, SubtitleCue } from '../types';
 
 const langLocaleMap: Record<SupportedLanguage, string> = {
   vi: 'vi-VN',
@@ -17,11 +17,28 @@ export interface TTSCallbacks {
   onError?: (err: any) => void;
 }
 
+export interface CueCallbacks {
+  onCueChange?: (cueIndex: number, cue: SubtitleCue) => void;
+  onCueProgress?: (cueIndex: number, currentSeconds: number) => void;
+  onFinish?: () => void;
+  onError?: (err: any) => void;
+}
+
 class TTSService {
   private currentUtterance: SpeechSynthesisUtterance | null = null;
   private isSpeaking: boolean = false;
   private isPaused: boolean = false;
   private cachedVoices: SpeechSynthesisVoice[] = [];
+
+  // Cue queue state
+  private activeCues: SubtitleCue[] = [];
+  private currentCueIndex: number = 0;
+  private currentLang: SupportedLanguage = 'vi';
+  private currentRate: number = 1.0;
+  private cueCallbacks?: CueCallbacks;
+  private progressInterval: any = null;
+  private isCuePlaying: boolean = false;
+  private cueStartTimeMs: number = 0;
 
   constructor() {
     if (this.isSupported()) {
@@ -49,6 +66,14 @@ class TTSService {
 
   public getIsPaused(): boolean {
     return this.isPaused;
+  }
+
+  public getIsCuePlaying(): boolean {
+    return this.isCuePlaying;
+  }
+
+  public getCurrentCueIndex(): number {
+    return this.currentCueIndex;
   }
 
   public getCurrentUtterance(): SpeechSynthesisUtterance | null {
@@ -140,6 +165,205 @@ class TTSService {
     return sorted[0];
   }
 
+  // --- Cue Queue Playback Engine ---
+
+  public playCues(
+    cues: SubtitleCue[],
+    startIndex: number = 0,
+    lang: SupportedLanguage = 'vi',
+    playbackRate: number = 1.0,
+    callbacks?: CueCallbacks
+  ): void {
+    if (!this.isSupported()) {
+      callbacks?.onFinish?.();
+      return;
+    }
+
+    this.stop();
+
+    if (!cues || cues.length === 0) {
+      callbacks?.onFinish?.();
+      return;
+    }
+
+    this.activeCues = cues;
+    this.currentCueIndex = Math.max(0, Math.min(startIndex, cues.length - 1));
+    this.currentLang = lang;
+    this.currentRate = playbackRate;
+    this.cueCallbacks = callbacks;
+    this.isCuePlaying = true;
+
+    this.speakCurrentCue();
+  }
+
+  private clearProgressTimer(): void {
+    if (this.progressInterval) {
+      clearInterval(this.progressInterval);
+      this.progressInterval = null;
+    }
+  }
+
+  private speakCurrentCue(): void {
+    if (!this.isCuePlaying) return;
+
+    if (this.currentCueIndex >= this.activeCues.length) {
+      this.stop();
+      this.cueCallbacks?.onFinish?.();
+      return;
+    }
+
+    const cue = this.activeCues[this.currentCueIndex];
+    if (!cue) return;
+
+    this.clearProgressTimer();
+    this.cueCallbacks?.onCueChange?.(this.currentCueIndex, cue);
+
+    try {
+      const targetLocale = langLocaleMap[this.currentLang] || 'vi-VN';
+      const utterance = new SpeechSynthesisUtterance(cue.text);
+      utterance.lang = targetLocale;
+
+      const baseRate = this.currentLang === 'en' ? 0.95 : 1.0;
+      utterance.rate = Math.max(0.7, Math.min(2.0, this.currentRate * baseRate));
+      utterance.pitch = 1.0;
+
+      const voice = this.getBestVoice(this.currentLang, targetLocale);
+      if (voice) {
+        utterance.voice = voice;
+      }
+
+      utterance.onstart = () => {
+        this.isSpeaking = true;
+        this.isPaused = false;
+        this.cueStartTimeMs = Date.now();
+
+        // High frequency progress update (every 100ms)
+        this.clearProgressTimer();
+        this.progressInterval = setInterval(() => {
+          if (!this.isSpeaking || this.isPaused) return;
+          const elapsed = ((Date.now() - this.cueStartTimeMs) / 1000) * this.currentRate;
+          const cueDuration = Math.max(0.5, cue.end - cue.start);
+          const progress = Math.min(cueDuration, elapsed);
+          const currentTotal = Number((cue.start + progress).toFixed(2));
+          this.cueCallbacks?.onCueProgress?.(this.currentCueIndex, currentTotal);
+        }, 100);
+      };
+
+      utterance.onend = () => {
+        this.clearProgressTimer();
+        if (!this.isCuePlaying) return;
+
+        // Progress reaches cue end
+        this.cueCallbacks?.onCueProgress?.(this.currentCueIndex, cue.end);
+
+        // Advance to next cue immediately
+        this.currentCueIndex++;
+        this.speakCurrentCue();
+      };
+
+      utterance.onerror = (e) => {
+        this.clearProgressTimer();
+        if (e.error !== 'canceled' && e.error !== 'interrupted') {
+          console.warn('TTS cue error:', e.error);
+          this.cueCallbacks?.onError?.(e);
+          if (this.isCuePlaying) {
+            this.currentCueIndex++;
+            this.speakCurrentCue();
+          }
+        }
+      };
+
+      this.currentUtterance = utterance;
+      window.speechSynthesis.speak(utterance);
+    } catch (err) {
+      console.error('Failed to speak cue:', err);
+      this.cueCallbacks?.onError?.(err);
+    }
+  }
+
+  public seekToCueIndex(index: number): void {
+    if (!this.isSupported() || this.activeCues.length === 0) return;
+    this.currentCueIndex = Math.max(0, Math.min(index, this.activeCues.length - 1));
+    this.isCuePlaying = true;
+    this.clearProgressTimer();
+    window.speechSynthesis.cancel();
+    this.speakCurrentCue();
+  }
+
+  public seekToSeconds(seconds: number): void {
+    if (!this.activeCues || this.activeCues.length === 0) return;
+    const targetIdx = this.activeCues.findIndex(
+      (c) => seconds >= c.start && seconds <= c.end
+    );
+    if (targetIdx !== -1) {
+      this.seekToCueIndex(targetIdx);
+    } else {
+      let closestIdx = 0;
+      let minDiff = Infinity;
+      this.activeCues.forEach((c, idx) => {
+        const diff = Math.abs(c.start - seconds);
+        if (diff < minDiff) {
+          minDiff = diff;
+          closestIdx = idx;
+        }
+      });
+      this.seekToCueIndex(closestIdx);
+    }
+  }
+
+  public setPlaybackRate(rate: number): void {
+    this.currentRate = rate;
+    if (this.isSpeaking && this.isCuePlaying) {
+      this.seekToCueIndex(this.currentCueIndex);
+    }
+  }
+
+  public pause(): void {
+    if (this.isSupported()) {
+      window.speechSynthesis.pause();
+      this.isPaused = true;
+      this.clearProgressTimer();
+    }
+  }
+
+  public resume(): void {
+    if (this.isSupported()) {
+      if (window.speechSynthesis.paused) {
+        window.speechSynthesis.resume();
+        this.isPaused = false;
+        this.cueStartTimeMs = Date.now();
+        this.clearProgressTimer();
+        const cue = this.activeCues[this.currentCueIndex];
+        if (cue) {
+          this.progressInterval = setInterval(() => {
+            if (!this.isSpeaking || this.isPaused) return;
+            const elapsed = ((Date.now() - this.cueStartTimeMs) / 1000) * this.currentRate;
+            const cueDuration = Math.max(0.5, cue.end - cue.start);
+            const progress = Math.min(cueDuration, elapsed);
+            const currentTotal = Number((cue.start + progress).toFixed(2));
+            this.cueCallbacks?.onCueProgress?.(this.currentCueIndex, currentTotal);
+          }, 100);
+        }
+      } else if (!this.isSpeaking && this.isCuePlaying) {
+        this.speakCurrentCue();
+      }
+    }
+  }
+
+  public stop(): void {
+    this.isCuePlaying = false;
+    this.isSpeaking = false;
+    this.isPaused = false;
+    this.clearProgressTimer();
+    if (this.isSupported()) {
+      window.speechSynthesis.cancel();
+    }
+    this.currentUtterance = null;
+  }
+
+  /**
+   * Standalone speak method for single-string speech
+   */
   public speak(
     text: string,
     lang: SupportedLanguage,
@@ -152,7 +376,6 @@ class TTSService {
       return;
     }
 
-    // Cancel any previous speech
     this.stop();
 
     if (!text || text.trim() === '') {
@@ -165,12 +388,10 @@ class TTSService {
       const utterance = new SpeechSynthesisUtterance(text);
       utterance.lang = targetLocale;
 
-      // Smooth, natural pacing for museum audio guide
       const baseRate = lang === 'en' ? 0.95 : 1.0;
       utterance.rate = Math.max(0.7, Math.min(2.0, playbackRate * baseRate));
       utterance.pitch = 1.0;
 
-      // Select best natural voice
       const matchedVoice = this.getBestVoice(lang, targetLocale);
       if (matchedVoice) {
         utterance.voice = matchedVoice;
@@ -190,7 +411,6 @@ class TTSService {
       };
 
       utterance.onerror = (e) => {
-        // 'canceled' or 'interrupted' errors happen on stop/re-trigger
         if (e.error !== 'canceled' && e.error !== 'interrupted') {
           console.warn('SpeechSynthesis error:', e.error);
           callbacks?.onError?.(e);
@@ -210,40 +430,11 @@ class TTSService {
         callbacks?.onResume?.();
       };
 
-      if (callbacks?.onBoundary) {
-        utterance.onboundary = (e) => {
-          callbacks.onBoundary?.(e.charIndex, text);
-        };
-      }
-
       this.currentUtterance = utterance;
       window.speechSynthesis.speak(utterance);
     } catch (err) {
       console.error('Failed to trigger speech synthesis:', err);
       callbacks?.onError?.(err);
-    }
-  }
-
-  public pause(): void {
-    if (this.isSupported() && window.speechSynthesis.speaking) {
-      window.speechSynthesis.pause();
-      this.isPaused = true;
-    }
-  }
-
-  public resume(): void {
-    if (this.isSupported() && window.speechSynthesis.paused) {
-      window.speechSynthesis.resume();
-      this.isPaused = false;
-    }
-  }
-
-  public stop(): void {
-    if (this.isSupported()) {
-      window.speechSynthesis.cancel();
-      this.isSpeaking = false;
-      this.isPaused = false;
-      this.currentUtterance = null;
     }
   }
 }

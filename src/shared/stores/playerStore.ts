@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { Artifact } from '../types';
+import { ttsService } from '../services/tts';
 
 interface PlayerState {
   currentArtifact: Artifact | null;
@@ -8,7 +9,10 @@ interface PlayerState {
   duration: number;
   playbackRate: number;
   showSubtitle: boolean;
-  playArtifact: (artifact: Artifact) => void;
+  startCueIndex: number;
+  playArtifact: (artifact: Artifact, startCueIndex?: number, startTime?: number) => void;
+  seekToCue: (index: number, startTime: number) => void;
+  seekToTime: (time: number) => void;
   pause: () => void;
   resume: () => void;
   stop: () => void;
@@ -26,22 +30,62 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
   duration: 0,
   playbackRate: 1.0,
   showSubtitle: true,
+  startCueIndex: 0,
 
-  playArtifact: (artifact) => {
+  playArtifact: (artifact, startCueIndex = 0, startTime = 0) => {
     set({
       currentArtifact: artifact,
       isPlaying: true,
-      currentTime: 0,
+      currentTime: startTime,
+      startCueIndex,
       showSubtitle: true,
     });
   },
 
-  pause: () => set({ isPlaying: false }),
-  resume: () => set({ isPlaying: true }),
-  stop: () => set({ currentArtifact: null, isPlaying: false, currentTime: 0, showSubtitle: false }),
+  seekToCue: (index, startTime) => {
+    set({
+      isPlaying: true,
+      currentTime: startTime,
+      startCueIndex: index,
+    });
+    ttsService.seekToCueIndex(index);
+  },
+
+  seekToTime: (time) => {
+    set({
+      isPlaying: true,
+      currentTime: time,
+    });
+    ttsService.seekToSeconds(time);
+  },
+
+  pause: () => {
+    ttsService.pause();
+    set({ isPlaying: false });
+  },
+
+  resume: () => {
+    ttsService.resume();
+    set({ isPlaying: true });
+  },
+
+  stop: () => {
+    ttsService.stop();
+    set({
+      currentArtifact: null,
+      isPlaying: false,
+      currentTime: 0,
+      startCueIndex: 0,
+      showSubtitle: false
+    });
+  },
+
   setCurrentTime: (currentTime) => set({ currentTime }),
   setDuration: (duration) => set({ duration }),
-  setPlaybackRate: (playbackRate) => set({ playbackRate }),
+  setPlaybackRate: (playbackRate) => {
+    ttsService.setPlaybackRate(playbackRate);
+    set({ playbackRate });
+  },
   toggleSubtitle: () => set({ showSubtitle: !get().showSubtitle }),
   setShowSubtitle: (showSubtitle) => set({ showSubtitle }),
 }));

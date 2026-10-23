@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import { usePlayerStore } from '../../shared/stores/playerStore';
 import { useLangStore } from '../../shared/stores/langStore';
 import { ttsService } from '../../shared/services/tts';
@@ -9,7 +9,6 @@ import { useTranslation } from 'react-i18next';
 export const AudioPlayerBar: React.FC = () => {
   const { t } = useTranslation();
   const { currentLang } = useLangStore();
-  const intervalRef = useRef<any>(null);
 
   const {
     currentArtifact,
@@ -18,6 +17,7 @@ export const AudioPlayerBar: React.FC = () => {
     duration,
     playbackRate,
     showSubtitle,
+    startCueIndex,
     pause,
     resume,
     stop,
@@ -25,14 +25,14 @@ export const AudioPlayerBar: React.FC = () => {
     setDuration,
     setPlaybackRate,
     toggleSubtitle,
-    setShowSubtitle
+    seekToCue,
+    seekToTime
   } = usePlayerStore();
 
-  const title = currentArtifact?.title?.[currentLang] || currentArtifact?.title?.['vi'] || '';
   const description =
     currentArtifact?.description?.[currentLang] || currentArtifact?.description?.['vi'] || '';
 
-  // Extract multi-sentence subtitles or fallback
+  // Extract multi-sentence subtitles or generate fallback
   const rawSubtitles =
     currentArtifact?.subtitles?.[currentLang] || currentArtifact?.subtitles?.['vi'] || [];
   const activeSubtitles =
@@ -48,69 +48,52 @@ export const AudioPlayerBar: React.FC = () => {
         ]
       : [];
 
-  const narrationScript =
-    activeSubtitles.length > 0
-      ? activeSubtitles.map((cue) => cue.text).join(' ')
-      : title
-      ? `${title}. ${description}`
-      : '';
-
   const totalDuration =
     activeSubtitles.length > 0 && activeSubtitles[activeSubtitles.length - 1].end > 0
       ? activeSubtitles[activeSubtitles.length - 1].end
-      : Math.max(10, Math.round(narrationScript.length / (13 * playbackRate)));
+      : 30;
 
-  // AI Voice Speech Synthesis Hook
+  // Cue-based Speech Playback Engine Hook
   useEffect(() => {
-    if (!currentArtifact || !narrationScript) {
+    if (!currentArtifact || activeSubtitles.length === 0) {
       ttsService.stop();
-      if (intervalRef.current) clearInterval(intervalRef.current);
       return;
     }
 
+    setDuration(totalDuration);
+
     if (isPlaying) {
-      setDuration(totalDuration);
-
-      if (ttsService.isSupported()) {
-        ttsService.speak(narrationScript, currentLang, playbackRate, {
-          onEnd: () => {
-            stop();
-          },
-          onError: () => {
-            stop();
+      if (!ttsService.getIsCuePlaying()) {
+        ttsService.playCues(
+          activeSubtitles,
+          startCueIndex,
+          currentLang,
+          playbackRate,
+          {
+            onCueChange: (_idx, cue) => {
+              setCurrentTime(cue.start);
+            },
+            onCueProgress: (_idx, curTime) => {
+              setCurrentTime(curTime);
+            },
+            onFinish: () => {
+              stop();
+            },
+            onError: () => {
+              stop();
+            }
           }
-        });
+        );
       }
-
-      // Progress Tracker Interval
-      if (intervalRef.current) clearInterval(intervalRef.current);
-      intervalRef.current = setInterval(() => {
-        usePlayerStore.setState((prev) => {
-          if (!prev.isPlaying) return prev;
-          const nextTime = Number((prev.currentTime + 0.25).toFixed(2));
-          if (nextTime >= totalDuration) {
-            return { currentTime: totalDuration };
-          }
-          return { currentTime: nextTime };
-        });
-      }, 250);
-
-      return () => {
-        if (intervalRef.current) clearInterval(intervalRef.current);
-      };
     } else {
-      if (ttsService.isSupported()) {
-        ttsService.pause();
-      }
-      if (intervalRef.current) clearInterval(intervalRef.current);
+      ttsService.pause();
     }
-  }, [isPlaying, currentArtifact?.id, currentLang, playbackRate, narrationScript, totalDuration]);
+  }, [isPlaying, currentArtifact?.id, currentLang]);
 
   // Clean up on component unmount
   useEffect(() => {
     return () => {
       ttsService.stop();
-      if (intervalRef.current) clearInterval(intervalRef.current);
     };
   }, []);
 
@@ -133,27 +116,11 @@ export const AudioPlayerBar: React.FC = () => {
   };
 
   const handleSeek = (val: number) => {
-    setCurrentTime(val);
-    if (isPlaying && activeSubtitles.length > 0) {
-      const remainingCues = activeSubtitles.filter((c) => c.start >= val);
-      const textToSpeak =
-        remainingCues.length > 0
-          ? remainingCues.map((c) => c.text).join(' ')
-          : narrationScript;
-
-      if (ttsService.isSupported()) {
-        ttsService.speak(textToSpeak, currentLang, playbackRate, {
-          onEnd: () => stop(),
-          onError: () => stop()
-        });
-      }
-    }
+    seekToTime(val);
   };
 
   const handleStopAndClose = (e: React.MouseEvent) => {
     e.stopPropagation();
-    ttsService.stop();
-    setShowSubtitle(false);
     stop();
   };
 
@@ -178,7 +145,7 @@ export const AudioPlayerBar: React.FC = () => {
             <LiveTranscriptCard
               subtitles={activeSubtitles}
               currentTime={currentTime}
-              onSeekCue={handleSeek}
+              onSeekCue={(sec, index) => seekToCue(index, sec)}
               className="border-0 shadow-none p-0"
             />
           </div>
