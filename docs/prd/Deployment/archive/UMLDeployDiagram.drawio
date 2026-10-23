@@ -1,0 +1,164 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Page-1" id="2ToVu3ZTqueoz6xzajGF">
+    <mxGraphModel dx="923" dy="648" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <UserObject label="" plantUmlData="{&#xa;  &quot;data&quot;: &quot;@startuml\nleft to right direction\n\n&#39; ============================================================\n&#39; CLIENT NODE\n&#39; ============================================================\nnode \&quot;Client PC\&quot; &lt;&lt;device&gt;&gt; {\n    node \&quot;Browser / App Runtime\&quot; &lt;&lt;execution environment&gt;&gt; {\n        artifact \&quot;GUI.spa\&quot; &lt;&lt;artifact&gt;&gt;\n        artifact \&quot;ClientSession.js\&quot; &lt;&lt;artifact&gt;&gt;\n        artifact \&quot;QRScanner.js\&quot; &lt;&lt;artifact&gt;&gt;\n        artifact \&quot;MediaPlayer.js\&quot; &lt;&lt;artifact&gt;&gt;\n    }\n}\n\n&#39; ============================================================\n&#39; SERVER NODE\n&#39; ============================================================\nnode \&quot;Application Server\&quot; &lt;&lt;device&gt;&gt; {\n    node \&quot;Docker / JVM\&quot; &lt;&lt;execution environment&gt;&gt; {\n        artifact \&quot;AuthServer.jar\&quot; &lt;&lt;artifact&gt;&gt;\n        artifact \&quot;ArtifactManager.jar\&quot; &lt;&lt;artifact&gt;&gt;\n        artifact \&quot;AudioStreamer.jar\&quot; &lt;&lt;artifact&gt;&gt;\n    }\n}\n\n&#39; ============================================================\n&#39; STORAGE &amp; DATABASE NODE\n&#39; ============================================================\nnode \&quot;Database Server\&quot; &lt;&lt;device&gt;&gt; {\n    node \&quot;DBMS Engine\&quot; &lt;&lt;execution environment&gt;&gt; {\n        database \&quot;System DB\&quot; &lt;&lt;database system&gt;&gt;\n    }\n}\n\nnode \&quot;Media Storage Server\&quot; &lt;&lt;device&gt;&gt; {\n    node \&quot;File Storage Service\&quot; &lt;&lt;execution environment&gt;&gt; {\n        artifact \&quot;MediaArchive.storage\&quot; &lt;&lt;artifact&gt;&gt;\n    }\n}\n\n&#39; ============================================================\n&#39; COMMUNICATION PATHS (Node to Node)\n&#39; ============================================================\n\&quot;Client PC\&quot; -- \&quot;Application Server\&quot; : HTTPS / REST API\n\&quot;Application Server\&quot; -- \&quot;Database Server\&quot; : JDBC / TCP\n\&quot;Application Server\&quot; -- \&quot;Media Storage Server\&quot; : HTTP / REST API\n\n&#39; ============================================================\n&#39; DEPLOY RELATIONSHIPS\n&#39; ============================================================\n\&quot;GUI.spa\&quot;             ..&gt; \&quot;Browser / App Runtime\&quot;  : &lt;&lt;deploy&gt;&gt;\n\&quot;ClientSession.js\&quot;    ..&gt; \&quot;Browser / App Runtime\&quot;  : &lt;&lt;deploy&gt;&gt;\n\&quot;QRScanner.js\&quot;        ..&gt; \&quot;Browser / App Runtime\&quot;  : &lt;&lt;deploy&gt;&gt;\n\&quot;MediaPlayer.js\&quot;      ..&gt; \&quot;Browser / App Runtime\&quot;  : &lt;&lt;deploy&gt;&gt;\n\n\&quot;AuthServer.jar\&quot;      ..&gt; \&quot;Docker / JVM\&quot;           : &lt;&lt;deploy&gt;&gt;\n\&quot;ArtifactManager.jar\&quot; ..&gt; \&quot;Docker / JVM\&quot;           : &lt;&lt;deploy&gt;&gt;\n\&quot;AudioStreamer.jar\&quot;   ..&gt; \&quot;Docker / JVM\&quot;            : &lt;&lt;deploy&gt;&gt;\n\n\&quot;System DB\&quot;           ..&gt; \&quot;DBMS Engine\&quot;            : &lt;&lt;deploy&gt;&gt;\n\&quot;MediaArchive.storage\&quot; ..&gt; \&quot;File Storage Service\&quot;  : &lt;&lt;deploy&gt;&gt;\n\n@enduml\n&quot;,&#xa;  &quot;config&quot;: null&#xa;}" id="r0A9IIhiuH9c7ogWZ4i7-1">
+          <mxCell connectable="0" parent="1" style="group;transparentBounds=1;editIcon=1;lockedGroup=0;groupPadding=10;" vertex="1">
+            <mxGeometry as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="«device»&#xa;Client PC" plantUmlId="c_0" plantUmlBaseStyle="shape=cube;size=10;fillColor=none;strokeColor=#181818;verticalAlign=top;align=center;spacingTop=12;fontSize=14;fontStyle=1;whiteSpace=wrap;" plantUmlBaseValue="«device»&#xa;Client PC" id="r0A9IIhiuH9c7ogWZ4i7-2">
+          <mxCell parent="r0A9IIhiuH9c7ogWZ4i7-1" style="shape=cube;size=10;fillColor=none;strokeColor=#181818;verticalAlign=top;align=center;spacingTop=12;fontSize=14;fontStyle=1;whiteSpace=wrap;" vertex="1">
+            <mxGeometry height="294" width="381" x="220" y="481" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="«execution environment»&#xa;Browser / App Runtime" plantUmlId="c_1" plantUmlBaseStyle="shape=cube;size=10;fillColor=none;strokeColor=#181818;verticalAlign=top;align=center;spacingTop=12;fontSize=14;fontStyle=1;whiteSpace=wrap;" plantUmlBaseValue="«execution environment»&#xa;Browser / App Runtime" id="r0A9IIhiuH9c7ogWZ4i7-3">
+          <mxCell parent="r0A9IIhiuH9c7ogWZ4i7-2" style="shape=cube;size=10;fillColor=none;strokeColor=#181818;verticalAlign=top;align=center;spacingTop=12;fontSize=14;fontStyle=1;whiteSpace=wrap;" vertex="1">
+            <mxGeometry height="223" width="341" x="15" y="55" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="«artifact»&#xa;GUI.spa" plantUmlId="n_2" plantUmlBaseStyle="rounded=1;absoluteArcSize=1;arcSize=5;fillColor=#F1F1F1;strokeColor=#181818;fontSize=14;whiteSpace=wrap;" plantUmlBaseValue="«artifact»&#xa;GUI.spa" id="r0A9IIhiuH9c7ogWZ4i7-4">
+          <mxCell parent="r0A9IIhiuH9c7ogWZ4i7-3" style="rounded=1;absoluteArcSize=1;arcSize=5;fillColor=#F1F1F1;strokeColor=#181818;fontSize=14;whiteSpace=wrap;" vertex="1">
+            <mxGeometry height="46" width="94" x="34.5" y="55" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="" plantUmlId="ci_3" plantUmlBaseStyle="shape=note;size=6;fillColor=#F1F1F1;strokeColor=#181818;strokeWidth=0.5;" plantUmlBaseValue="" id="r0A9IIhiuH9c7ogWZ4i7-5">
+          <mxCell parent="r0A9IIhiuH9c7ogWZ4i7-3" style="shape=note;size=6;fillColor=#F1F1F1;strokeColor=#181818;strokeWidth=0.5;" vertex="1">
+            <mxGeometry height="14" width="12" x="111.5" y="60" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="«artifact»&#xa;ClientSession.js" plantUmlId="n_4" plantUmlBaseStyle="rounded=1;absoluteArcSize=1;arcSize=5;fillColor=#F1F1F1;strokeColor=#181818;fontSize=14;whiteSpace=wrap;" plantUmlBaseValue="«artifact»&#xa;ClientSession.js" id="r0A9IIhiuH9c7ogWZ4i7-6">
+          <mxCell parent="r0A9IIhiuH9c7ogWZ4i7-3" style="rounded=1;absoluteArcSize=1;arcSize=5;fillColor=#F1F1F1;strokeColor=#181818;fontSize=14;whiteSpace=wrap;" vertex="1">
+            <mxGeometry height="46" width="133" x="183" y="55" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="" plantUmlId="ci_5" plantUmlBaseStyle="shape=note;size=6;fillColor=#F1F1F1;strokeColor=#181818;strokeWidth=0.5;" plantUmlBaseValue="" id="r0A9IIhiuH9c7ogWZ4i7-7">
+          <mxCell parent="r0A9IIhiuH9c7ogWZ4i7-3" style="shape=note;size=6;fillColor=#F1F1F1;strokeColor=#181818;strokeWidth=0.5;" vertex="1">
+            <mxGeometry height="14" width="12" x="299" y="60" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="«artifact»&#xa;QRScanner.js" plantUmlId="n_6" plantUmlBaseStyle="rounded=1;absoluteArcSize=1;arcSize=5;fillColor=#F1F1F1;strokeColor=#181818;fontSize=14;whiteSpace=wrap;" plantUmlBaseValue="«artifact»&#xa;QRScanner.js" id="r0A9IIhiuH9c7ogWZ4i7-8">
+          <mxCell parent="r0A9IIhiuH9c7ogWZ4i7-3" style="rounded=1;absoluteArcSize=1;arcSize=5;fillColor=#F1F1F1;strokeColor=#181818;fontSize=14;whiteSpace=wrap;" vertex="1">
+            <mxGeometry height="46" width="116" x="23.5" y="161" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="" plantUmlId="ci_7" plantUmlBaseStyle="shape=note;size=6;fillColor=#F1F1F1;strokeColor=#181818;strokeWidth=0.5;" plantUmlBaseValue="" id="r0A9IIhiuH9c7ogWZ4i7-9">
+          <mxCell parent="r0A9IIhiuH9c7ogWZ4i7-3" style="shape=note;size=6;fillColor=#F1F1F1;strokeColor=#181818;strokeWidth=0.5;" vertex="1">
+            <mxGeometry height="14" width="12" x="122.5" y="166" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="«artifact»&#xa;MediaPlayer.js" plantUmlId="n_8" plantUmlBaseStyle="rounded=1;absoluteArcSize=1;arcSize=5;fillColor=#F1F1F1;strokeColor=#181818;fontSize=14;whiteSpace=wrap;" plantUmlBaseValue="«artifact»&#xa;MediaPlayer.js" id="r0A9IIhiuH9c7ogWZ4i7-10">
+          <mxCell parent="r0A9IIhiuH9c7ogWZ4i7-3" style="rounded=1;absoluteArcSize=1;arcSize=5;fillColor=#F1F1F1;strokeColor=#181818;fontSize=14;whiteSpace=wrap;" vertex="1">
+            <mxGeometry height="46" width="129" x="185" y="161" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="" plantUmlId="ci_9" plantUmlBaseStyle="shape=note;size=6;fillColor=#F1F1F1;strokeColor=#181818;strokeWidth=0.5;" plantUmlBaseValue="" id="r0A9IIhiuH9c7ogWZ4i7-11">
+          <mxCell parent="r0A9IIhiuH9c7ogWZ4i7-3" style="shape=note;size=6;fillColor=#F1F1F1;strokeColor=#181818;strokeWidth=0.5;" vertex="1">
+            <mxGeometry height="14" width="12" x="297" y="166" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="«device»&#xa;Application Server" plantUmlId="c_10" plantUmlBaseStyle="shape=cube;size=10;fillColor=none;strokeColor=#181818;verticalAlign=top;align=center;spacingTop=12;fontSize=14;fontStyle=1;whiteSpace=wrap;" plantUmlBaseValue="«device»&#xa;Application Server" id="r0A9IIhiuH9c7ogWZ4i7-12">
+          <mxCell parent="r0A9IIhiuH9c7ogWZ4i7-1" style="shape=cube;size=10;fillColor=none;strokeColor=#181818;verticalAlign=top;align=center;spacingTop=12;fontSize=14;fontStyle=1;whiteSpace=wrap;" vertex="1">
+            <mxGeometry height="294" width="437" x="766" y="481" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="«execution environment»&#xa;Docker / JVM" plantUmlId="c_11" plantUmlBaseStyle="shape=cube;size=10;fillColor=none;strokeColor=#181818;verticalAlign=top;align=center;spacingTop=12;fontSize=14;fontStyle=1;whiteSpace=wrap;" plantUmlBaseValue="«execution environment»&#xa;Docker / JVM" id="r0A9IIhiuH9c7ogWZ4i7-13">
+          <mxCell parent="r0A9IIhiuH9c7ogWZ4i7-12" style="shape=cube;size=10;fillColor=none;strokeColor=#181818;verticalAlign=top;align=center;spacingTop=12;fontSize=14;fontStyle=1;whiteSpace=wrap;" vertex="1">
+            <mxGeometry height="223" width="397" x="15" y="55" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="«artifact»&#xa;AuthServer.jar" plantUmlId="n_12" plantUmlBaseStyle="rounded=1;absoluteArcSize=1;arcSize=5;fillColor=#F1F1F1;strokeColor=#181818;fontSize=14;whiteSpace=wrap;" plantUmlBaseValue="«artifact»&#xa;AuthServer.jar" id="r0A9IIhiuH9c7ogWZ4i7-14">
+          <mxCell parent="r0A9IIhiuH9c7ogWZ4i7-13" style="rounded=1;absoluteArcSize=1;arcSize=5;fillColor=#F1F1F1;strokeColor=#181818;fontSize=14;whiteSpace=wrap;" vertex="1">
+            <mxGeometry height="46" width="128" x="31.5" y="55" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="" plantUmlId="ci_13" plantUmlBaseStyle="shape=note;size=6;fillColor=#F1F1F1;strokeColor=#181818;strokeWidth=0.5;" plantUmlBaseValue="" id="r0A9IIhiuH9c7ogWZ4i7-15">
+          <mxCell parent="r0A9IIhiuH9c7ogWZ4i7-13" style="shape=note;size=6;fillColor=#F1F1F1;strokeColor=#181818;strokeWidth=0.5;" vertex="1">
+            <mxGeometry height="14" width="12" x="142.5" y="60" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="«artifact»&#xa;ArtifactManager.jar" plantUmlId="n_14" plantUmlBaseStyle="rounded=1;absoluteArcSize=1;arcSize=5;fillColor=#F1F1F1;strokeColor=#181818;fontSize=14;whiteSpace=wrap;" plantUmlBaseValue="«artifact»&#xa;ArtifactManager.jar" id="r0A9IIhiuH9c7ogWZ4i7-16">
+          <mxCell parent="r0A9IIhiuH9c7ogWZ4i7-13" style="rounded=1;absoluteArcSize=1;arcSize=5;fillColor=#F1F1F1;strokeColor=#181818;fontSize=14;whiteSpace=wrap;" vertex="1">
+            <mxGeometry height="46" width="161" x="211" y="55" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="" plantUmlId="ci_15" plantUmlBaseStyle="shape=note;size=6;fillColor=#F1F1F1;strokeColor=#181818;strokeWidth=0.5;" plantUmlBaseValue="" id="r0A9IIhiuH9c7ogWZ4i7-17">
+          <mxCell parent="r0A9IIhiuH9c7ogWZ4i7-13" style="shape=note;size=6;fillColor=#F1F1F1;strokeColor=#181818;strokeWidth=0.5;" vertex="1">
+            <mxGeometry height="14" width="12" x="355" y="60" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="«artifact»&#xa;AudioStreamer.jar" plantUmlId="n_16" plantUmlBaseStyle="rounded=1;absoluteArcSize=1;arcSize=5;fillColor=#F1F1F1;strokeColor=#181818;fontSize=14;whiteSpace=wrap;" plantUmlBaseValue="«artifact»&#xa;AudioStreamer.jar" id="r0A9IIhiuH9c7ogWZ4i7-18">
+          <mxCell parent="r0A9IIhiuH9c7ogWZ4i7-13" style="rounded=1;absoluteArcSize=1;arcSize=5;fillColor=#F1F1F1;strokeColor=#181818;fontSize=14;whiteSpace=wrap;" vertex="1">
+            <mxGeometry height="46" width="152" x="19.5" y="161" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="" plantUmlId="ci_17" plantUmlBaseStyle="shape=note;size=6;fillColor=#F1F1F1;strokeColor=#181818;strokeWidth=0.5;" plantUmlBaseValue="" id="r0A9IIhiuH9c7ogWZ4i7-19">
+          <mxCell parent="r0A9IIhiuH9c7ogWZ4i7-13" style="shape=note;size=6;fillColor=#F1F1F1;strokeColor=#181818;strokeWidth=0.5;" vertex="1">
+            <mxGeometry height="14" width="12" x="154.5" y="166" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="«device»&#xa;Database Server" plantUmlId="c_18" plantUmlBaseStyle="shape=cube;size=10;fillColor=none;strokeColor=#181818;verticalAlign=top;align=center;spacingTop=12;fontSize=14;fontStyle=1;whiteSpace=wrap;" plantUmlBaseValue="«device»&#xa;Database Server" id="r0A9IIhiuH9c7ogWZ4i7-20">
+          <mxCell parent="r0A9IIhiuH9c7ogWZ4i7-1" style="shape=cube;size=10;fillColor=none;strokeColor=#181818;verticalAlign=top;align=center;spacingTop=12;fontSize=14;fontStyle=1;whiteSpace=wrap;" vertex="1">
+            <mxGeometry height="188" width="289.56500000000005" x="1360" y="400" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="«execution environment»&#xa;DBMS Engine" plantUmlId="c_19" plantUmlBaseStyle="shape=cube;size=10;fillColor=none;strokeColor=#181818;verticalAlign=top;align=center;spacingTop=12;fontSize=14;fontStyle=1;whiteSpace=wrap;" plantUmlBaseValue="«execution environment»&#xa;DBMS Engine" id="r0A9IIhiuH9c7ogWZ4i7-21">
+          <mxCell parent="r0A9IIhiuH9c7ogWZ4i7-20" style="shape=cube;size=10;fillColor=none;strokeColor=#181818;verticalAlign=top;align=center;spacingTop=12;fontSize=14;fontStyle=1;whiteSpace=wrap;" vertex="1">
+            <mxGeometry height="117" width="249.56500000000003" x="15.000000000000014" y="55" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="«database system»&#xa;System DB" plantUmlId="n_20" plantUmlBaseStyle="shape=cylinder3;size=10;boundedLbl=1;backgroundOutline=1;fillColor=#F1F1F1;strokeColor=#181818;fontSize=14;whiteSpace=wrap;" plantUmlBaseValue="«database system»&#xa;System DB" id="r0A9IIhiuH9c7ogWZ4i7-22">
+          <mxCell parent="r0A9IIhiuH9c7ogWZ4i7-21" style="shape=cylinder3;size=10;boundedLbl=1;backgroundOutline=1;fillColor=#F1F1F1;strokeColor=#181818;fontSize=14;whiteSpace=wrap;" vertex="1">
+            <mxGeometry height="55" width="156" x="46.78" y="55" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="«device»&#xa;Media Storage Server" plantUmlId="c_21" plantUmlBaseStyle="shape=cube;size=10;fillColor=none;strokeColor=#181818;verticalAlign=top;align=center;spacingTop=12;fontSize=14;fontStyle=1;whiteSpace=wrap;" plantUmlBaseValue="«device»&#xa;Media Storage Server" id="r0A9IIhiuH9c7ogWZ4i7-23">
+          <mxCell parent="r0A9IIhiuH9c7ogWZ4i7-1" style="shape=cube;size=10;fillColor=none;strokeColor=#181818;verticalAlign=top;align=center;spacingTop=12;fontSize=14;fontStyle=1;whiteSpace=wrap;" vertex="1">
+            <mxGeometry height="188" width="289.56500000000005" x="1360" y="660" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="«execution environment»&#xa;File Storage Service" plantUmlId="c_22" plantUmlBaseStyle="shape=cube;size=10;fillColor=none;strokeColor=#181818;verticalAlign=top;align=center;spacingTop=12;fontSize=14;fontStyle=1;whiteSpace=wrap;" plantUmlBaseValue="«execution environment»&#xa;File Storage Service" id="r0A9IIhiuH9c7ogWZ4i7-24">
+          <mxCell parent="r0A9IIhiuH9c7ogWZ4i7-23" style="shape=cube;size=10;fillColor=none;strokeColor=#181818;verticalAlign=top;align=center;spacingTop=12;fontSize=14;fontStyle=1;whiteSpace=wrap;" vertex="1">
+            <mxGeometry height="117" width="249.56500000000003" x="15.000000000000014" y="55" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="«artifact»&#xa;MediaArchive.storage" plantUmlId="n_23" plantUmlBaseStyle="rounded=1;absoluteArcSize=1;arcSize=5;fillColor=#F1F1F1;strokeColor=#181818;fontSize=14;whiteSpace=wrap;" plantUmlBaseValue="«artifact»&#xa;MediaArchive.storage" id="r0A9IIhiuH9c7ogWZ4i7-25">
+          <mxCell parent="r0A9IIhiuH9c7ogWZ4i7-24" style="rounded=1;absoluteArcSize=1;arcSize=5;fillColor=#F1F1F1;strokeColor=#181818;fontSize=14;whiteSpace=wrap;" vertex="1">
+            <mxGeometry height="46" width="176" x="31.782500000000013" y="55" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="" plantUmlId="ci_24" plantUmlBaseStyle="shape=note;size=6;fillColor=#F1F1F1;strokeColor=#181818;strokeWidth=0.5;" plantUmlBaseValue="" id="r0A9IIhiuH9c7ogWZ4i7-26">
+          <mxCell parent="r0A9IIhiuH9c7ogWZ4i7-24" style="shape=note;size=6;fillColor=#F1F1F1;strokeColor=#181818;strokeWidth=0.5;" vertex="1">
+            <mxGeometry height="14" width="12" x="190.78250000000003" y="60" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="HTTPS / REST API" plantUmlId="e_25" plantUmlBaseStyle="strokeColor=#181818;fontColor=#000000;fontSize=12;html=1;labelBackgroundColor=#FFFFFF;endArrow=none;curved=0;rounded=0;endSize=6;sourcePerimeterSpacing=0;targetPerimeterSpacing=0;" plantUmlBaseValue="HTTPS / REST API" id="r0A9IIhiuH9c7ogWZ4i7-27">
+          <mxCell edge="1" parent="r0A9IIhiuH9c7ogWZ4i7-1" source="r0A9IIhiuH9c7ogWZ4i7-2" style="strokeColor=#181818;fontColor=#000000;fontSize=12;html=1;labelBackgroundColor=#FFFFFF;endArrow=none;curved=0;rounded=0;endSize=6;sourcePerimeterSpacing=0;targetPerimeterSpacing=0;" target="r0A9IIhiuH9c7ogWZ4i7-12">
+            <mxGeometry relative="1" x="-0.0378" y="18" as="geometry">
+              <mxPoint as="offset" />
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="JDBC / TCP" plantUmlId="e_26" plantUmlBaseStyle="strokeColor=#181818;fontColor=#000000;fontSize=12;html=1;labelBackgroundColor=#FFFFFF;endArrow=none;curved=0;rounded=0;endSize=6;sourcePerimeterSpacing=0;targetPerimeterSpacing=0;" plantUmlBaseValue="JDBC / TCP" id="r0A9IIhiuH9c7ogWZ4i7-28">
+          <mxCell edge="1" parent="r0A9IIhiuH9c7ogWZ4i7-1" source="r0A9IIhiuH9c7ogWZ4i7-12" style="strokeColor=#181818;fontColor=#000000;fontSize=12;html=1;labelBackgroundColor=#FFFFFF;endArrow=none;curved=0;rounded=0;endSize=6;sourcePerimeterSpacing=0;targetPerimeterSpacing=0;" target="r0A9IIhiuH9c7ogWZ4i7-20">
+            <mxGeometry relative="1" x="0.0423" y="19" as="geometry">
+              <mxPoint y="-1" as="offset" />
+              <Array as="points">
+                <mxPoint x="1280" y="550" />
+              </Array>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="HTTP / REST API" plantUmlId="e_27" plantUmlBaseStyle="strokeColor=#181818;fontColor=#000000;fontSize=12;html=1;labelBackgroundColor=#FFFFFF;endArrow=none;curved=0;rounded=0;endSize=6;sourcePerimeterSpacing=0;targetPerimeterSpacing=0;" plantUmlBaseValue="HTTP / REST API" id="r0A9IIhiuH9c7ogWZ4i7-29">
+          <mxCell edge="1" parent="r0A9IIhiuH9c7ogWZ4i7-1" source="r0A9IIhiuH9c7ogWZ4i7-12" style="strokeColor=#181818;fontColor=#000000;fontSize=12;html=1;labelBackgroundColor=#FFFFFF;endArrow=none;curved=0;rounded=0;endSize=6;sourcePerimeterSpacing=0;targetPerimeterSpacing=0;" target="r0A9IIhiuH9c7ogWZ4i7-23">
+            <mxGeometry relative="1" x="0.0696" y="-30" as="geometry">
+              <mxPoint as="offset" />
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

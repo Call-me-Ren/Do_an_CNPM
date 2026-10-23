@@ -1,0 +1,86 @@
+@startuml
+' !theme plain
+hide circle
+' skinparam linetype ortho
+
+entity "NGUOI_DUNG" as NGUOI_DUNG {
+    * user_id : int <<PK>>
+    --
+    * email : string
+    * mat_khau_hash : string
+    * ho_ten : string
+    * vai_tro : string
+    * ngon_ngu_mac_dinh : string
+    * trang_thai_khoa : boolean
+}
+
+entity "HIEN_VAT" as HIEN_VAT {
+    * hien_vat_id : int <<PK>>
+    --
+    * ma_dinh_danh : string
+    * ten_hien_vat : string
+     khu_vuc_id : int <<FK>>
+    * toa_do_x : float
+    * toa_do_y : float
+}
+
+entity "MA_QR" as MA_QR {
+    * qr_id : int <<PK>>
+    --
+    * hien_vat_id : int <<FK>>
+    * duong_dan_qr : string
+    * anh_qr_url : string
+}
+
+entity "TEP_AM_THANH" as TEP_AM_THANH {
+    * tep_am_thanh_id : int <<PK>>
+    --
+    * hien_vat_id : int <<FK>>
+    * ma_ngon_ngu : string <<FK>>
+    * duong_dan_tep : string
+    * thoi_luong_giay : int
+}
+
+entity "PHU_DE" as PHU_DE {
+    * phu_de_id : int <<PK>>
+    --
+    * tep_am_thanh_id : int <<FK>>
+    * duong_dan_vtt : string
+}
+
+entity "THONG_KE_LUOT_NGHE" as THONG_KE_LUOT_NGHE {
+    * thong_ke_id : int <<PK>>
+    --
+    * hien_vat_id : int <<FK>>
+    * tep_am_thanh_id : int <<FK>>
+    * user_id : int <<FK>>
+    * thoi_gian_nghe : datetime
+    * thoi_luong_da_nghe_giay : int
+}
+
+entity "LUU_YEU_THICH" as LUU_YEU_THICH
+entity "SO_DO_KHU_VUC" as SO_DO_KHU_VUC
+entity "NOI_DUNG_DA_NGON_NGU" as NOI_DUNG_DA_NGON_NGU
+entity "HINH_ANH" as HINH_ANH
+entity "NGON_NGU" as NGON_NGU
+
+' Relationships
+NGUOI_DUNG ||--o{ LUU_YEU_THICH : "luu"
+NGUOI_DUNG ||--o{ THONG_KE_LUOT_NGHE : "thuc_hien"
+
+SO_DO_KHU_VUC ||--o{ HIEN_VAT : "chua"
+
+HIEN_VAT ||--|| MA_QR : "gan_voi"
+HIEN_VAT ||--o{ NOI_DUNG_DA_NGON_NGU : "co_ban_dich"
+HIEN_VAT ||--o{ HINH_ANH : "co_anh"
+HIEN_VAT ||--o{ TEP_AM_THANH : "co_am_thanh"
+HIEN_VAT ||--o{ LUU_YEU_THICH : "duoc_luu"
+HIEN_VAT ||--o{ THONG_KE_LUOT_NGHE : "ghi_nhan"
+
+NGON_NGU ||--o{ NOI_DUNG_DA_NGON_NGU : "dinh_nghia"
+NGON_NGU ||--o{ TEP_AM_THANH : "dinh_nghia"
+
+TEP_AM_THANH ||--o| PHU_DE : "dong_bo"
+TEP_AM_THANH ||--o{ THONG_KE_LUOT_NGHE : "phat_trong"
+
+@enduml

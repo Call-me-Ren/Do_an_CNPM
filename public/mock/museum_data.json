@@ -1,0 +1,164 @@
+{
+  "museum": {
+    "name": "Bảo tàng Lịch sử & Văn hóa",
+    "address": "02 Nguyễn Bỉnh Khiêm, Bến Nghé, Quận 1, TP. Hồ Chí Minh",
+    "openHours": "08:00 - 17:00 (Thứ 3 - Chủ Nhật)",
+    "description": "Bảo tàng lưu giữ hàng ngàn hiện vật quý giá về tiến trình lịch sử, văn hóa dân tộc và khảo cổ học phương Nam.",
+    "hotline": "(028) 3829 8146",
+    "banner": "https://images.unsplash.com/photo-1566127444979-b3d2b654e3d7?auto=format&fit=crop&w=1200&q=80"
+  },
+  "floors": [
+    {
+      "id": 1,
+      "name": "Tầng 1 - Văn hóa Tiền sử & Cổ đại",
+      "mapImage": "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&w=1200&q=80",
+      "bounds": { "width": 800, "height": 600 }
+    },
+    {
+      "id": 2,
+      "name": "Tầng 2 - Triều đại Phong kiến & Độc lập",
+      "mapImage": "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&w=1200&q=80",
+      "bounds": { "width": 800, "height": 600 }
+    }
+  ],
+  "artifacts": [
+    {
+      "id": "POI001",
+      "code": "HV-001",
+      "floorId": 1,
+      "title": {
+        "vi": "Trống đồng Đông Sơn",
+        "en": "Dong Son Bronze Drum",
+        "zh": "东山铜鼓",
+        "ko": "동선 청동북",
+        "ja": "ドンソン青銅太鼓"
+      },
+      "description": {
+        "vi": "Trống đồng Đông Sơn tiêu biểu cho nền Văn hóa Đông Sơn (thế kỷ 7 TCN - thế kỷ 1 SCN), biểu tượng của quyền lực và tâm linh của cư dân Lạc Việt xưa.",
+        "en": "The Dong Son bronze drum is typical of Dong Son culture (7th century BC - 1st century AD), a symbol of authority and spirituality of the ancient Lac Viet people.",
+        "zh": "东山铜鼓是东山文化（公元前7世纪至公元1世纪）的代表，是古代骆越人民权力和精神的象征。",
+        "ko": "동선 청동북은 동선 문화(기원전 7세기 - 서기 1세기)를 대표하며, 고대 락비엣 민족의 권력과 영적 상징입니다.",
+        "ja": "ドンソン青銅太鼓はドンソン文化（紀元前7世紀〜西暦1世紀）の代表であり、古代ラックヴィエット族の権力と精神性の象徴です。"
+      },
+      "images": [
+        "https://images.unsplash.com/photo-1579783902614-a3fb3927b675?auto=format&fit=crop&w=800&q=80",
+        "https://images.unsplash.com/photo-1544967082-d9d25d867d66?auto=format&fit=crop&w=800&q=80"
+      ],
+      "mapCoordinates": {
+        "x": 220,
+        "y": 180
+      },
+      "geoCoordinates": {
+        "latitude": 10.7876,
+        "longitude": 106.7051
+      },
+      "audio": {
+        "vi": "https://actions.google.com/sounds/v1/ambiences/coffee_shop.ogg",
+        "en": "https://actions.google.com/sounds/v1/ambiences/coffee_shop.ogg",
+        "zh": "https://actions.google.com/sounds/v1/ambiences/coffee_shop.ogg",
+        "ko": "https://actions.google.com/sounds/v1/ambiences/coffee_shop.ogg",
+        "ja": "https://actions.google.com/sounds/v1/ambiences/coffee_shop.ogg"
+      },
+      "subtitles": {
+        "vi": [
+          { "start": 0, "end": 4, "text": "Chào mừng bạn đến với khu vực trưng bày Trống đồng Đông Sơn." },
+          { "start": 4, "end": 9, "text": "Đây là kiệt tác nghệ thuật đúc đồng đỉnh cao của người Việt cổ." },
+          { "start": 9, "end": 15, "text": "Hoa văn hình sao trung tâm biểu tượng cho mặt trời và nguồn sống." }
+        ],
+        "en": [
+          { "start": 0, "end": 4, "text": "Welcome to the Dong Son Bronze Drum exhibition area." },
+          { "start": 4, "end": 9, "text": "This is a pinnacle masterpiece of bronze casting by ancient Vietnamese." },
+          { "start": 9, "end": 15, "text": "The central star motif symbolizes the sun and the source of life." }
+        ]
+      }
+    },
+    {
+      "id": "POI002",
+      "code": "HV-002",
+      "floorId": 1,
+      "title": {
+        "vi": "Tượng thần Vishnu Óc Eo",
+        "en": "Oc Eo Vishnu Statue",
+        "zh": "奥欧毗湿奴雕像",
+        "ko": "옥에오 비슈누 조각상",
+        "ja": "オックエオ ヴィシュヌ神像"
+      },
+      "description": {
+        "vi": "Hiện vật văn hóa Phù Nam (thế kỷ 5 - 6), bằng đá sa thạch, thể hiện đỉnh cao của nghệ thuật tạc tượng tôn giáo thời kỳ cổ đại tại Nam Bộ.",
+        "en": "Funan culture artifact (5th - 6th century), made of sandstone, showing the peak of ancient religious sculpture art in Southern Vietnam.",
+        "zh": "扶南文化文物（5-6世纪），砂岩材质，展现古代南部地区宗教造像艺术巅峰。",
+        "ko": "부남 문화의 유물(5~6세기)로 사암으로 제작되었으며 고대 남부 지역 종교 조각 예술의 정점을 보여줍니다.",
+        "ja": "扶南（フナン）文化の遺物（5〜6世紀）、砂岩製で、南部古代の宗教彫刻技術の最高峰を示しています。"
+      },
+      "images": [
+        "https://images.unsplash.com/photo-1544967082-d9d25d867d66?auto=format&fit=crop&w=800&q=80"
+      ],
+      "mapCoordinates": {
+        "x": 480,
+        "y": 320
+      },
+      "geoCoordinates": {
+        "latitude": 10.7878,
+        "longitude": 106.7055
+      },
+      "audio": {
+        "vi": "https://actions.google.com/sounds/v1/ambiences/coffee_shop.ogg",
+        "en": "https://actions.google.com/sounds/v1/ambiences/coffee_shop.ogg"
+      },
+      "subtitles": {
+        "vi": [
+          { "start": 0, "end": 5, "text": "Pho tượng thần Vishnu được phát hiện tại vùng đồng bằng sông Cửu Long." },
+          { "start": 5, "end": 10, "text": "Tác phẩm phản ánh sự giao lưu văn hóa và tôn giáo Ấn Độ cổ đại." }
+        ],
+        "en": [
+          { "start": 0, "end": 5, "text": "The statue of Vishnu was discovered in the Mekong Delta region." },
+          { "start": 5, "end": 10, "text": "This piece reflects ancient cultural and religious exchanges with India." }
+        ]
+      }
+    },
+    {
+      "id": "POI003",
+      "code": "HV-003",
+      "floorId": 2,
+      "title": {
+        "vi": "Ấn rồng triều Nguyễn",
+        "en": "Nguyen Dynasty Royal Dragon Seal",
+        "zh": "阮朝御龙印",
+        "ko": "응우옌 왕조 황실 용 인장",
+        "ja": "グエン朝 龍の御印"
+      },
+      "description": {
+        "vi": "Bảo vật quốc gia bằng vàng ròng hoặc ngọc, tượng trưng cho vương quyền và quyền lực tối cao của Hoàng đế triều Nguyễn (1802 - 1945).",
+        "en": "National treasure made of pure gold or jade, symbolizing imperial authority and supreme power of Nguyen Dynasty emperors.",
+        "zh": "纯金或玉制国宝，象征阮朝皇帝（1802-1945）的至高王权。",
+        "ko": "순금 또는 옥으로 제작된 국보로 응우옌 황제의 절대 권력과 왕권을 상징합니다.",
+        "ja": "純金または翡翠で作られた国宝で、グエン朝皇帝（1802〜1945）の至高の王権を象徴しています。"
+      },
+      "images": [
+        "https://images.unsplash.com/photo-1582555172866-f73bb12a2ab3?auto=format&fit=crop&w=800&q=80"
+      ],
+      "mapCoordinates": {
+        "x": 350,
+        "y": 250
+      },
+      "geoCoordinates": {
+        "latitude": 10.7880,
+        "longitude": 106.7058
+      },
+      "audio": {
+        "vi": "https://actions.google.com/sounds/v1/ambiences/coffee_shop.ogg",
+        "en": "https://actions.google.com/sounds/v1/ambiences/coffee_shop.ogg"
+      },
+      "subtitles": {
+        "vi": [
+          { "start": 0, "end": 4, "text": "Ấn rồng triều Nguyễn mang đậm nét tinh xảo cung đình Huế." },
+          { "start": 4, "end": 9, "text": "Núm ấn chạm khắc hình rồng năm móng uy nghi quyền quý." }
+        ],
+        "en": [
+          { "start": 0, "end": 4, "text": "The Nguyen Dynasty dragon seal embodies Hue imperial craftsmanship." },
+          { "start": 4, "end": 9, "text": "The handle features an intricately carved five-clawed imperial dragon." }
+        ]
+      }
+    }
+  ]
+}
