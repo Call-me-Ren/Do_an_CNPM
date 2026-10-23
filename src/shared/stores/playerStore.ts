@@ -12,7 +12,12 @@ interface PlayerState {
   playbackRate: number;
   showSubtitle: boolean;
   startCueIndex: number;
-  playArtifact: (artifact: Artifact, startCueIndex?: number, startTime?: number) => void;
+  playArtifact: (
+    artifact: Artifact,
+    startCueIndex?: number,
+    startTime?: number,
+    autoShowSubtitle?: boolean
+  ) => void;
   seekToCue: (
     index: number,
     startTime: number,
@@ -41,14 +46,14 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
   showSubtitle: true,
   startCueIndex: 0,
 
-  playArtifact: (artifact, startCueIndex = 0, startTime = 0) => {
+  playArtifact: (artifact, startCueIndex = 0, startTime = 0, autoShowSubtitle = true) => {
     const lang = useLangStore.getState().currentLang;
     set({
       currentArtifact: artifact,
       isPlaying: true,
       currentTime: startTime,
       startCueIndex,
-      showSubtitle: true,
+      showSubtitle: autoShowSubtitle,
     });
     analyticsService.trackListen(
       artifact.id,

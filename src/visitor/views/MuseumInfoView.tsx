@@ -20,8 +20,9 @@ export const MuseumInfoView: React.FC<Props> = ({ museum }) => {
           src={museum.banner}
           alt={museum.name[currentLang] || museum.name['vi']}
           onError={(e) => {
+            e.currentTarget.onerror = null;
             e.currentTarget.src =
-              'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=1200&q=80';
+              'https://images.unsplash.com/photo-1582555172866-f73bb12a2ab3?auto=format&fit=crop&w=1200&q=80';
           }}
           className="w-full h-full object-cover"
         />

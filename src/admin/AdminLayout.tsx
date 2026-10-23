@@ -37,8 +37,8 @@ export const AdminLayout: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-slate-900 text-slate-100 flex flex-col md:flex-row">
-      {/* Sidebar for Desktop */}
-      <aside className="w-full md:w-64 bg-slate-950 border-r border-slate-800 p-5 flex flex-col justify-between shrink-0">
+      {/* Sidebar for Desktop - Sticky and Pinned */}
+      <aside className="w-full md:w-64 bg-slate-950 border-r border-slate-800 p-5 flex flex-col justify-between shrink-0 md:sticky md:top-0 md:h-screen md:overflow-y-auto">
         <div className="flex flex-col gap-6">
           <div className="flex items-center gap-2.5">
             <div className="p-2 bg-amber-500 rounded-xl text-slate-950 font-bold">
@@ -100,13 +100,23 @@ export const AdminLayout: React.FC = () => {
 
       {/* Main Admin Area */}
       <div className="flex-1 flex flex-col overflow-y-auto">
-        <header className="sticky top-0 z-30 bg-slate-900/80 backdrop-blur-md px-6 py-4 border-b border-slate-800 flex items-center justify-between">
+        <header className="sticky top-0 z-30 bg-slate-900/90 backdrop-blur-md px-6 py-3.5 border-b border-slate-800 flex items-center justify-between">
           <div className="text-sm text-slate-400">
             Khu vực quản trị / <span className="text-slate-200 font-semibold">{location.pathname}</span>
           </div>
 
-          <div className="text-xs text-slate-400 font-mono">
-            Bảo tàng Chứng tích Chiến tranh
+          <div className="flex items-center gap-3">
+            <span className="text-xs text-slate-400 font-mono hidden sm:inline">
+              Bảo tàng Chứng tích Chiến tranh
+            </span>
+            <button
+              onClick={handleLogout}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-red-500/15 hover:bg-red-500/25 text-red-400 border border-red-500/30 text-xs font-bold transition shadow-xs"
+              title="Đăng xuất quản trị viên"
+            >
+              <LogOut className="w-3.5 h-3.5" />
+              <span>Đăng xuất</span>
+            </button>
           </div>
         </header>
 

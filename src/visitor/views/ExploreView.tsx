@@ -201,8 +201,9 @@ export const ExploreView: React.FC<Props> = ({ artifacts, onSelectArtifact }) =>
                       src={artifact.images[0]}
                       alt={artifact.title[currentLang] || artifact.title['vi']}
                       onError={(e) => {
+                        e.currentTarget.onerror = null;
                         e.currentTarget.src =
-                          'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=800&q=80';
+                          'https://images.unsplash.com/photo-1582555172866-f73bb12a2ab3?auto=format&fit=crop&w=800&q=80';
                       }}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
@@ -252,7 +253,7 @@ export const ExploreView: React.FC<Props> = ({ artifacts, onSelectArtifact }) =>
                         if (isPlayingThis) {
                           pause();
                         } else {
-                          playArtifact(artifact);
+                          playArtifact(artifact, 0, 0, false);
                         }
                       }}
                       className={`w-full py-2.5 px-3 rounded-xl font-bold text-xs flex items-center justify-center gap-2 transition shadow-xs ${

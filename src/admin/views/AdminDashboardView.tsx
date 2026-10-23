@@ -107,10 +107,6 @@ export const AdminDashboardView: React.FC = () => {
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
             <span>Hệ thống Hoạt động</span>
           </span>
-          <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-mono font-bold bg-slate-800 text-slate-300 border border-slate-700">
-            <Radio className="w-3.5 h-3.5 text-amber-400" />
-            <span>{activeSessions.length} khách trực tuyến</span>
-          </span>
         </div>
       </div>
 

@@ -78,10 +78,10 @@ export const AudioPlayerBar: React.FC<Props> = ({ isDetailSheetOpen = false }) =
         setCurrentTime(curTime);
       },
       onFinish: () => {
-        stop();
+        pause();
       },
-      onError: () => {
-        stop();
+      onError: (err) => {
+        console.warn('TTS playback issue:', err);
       }
     });
 

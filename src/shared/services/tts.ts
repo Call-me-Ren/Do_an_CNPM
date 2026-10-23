@@ -169,6 +169,21 @@ class TTSService {
 
   // --- Cue Queue Playback Engine ---
 
+  private cancelSpeech(): void {
+    if (!this.isSupported()) return;
+    this.clearProgressTimer();
+    if (this.currentUtterance) {
+      this.currentUtterance.onstart = null;
+      this.currentUtterance.onend = null;
+      this.currentUtterance.onerror = null;
+      this.currentUtterance = null;
+    }
+    window.speechSynthesis.cancel();
+    if (window.speechSynthesis.paused) {
+      window.speechSynthesis.resume();
+    }
+  }
+
   public setCueCallbacks(callbacks: CueCallbacks): void {
     this.cueCallbacks = callbacks;
   }
@@ -185,7 +200,7 @@ class TTSService {
       return;
     }
 
-    this.stop();
+    this.cancelSpeech();
 
     if (!cues || cues.length === 0) {
       callbacks?.onFinish?.();
@@ -200,8 +215,14 @@ class TTSService {
       this.cueCallbacks = callbacks;
     }
     this.isCuePlaying = true;
+    this.isPaused = false;
 
-    this.speakCurrentCue();
+    if (this.seekTimeout) clearTimeout(this.seekTimeout);
+    this.seekTimeout = setTimeout(() => {
+      if (this.isCuePlaying) {
+        this.speakCurrentCue();
+      }
+    }, 50);
   }
 
   private clearProgressTimer(): void {
@@ -317,27 +338,17 @@ class TTSService {
 
     this.currentCueIndex = Math.max(0, Math.min(index, this.activeCues.length - 1));
     this.isCuePlaying = true;
+    this.isPaused = false;
     this.clearProgressTimer();
 
-    // Detach listeners from any active utterance before canceling to avoid stray callbacks
-    if (this.currentUtterance) {
-      this.currentUtterance.onstart = null;
-      this.currentUtterance.onend = null;
-      this.currentUtterance.onerror = null;
-      this.currentUtterance = null;
-    }
-
-    // Cancel currently speaking utterance
-    this.isCancelling = true;
-    window.speechSynthesis.cancel();
+    this.cancelSpeech();
 
     if (this.seekTimeout) clearTimeout(this.seekTimeout);
     this.seekTimeout = setTimeout(() => {
-      this.isCancelling = false;
       if (this.isCuePlaying) {
         this.speakCurrentCue();
       }
-    }, 70);
+    }, 50);
   }
 
   public seekToSeconds(seconds: number): void {
