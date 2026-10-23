@@ -59,7 +59,7 @@ export default defineConfig({
       },
     }),
   ],
-  base: process.env.NODE_ENV === 'production' ? '/Do_an_CNPM/' : '/',
+  base: process.env.NODE_ENV === 'production' ? '/Test_CNPM/' : '/',
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
