@@ -24,7 +24,8 @@ export const AudioPlayerBar: React.FC = () => {
     setCurrentTime,
     setDuration,
     setPlaybackRate,
-    toggleSubtitle
+    toggleSubtitle,
+    setShowSubtitle
   } = usePlayerStore();
 
   const title = currentArtifact?.title?.[currentLang] || currentArtifact?.title?.['vi'] || '';
@@ -152,6 +153,7 @@ export const AudioPlayerBar: React.FC = () => {
   const handleStopAndClose = (e: React.MouseEvent) => {
     e.stopPropagation();
     ttsService.stop();
+    setShowSubtitle(false);
     stop();
   };
 
@@ -246,17 +248,18 @@ export const AudioPlayerBar: React.FC = () => {
                 {playbackRate}x
               </button>
 
-              {/* Subtitles Toggle */}
+              {/* Subtitles Toggle (CC) */}
               <button
                 onClick={toggleSubtitle}
-                className={`p-2.5 rounded-xl transition-colors ${
+                className={`p-2 sm:px-2.5 sm:py-2 rounded-xl transition-colors flex items-center gap-1 ${
                   showSubtitle
-                    ? 'text-amber-400 bg-amber-400/20'
+                    ? 'text-amber-400 bg-amber-400/20 ring-1 ring-amber-400/40'
                     : 'text-slate-400 hover:bg-slate-800 hover:text-white'
                 }`}
-                title={t('subtitles')}
+                title="CC (Phụ đề)"
               >
                 <Subtitles className="w-4 h-4" />
+                <span className="text-[10px] font-extrabold tracking-tight">CC</span>
               </button>
 
               {/* Play/Pause */}

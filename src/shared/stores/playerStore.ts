@@ -16,6 +16,7 @@ interface PlayerState {
   setDuration: (duration: number) => void;
   setPlaybackRate: (rate: number) => void;
   toggleSubtitle: () => void;
+  setShowSubtitle: (show: boolean) => void;
 }
 
 export const usePlayerStore = create<PlayerState>((set, get) => ({
@@ -31,14 +32,16 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
       currentArtifact: artifact,
       isPlaying: true,
       currentTime: 0,
+      showSubtitle: true,
     });
   },
 
   pause: () => set({ isPlaying: false }),
   resume: () => set({ isPlaying: true }),
-  stop: () => set({ currentArtifact: null, isPlaying: false, currentTime: 0 }),
+  stop: () => set({ currentArtifact: null, isPlaying: false, currentTime: 0, showSubtitle: false }),
   setCurrentTime: (currentTime) => set({ currentTime }),
   setDuration: (duration) => set({ duration }),
   setPlaybackRate: (playbackRate) => set({ playbackRate }),
   toggleSubtitle: () => set({ showSubtitle: !get().showSubtitle }),
+  setShowSubtitle: (showSubtitle) => set({ showSubtitle }),
 }));

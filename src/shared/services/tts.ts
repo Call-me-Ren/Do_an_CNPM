@@ -21,6 +21,23 @@ class TTSService {
   private currentUtterance: SpeechSynthesisUtterance | null = null;
   private isSpeaking: boolean = false;
   private isPaused: boolean = false;
+  private cachedVoices: SpeechSynthesisVoice[] = [];
+
+  constructor() {
+    if (this.isSupported()) {
+      this.initVoices();
+    }
+  }
+
+  private initVoices(): void {
+    if (!this.isSupported()) return;
+    this.cachedVoices = window.speechSynthesis.getVoices();
+    if (window.speechSynthesis.onvoiceschanged !== undefined) {
+      window.speechSynthesis.onvoiceschanged = () => {
+        this.cachedVoices = window.speechSynthesis.getVoices();
+      };
+    }
+  }
 
   public isSupported(): boolean {
     return typeof window !== 'undefined' && 'speechSynthesis' in window;
@@ -40,7 +57,87 @@ class TTSService {
 
   public getVoices(): SpeechSynthesisVoice[] {
     if (!this.isSupported()) return [];
-    return window.speechSynthesis.getVoices();
+    if (this.cachedVoices.length > 0) return this.cachedVoices;
+    this.cachedVoices = window.speechSynthesis.getVoices();
+    return this.cachedVoices;
+  }
+
+  /**
+   * Score and pick the most natural, pleasant sounding voice for the requested language.
+   * Gives strong priority to modern neural/natural/Google studio voices over legacy robotic ones.
+   */
+  public getBestVoice(lang: SupportedLanguage, targetLocale: string): SpeechSynthesisVoice | undefined {
+    const voices = this.getVoices();
+    if (!voices || voices.length === 0) return undefined;
+
+    const matchingVoices = voices.filter((v) => {
+      const vLang = v.lang.toLowerCase().replace('_', '-');
+      const target = targetLocale.toLowerCase().replace('_', '-');
+      const prefix = target.split('-')[0];
+      return vLang === target || vLang.startsWith(prefix);
+    });
+
+    if (matchingVoices.length === 0) return undefined;
+
+    const scoreVoice = (v: SpeechSynthesisVoice): number => {
+      let score = 0;
+      const name = v.name.toLowerCase();
+      const vLang = v.lang.toLowerCase().replace('_', '-');
+      const target = targetLocale.toLowerCase().replace('_', '-');
+
+      // Exact dialect match (e.g. en-US for en-US)
+      if (vLang === target) {
+        score += 80;
+      }
+
+      // High-tier Natural / Neural / Online voices (Edge, Windows 11 Natural, Azure)
+      if (name.includes('natural') || name.includes('online')) {
+        score += 500;
+      }
+      if (name.includes('neural') || name.includes('premium')) {
+        score += 400;
+      }
+
+      // Studio Google voices (Chrome)
+      if (name.includes('google')) {
+        score += 300;
+      }
+
+      // Language-specific preferences
+      if (lang === 'en') {
+        // Preferred warm, clear English narrators
+        if (
+          name.includes('jenny') ||
+          name.includes('aria') ||
+          name.includes('guy') ||
+          name.includes('christopher') ||
+          name.includes('ana')
+        ) {
+          score += 250;
+        }
+        if (name.includes('samantha') || name.includes('karen') || name.includes('victoria') || name.includes('daniel')) {
+          score += 150;
+        }
+        // Penalize robotic legacy synthesizers (Microsoft David, Microsoft Mark, etc.)
+        if (name.includes('david') || name.includes('mark') || name.includes('desktop')) {
+          score -= 300;
+        }
+      } else if (lang === 'vi') {
+        // Vietnamese preferred voices (HoaiMy, NamMinh, Google Tiếng Việt)
+        if (name.includes('hoaimy') || name.includes('namminh')) {
+          score += 250;
+        }
+      }
+
+      if (v.default) {
+        score += 5;
+      }
+
+      return score;
+    };
+
+    const sorted = [...matchingVoices].sort((a, b) => scoreVoice(b) - scoreVoice(a));
+    return sorted[0];
   }
 
   public speak(
@@ -67,18 +164,14 @@ class TTSService {
       const targetLocale = langLocaleMap[lang] || 'vi-VN';
       const utterance = new SpeechSynthesisUtterance(text);
       utterance.lang = targetLocale;
-      utterance.rate = Math.max(0.7, Math.min(2.0, playbackRate));
+
+      // Smooth, natural pacing for museum audio guide
+      const baseRate = lang === 'en' ? 0.95 : 1.0;
+      utterance.rate = Math.max(0.7, Math.min(2.0, playbackRate * baseRate));
       utterance.pitch = 1.0;
 
-      // Find matching voice for target language
-      const voices = this.getVoices();
-      const matchedVoice = voices.find(
-        (v) =>
-          v.lang === targetLocale ||
-          v.lang.replace('_', '-').toLowerCase() === targetLocale.toLowerCase() ||
-          v.lang.toLowerCase().startsWith(targetLocale.split('-')[0])
-      );
-
+      // Select best natural voice
+      const matchedVoice = this.getBestVoice(lang, targetLocale);
       if (matchedVoice) {
         utterance.voice = matchedVoice;
       }
