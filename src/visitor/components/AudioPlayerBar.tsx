@@ -26,17 +26,38 @@ export const AudioPlayerBar: React.FC = () => {
 
   if (!currentArtifact) return null;
 
-  const rawAudio = currentArtifact.audio[currentLang] || currentArtifact.audio['vi'] || '/audio/guide_sample.wav';
+  const rawAudio =
+    currentArtifact.audio?.[currentLang] ||
+    currentArtifact.audio?.['vi'] ||
+    '/audio/guide_sample.wav';
   const isProduction = import.meta.env.PROD;
   const baseUrl = isProduction ? (import.meta.env.BASE_URL || '/').replace(/\/$/, '') : '';
-  const audioSrc = rawAudio.startsWith('http') ? rawAudio : `${baseUrl}${rawAudio}`;
+  const cleanRaw = rawAudio.startsWith('/') ? rawAudio : `/${rawAudio}`;
+  const audioSrc = cleanRaw.startsWith('http')
+    ? cleanRaw
+    : cleanRaw.startsWith(baseUrl)
+    ? cleanRaw
+    : `${baseUrl}${cleanRaw}`;
 
   useEffect(() => {
     if (audioRef.current) {
       if (isPlaying) {
-        audioRef.current.play().catch((err) => console.log('Autoplay handled:', err));
+        try {
+          const playPromise = audioRef.current.play();
+          if (playPromise !== undefined && typeof playPromise.catch === 'function') {
+            playPromise.catch((err) => {
+              console.warn('Audio playback was interrupted or prevented by browser policy:', err);
+            });
+          }
+        } catch (err) {
+          console.warn('Audio play call failed:', err);
+        }
       } else {
-        audioRef.current.pause();
+        try {
+          audioRef.current.pause();
+        } catch (err) {
+          console.warn('Audio pause failed:', err);
+        }
       }
     }
   }, [isPlaying, audioSrc]);
@@ -120,8 +141,8 @@ export const AudioPlayerBar: React.FC = () => {
           <div className="flex items-center justify-between gap-2">
             <div className="flex items-center gap-2.5 overflow-hidden flex-1 min-w-0">
               <img
-                src={currentArtifact.images[0]}
-                alt={currentArtifact.title[currentLang]}
+                src={currentArtifact.images?.[0] || 'https://images.metmuseum.org/CRDImages/mi/web-large/DP331225.jpg'}
+                alt={currentArtifact?.title?.[currentLang] || currentArtifact?.title?.['vi'] || ''}
                 onError={(e) => {
                   e.currentTarget.src = 'https://images.metmuseum.org/CRDImages/mi/web-large/DP331225.jpg';
                 }}
@@ -129,7 +150,7 @@ export const AudioPlayerBar: React.FC = () => {
               />
               <div className="truncate">
                 <div className="font-bold text-xs md:text-sm text-slate-100 truncate">
-                  {currentArtifact.title[currentLang] || currentArtifact.title['vi']}
+                  {currentArtifact?.title?.[currentLang] || currentArtifact?.title?.['vi'] || currentArtifact?.code || ''}
                 </div>
                 <div className="text-[11px] text-amber-400 font-medium flex items-center gap-1">
                   <Volume2 className="w-3 h-3 animate-pulse" />
