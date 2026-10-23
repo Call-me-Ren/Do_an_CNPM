@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { Artifact, SupportedLanguage, SubtitleCue } from '../types';
 import { ttsService } from '../services/tts';
+import { analyticsService } from '../services/analytics';
 
 interface PlayerState {
   currentArtifact: Artifact | null;
@@ -47,6 +48,12 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
       startCueIndex,
       showSubtitle: true,
     });
+    analyticsService.trackListen(
+      artifact.id,
+      artifact.code,
+      artifact.title?.['vi'] || artifact.code,
+      'vi'
+    );
   },
 
   seekToCue: (index, startTime, artifact, cues, lang, rate) => {
@@ -65,6 +72,14 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
       startCueIndex: index,
       showSubtitle: true,
     });
+
+    if (art) {
+      analyticsService.sendHeartbeat(
+        art.id,
+        art.title?.[currentLang] || art.title?.['vi'] || art.code,
+        currentLang
+      );
+    }
 
     ttsService.seekToCueIndex(index, subtitleList, currentLang, currentRate);
   },

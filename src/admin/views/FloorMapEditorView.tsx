@@ -1,7 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { Floor, Artifact } from '../../shared/types';
 import { museumApi } from '../../shared/services/api';
-import { Map, MapPin, Save, Layers, Info, CheckCircle2 } from 'lucide-react';
+import {
+  Map,
+  MapPin,
+  Save,
+  Layers,
+  Info,
+  CheckCircle2,
+  Image as ImageIcon,
+  Upload,
+  RotateCcw
+} from 'lucide-react';
 
 export const FloorMapEditorView: React.FC = () => {
   const [floors, setFloors] = useState<Floor[]>([]);
@@ -9,6 +19,7 @@ export const FloorMapEditorView: React.FC = () => {
   const [selectedFloorId, setSelectedFloorId] = useState<number>(1);
   const [selectedArtifactId, setSelectedArtifactId] = useState<string | null>(null);
   const [savedSuccess, setSavedSuccess] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
 
   useEffect(() => {
     museumApi.getMuseumData().then((res) => {
@@ -23,6 +34,7 @@ export const FloorMapEditorView: React.FC = () => {
   const currentFloor = floors.find((f) => f.id === selectedFloorId) || floors[0];
   const floorArtifacts = artifacts.filter((a) => a.floorId === selectedFloorId);
 
+  // Handle Map Pin Placing
   const handleMapClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!selectedArtifactId || !currentFloor) return;
 
@@ -30,7 +42,7 @@ export const FloorMapEditorView: React.FC = () => {
     const clickX = e.clientX - rect.left;
     const clickY = e.clientY - rect.top;
 
-    // Convert pixel click to coordinate scale (800x600 bounds)
+    // Convert pixel click to scaled bounds coordinate (800x600)
     const scaledX = Math.round((clickX / rect.width) * currentFloor.bounds.width);
     const scaledY = Math.round((clickY / rect.height) * currentFloor.bounds.height);
 
@@ -48,100 +60,208 @@ export const FloorMapEditorView: React.FC = () => {
     );
   };
 
+  // Change Background Image URL for the current floor
+  const handleBackgroundChange = (newUrl: string) => {
+    setFloors((prev) =>
+      prev.map((f) => {
+        if (f.id === selectedFloorId) {
+          return { ...f, mapImage: newUrl };
+        }
+        return f;
+      })
+    );
+  };
+
+  // Handle Local File Upload for Background Map
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setIsUploading(true);
+    const reader = new FileReader();
+    reader.onload = () => {
+      if (typeof reader.result === 'string') {
+        handleBackgroundChange(reader.result);
+      }
+      setIsUploading(false);
+    };
+    reader.readAsDataURL(file);
+  };
+
+  // Save changes to localStorage via museumApi
   const handleSave = () => {
+    museumApi.saveCustomFloors(floors);
+    museumApi.saveCustomArtifacts(artifacts);
     setSavedSuccess(true);
-    setTimeout(() => setSavedSuccess(false), 3000);
+    setTimeout(() => setSavedSuccess(false), 3500);
+  };
+
+  // Reset to original mock data
+  const handleResetDefaults = () => {
+    if (window.confirm('Bạn có chắc chắn muốn khôi phục lại sơ đồ và tọa độ ban đầu?')) {
+      museumApi.resetDefaults();
+      window.location.reload();
+    }
   };
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2 border-b border-slate-800">
         <div>
           <h2 className="text-xl font-bold text-white flex items-center gap-2">
             <Map className="w-5 h-5 text-amber-500" />
-            Biên Tập Sơ Đồ & Tọa Độ Hiện Vật
+            Biên Tập Sơ Đồ Khu Vực & Tọa Độ Hiện Vật
           </h2>
           <p className="text-xs text-slate-400 mt-0.5">
-            Nhấp chuột trực tiếp lên sơ đồ để ghim hoặc dời vị trí của hiện vật trưng bày.
+            Tùy chỉnh ảnh nền sơ đồ bảo tàng và nhấp chuột trực tiếp để ghim vị trí hiện vật.
           </p>
         </div>
 
-        <button
-          onClick={handleSave}
-          className="flex items-center gap-2 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-4 py-2 rounded-xl text-sm transition shadow-lg shadow-amber-500/20"
-        >
-          <Save className="w-4 h-4" />
-          <span>Lưu Thay Đổi Sơ Đồ</span>
-        </button>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={handleResetDefaults}
+            className="flex items-center gap-1.5 bg-slate-800 hover:bg-slate-750 text-slate-300 border border-slate-700 px-3 py-2 rounded-xl text-xs font-bold transition"
+            title="Khôi phục ảnh nền sơ đồ mặc định"
+          >
+            <RotateCcw className="w-4 h-4" />
+            <span>Khôi Phục Mặc Định</span>
+          </button>
+
+          <button
+            onClick={handleSave}
+            className="flex items-center gap-2 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-4 py-2 rounded-xl text-sm transition shadow-lg shadow-amber-500/20"
+          >
+            <Save className="w-4 h-4" />
+            <span>Lưu Thay Đổi Sơ Đồ</span>
+          </button>
+        </div>
       </div>
 
       {savedSuccess && (
-        <div className="bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs p-3.5 rounded-xl flex items-center gap-2">
-          <CheckCircle2 className="w-4 h-4" />
-          <span>Đã lưu tọa độ hiện vật thành công! Khách tham quan sẽ thấy ngay vị trí mới.</span>
+        <div className="bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs p-3.5 rounded-xl flex items-center gap-2 animate-fade-in">
+          <CheckCircle2 className="w-4 h-4 shrink-0" />
+          <span>Đã lưu ảnh nền sơ đồ và tọa độ hiện vật thành công! Giao diện khách tham quan đã được cập nhật ngay lập tức.</span>
         </div>
       )}
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Left: Exhibit Pin Selector */}
-        <div className="bg-slate-800 border border-slate-700/80 rounded-2xl p-5 flex flex-col gap-4">
-          <div className="flex items-center gap-2 pb-2 border-b border-slate-700/60">
-            <Layers className="w-4 h-4 text-slate-400" />
-            <span className="text-xs text-slate-400 font-semibold uppercase">Chọn Tầng:</span>
-            {floors.map((f) => (
-              <button
-                key={f.id}
-                onClick={() => setSelectedFloorId(f.id)}
-                className={`px-3 py-1 rounded-lg text-xs font-bold transition ${
-                  selectedFloorId === f.id
-                    ? 'bg-amber-500 text-slate-950'
-                    : 'bg-slate-900 text-slate-400 hover:text-white'
-                }`}
-              >
-                Tầng {f.id}
-              </button>
-            ))}
-          </div>
+      {/* Floor Selection Tabs */}
+      <div className="flex items-center gap-2 overflow-x-auto pb-1 text-xs">
+        <span className="text-slate-400 font-semibold uppercase shrink-0 flex items-center gap-1.5">
+          <Layers className="w-4 h-4 text-amber-500" /> Chọn Khu Vực:
+        </span>
+        {floors.map((f) => (
+          <button
+            key={f.id}
+            onClick={() => setSelectedFloorId(f.id)}
+            className={`px-4 py-2 rounded-xl font-bold transition shrink-0 ${
+              selectedFloorId === f.id
+                ? 'bg-amber-500 text-slate-950 shadow-md'
+                : 'bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white border border-slate-700/80'
+            }`}
+          >
+            {f.name.vi}
+          </button>
+        ))}
+      </div>
 
-          <div className="flex items-center gap-1.5 text-xs text-amber-400 bg-amber-500/10 p-2.5 rounded-xl">
-            <Info className="w-4 h-4 shrink-0" />
-            <span>Chọn hiện vật bên dưới, sau đó nhấp vào vị trí bất kỳ trên bản đồ bên phải để đặt pin.</span>
+      {/* Background Map Image Editor Panel */}
+      <div className="bg-slate-800 border border-slate-700/80 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="flex items-center gap-3">
+          <div className="p-2.5 bg-amber-500/10 text-amber-400 rounded-xl shrink-0">
+            <ImageIcon className="w-5 h-5" />
           </div>
-
-          <div className="flex flex-col gap-2 max-h-[460px] overflow-y-auto pr-1">
-            {floorArtifacts.map((art) => {
-              const isSelected = selectedArtifactId === art.id;
-              return (
-                <button
-                  key={art.id}
-                  onClick={() => setSelectedArtifactId(art.id)}
-                  className={`p-3 rounded-xl border text-left transition flex items-center justify-between ${
-                    isSelected
-                      ? 'bg-amber-500/15 border-amber-500 text-amber-400 shadow-md'
-                      : 'bg-slate-900 border-slate-700/60 text-slate-300 hover:bg-slate-750'
-                  }`}
-                >
-                  <div className="flex items-center gap-3">
-                    <MapPin className={`w-4 h-4 ${isSelected ? 'text-amber-400' : 'text-slate-500'}`} />
-                    <div>
-                      <div className="text-xs font-mono font-bold">{art.code}</div>
-                      <div className="text-sm font-semibold truncate max-w-[150px]">{art.title['vi']}</div>
-                    </div>
-                  </div>
-                  <span className="text-[11px] font-mono text-slate-400">
-                    ({art.mapCoordinates.x}, {art.mapCoordinates.y})
-                  </span>
-                </button>
-              );
-            })}
+          <div>
+            <div className="text-sm font-bold text-white">
+              Ảnh Nền Sơ Đồ ({currentFloor?.name.vi})
+            </div>
+            <p className="text-xs text-slate-400">
+              Nhập liên kết ảnh bản đồ trực tiếp hoặc chọn tệp tải lên từ thiết bị.
+            </p>
           </div>
         </div>
 
-        {/* Right: Interactive Canvas Map */}
+        <div className="flex flex-col sm:flex-row items-center gap-2 flex-1 max-w-xl">
+          <input
+            type="text"
+            value={currentFloor?.mapImage || ''}
+            onChange={(e) => handleBackgroundChange(e.target.value)}
+            placeholder="Nhập đường dẫn ảnh sơ đồ (URL)..."
+            className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-slate-200 focus:outline-none focus:ring-2 focus:ring-amber-500"
+          />
+
+          <label className="flex items-center gap-1.5 px-3 py-2 bg-slate-700 hover:bg-slate-650 text-slate-200 rounded-xl text-xs font-semibold cursor-pointer shrink-0 transition border border-slate-600">
+            <Upload className="w-4 h-4 text-amber-400" />
+            <span>{isUploading ? 'Đang tải...' : 'Tải ảnh lên'}</span>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleFileUpload}
+              className="hidden"
+            />
+          </label>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Left: Exhibit Pin Selector List */}
+        <div className="bg-slate-800 border border-slate-700/80 rounded-2xl p-5 flex flex-col gap-4">
+          <div className="flex items-center gap-1.5 text-xs text-amber-400 bg-amber-500/10 p-2.5 rounded-xl border border-amber-500/20">
+            <Info className="w-4 h-4 shrink-0" />
+            <span>Chọn hiện vật bên dưới, sau đó nhấp vào sơ đồ bên phải để đặt lại vị trí.</span>
+          </div>
+
+          <div className="flex flex-col gap-2 max-h-[500px] overflow-y-auto pr-1">
+            {floorArtifacts.length === 0 ? (
+              <div className="p-4 text-center text-xs text-slate-500">
+                Chưa có hiện vật nào thuộc khu vực này.
+              </div>
+            ) : (
+              floorArtifacts.map((art) => {
+                const isSelected = selectedArtifactId === art.id;
+                return (
+                  <button
+                    key={art.id}
+                    onClick={() => setSelectedArtifactId(art.id)}
+                    className={`p-3 rounded-xl border text-left transition flex items-center justify-between ${
+                      isSelected
+                        ? 'bg-amber-500/15 border-amber-500 text-amber-400 shadow-md'
+                        : 'bg-slate-900 border-slate-700/60 text-slate-300 hover:bg-slate-750'
+                    }`}
+                  >
+                    <div className="flex items-center gap-3">
+                      <MapPin
+                        className={`w-4 h-4 shrink-0 ${
+                          isSelected ? 'text-amber-400' : 'text-slate-500'
+                        }`}
+                      />
+                      <div className="min-w-0">
+                        <div className="text-[10px] font-mono font-bold text-amber-400/90">
+                          {art.code}
+                        </div>
+                        <div className="text-xs font-semibold truncate max-w-[160px] text-slate-200">
+                          {art.title['vi']}
+                        </div>
+                      </div>
+                    </div>
+                    <span className="text-[10px] font-mono text-slate-400 shrink-0">
+                      ({art.mapCoordinates.x}, {art.mapCoordinates.y})
+                    </span>
+                  </button>
+                );
+              })
+            )}
+          </div>
+        </div>
+
+        {/* Right: Interactive Canvas Map with Background */}
         <div className="lg:col-span-2 bg-slate-800 border border-slate-700/80 rounded-2xl p-5 flex flex-col gap-3">
           <div className="flex items-center justify-between text-xs text-slate-400">
-            <span>Bản đồ: {currentFloor?.name.vi}</span>
-            <span>Kích thước chuẩn: 800 &times; 600 px</span>
+            <span className="font-semibold text-slate-300">
+              Sơ đồ hiển thị: {currentFloor?.name.vi}
+            </span>
+            <span className="font-mono text-[11px] text-amber-400">
+              {floorArtifacts.length} hiện vật trên sơ đồ
+            </span>
           </div>
 
           <div
@@ -153,7 +273,11 @@ export const FloorMapEditorView: React.FC = () => {
                 <img
                   src={currentFloor.mapImage}
                   alt={currentFloor.name.vi}
-                  className="w-full h-full object-cover opacity-75 pointer-events-none"
+                  className="w-full h-full object-cover opacity-80 pointer-events-none transition-opacity"
+                  onError={(e) => {
+                    e.currentTarget.src =
+                      'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=1200&q=80';
+                  }}
                 />
 
                 {floorArtifacts.map((art) => {
