@@ -20,6 +20,7 @@ export const ArtifactDetailSheet: React.FC<Props> = ({ artifact, onClose }) => {
     currentArtifact,
     isPlaying,
     currentTime,
+    playbackRate,
     showSubtitle,
     toggleSubtitle,
     setShowSubtitle,
@@ -150,11 +151,12 @@ export const ArtifactDetailSheet: React.FC<Props> = ({ artifact, onClose }) => {
                     subtitles={artifact.subtitles[currentLang]!}
                     currentTime={isCurrentPlaying ? currentTime : -1}
                     onSeekCue={(sec, index) => {
-                      if (currentArtifact?.id !== artifact.id) {
-                        playArtifact(artifact, index, sec);
-                      } else {
-                        seekToCue(index, sec);
-                      }
+                      const cues =
+                        artifact.subtitles?.[currentLang] ||
+                        artifact.subtitles?.['vi'] ||
+                        [];
+                      playArtifact(artifact, index, sec);
+                      seekToCue(index, sec, cues, currentLang, playbackRate);
                     }}
                   />
                 )}

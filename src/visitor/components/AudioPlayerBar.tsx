@@ -62,33 +62,34 @@ export const AudioPlayerBar: React.FC = () => {
 
     setDuration(totalDuration);
 
+    ttsService.setCueCallbacks({
+      onCueChange: (_idx, cue) => {
+        setCurrentTime(cue.start);
+      },
+      onCueProgress: (_idx, curTime) => {
+        setCurrentTime(curTime);
+      },
+      onFinish: () => {
+        stop();
+      },
+      onError: () => {
+        stop();
+      }
+    });
+
     if (isPlaying) {
       if (!ttsService.getIsCuePlaying()) {
         ttsService.playCues(
           activeSubtitles,
           startCueIndex,
           currentLang,
-          playbackRate,
-          {
-            onCueChange: (_idx, cue) => {
-              setCurrentTime(cue.start);
-            },
-            onCueProgress: (_idx, curTime) => {
-              setCurrentTime(curTime);
-            },
-            onFinish: () => {
-              stop();
-            },
-            onError: () => {
-              stop();
-            }
-          }
+          playbackRate
         );
       }
     } else {
       ttsService.pause();
     }
-  }, [isPlaying, currentArtifact?.id, currentLang]);
+  }, [isPlaying, currentArtifact?.id, currentLang, startCueIndex]);
 
   // Clean up on component unmount
   useEffect(() => {

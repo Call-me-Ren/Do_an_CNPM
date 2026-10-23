@@ -11,7 +11,13 @@ interface PlayerState {
   showSubtitle: boolean;
   startCueIndex: number;
   playArtifact: (artifact: Artifact, startCueIndex?: number, startTime?: number) => void;
-  seekToCue: (index: number, startTime: number) => void;
+  seekToCue: (
+    index: number,
+    startTime: number,
+    cues?: any,
+    lang?: any,
+    rate?: any
+  ) => void;
   seekToTime: (time: number) => void;
   pause: () => void;
   resume: () => void;
@@ -42,13 +48,13 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
     });
   },
 
-  seekToCue: (index, startTime) => {
+  seekToCue: (index, startTime, cues, lang, rate) => {
     set({
       isPlaying: true,
       currentTime: startTime,
       startCueIndex: index,
     });
-    ttsService.seekToCueIndex(index);
+    ttsService.seekToCueIndex(index, cues, lang, rate);
   },
 
   seekToTime: (time) => {

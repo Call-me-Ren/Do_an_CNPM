@@ -39,6 +39,8 @@ class TTSService {
   private progressInterval: any = null;
   private isCuePlaying: boolean = false;
   private cueStartTimeMs: number = 0;
+  private isCancelling: boolean = false;
+  private seekTimeout: any = null;
 
   constructor() {
     if (this.isSupported()) {
@@ -167,6 +169,10 @@ class TTSService {
 
   // --- Cue Queue Playback Engine ---
 
+  public setCueCallbacks(callbacks: CueCallbacks): void {
+    this.cueCallbacks = callbacks;
+  }
+
   public playCues(
     cues: SubtitleCue[],
     startIndex: number = 0,
@@ -190,7 +196,9 @@ class TTSService {
     this.currentCueIndex = Math.max(0, Math.min(startIndex, cues.length - 1));
     this.currentLang = lang;
     this.currentRate = playbackRate;
-    this.cueCallbacks = callbacks;
+    if (callbacks) {
+      this.cueCallbacks = callbacks;
+    }
     this.isCuePlaying = true;
 
     this.speakCurrentCue();
@@ -240,7 +248,7 @@ class TTSService {
         // High frequency progress update (every 100ms)
         this.clearProgressTimer();
         this.progressInterval = setInterval(() => {
-          if (!this.isSpeaking || this.isPaused) return;
+          if (!this.isSpeaking || this.isPaused || this.isCancelling) return;
           const elapsed = ((Date.now() - this.cueStartTimeMs) / 1000) * this.currentRate;
           const cueDuration = Math.max(0.5, cue.end - cue.start);
           const progress = Math.min(cueDuration, elapsed);
@@ -251,7 +259,7 @@ class TTSService {
 
       utterance.onend = () => {
         this.clearProgressTimer();
-        if (!this.isCuePlaying) return;
+        if (this.isCancelling || !this.isCuePlaying) return;
 
         // Progress reaches cue end
         this.cueCallbacks?.onCueProgress?.(this.currentCueIndex, cue.end);
@@ -263,13 +271,20 @@ class TTSService {
 
       utterance.onerror = (e) => {
         this.clearProgressTimer();
-        if (e.error !== 'canceled' && e.error !== 'interrupted') {
-          console.warn('TTS cue error:', e.error);
-          this.cueCallbacks?.onError?.(e);
-          if (this.isCuePlaying) {
-            this.currentCueIndex++;
-            this.speakCurrentCue();
-          }
+        if (
+          this.isCancelling ||
+          !this.isCuePlaying ||
+          e.error === 'canceled' ||
+          e.error === 'interrupted'
+        ) {
+          return;
+        }
+
+        console.warn('TTS cue error:', e.error);
+        this.cueCallbacks?.onError?.(e);
+        if (this.isCuePlaying) {
+          this.currentCueIndex++;
+          this.speakCurrentCue();
         }
       };
 
@@ -281,13 +296,40 @@ class TTSService {
     }
   }
 
-  public seekToCueIndex(index: number): void {
-    if (!this.isSupported() || this.activeCues.length === 0) return;
+  public seekToCueIndex(
+    index: number,
+    newCues?: SubtitleCue[],
+    lang?: SupportedLanguage,
+    rate?: number
+  ): void {
+    if (!this.isSupported()) return;
+
+    if (newCues && newCues.length > 0) {
+      this.activeCues = newCues;
+    }
+    if (lang) {
+      this.currentLang = lang;
+    }
+    if (rate) {
+      this.currentRate = rate;
+    }
+    if (this.activeCues.length === 0) return;
+
     this.currentCueIndex = Math.max(0, Math.min(index, this.activeCues.length - 1));
     this.isCuePlaying = true;
     this.clearProgressTimer();
+
+    // Cancel currently speaking utterance and ignore its events
+    this.isCancelling = true;
     window.speechSynthesis.cancel();
-    this.speakCurrentCue();
+
+    if (this.seekTimeout) clearTimeout(this.seekTimeout);
+    this.seekTimeout = setTimeout(() => {
+      this.isCancelling = false;
+      if (this.isCuePlaying) {
+        this.speakCurrentCue();
+      }
+    }, 60);
   }
 
   public seekToSeconds(seconds: number): void {
@@ -336,7 +378,7 @@ class TTSService {
         const cue = this.activeCues[this.currentCueIndex];
         if (cue) {
           this.progressInterval = setInterval(() => {
-            if (!this.isSpeaking || this.isPaused) return;
+            if (!this.isSpeaking || this.isPaused || this.isCancelling) return;
             const elapsed = ((Date.now() - this.cueStartTimeMs) / 1000) * this.currentRate;
             const cueDuration = Math.max(0.5, cue.end - cue.start);
             const progress = Math.min(cueDuration, elapsed);
@@ -355,10 +397,18 @@ class TTSService {
     this.isSpeaking = false;
     this.isPaused = false;
     this.clearProgressTimer();
+    if (this.seekTimeout) {
+      clearTimeout(this.seekTimeout);
+      this.seekTimeout = null;
+    }
+    this.isCancelling = true;
     if (this.isSupported()) {
       window.speechSynthesis.cancel();
     }
     this.currentUtterance = null;
+    setTimeout(() => {
+      this.isCancelling = false;
+    }, 60);
   }
 
   /**
