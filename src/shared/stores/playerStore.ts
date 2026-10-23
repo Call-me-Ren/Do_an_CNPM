@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { Artifact } from '../types';
+import { Artifact, SupportedLanguage, SubtitleCue } from '../types';
 import { ttsService } from '../services/tts';
 
 interface PlayerState {
@@ -14,9 +14,10 @@ interface PlayerState {
   seekToCue: (
     index: number,
     startTime: number,
-    cues?: any,
-    lang?: any,
-    rate?: any
+    artifact?: Artifact,
+    cues?: SubtitleCue[],
+    lang?: SupportedLanguage,
+    rate?: number
   ) => void;
   seekToTime: (time: number) => void;
   pause: () => void;
@@ -48,13 +49,24 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
     });
   },
 
-  seekToCue: (index, startTime, cues, lang, rate) => {
+  seekToCue: (index, startTime, artifact, cues, lang, rate) => {
+    const art = artifact || get().currentArtifact;
+    const currentLang: SupportedLanguage = lang || 'vi';
+    const currentRate = rate || get().playbackRate;
+    const subtitleList =
+      cues && cues.length > 0
+        ? cues
+        : art?.subtitles?.[currentLang] || art?.subtitles?.['vi'] || [];
+
     set({
+      currentArtifact: art,
       isPlaying: true,
       currentTime: startTime,
       startCueIndex: index,
+      showSubtitle: true,
     });
-    ttsService.seekToCueIndex(index, cues, lang, rate);
+
+    ttsService.seekToCueIndex(index, subtitleList, currentLang, currentRate);
   },
 
   seekToTime: (time) => {

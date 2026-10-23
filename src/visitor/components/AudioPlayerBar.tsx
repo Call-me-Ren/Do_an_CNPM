@@ -146,7 +146,9 @@ export const AudioPlayerBar: React.FC = () => {
             <LiveTranscriptCard
               subtitles={activeSubtitles}
               currentTime={currentTime}
-              onSeekCue={(sec, index) => seekToCue(index, sec)}
+              onSeekCue={(sec, index) =>
+                seekToCue(index, sec, currentArtifact, activeSubtitles, currentLang, playbackRate)
+              }
               className="border-0 shadow-none p-0"
             />
           </div>

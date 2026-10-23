@@ -25,7 +25,7 @@ describe('VisitorLayout integration test', () => {
     
     // Wait for data to load
     await waitFor(() => {
-      expect(screen.getAllByText(/Trống đồng Đông Sơn/i).length).toBeGreaterThan(0);
+      expect(screen.getAllByText(/Xe tăng/i).length).toBeGreaterThan(0);
     });
 
     // Find speaker button

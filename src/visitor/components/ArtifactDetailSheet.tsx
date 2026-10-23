@@ -149,14 +149,13 @@ export const ArtifactDetailSheet: React.FC<Props> = ({ artifact, onClose }) => {
                 {showSubtitle && (
                   <LiveTranscriptCard
                     subtitles={artifact.subtitles[currentLang]!}
-                    currentTime={isCurrentPlaying ? currentTime : -1}
+                    currentTime={currentArtifact?.id === artifact.id && isPlaying ? currentTime : -1}
                     onSeekCue={(sec, index) => {
                       const cues =
                         artifact.subtitles?.[currentLang] ||
                         artifact.subtitles?.['vi'] ||
                         [];
-                      playArtifact(artifact, index, sec);
-                      seekToCue(index, sec, cues, currentLang, playbackRate);
+                      seekToCue(index, sec, artifact, cues, currentLang, playbackRate);
                     }}
                   />
                 )}

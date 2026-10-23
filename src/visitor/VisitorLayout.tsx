@@ -13,7 +13,7 @@ import { useGeofenceStore } from '../shared/stores/geofenceStore';
 import { usePlayerStore } from '../shared/stores/playerStore';
 import { useLangStore } from '../shared/stores/langStore';
 import { useFavStore } from '../shared/stores/favStore';
-import { Compass, Map, Heart, Info, QrCode, Building2, ShieldCheck } from 'lucide-react';
+import { Compass, Map, Heart, Info, QrCode, Building2 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 
@@ -205,15 +205,6 @@ export const VisitorLayout: React.FC = () => {
 
             {/* Language Switcher */}
             <LanguageSwitcher />
-
-            {/* Admin CMS Portal Shortcut */}
-            <Link
-              to="/admin/login"
-              className="hidden lg:flex items-center gap-1.5 p-2 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition"
-              title={t('adminPortal')}
-            >
-              <ShieldCheck className="w-5 h-5" />
-            </Link>
           </div>
         </div>
       </header>

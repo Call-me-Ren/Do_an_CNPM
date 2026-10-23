@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useAdminAuthStore } from '../../shared/stores/adminAuthStore';
-import { ShieldCheck, Lock, User, AlertCircle } from 'lucide-react';
+import { ShieldCheck, Lock, User, AlertCircle, ArrowLeft, Home } from 'lucide-react';
 
 export const AdminLoginView: React.FC = () => {
   const [username, setUsername] = useState('admin@museum.vn');
@@ -21,7 +21,25 @@ export const AdminLoginView: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-900 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-slate-900 flex flex-col items-center justify-center p-4 relative">
+      {/* Return to Visitor Website Button */}
+      <div className="w-full max-w-md mb-4 flex justify-between items-center">
+        <Link
+          to="/"
+          className="inline-flex items-center gap-2 text-xs font-semibold text-slate-400 hover:text-amber-400 px-3 py-2 rounded-xl bg-slate-800/80 hover:bg-slate-800 border border-slate-700/60 transition"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          <span>Quay lại trang tham quan bảo tàng</span>
+        </Link>
+        <Link
+          to="/"
+          className="p-2 text-slate-400 hover:text-amber-400 rounded-xl bg-slate-800/80 hover:bg-slate-800 border border-slate-700/60 transition"
+          title="Trang chủ"
+        >
+          <Home className="w-4 h-4" />
+        </Link>
+      </div>
+
       <div className="bg-slate-800 border border-slate-700/80 rounded-3xl p-8 max-w-md w-full shadow-2xl flex flex-col gap-6 text-white">
         <div className="text-center flex flex-col items-center">
           <div className="p-3 bg-amber-500/20 text-amber-400 rounded-2xl mb-3">
@@ -79,8 +97,14 @@ export const AdminLoginView: React.FC = () => {
           </button>
         </form>
 
-        <div className="text-center text-xs text-slate-500">
-          Tài khoản mẫu: <span className="text-slate-300">admin@museum.vn</span> / <span className="text-slate-300">admin123</span>
+        <div className="text-center text-xs text-slate-500 flex flex-col gap-2 pt-2 border-t border-slate-700/60">
+          <div>
+            Tài khoản mẫu: <span className="text-slate-300 font-mono">admin@museum.vn</span> /{' '}
+            <span className="text-slate-300 font-mono">admin123</span>
+          </div>
+          <Link to="/" className="text-amber-400 hover:underline">
+            ← Trở về giao diện người tham quan
+          </Link>
         </div>
       </div>
     </div>
