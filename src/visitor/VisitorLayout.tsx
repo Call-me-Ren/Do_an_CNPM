@@ -11,6 +11,7 @@ import { LanguageSwitcher } from './components/LanguageSwitcher';
 import { QRScannerModal } from './views/QRScannerModal';
 import { useGeofenceStore } from '../shared/stores/geofenceStore';
 import { usePlayerStore } from '../shared/stores/playerStore';
+import { useLangStore } from '../shared/stores/langStore';
 import { Compass, Map, Heart, Info, QrCode } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
@@ -24,6 +25,7 @@ export const VisitorLayout: React.FC = () => {
 
   const { setUserLocation, setNearestArtifactId, setIsTracking, setPermissionGranted } = useGeofenceStore();
   const { playArtifact, currentArtifact } = usePlayerStore();
+  const { currentLang } = useLangStore();
 
   useEffect(() => {
     museumApi.getMuseumData().then((res) => {
@@ -103,7 +105,7 @@ export const VisitorLayout: React.FC = () => {
     return (
       <div className="min-h-screen bg-slate-50 flex flex-col items-center justify-center p-6 text-center">
         <div className="w-12 h-12 border-4 border-amber-500 border-t-transparent rounded-full animate-spin mb-4"></div>
-        <div className="font-semibold text-slate-700">Đang tải dữ liệu thuyết minh...</div>
+        <div className="font-semibold text-slate-700">{t('loading')}</div>
       </div>
     );
   }
@@ -117,7 +119,7 @@ export const VisitorLayout: React.FC = () => {
             <button
               onClick={() => setActiveTab('explore')}
               className="p-1.5 rounded-full hover:bg-slate-100 text-slate-700 transition shrink-0"
-              title="Quay lại trang khám phá"
+              title={t('backToExplore')}
             >
               <Compass className="w-5 h-5 text-amber-600" />
             </button>
@@ -127,7 +129,7 @@ export const VisitorLayout: React.FC = () => {
               {t('appName')}
             </span>
             <h1 className="text-sm md:text-base font-extrabold text-slate-900 truncate">
-              {data.museum.name}
+              {data.museum.name[currentLang] || data.museum.name['vi']}
             </h1>
           </div>
         </div>

@@ -140,7 +140,7 @@ export const FloorMapEditorView: React.FC = () => {
         {/* Right: Interactive Canvas Map */}
         <div className="lg:col-span-2 bg-slate-800 border border-slate-700/80 rounded-2xl p-5 flex flex-col gap-3">
           <div className="flex items-center justify-between text-xs text-slate-400">
-            <span>Bản đồ: {currentFloor?.name}</span>
+            <span>Bản đồ: {currentFloor?.name.vi}</span>
             <span>Kích thước chuẩn: 800 &times; 600 px</span>
           </div>
 
@@ -152,7 +152,7 @@ export const FloorMapEditorView: React.FC = () => {
               <>
                 <img
                   src={currentFloor.mapImage}
-                  alt={currentFloor.name}
+                  alt={currentFloor.name.vi}
                   className="w-full h-full object-cover opacity-75 pointer-events-none"
                 />
 

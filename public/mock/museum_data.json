@@ -1,22 +1,58 @@
 {
   "museum": {
-    "name": "Bảo tàng Lịch sử & Văn hóa",
-    "address": "02 Nguyễn Bỉnh Khiêm, Bến Nghé, Quận 1, TP. Hồ Chí Minh",
-    "openHours": "08:00 - 17:00 (Thứ 3 - Chủ Nhật)",
-    "description": "Bảo tàng lưu giữ hàng ngàn hiện vật quý giá về tiến trình lịch sử, văn hóa dân tộc và khảo cổ học phương Nam.",
+    "name": {
+      "vi": "Bảo tàng Lịch sử & Văn hóa",
+      "en": "History & Culture Museum",
+      "zh": "历史与文化博物馆",
+      "ko": "역사 및 문화 박물관",
+      "ja": "歴史・文化博物館"
+    },
+    "address": {
+      "vi": "02 Nguyễn Bỉnh Khiêm, Bến Nghé, Quận 1, TP. Hồ Chí Minh",
+      "en": "02 Nguyen Binh Khiem, Ben Nghe, District 1, Ho Chi Minh City",
+      "zh": "胡志明市第一郡滨艺坊阮秉谦街02号",
+      "ko": "호치민시 1군 벤응에 응우옌빈키엠 02번지",
+      "ja": "ホーチミン市1区ベンゲー、グエンビンキエム通り02番地"
+    },
+    "openHours": {
+      "vi": "08:00 - 17:00 (Thứ 3 - Chủ Nhật)",
+      "en": "08:00 - 17:00 (Tue - Sun)",
+      "zh": "08:00 - 17:00 (周二至周日)",
+      "ko": "08:00 - 17:00 (화요일 - 일요일)",
+      "ja": "08:00 - 17:00 (火曜日〜日曜日)"
+    },
+    "description": {
+      "vi": "Bảo tàng lưu giữ hàng ngàn hiện vật quý giá về tiến trình lịch sử, văn hóa dân tộc và khảo cổ học phương Nam.",
+      "en": "The museum houses thousands of precious artifacts documenting historical progression, national culture, and Southern archaeology.",
+      "zh": "博物馆藏有数千件珍贵文物，记录了历史发展、民族文化和南部考古学成果。",
+      "ko": "박물관은 남부의 역사 발전, 민족 문화 및 고고학을 기록한 수천 점의 귀중한 유물을 소장하고 있습니다.",
+      "ja": "当館は、南部の歴史的変遷、民族文化、考古学を物語る数千点もの貴重な遺物を所蔵・展示しています。"
+    },
     "hotline": "(028) 3829 8146",
     "banner": "https://images.unsplash.com/photo-1566127444979-b3d2b654e3d7?auto=format&fit=crop&w=1200&q=80"
   },
   "floors": [
     {
       "id": 1,
-      "name": "Tầng 1 - Văn hóa Tiền sử & Cổ đại",
+      "name": {
+        "vi": "Tầng 1 - Văn hóa Tiền sử & Cổ đại",
+        "en": "1st Floor - Prehistoric & Ancient Culture",
+        "zh": "一楼 - 史前与古代文明",
+        "ko": "1층 - 선사 및 고대 문화",
+        "ja": "1階 - 先史および古代文化"
+      },
       "mapImage": "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&w=1200&q=80",
       "bounds": { "width": 800, "height": 600 }
     },
     {
       "id": 2,
-      "name": "Tầng 2 - Triều đại Phong kiến & Độc lập",
+      "name": {
+        "vi": "Tầng 2 - Triều đại Phong kiến & Độc lập",
+        "en": "2nd Floor - Feudal Dynasties & Independence",
+        "zh": "二楼 - 封建王朝与独立时期",
+        "ko": "2층 - 봉건 왕조 및 독립 시대",
+        "ja": "2階 - 封建王朝と独立の時代"
+      },
       "mapImage": "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&w=1200&q=80",
       "bounds": { "width": 800, "height": 600 }
     }
@@ -69,6 +105,21 @@
           { "start": 0, "end": 4, "text": "Welcome to the Dong Son Bronze Drum exhibition area." },
           { "start": 4, "end": 9, "text": "This is a pinnacle masterpiece of bronze casting by ancient Vietnamese." },
           { "start": 9, "end": 15, "text": "The central star motif symbolizes the sun and the source of life." }
+        ],
+        "zh": [
+          { "start": 0, "end": 4, "text": "欢迎来到东山铜鼓展区。" },
+          { "start": 4, "end": 9, "text": "这是古越南人青铜铸造艺术的巅峰杰作。" },
+          { "start": 9, "end": 15, "text": "中心放射状星纹象征着太阳和生命之源。" }
+        ],
+        "ko": [
+          { "start": 0, "end": 4, "text": "동선 청동북 전시 구역에 오신 것을 환영합니다." },
+          { "start": 4, "end": 9, "text": "고대 베트남인의 청동 주조 예술의 최고 걸작입니다." },
+          { "start": 9, "end": 15, "text": "중앙의 별 모양 문양은 태양과 생명의 근원을 상징합니다." }
+        ],
+        "ja": [
+          { "start": 0, "end": 4, "text": "ドンソン青銅太鼓の展示エリアへようこそ。" },
+          { "start": 4, "end": 9, "text": "これは古代ベトナム人の青銅鋳造技術の最高峰です。" },
+          { "start": 9, "end": 15, "text": "中央の星型文様は太陽と生命の源を象徴しています。" }
         ]
       }
     },
@@ -103,7 +154,10 @@
       },
       "audio": {
         "vi": "/audio/guide_sample.wav",
-        "en": "/audio/guide_sample.wav"
+        "en": "/audio/guide_sample.wav",
+        "zh": "/audio/guide_sample.wav",
+        "ko": "/audio/guide_sample.wav",
+        "ja": "/audio/guide_sample.wav"
       },
       "subtitles": {
         "vi": [
@@ -147,7 +201,10 @@
       },
       "audio": {
         "vi": "/audio/guide_sample.wav",
-        "en": "/audio/guide_sample.wav"
+        "en": "/audio/guide_sample.wav",
+        "zh": "/audio/guide_sample.wav",
+        "ko": "/audio/guide_sample.wav",
+        "ja": "/audio/guide_sample.wav"
       },
       "subtitles": {
         "vi": [

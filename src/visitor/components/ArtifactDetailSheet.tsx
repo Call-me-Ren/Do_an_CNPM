@@ -31,10 +31,10 @@ export const ArtifactDetailSheet: React.FC<Props> = ({ artifact, onClose }) => {
           <button
             onClick={onClose}
             className="p-2.5 rounded-full bg-white/90 backdrop-blur-md text-slate-800 hover:bg-white shadow-md transition pointer-events-auto flex items-center gap-1.5 text-xs font-bold"
-            title="Quay lại"
+            title={t('back')}
           >
             <ArrowLeft className="w-4 h-4" />
-            <span>Quay lại</span>
+            <span>{t('back')}</span>
           </button>
 
           <div className="flex items-center gap-2 pointer-events-auto">
@@ -43,14 +43,14 @@ export const ArtifactDetailSheet: React.FC<Props> = ({ artifact, onClose }) => {
               className={`p-2.5 rounded-full backdrop-blur-md shadow-md transition-colors ${
                 fav ? 'bg-red-500 text-white' : 'bg-white/90 text-slate-700 hover:bg-white'
               }`}
-              title="Lưu yêu thích"
+              title={t('favorites')}
             >
               <Heart className={`w-5 h-5 ${fav ? 'fill-current' : ''}`} />
             </button>
             <button
               onClick={onClose}
               className="p-2.5 rounded-full bg-white/90 backdrop-blur-md text-slate-700 hover:bg-white shadow-md transition-colors"
-              title="Đóng"
+              title={t('close')}
             >
               <X className="w-5 h-5" />
             </button>
@@ -69,7 +69,7 @@ export const ArtifactDetailSheet: React.FC<Props> = ({ artifact, onClose }) => {
           />
           <div className="absolute bottom-3 left-4 bg-slate-900/80 backdrop-blur-md text-amber-400 font-mono text-xs px-2.5 py-1 rounded-md shadow flex items-center gap-1.5">
             <MapPin className="w-3.5 h-3.5" />
-            <span>Mã: {artifact.code}</span>
+            <span>{t('codeLabel')}: {artifact.code}</span>
           </div>
         </div>
 
@@ -97,7 +97,7 @@ export const ArtifactDetailSheet: React.FC<Props> = ({ artifact, onClose }) => {
             }`}
           >
             <Volume2 className="w-5 h-5" />
-            <span>{isCurrentPlaying ? 'Đang phát...' : t('listenGuide')}</span>
+            <span>{isCurrentPlaying ? t('playing') : t('listenGuide')}</span>
           </button>
         </div>
       </div>

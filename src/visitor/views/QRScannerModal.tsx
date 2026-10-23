@@ -100,7 +100,7 @@ export const QRScannerModal: React.FC<Props> = ({ isOpen, onClose, onScanSuccess
         </div>
 
         <p className="text-xs text-slate-400 mt-4 text-center">
-          Hướng camera về phía mã QR gắn trên hiện vật hoặc trước cổng bảo tàng.
+          {t('cameraGuide')}
         </p>
       </div>
     </div>

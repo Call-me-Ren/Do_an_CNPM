@@ -143,7 +143,7 @@ export const AudioPlayerBar: React.FC = () => {
               <button
                 onClick={handleNextRate}
                 className="text-xs font-bold px-2 py-1 rounded bg-slate-800 text-slate-300 hover:bg-slate-700"
-                title="Tốc độ phát"
+                title={t('playbackSpeed')}
               >
                 {playbackRate}x
               </button>
@@ -164,7 +164,7 @@ export const AudioPlayerBar: React.FC = () => {
                 <button
                   onClick={pause}
                   className="p-2.5 rounded-full bg-amber-500 text-slate-950 shadow-md hover:bg-amber-400 transition"
-                  title="Tạm dừng"
+                  title={t('pause')}
                 >
                   <Pause className="w-4 h-4 fill-current" />
                 </button>
@@ -172,7 +172,7 @@ export const AudioPlayerBar: React.FC = () => {
                 <button
                   onClick={resume}
                   className="p-2.5 rounded-full bg-amber-500 text-slate-950 shadow-md hover:bg-amber-400 transition"
-                  title="Phát tiếp"
+                  title={t('resume')}
                 >
                   <Play className="w-4 h-4 fill-current ml-0.5" />
                 </button>

@@ -27,7 +27,7 @@ export interface Artifact {
 
 export interface Floor {
   id: number;
-  name: string;
+  name: Record<SupportedLanguage, string>;
   mapImage: string;
   bounds: {
     width: number;
@@ -36,10 +36,10 @@ export interface Floor {
 }
 
 export interface MuseumInfo {
-  name: string;
-  address: string;
-  openHours: string;
-  description: string;
+  name: Record<SupportedLanguage, string>;
+  address: Record<SupportedLanguage, string>;
+  openHours: Record<SupportedLanguage, string>;
+  description: Record<SupportedLanguage, string>;
   hotline: string;
   banner: string;
 }

@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { Floor, Artifact } from '../../shared/types';
 import { useLangStore } from '../../shared/stores/langStore';
+import { usePlayerStore } from '../../shared/stores/playerStore';
 import { Layers, MapPin, Volume2 } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   floors: Floor[];
@@ -10,7 +12,9 @@ interface Props {
 }
 
 export const FloorMapView: React.FC<Props> = ({ floors, artifacts, onSelectArtifact }) => {
+  const { t } = useTranslation();
   const { currentLang } = useLangStore();
+  const { playArtifact, currentArtifact, isPlaying } = usePlayerStore();
   const [selectedFloorId, setSelectedFloorId] = useState<number>(floors[0]?.id || 1);
 
   const currentFloor = floors.find((f) => f.id === selectedFloorId) || floors[0];
@@ -31,7 +35,7 @@ export const FloorMapView: React.FC<Props> = ({ floors, artifacts, onSelectArtif
                 : 'bg-white text-slate-700 hover:bg-slate-100 border border-slate-200'
             }`}
           >
-            {floor.name}
+            {floor.name[currentLang] || floor.name['vi']}
           </button>
         ))}
       </div>
@@ -42,13 +46,12 @@ export const FloorMapView: React.FC<Props> = ({ floors, artifacts, onSelectArtif
           <div className="relative w-full h-full">
             <img
               src={currentFloor.mapImage}
-              alt={currentFloor.name}
+              alt={currentFloor.name[currentLang] || currentFloor.name['vi']}
               className="w-full h-full object-cover opacity-80"
             />
 
             {/* Pins on the Map */}
             {floorArtifacts.map((artifact) => {
-              // Convert coordinate relative to 800x600 mock bounds
               const leftPercent = (artifact.mapCoordinates.x / currentFloor.bounds.width) * 100;
               const topPercent = (artifact.mapCoordinates.y / currentFloor.bounds.height) * 100;
 
@@ -69,42 +72,59 @@ export const FloorMapView: React.FC<Props> = ({ floors, artifacts, onSelectArtif
             })}
           </div>
         ) : (
-          <div className="text-slate-400 text-sm">Chưa có dữ liệu bản đồ</div>
+          <div className="text-slate-400 text-sm">{t('noMapData')}</div>
         )}
       </div>
 
       {/* List of artifacts in this floor */}
       <div>
         <h3 className="font-bold text-slate-800 text-sm md:text-base mb-2 px-1">
-          Hiện vật tại {currentFloor?.name} ({floorArtifacts.length})
+          {t('artifactsInFloor')} {currentFloor ? (currentFloor.name[currentLang] || currentFloor.name['vi']) : ''} ({floorArtifacts.length})
         </h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          {floorArtifacts.map((artifact) => (
-            <div
-              key={artifact.id}
-              onClick={() => onSelectArtifact(artifact)}
-              className="bg-white p-3 rounded-2xl border border-slate-200 flex items-center justify-between gap-3 shadow-sm hover:shadow transition cursor-pointer"
-            >
-              <div className="flex items-center gap-3">
-                <img
-                  src={artifact.images[0]}
-                  alt={artifact.title[currentLang]}
-                  className="w-12 h-12 rounded-xl object-cover"
-                />
-                <div>
-                  <div className="text-xs font-mono font-medium text-amber-600">
-                    {artifact.code}
-                  </div>
-                  <div className="text-sm font-semibold text-slate-800 line-clamp-1">
-                    {artifact.title[currentLang] || artifact.title['vi']}
+          {floorArtifacts.map((artifact) => {
+            const isPlayingThis = currentArtifact?.id === artifact.id && isPlaying;
+            return (
+              <div
+                key={artifact.id}
+                onClick={() => onSelectArtifact(artifact)}
+                className="bg-white p-3 rounded-2xl border border-slate-200 flex items-center justify-between gap-3 shadow-sm hover:shadow transition cursor-pointer"
+              >
+                <div className="flex items-center gap-3">
+                  <img
+                    src={artifact.images[0]}
+                    alt={artifact.title[currentLang]}
+                    onError={(e) => {
+                      e.currentTarget.src = 'https://images.metmuseum.org/CRDImages/mi/web-large/DP331225.jpg';
+                    }}
+                    className="w-12 h-12 rounded-xl object-cover"
+                  />
+                  <div>
+                    <div className="text-xs font-mono font-medium text-amber-600">
+                      {artifact.code}
+                    </div>
+                    <div className="text-sm font-semibold text-slate-800 line-clamp-1">
+                      {artifact.title[currentLang] || artifact.title['vi']}
+                    </div>
                   </div>
                 </div>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    playArtifact(artifact);
+                  }}
+                  className={`p-2 rounded-xl transition ${
+                    isPlayingThis
+                      ? 'bg-amber-600 text-white'
+                      : 'bg-amber-50 text-amber-600 hover:bg-amber-100'
+                  }`}
+                  title={t('listenGuide')}
+                >
+                  <Volume2 className="w-4 h-4" />
+                </button>
               </div>
-              <button className="p-2 rounded-xl bg-amber-50 text-amber-600 hover:bg-amber-100">
-                <Volume2 className="w-4 h-4" />
-              </button>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </div>
