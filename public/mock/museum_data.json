@@ -97,29 +97,49 @@
       },
       "subtitles": {
         "vi": [
-          { "start": 0, "end": 4, "text": "Chào mừng bạn đến với khu vực trưng bày Trống đồng Đông Sơn." },
-          { "start": 4, "end": 9, "text": "Đây là kiệt tác nghệ thuật đúc đồng đỉnh cao của người Việt cổ." },
-          { "start": 9, "end": 15, "text": "Hoa văn hình sao trung tâm biểu tượng cho mặt trời và nguồn sống." }
+          { "start": 0, "end": 6, "text": "Chào mừng bạn đến với không gian trưng bày bảo vật quốc gia Trống đồng Đông Sơn." },
+          { "start": 6, "end": 14, "text": "Đây là chiếc trống đồng cổ đại tiêu biểu, có niên đại hơn 2.000 năm, thuộc nền văn minh Văn Lang - Âu Lạc rực rỡ." },
+          { "start": 14, "end": 23, "text": "Hoa văn trên mặt trống khắc họa sinh động đời sống cư dân xưa, với đàn chim Lạc bay lượn, cảnh giã gạo và các đoàn thuyền chiến oai phong." },
+          { "start": 23, "end": 31, "text": "Ngôi sao nhiều cánh ở trung tâm tượng trưng cho thần Mặt Trời - nguồn cội thiêng liêng của ánh sáng và sự sống vạn vật." },
+          { "start": 31, "end": 40, "text": "Trống đồng không chỉ là nhạc khí linh thiêng dùng trong các lễ hội mùa màng mà còn là biểu tượng uy quyền tối cao của các vị thủ lĩnh Lạc Việt." },
+          { "start": 40, "end": 48, "text": "Kỹ thuật đúc đồng tinh xảo này khẳng định đỉnh cao nghệ thuật luyện kim phi thường của tổ tiên người Việt." },
+          { "start": 48, "end": 55, "text": "Cảm ơn bạn đã lắng nghe, mời bạn tiếp tục di chuyển để khám phá các hiện vật tiếp theo." }
         ],
         "en": [
-          { "start": 0, "end": 4, "text": "Welcome to the Dong Son Bronze Drum exhibition area." },
-          { "start": 4, "end": 9, "text": "This is a pinnacle masterpiece of bronze casting by ancient Vietnamese." },
-          { "start": 9, "end": 15, "text": "The central star motif symbolizes the sun and the source of life." }
+          { "start": 0, "end": 6, "text": "Welcome to the exhibition gallery of the national treasure: Dong Son Bronze Drum." },
+          { "start": 6, "end": 14, "text": "This ancient drum dates back more than 2,000 years, representing the flourishing Red River civilization of ancient Vietnam." },
+          { "start": 14, "end": 23, "text": "The intricate patterns depict the daily life of ancient inhabitants, featuring flying Lac birds, grain pounding, and grand war boats." },
+          { "start": 23, "end": 31, "text": "The central radiating star symbolizes the Sun deity—the sacred source of light, warmth, and life." },
+          { "start": 31, "end": 40, "text": "Beyond serving as a sacred musical instrument in harvest rituals, the drum stood as a supreme symbol of leadership and authority." },
+          { "start": 40, "end": 48, "text": "This sophisticated bronze casting technique demonstrates the remarkable metallurgical mastery of early Vietnamese craftsmen." },
+          { "start": 48, "end": 55, "text": "Thank you for listening. Please proceed to explore the next fascinating artifact in our collection." }
         ],
         "zh": [
-          { "start": 0, "end": 4, "text": "欢迎来到东山铜鼓展区。" },
-          { "start": 4, "end": 9, "text": "这是古越南人青铜铸造艺术的巅峰杰作。" },
-          { "start": 9, "end": 15, "text": "中心放射状星纹象征着太阳和生命之源。" }
+          { "start": 0, "end": 6, "text": "欢迎来到国宝级文物——东山铜鼓的专题展区。" },
+          { "start": 6, "end": 14, "text": "这是一件具有两千多年历史的古老铜鼓，是红河流域灿烂的东山文明杰出代表。" },
+          { "start": 14, "end": 23, "text": "鼓面纹饰生动记录了古人的生活图景，包含飞翔的雒鸟、欢庆的舂米场景以及威武的战船。" },
+          { "start": 23, "end": 31, "text": "中心多芒星形放射纹象征着太阳神——光明与万物繁衍的至高源泉。" },
+          { "start": 31, "end": 40, "text": "铜鼓不仅是在祭祀和丰收庆典上演奏的神圣礼器，更是古代部落首领崇高权力的象征。" },
+          { "start": 40, "end": 48, "text": "精湛绝伦的青铜铸造技艺，充分展现了古代工匠巧夺天工的高超冶炼水平。" },
+          { "start": 48, "end": 55, "text": "感谢您的收听，请继续移步探索下一件珍贵展品。" }
         ],
         "ko": [
-          { "start": 0, "end": 4, "text": "동선 청동북 전시 구역에 오신 것을 환영합니다." },
-          { "start": 4, "end": 9, "text": "고대 베트남인의 청동 주조 예술의 최고 걸작입니다." },
-          { "start": 9, "end": 15, "text": "중앙의 별 모양 문양은 태양과 생명의 근원을 상징합니다." }
+          { "start": 0, "end": 6, "text": "국보급 유물인 동선 청동북 전시 구역에 오신 것을 진심으로 환영합니다." },
+          { "start": 6, "end": 14, "text": "이 청동북은 2,000년 이상의 역사를 자랑하며, 홍강 유역 고대 문명의 찬란한 정수를 보여줍니다." },
+          { "start": 14, "end": 23, "text": "북 상단의 정교한 문양은 하늘을 나는 락새, 방아 찧는 모습, 웅장한 전쟁 배 등 고대인들의 삶을 생생히 묘사합니다." },
+          { "start": 23, "end": 31, "text": "중앙의 방사형 별 문양은 태양신을 상징하며 빛과 생명의 신성한 근원을 의미합니다." },
+          { "start": 31, "end": 40, "text": "청동북은 풍요를 기원하는 제례의 신성한 악기이자 부족장의 절대 권력을 상징하는 보물이었습니다." },
+          { "start": 40, "end": 48, "text": "이 뛰어난 청동 주조 기법은 고대 장인들의 탁월한 금속 야금 기술을 입증합니다." },
+          { "start": 48, "end": 55, "text": "청취해 주셔서 감사합니다. 다음 전시물로 이동하여 관람을 이어가세요." }
         ],
         "ja": [
-          { "start": 0, "end": 4, "text": "ドンソン青銅太鼓の展示エリアへようこそ。" },
-          { "start": 4, "end": 9, "text": "これは古代ベトナム人の青銅鋳造技術の最高峰です。" },
-          { "start": 9, "end": 15, "text": "中央の星型文様は太陽と生命の源を象徴しています。" }
+          { "start": 0, "end": 6, "text": "国宝であるドンソン青銅太鼓の展示エリアへようこそお越しくださいました。" },
+          { "start": 6, "end": 14, "text": "この太鼓は2,000年以上の歴史を誇り、紅河デルタの古代文明を代表する傑作です。" },
+          { "start": 14, "end": 23, "text": "鼓面の精巧な文様には、飛翔するラック鳥、脱穀する人々、勇壮な戦船など、古代の暮らしが生き生きと描かれています。" },
+          { "start": 23, "end": 31, "text": "中央に輝く放射状の星型文様は、光と生命の根源である太陽神を象徴しています。" },
+          { "start": 31, "end": 40, "text": "豊穣を祈る祭祀の神聖な楽器であると同時に、古代の指導者の至高の権威を示す象徴でもありました。" },
+          { "start": 40, "end": 48, "text": "この高度な青銅鋳造技術は、古代の職人たちの卓越した製錬・工芸技術を証明しています。" },
+          { "start": 48, "end": 55, "text": "ご聴取ありがとうございました。続いて次の展示品へお進みください。" }
         ]
       }
     },
@@ -161,24 +181,49 @@
       },
       "subtitles": {
         "vi": [
-          { "start": 0, "end": 5, "text": "Pho tượng thần Vishnu được phát hiện tại vùng đồng bằng sông Cửu Long." },
-          { "start": 5, "end": 10, "text": "Tác phẩm phản ánh sự giao lưu văn hóa và tôn giáo Ấn Độ cổ đại." }
+          { "start": 0, "end": 6, "text": "Chào mừng bạn đến với hiện vật Tượng thần Vishnu thuộc nền văn hóa Óc Eo." },
+          { "start": 6, "end": 13, "text": "Pho tượng có niên đại khoảng thế kỷ thứ 5 đến thế kỷ thứ 6, được phát hiện tại vùng đồng bằng châu thổ sông Cửu Long." },
+          { "start": 13, "end": 21, "text": "Được tạc từ đá sa thạch nguyên khối, bức tượng thể hiện thần Vishnu - vị thần bảo trợ và duy trì sự sống trong Ấn Độ giáo." },
+          { "start": 21, "end": 29, "text": "Tượng nổi bật với đường nét điêu khắc uyển chuyển, khuôn mặt thanh thoát mang vẻ đẹp trầm tư và từ ái." },
+          { "start": 29, "end": 38, "text": "Tác phẩm là bằng chứng lịch sử quan trọng về sự giao thoa văn hóa, thương mại đường biển sầm uất của vương quốc Phù Nam cổ xưa." },
+          { "start": 38, "end": 46, "text": "Kỹ thuật tạc tượng tôn giáo đỉnh cao này đã góp phần định hình kho tàng di sản điêu khắc cổ đại phương Nam." },
+          { "start": 46, "end": 53, "text": "Mời bạn tiếp tục di chuyển để chiêm ngưỡng các hiện vật tiếp theo." }
         ],
         "en": [
-          { "start": 0, "end": 5, "text": "The statue of Vishnu was discovered in the Mekong Delta region." },
-          { "start": 5, "end": 10, "text": "This piece reflects ancient cultural and religious exchanges with India." }
+          { "start": 0, "end": 6, "text": "Welcome to the Oc Eo Vishnu Statue, a masterpiece of ancient Funan culture." },
+          { "start": 6, "end": 13, "text": "Dating back to the 5th and 6th centuries, this sandstone statue was unearthed in the fertile Mekong Delta." },
+          { "start": 13, "end": 21, "text": "Carved from a single sandstone block, it portrays Lord Vishnu, the preserver and protector in Hindu cosmology." },
+          { "start": 21, "end": 29, "text": "The sculpture is renowned for its graceful contours, peaceful countenance, and meditative compassion." },
+          { "start": 29, "end": 38, "text": "This artifact stands as vital historical evidence of dynamic maritime trade and cultural exchange in the ancient Kingdom of Funan." },
+          { "start": 38, "end": 46, "text": "The extraordinary stonework exemplifies the pinnacle of early Southeast Asian religious sculpture." },
+          { "start": 46, "end": 53, "text": "Please continue your journey to explore our other historical treasures." }
         ],
         "zh": [
-          { "start": 0, "end": 5, "text": "该毗湿奴神像发现于湄公河三角洲地区。" },
-          { "start": 5, "end": 10, "text": "作品反映了古印度文化与宗教在此地的深厚交融。" }
+          { "start": 0, "end": 6, "text": "欢迎观赏奥欧文化珍品——毗湿奴神像。" },
+          { "start": 6, "end": 13, "text": "该雕像年代可追溯至公元5至6世纪，出土于丰饶的湄公河三角洲地区。" },
+          { "start": 13, "end": 21, "text": "雕像由整块砂岩精雕细琢而成，展现了印度教中掌管守护与秩序的至高神毗湿奴。" },
+          { "start": 21, "end": 29, "text": "作品线条优美舒展，面部神情恬静肃穆，蕴含着深邃的沉思与慈悲之美。" },
+          { "start": 29, "end": 38, "text": "这一文物是古代扶南王国繁荣的海上贸易与活跃宗教文化交流的有力历史见证。" },
+          { "start": 38, "end": 46, "text": "高超的石雕工艺彰显了古代东南亚宗教雕刻艺术的巅峰造诣。" },
+          { "start": 46, "end": 53, "text": "请继续前行，探索更多引人入胜的馆藏瑰宝。" }
         ],
         "ko": [
-          { "start": 0, "end": 5, "text": "비슈누 신상은 메콩 삼각주 지역에서 발견되었습니다." },
-          { "start": 5, "end": 10, "text": "이 작품은 고대 인도와의 문화 및 종교적 교류를 반영합니다." }
+          { "start": 0, "end": 6, "text": "부남 왕국 옥에오 문화의 대표 유물인 비슈누 신상에 오신 것을 환영합니다." },
+          { "start": 6, "end": 13, "text": "이 사암 조각상은 5~6세기경의 유물로 풍요로운 메콩 삼각주 지역에서 출토되었습니다." },
+          { "start": 13, "end": 21, "text": "단일 사암 블록으로 제작된 이 상은 힌두교의 우주 수호신인 비슈누를 묘사하고 있습니다." },
+          { "start": 21, "end": 29, "text": "유려한 신체 윤곽과 고요하고 자비로운 표정은 깊은 명상적 아름다움을 풍깁니다." },
+          { "start": 29, "end": 38, "text": "고대 부남 왕국의 활발한 해상 실크로드 무역과 문화적 교류를 생생하게 입증하는 소중한 자료입니다." },
+          { "start": 38, "end": 46, "text": "이 뛰어난 석조 조각은 동남아시아 고대 종교 미술의 정점을 보여줍니다." },
+          { "start": 46, "end": 53, "text": "다음 전시 공간으로 이동하여 아름다운 유물들을 계속 만나보세요." }
         ],
         "ja": [
-          { "start": 0, "end": 5, "text": "このヴィシュヌ神像はメコンデルタ地域で発見されました。" },
-          { "start": 5, "end": 10, "text": "古代インドとの活発な文化・宗教交流を今に伝える貴重な遺物です。" }
+          { "start": 0, "end": 6, "text": "フナン古代文明オックエオ文化の傑作、ヴィシュヌ神像へようこそ。" },
+          { "start": 6, "end": 13, "text": "この砂岩彫刻は5〜6世紀頃のもので、豊かなメコンデルタ地域で発掘されました。" },
+          { "start": 13, "end": 21, "text": "一塊の砂岩から彫り出されたこの像は、ヒンドゥー教の維持と調和を司るヴィシュヌ神を表現しています。" },
+          { "start": 21, "end": 29, "text": "優美な体の曲線と静穏で慈愛に満ちた表情は、深い瞑想の美を醸し出しています。" },
+          { "start": 29, "end": 38, "text": "古代フナン王国の活発な海上交易と東西文化交流を証明する極めて重要な歴史遺産です。" },
+          { "start": 38, "end": 46, "text": "優れた石彫技術は、東南アジア古代宗教美術の最高水準を示しています。" },
+          { "start": 46, "end": 53, "text": "それでは、次の展示品へ進み歴史の旅をお楽しみください。" }
         ]
       }
     },
@@ -220,24 +265,49 @@
       },
       "subtitles": {
         "vi": [
-          { "start": 0, "end": 4, "text": "Ấn rồng triều Nguyễn mang đậm nét tinh xảo cung đình Huế." },
-          { "start": 4, "end": 9, "text": "Núm ấn chạm khắc hình rồng năm móng uy nghi quyền quý." }
+          { "start": 0, "end": 6, "text": "Chào mừng bạn đến với hiện vật Ấn rồng hoàng gia triều Nguyễn." },
+          { "start": 6, "end": 14, "text": "Đây là bảo vật quốc gia tượng trưng cho vương quyền và quyền lực tối cao của các Hoàng đế triều Nguyễn (1802 - 1945)." },
+          { "start": 14, "end": 22, "text": "Ấn được đúc bằng vàng ròng tinh khiết với núm ấn tạc hình rồng năm móng uy nghi, mắt mở to và sừng nhọn hướng lên." },
+          { "start": 22, "end": 30, "text": "Mỗi nét chạm khắc trên thân rồng đều thể hiện đỉnh cao nghệ thuật kim hoàn cung đình Huế tinh xảo bậc nhất." },
+          { "start": 30, "end": 39, "text": "Ấn chương hoàng gia được sử dụng để đóng dấu lên các chiếu chỉ, sắc phong và văn bản hành chính tối mật của triều đình." },
+          { "start": 39, "end": 47, "text": "Hiện vật là biểu tượng vĩnh cửu của nền độc lập, chủ quyền lãnh thổ và di sản văn hóa cung đình Việt Nam." },
+          { "start": 47, "end": 54, "text": "Cảm ơn bạn đã tham quan và lắng nghe bài thuyết minh." }
         ],
         "en": [
-          { "start": 0, "end": 4, "text": "The Nguyen Dynasty dragon seal embodies Hue imperial craftsmanship." },
-          { "start": 4, "end": 9, "text": "The handle features an intricately carved five-clawed imperial dragon." }
+          { "start": 0, "end": 6, "text": "Welcome to the Nguyen Dynasty Royal Dragon Seal, a treasured symbol of imperial sovereignty." },
+          { "start": 6, "end": 14, "text": "This national treasure represents the supreme authority and legitimacy of the Nguyen Emperors from 1802 to 1945." },
+          { "start": 14, "end": 22, "text": "Cast from pure gold, the handle features a majestically sculpted five-clawed dragon with alert eyes and sharp horns." },
+          { "start": 22, "end": 30, "text": "Every engraved detail showcases the pinnacle of Hue imperial goldsmithing and royal metallurgical craftsmanship." },
+          { "start": 30, "end": 39, "text": "The royal seal was affixed to imperial edicts, official decrees, and high-level diplomatic state documents." },
+          { "start": 39, "end": 47, "text": "This artifact remains an enduring emblem of national independence, unified sovereignty, and imperial legacy." },
+          { "start": 47, "end": 54, "text": "Thank you for listening. We hope you enjoy the remainder of your museum tour." }
         ],
         "zh": [
-          { "start": 0, "end": 4, "text": "阮朝御龙印彰显顺化宫廷工艺的极致精湛。" },
-          { "start": 4, "end": 9, "text": "印纽雕刻威严的五爪御龙，象征至尊皇权。" }
+          { "start": 0, "end": 6, "text": "欢迎来到阮朝皇室御龙印专题展示区。" },
+          { "start": 6, "end": 14, "text": "这件国家级珍宝象征着阮朝皇帝（1802—1945）至高无上的至尊皇权与统治合法性。" },
+          { "start": 14, "end": 22, "text": "金印选用纯金铸造，印纽精雕一条威武雄壮的五爪御龙，龙目圆睁，龙角挺拔耸立。" },
+          { "start": 22, "end": 30, "text": "龙身上的每一道精美雕刻都代表了顺化宫廷金银工艺的最高造诣。" },
+          { "start": 30, "end": 39, "text": "御印专门用于加盖在皇帝颁发的圣旨、诏书以及国家顶级机密文书之上。" },
+          { "start": 39, "end": 47, "text": "该文物是国家统一、领土主权与深厚宫廷文化遗产的永恒历史见证。" },
+          { "start": 47, "end": 54, "text": "感谢您的收听，祝您在博物馆度过愉快的探索时光。" }
         ],
         "ko": [
-          { "start": 0, "end": 4, "text": "응우옌 왕조 용 인장은 후에 황실 공예의 정교함을 보여줍니다." },
-          { "start": 4, "end": 9, "text": "손잡이에는 위엄 있는 오조룡이 정교하게 조각되어 있습니다." }
+          { "start": 0, "end": 6, "text": "응우옌 왕조 황실 용 인장 전시 구역에 오신 것을 환영합니다." },
+          { "start": 6, "end": 14, "text": "이 국보는 1802년부터 1945년까지 응우옌 황제의 절대 권력과 왕권을 상징하는 대표적 보물입니다." },
+          { "start": 14, "end": 22, "text": "순금으로 주조된 이 인장의 손잡이는 눈을 부릅뜨고 위엄을 뽐내는 오조룡의 형상으로 조각되었습니다." },
+          { "start": 22, "end": 30, "text": "용의 비늘과 형상 하나하나에는 후에 황실 금속 공예의 최고 정수가 오롯이 담겨 있습니다." },
+          { "start": 30, "end": 39, "text": "황실 어인은 황제의 칙령, 임명장 및 최고위 외교 문서에 날인하는 데 사용되었습니다." },
+          { "start": 39, "end": 47, "text": "이 유물은 국가의 독립과 영토 주권, 찬란한 황실 문화유산의 영원한 상징입니다." },
+          { "start": 47, "end": 54, "text": "해설을 들어주셔서 감사합니다. 즐거운 관람 되시기 바랍니다." }
         ],
         "ja": [
-          { "start": 0, "end": 4, "text": "グエン朝の龍の御印は、フエ宮廷工芸の精緻さを象徴しています。" },
-          { "start": 4, "end": 9, "text": "つまみには威厳ある五爪の龍が精巧に彫刻されています。" }
+          { "start": 0, "end": 6, "text": "グエン朝皇室の龍の御印（ぎょいん）の展示エリアへようこそ。" },
+          { "start": 6, "end": 14, "text": "この国宝は、グエン朝皇帝（1802〜1945年）の至高の皇権と統治の正統性を象徴しています。" },
+          { "start": 14, "end": 22, "text": "純金で鋳造されたこの印のつまみには、目を見開き威厳を放つ五爪の龍が見事に彫刻されています。" },
+          { "start": 22, "end": 30, "text": "龍の細部に至るまで、フエ宮廷彫金技術の最高峰が余すところなく発揮されています。" },
+          { "start": 30, "end": 39, "text": "この御印は、皇帝の勅令、爵位の授与文書、重要国家公文書などに押印されていました。" },
+          { "start": 39, "end": 47, "text": "国家の独立と主権、そして華麗な宮廷文化遺産の不朽の象徴であります。" },
+          { "start": 47, "end": 54, "text": "ご聴取いただきありがとうございました。どうぞ引き続き館内をお楽しみください。" }
         ]
       }
     }

@@ -51,7 +51,9 @@ const resources = {
       favoritesSubtitle: "Danh sách các bảo vật và hiện vật yêu thích bạn đã lưu để xem lại hoặc nghe thuyết minh.",
       favoritesEmptyHint: "Hãy khám phá danh mục hiện vật và nhấn vào biểu tượng trái tim để lưu lại những hiện vật ấn tượng.",
       removeFromFavorites: "Xóa khỏi yêu thích",
-      museumArtifactTag: "Cổ vật bảo tàng"
+      museumArtifactTag: "Cổ vật bảo tàng",
+      briefOverview: "Mô tả sơ lược",
+      detailedNarration: "Lời thoại thuyết minh chi tiết"
     }
   },
   en: {
@@ -103,7 +105,9 @@ const resources = {
       favoritesSubtitle: "List of your saved favorite treasures and artifacts to revisit or listen to.",
       favoritesEmptyHint: "Explore the exhibits and tap the heart icon to save artifacts you love.",
       removeFromFavorites: "Remove from favorites",
-      museumArtifactTag: "Museum Artifact"
+      museumArtifactTag: "Museum Artifact",
+      briefOverview: "Overview",
+      detailedNarration: "Detailed Narration & Transcript"
     }
   },
   zh: {
@@ -155,7 +159,9 @@ const resources = {
       favoritesSubtitle: "您收藏的珍贵文物列表，可随时重温或收听讲解。",
       favoritesEmptyHint: "探索文物目录，点击心形图标收藏给您留下深刻印象的展品。",
       removeFromFavorites: "取消收藏",
-      museumArtifactTag: "馆藏文物"
+      museumArtifactTag: "馆藏文物",
+      briefOverview: "概述",
+      detailedNarration: "详细讲解词与字幕"
     }
   },
   ko: {
@@ -207,7 +213,9 @@ const resources = {
       favoritesSubtitle: "다시 보거나 해설을 들을 수 있도록 저장된 즐겨찾기 유물 목록입니다.",
       favoritesEmptyHint: "유물 목록을 살펴보고 마음에 드는 유물의 하트 아이콘을 눌러 저장해보세요.",
       removeFromFavorites: "즐겨찾기에서 제거",
-      museumArtifactTag: "박물관 소장 유물"
+      museumArtifactTag: "박물관 소장 유물",
+      briefOverview: "개요",
+      detailedNarration: "상세 해설 및 자막"
     }
   },
   ja: {
@@ -259,7 +267,9 @@ const resources = {
       favoritesSubtitle: "後で再確認したり解説を聴くために保存したお気に入りの展示品リストです。",
       favoritesEmptyHint: "展示品を探して、ハートアイコンをタップして気になる展示品を保存してください。",
       removeFromFavorites: "お気に入りから削除",
-      museumArtifactTag: "博物館所蔵の遺物"
+      museumArtifactTag: "博物館所蔵の遺物",
+      briefOverview: "概要",
+      detailedNarration: "詳細解説と字幕"
     }
   }
 };

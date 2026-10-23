@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { usePlayerStore } from '../../shared/stores/playerStore';
 import { useLangStore } from '../../shared/stores/langStore';
 import { ttsService } from '../../shared/services/tts';
+import { LiveTranscriptCard } from './LiveTranscriptCard';
 import { Play, Pause, Subtitles, Volume2, X, Sparkles } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
@@ -29,23 +30,48 @@ export const AudioPlayerBar: React.FC = () => {
   const title = currentArtifact?.title?.[currentLang] || currentArtifact?.title?.['vi'] || '';
   const description =
     currentArtifact?.description?.[currentLang] || currentArtifact?.description?.['vi'] || '';
-  const narrationText = title ? `${title}. ${description}` : '';
+
+  // Extract multi-sentence subtitles or fallback
+  const rawSubtitles =
+    currentArtifact?.subtitles?.[currentLang] || currentArtifact?.subtitles?.['vi'] || [];
+  const activeSubtitles =
+    rawSubtitles.length > 0
+      ? rawSubtitles
+      : description
+      ? [
+          {
+            start: 0,
+            end: 15,
+            text: description
+          }
+        ]
+      : [];
+
+  const narrationScript =
+    activeSubtitles.length > 0
+      ? activeSubtitles.map((cue) => cue.text).join(' ')
+      : title
+      ? `${title}. ${description}`
+      : '';
+
+  const totalDuration =
+    activeSubtitles.length > 0 && activeSubtitles[activeSubtitles.length - 1].end > 0
+      ? activeSubtitles[activeSubtitles.length - 1].end
+      : Math.max(10, Math.round(narrationScript.length / (13 * playbackRate)));
 
   // AI Voice Speech Synthesis Hook
   useEffect(() => {
-    if (!currentArtifact || !narrationText) {
+    if (!currentArtifact || !narrationScript) {
       ttsService.stop();
       if (intervalRef.current) clearInterval(intervalRef.current);
       return;
     }
 
     if (isPlaying) {
-      // Estimate duration based on text length and playback rate (~12-14 chars per sec)
-      const estDuration = Math.max(8, Math.round(narrationText.length / (13 * playbackRate)));
-      setDuration(estDuration);
+      setDuration(totalDuration);
 
       if (ttsService.isSupported()) {
-        ttsService.speak(narrationText, currentLang, playbackRate, {
+        ttsService.speak(narrationScript, currentLang, playbackRate, {
           onEnd: () => {
             stop();
           },
@@ -61,8 +87,8 @@ export const AudioPlayerBar: React.FC = () => {
         usePlayerStore.setState((prev) => {
           if (!prev.isPlaying) return prev;
           const nextTime = Number((prev.currentTime + 0.25).toFixed(2));
-          if (nextTime >= estDuration) {
-            return { currentTime: estDuration };
+          if (nextTime >= totalDuration) {
+            return { currentTime: totalDuration };
           }
           return { currentTime: nextTime };
         });
@@ -77,7 +103,7 @@ export const AudioPlayerBar: React.FC = () => {
       }
       if (intervalRef.current) clearInterval(intervalRef.current);
     }
-  }, [isPlaying, currentArtifact?.id, currentLang, playbackRate]);
+  }, [isPlaying, currentArtifact?.id, currentLang, playbackRate, narrationScript, totalDuration]);
 
   // Clean up on component unmount
   useEffect(() => {
@@ -89,14 +115,6 @@ export const AudioPlayerBar: React.FC = () => {
 
   // Return null AFTER all hooks are called
   if (!currentArtifact) return null;
-
-  // Find active subtitle cue or fall back to narration text
-  const activeSubtitles =
-    currentArtifact.subtitles?.[currentLang] || currentArtifact.subtitles?.['vi'] || [];
-  const activeCue = activeSubtitles.find(
-    (cue) => currentTime >= cue.start && currentTime <= cue.end
-  );
-  const displayedSubtitle = activeCue ? activeCue.text : narrationText;
 
   const formatTime = (secs: number) => {
     if (isNaN(secs) || secs < 0) return '0:00';
@@ -115,6 +133,20 @@ export const AudioPlayerBar: React.FC = () => {
 
   const handleSeek = (val: number) => {
     setCurrentTime(val);
+    if (isPlaying && activeSubtitles.length > 0) {
+      const remainingCues = activeSubtitles.filter((c) => c.start >= val);
+      const textToSpeak =
+        remainingCues.length > 0
+          ? remainingCues.map((c) => c.text).join(' ')
+          : narrationScript;
+
+      if (ttsService.isSupported()) {
+        ttsService.speak(textToSpeak, currentLang, playbackRate, {
+          onEnd: () => stop(),
+          onError: () => stop()
+        });
+      }
+    }
   };
 
   const handleStopAndClose = (e: React.MouseEvent) => {
@@ -125,15 +157,28 @@ export const AudioPlayerBar: React.FC = () => {
 
   return (
     <>
-      {/* Synchronized Floating Subtitle Box */}
-      {showSubtitle && displayedSubtitle && (
-        <div className="fixed bottom-36 md:bottom-28 left-4 right-4 z-40 flex justify-center pointer-events-none">
-          <div className="bg-slate-900/95 text-white text-xs sm:text-sm md:text-base px-5 py-3 rounded-2xl backdrop-blur-md shadow-2xl border border-slate-700/70 max-w-2xl text-center animate-fade-in pointer-events-auto leading-relaxed">
-            <span className="inline-flex items-center gap-1.5 text-amber-400 font-bold text-xs uppercase tracking-wider block mb-1">
-              <Sparkles className="w-3.5 h-3.5" />
-              <span>{t('subtitles')} (AI Voice)</span>
-            </span>
-            <span>{displayedSubtitle}</span>
+      {/* Floating Subtitle Transcript Card matching reference */}
+      {showSubtitle && activeSubtitles.length > 0 && (
+        <div className="fixed bottom-40 md:bottom-28 left-4 right-4 z-40 flex justify-center pointer-events-none">
+          <div className="bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl border border-slate-200/90 max-w-lg w-full p-3 pointer-events-auto animate-fade-in">
+            <div className="flex items-center justify-between px-2 pb-2 mb-1 border-b border-slate-100">
+              <span className="inline-flex items-center gap-1.5 text-amber-600 font-bold text-xs uppercase tracking-wider">
+                <Sparkles className="w-3.5 h-3.5" />
+                <span>{t('subtitles')} (AI Voice - {currentLang.toUpperCase()})</span>
+              </span>
+              <button
+                onClick={toggleSubtitle}
+                className="text-slate-400 hover:text-slate-600 text-xs p-1 rounded-lg"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+            <LiveTranscriptCard
+              subtitles={activeSubtitles}
+              currentTime={currentTime}
+              onSeekCue={handleSeek}
+              className="border-0 shadow-none p-0"
+            />
           </div>
         </div>
       )}
@@ -147,12 +192,12 @@ export const AudioPlayerBar: React.FC = () => {
             <input
               type="range"
               min={0}
-              max={duration || 100}
+              max={duration || totalDuration || 100}
               value={currentTime}
               onChange={(e) => handleSeek(Number(e.target.value))}
               className="w-full accent-amber-500 h-1.5 bg-slate-700 rounded-lg cursor-pointer"
             />
-            <span>{formatTime(duration)}</span>
+            <span>{formatTime(duration || totalDuration)}</span>
           </div>
 
           {/* Controls */}
