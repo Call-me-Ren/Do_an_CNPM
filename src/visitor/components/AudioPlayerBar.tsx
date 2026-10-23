@@ -109,18 +109,18 @@ export const AudioPlayerBar: React.FC = () => {
 
       {/* Synchronized Floating Subtitle Box */}
       {showSubtitle && activeCue && (
-        <div className="fixed bottom-28 left-4 right-4 z-40 flex justify-center pointer-events-none">
-          <div className="bg-slate-900/90 text-white text-sm md:text-base px-4 py-2 rounded-xl backdrop-blur-md shadow-2xl border border-slate-700/50 max-w-lg text-center animate-fade-in pointer-events-auto">
+        <div className="fixed bottom-36 md:bottom-28 left-4 right-4 z-40 flex justify-center pointer-events-none">
+          <div className="bg-slate-900/95 text-white text-sm md:text-base px-5 py-2.5 rounded-2xl backdrop-blur-md shadow-2xl border border-slate-700/60 max-w-xl text-center animate-fade-in pointer-events-auto">
             {activeCue.text}
           </div>
         </div>
       )}
 
       {/* Sticky Bottom Audio Player Bar */}
-      <div className="fixed bottom-16 left-0 right-0 max-w-md mx-auto px-3 z-50 animate-fade-in">
-        <div className="bg-slate-900/95 text-white backdrop-blur-md rounded-2xl p-3 shadow-2xl border border-slate-700/80 flex flex-col gap-2">
+      <div className="fixed bottom-20 md:bottom-6 left-0 right-0 max-w-md md:max-w-4xl lg:max-w-5xl mx-auto px-4 z-50 animate-fade-in">
+        <div className="bg-slate-900/95 text-white backdrop-blur-md rounded-3xl p-3.5 sm:p-4 shadow-2xl border border-slate-700/80 flex flex-col gap-2.5">
           {/* Progress Bar */}
-          <div className="flex items-center gap-2 text-xs font-mono text-slate-400">
+          <div className="flex items-center gap-3 text-xs font-mono text-slate-400">
             <span>{formatTime(currentTime)}</span>
             <input
               type="range"
@@ -140,32 +140,34 @@ export const AudioPlayerBar: React.FC = () => {
           </div>
 
           {/* Controls */}
-          <div className="flex items-center justify-between gap-2">
-            <div className="flex items-center gap-2.5 overflow-hidden flex-1 min-w-0">
+          <div className="flex items-center justify-between gap-4">
+            <div className="flex items-center gap-3 overflow-hidden flex-1 min-w-0">
               <img
                 src={currentArtifact.images?.[0] || 'https://images.metmuseum.org/CRDImages/mi/web-large/DP331225.jpg'}
                 alt={currentArtifact?.title?.[currentLang] || currentArtifact?.title?.['vi'] || ''}
                 onError={(e) => {
                   e.currentTarget.src = 'https://images.metmuseum.org/CRDImages/mi/web-large/DP331225.jpg';
                 }}
-                className="w-10 h-10 rounded-xl object-cover shadow shrink-0"
+                className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl object-cover shadow shrink-0"
               />
               <div className="truncate">
-                <div className="font-bold text-xs md:text-sm text-slate-100 truncate">
+                <div className="font-bold text-xs sm:text-base text-slate-100 truncate">
                   {currentArtifact?.title?.[currentLang] || currentArtifact?.title?.['vi'] || currentArtifact?.code || ''}
                 </div>
-                <div className="text-[11px] text-amber-400 font-medium flex items-center gap-1">
-                  <Volume2 className="w-3 h-3 animate-pulse" />
-                  {currentArtifact.code}
+                <div className="text-[11px] sm:text-xs text-amber-400 font-semibold flex items-center gap-1.5 mt-0.5">
+                  <Volume2 className="w-3.5 h-3.5 animate-pulse" />
+                  <span>{currentArtifact.code}</span>
+                  <span className="hidden sm:inline text-slate-500">&bull;</span>
+                  <span className="hidden sm:inline text-slate-400">Tầng {currentArtifact.floorId}</span>
                 </div>
               </div>
             </div>
 
-            <div className="flex items-center gap-1.5 shrink-0">
+            <div className="flex items-center gap-2 shrink-0">
               {/* Playback speed */}
               <button
                 onClick={handleNextRate}
-                className="text-xs font-bold px-2 py-1 rounded bg-slate-800 text-slate-300 hover:bg-slate-700"
+                className="text-xs font-bold px-2.5 py-1.5 rounded-xl bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white transition"
                 title={t('playbackSpeed')}
               >
                 {playbackRate}x
@@ -174,8 +176,8 @@ export const AudioPlayerBar: React.FC = () => {
               {/* Subtitles Toggle */}
               <button
                 onClick={toggleSubtitle}
-                className={`p-2 rounded-full transition-colors ${
-                  showSubtitle ? 'text-amber-400 bg-amber-400/20' : 'text-slate-400 hover:bg-slate-800'
+                className={`p-2.5 rounded-xl transition-colors ${
+                  showSubtitle ? 'text-amber-400 bg-amber-400/20' : 'text-slate-400 hover:bg-slate-800 hover:text-white'
                 }`}
                 title={t('subtitles')}
               >
@@ -186,18 +188,18 @@ export const AudioPlayerBar: React.FC = () => {
               {isPlaying ? (
                 <button
                   onClick={pause}
-                  className="p-2.5 rounded-full bg-amber-500 text-slate-950 shadow-md hover:bg-amber-400 transition"
+                  className="p-3 rounded-2xl bg-amber-500 text-slate-950 shadow-md hover:bg-amber-400 transition"
                   title={t('pause')}
                 >
-                  <Pause className="w-4 h-4 fill-current" />
+                  <Pause className="w-5 h-5 fill-current" />
                 </button>
               ) : (
                 <button
                   onClick={resume}
-                  className="p-2.5 rounded-full bg-amber-500 text-slate-950 shadow-md hover:bg-amber-400 transition"
+                  className="p-3 rounded-2xl bg-amber-500 text-slate-950 shadow-md hover:bg-amber-400 transition"
                   title={t('resume')}
                 >
-                  <Play className="w-4 h-4 fill-current ml-0.5" />
+                  <Play className="w-5 h-5 fill-current ml-0.5" />
                 </button>
               )}
 
@@ -211,7 +213,7 @@ export const AudioPlayerBar: React.FC = () => {
                   }
                   stop();
                 }}
-                className="p-2 rounded-full text-slate-400 hover:text-red-400 hover:bg-red-400/10 transition"
+                className="p-2.5 rounded-xl text-slate-400 hover:text-red-400 hover:bg-red-400/10 transition"
                 title={t('close')}
               >
                 <X className="w-5 h-5" />

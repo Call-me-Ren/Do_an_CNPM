@@ -2,6 +2,7 @@
 import { describe, it, expect, vi } from 'vitest';
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
 import '../locales/i18n';
 
 // Mock museumApi
@@ -18,7 +19,9 @@ import { VisitorLayout } from '../visitor/VisitorLayout';
 
 describe('VisitorLayout integration test', () => {
   it('clicks the speaker button without crashing', async () => {
-    const { container } = render(React.createElement(VisitorLayout));
+    const { container } = render(
+      React.createElement(MemoryRouter, null, React.createElement(VisitorLayout))
+    );
     
     // Wait for data to load
     await waitFor(() => {

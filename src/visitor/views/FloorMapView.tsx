@@ -21,110 +21,147 @@ export const FloorMapView: React.FC<Props> = ({ floors, artifacts, onSelectArtif
   const floorArtifacts = artifacts.filter((a) => a.floorId === selectedFloorId);
 
   return (
-    <div className="flex flex-col gap-4 pb-28">
-      {/* Floor Selector Pills */}
-      <div className="flex items-center gap-2 overflow-x-auto pb-1">
-        <Layers className="w-4 h-4 text-slate-400 ml-1 shrink-0" />
-        {floors.map((floor) => (
-          <button
-            key={floor.id}
-            onClick={() => setSelectedFloorId(floor.id)}
-            className={`px-3.5 py-1.5 rounded-full text-xs md:text-sm font-semibold transition shrink-0 ${
-              selectedFloorId === floor.id
-                ? 'bg-amber-500 text-white shadow-sm'
-                : 'bg-white text-slate-700 hover:bg-slate-100 border border-slate-200'
-            }`}
-          >
-            {floor.name[currentLang] || floor.name['vi']}
-          </button>
-        ))}
+    <div className="flex flex-col gap-6 pb-32">
+      {/* Top Header & Floor Switcher */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2 border-b border-slate-200">
+        <div>
+          <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight flex items-center gap-2.5">
+            <Layers className="w-6 h-6 text-amber-600" />
+            <span>Sơ Đồ Tầng & Không Gian Trưng Bày</span>
+          </h2>
+          <p className="text-xs sm:text-sm text-slate-500 mt-0.5">
+            Chọn tầng để xem bản đồ bố trí các hiện vật và chạm vào vị trí để nghe thuyết minh.
+          </p>
+        </div>
+
+        {/* Floor Selector Pills */}
+        <div className="flex items-center gap-2 overflow-x-auto pb-1">
+          {floors.map((floor) => (
+            <button
+              key={floor.id}
+              onClick={() => setSelectedFloorId(floor.id)}
+              className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition shrink-0 ${
+                selectedFloorId === floor.id
+                  ? 'bg-amber-500 text-slate-950 shadow-md shadow-amber-500/20'
+                  : 'bg-white text-slate-700 hover:bg-slate-100 border border-slate-200'
+              }`}
+            >
+              {floor.name[currentLang] || floor.name['vi']}
+            </button>
+          ))}
+        </div>
       </div>
 
-      {/* Interactive Floor Map Canvas Area */}
-      <div className="bg-slate-900 rounded-3xl overflow-hidden shadow-lg border border-slate-800 relative w-full aspect-[4/3] flex items-center justify-center">
-        {currentFloor ? (
-          <div className="relative w-full h-full">
-            <img
-              src={currentFloor.mapImage}
-              alt={currentFloor.name[currentLang] || currentFloor.name['vi']}
-              className="w-full h-full object-cover opacity-80"
-            />
+      {/* Main 2-Column Responsive Web Grid */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
+        {/* Left: Interactive Map Canvas (2 Columns on Desktop) */}
+        <div className="lg:col-span-2 bg-slate-900 rounded-3xl overflow-hidden shadow-xl border border-slate-800 relative w-full aspect-[4/3] flex items-center justify-center">
+          {currentFloor ? (
+            <div className="relative w-full h-full">
+              <img
+                src={currentFloor.mapImage}
+                alt={currentFloor.name[currentLang] || currentFloor.name['vi']}
+                className="w-full h-full object-cover opacity-80"
+              />
 
-            {/* Pins on the Map */}
-            {floorArtifacts.map((artifact) => {
-              const leftPercent = (artifact.mapCoordinates.x / currentFloor.bounds.width) * 100;
-              const topPercent = (artifact.mapCoordinates.y / currentFloor.bounds.height) * 100;
+              {/* Pins on the Map */}
+              {floorArtifacts.map((artifact) => {
+                const leftPercent = (artifact.mapCoordinates.x / currentFloor.bounds.width) * 100;
+                const topPercent = (artifact.mapCoordinates.y / currentFloor.bounds.height) * 100;
+                const isPlayingThis = currentArtifact?.id === artifact.id && isPlaying;
 
-              return (
-                <button
-                  key={artifact.id}
-                  onClick={() => onSelectArtifact(artifact)}
-                  style={{ left: `${leftPercent}%`, top: `${topPercent}%` }}
-                  className="absolute -translate-x-1/2 -translate-y-1/2 p-2 bg-amber-500 text-white rounded-full shadow-xl hover:scale-125 transition-transform group focus:outline-none ring-4 ring-amber-400/30"
-                  title={artifact.title[currentLang]}
-                >
-                  <MapPin className="w-4 h-4" />
-                  <div className="hidden group-hover:block absolute bottom-full mb-1 left-1/2 -translate-x-1/2 bg-slate-900 text-white text-xs px-2.5 py-1 rounded-lg whitespace-nowrap shadow-md pointer-events-none z-20">
-                    {artifact.title[currentLang] || artifact.title['vi']}
-                  </div>
-                </button>
-              );
-            })}
-          </div>
-        ) : (
-          <div className="text-slate-400 text-sm">{t('noMapData')}</div>
-        )}
-      </div>
-
-      {/* List of artifacts in this floor */}
-      <div>
-        <h3 className="font-bold text-slate-800 text-sm md:text-base mb-2 px-1">
-          {t('artifactsInFloor')} {currentFloor ? (currentFloor.name[currentLang] || currentFloor.name['vi']) : ''} ({floorArtifacts.length})
-        </h3>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          {floorArtifacts.map((artifact) => {
-            const isPlayingThis = currentArtifact?.id === artifact.id && isPlaying;
-            return (
-              <div
-                key={artifact.id}
-                onClick={() => onSelectArtifact(artifact)}
-                className="bg-white p-3 rounded-2xl border border-slate-200 flex items-center justify-between gap-3 shadow-sm hover:shadow transition cursor-pointer"
-              >
-                <div className="flex items-center gap-3">
-                  <img
-                    src={artifact.images[0]}
-                    alt={artifact.title[currentLang]}
-                    onError={(e) => {
-                      e.currentTarget.src = 'https://images.metmuseum.org/CRDImages/mi/web-large/DP331225.jpg';
-                    }}
-                    className="w-12 h-12 rounded-xl object-cover"
-                  />
-                  <div>
-                    <div className="text-xs font-mono font-medium text-amber-600">
-                      {artifact.code}
-                    </div>
-                    <div className="text-sm font-semibold text-slate-800 line-clamp-1">
+                return (
+                  <button
+                    key={artifact.id}
+                    onClick={() => onSelectArtifact(artifact)}
+                    style={{ left: `${leftPercent}%`, top: `${topPercent}%` }}
+                    className={`absolute -translate-x-1/2 -translate-y-1/2 p-2.5 rounded-full shadow-2xl transition-transform hover:scale-125 focus:outline-none ring-4 ${
+                      isPlayingThis
+                        ? 'bg-amber-400 text-slate-950 ring-amber-400/50 animate-pulse scale-110 z-20'
+                        : 'bg-amber-500 text-white ring-amber-400/30 group z-10'
+                    }`}
+                    title={artifact.title[currentLang] || artifact.title['vi']}
+                  >
+                    <MapPin className="w-5 h-5" />
+                    <div className="hidden sm:group-hover:block absolute bottom-full mb-2 left-1/2 -translate-x-1/2 bg-slate-900 text-white text-xs font-semibold px-3 py-1.5 rounded-xl whitespace-nowrap shadow-2xl pointer-events-none z-30 border border-slate-700">
                       {artifact.title[currentLang] || artifact.title['vi']}
                     </div>
-                  </div>
-                </div>
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    playArtifact(artifact);
-                  }}
-                  className={`p-2 rounded-xl transition ${
-                    isPlayingThis
-                      ? 'bg-amber-600 text-white'
-                      : 'bg-amber-50 text-amber-600 hover:bg-amber-100'
-                  }`}
-                  title={t('listenGuide')}
-                >
-                  <Volume2 className="w-4 h-4" />
-                </button>
+                  </button>
+                );
+              })}
+            </div>
+          ) : (
+            <div className="text-slate-400 text-sm">{t('noMapData')}</div>
+          )}
+        </div>
+
+        {/* Right: Artifacts in this floor list (1 Column on Desktop) */}
+        <div className="bg-white rounded-3xl p-5 border border-slate-200/80 shadow-xs flex flex-col gap-4">
+          <div className="flex items-center justify-between pb-2 border-b border-slate-100">
+            <h3 className="font-extrabold text-slate-900 text-base">
+              {t('artifactsInFloor')}{' '}
+              <span className="text-amber-600">
+                {currentFloor ? currentFloor.name[currentLang] || currentFloor.name['vi'] : ''}
+              </span>
+            </h3>
+            <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-slate-100 text-slate-600">
+              {floorArtifacts.length}
+            </span>
+          </div>
+
+          <div className="flex flex-col gap-3 max-h-[500px] overflow-y-auto pr-1">
+            {floorArtifacts.length === 0 ? (
+              <div className="py-10 text-center text-slate-400 text-xs">
+                Chưa có hiện vật nào được gắn vào tầng này.
               </div>
-            );
-          })}
+            ) : (
+              floorArtifacts.map((artifact) => {
+                const isPlayingThis = currentArtifact?.id === artifact.id && isPlaying;
+                return (
+                  <div
+                    key={artifact.id}
+                    onClick={() => onSelectArtifact(artifact)}
+                    className="p-3 rounded-2xl border border-slate-200/80 hover:border-amber-400 hover:shadow-md transition-all cursor-pointer flex items-center justify-between gap-3 group bg-slate-50/50 hover:bg-white"
+                  >
+                    <div className="flex items-center gap-3 min-w-0">
+                      <img
+                        src={artifact.images[0]}
+                        alt={artifact.title[currentLang] || artifact.title['vi']}
+                        onError={(e) => {
+                          e.currentTarget.src =
+                            'https://images.metmuseum.org/CRDImages/mi/web-large/DP331225.jpg';
+                        }}
+                        className="w-12 h-12 rounded-xl object-cover shrink-0 group-hover:scale-105 transition-transform"
+                      />
+                      <div className="min-w-0">
+                        <div className="text-[11px] font-mono font-bold text-amber-600">
+                          {artifact.code}
+                        </div>
+                        <div className="text-sm font-bold text-slate-800 truncate group-hover:text-amber-600 transition-colors">
+                          {artifact.title[currentLang] || artifact.title['vi']}
+                        </div>
+                      </div>
+                    </div>
+
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        playArtifact(artifact);
+                      }}
+                      className={`p-2 rounded-xl shrink-0 transition ${
+                        isPlayingThis
+                          ? 'bg-amber-600 text-white'
+                          : 'bg-amber-100/70 text-amber-700 hover:bg-amber-500 hover:text-white'
+                      }`}
+                      title={t('listenGuide')}
+                    >
+                      <Volume2 className="w-4 h-4" />
+                    </button>
+                  </div>
+                );
+              })
+            )}
+          </div>
         </div>
       </div>
     </div>

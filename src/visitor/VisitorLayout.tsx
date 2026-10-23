@@ -12,8 +12,10 @@ import { QRScannerModal } from './views/QRScannerModal';
 import { useGeofenceStore } from '../shared/stores/geofenceStore';
 import { usePlayerStore } from '../shared/stores/playerStore';
 import { useLangStore } from '../shared/stores/langStore';
-import { Compass, Map, Heart, Info, QrCode } from 'lucide-react';
+import { useFavStore } from '../shared/stores/favStore';
+import { Compass, Map, Heart, Info, QrCode, Building2, ShieldCheck } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 
 export const VisitorLayout: React.FC = () => {
   const { t } = useTranslation();
@@ -26,6 +28,7 @@ export const VisitorLayout: React.FC = () => {
   const { setUserLocation, setNearestArtifactId, setIsTracking, setPermissionGranted } = useGeofenceStore();
   const { playArtifact, currentArtifact } = usePlayerStore();
   const { currentLang } = useLangStore();
+  const { favorites } = useFavStore();
 
   useEffect(() => {
     museumApi.getMuseumData().then((res) => {
@@ -51,7 +54,6 @@ export const VisitorLayout: React.FC = () => {
 
         data.artifacts.forEach((art) => {
           if (art.geoCoordinates) {
-            // Rough haversine
             const dLat = (art.geoCoordinates.latitude - latitude) * 111000;
             const dLon = (art.geoCoordinates.longitude - longitude) * 111000 * Math.cos(latitude * (Math.PI / 180));
             const dist = Math.sqrt(dLat * dLat + dLon * dLon);
@@ -66,7 +68,6 @@ export const VisitorLayout: React.FC = () => {
         if (minDistance <= 30 && nearest) {
           const matched: Artifact = nearest;
           setNearestArtifactId(matched.id);
-          // If not playing, can auto trigger
           if (!currentArtifact) {
             playArtifact(matched);
           }
@@ -89,7 +90,6 @@ export const VisitorLayout: React.FC = () => {
   const handleScanSuccess = (decoded: string) => {
     setIsQRScannerOpen(false);
     if (!data) return;
-    // Find artifact by code or id or full URL
     const found = data.artifacts.find(
       (a) => a.id === decoded || a.code === decoded || decoded.includes(a.code) || decoded.includes(a.id)
     );
@@ -110,37 +110,116 @@ export const VisitorLayout: React.FC = () => {
     );
   }
 
+  const museumName = data.museum.name[currentLang] || data.museum.name['vi'];
+
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col max-w-md mx-auto shadow-2xl relative border-x border-slate-200">
-      {/* Top Header */}
-      <header className="sticky top-0 z-30 bg-white/90 backdrop-blur-md px-4 py-3 border-b border-slate-200 flex items-center justify-between gap-3">
-        <div className="flex items-center gap-2 min-w-0">
-          {activeTab !== 'explore' && (
+    <div className="min-h-screen bg-slate-50/70 text-slate-900 flex flex-col w-full">
+      {/* Top Navigation Bar (Full Desktop Header) */}
+      <header className="sticky top-0 z-30 bg-white/95 backdrop-blur-md border-b border-slate-200/80 shadow-xs">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
+          {/* Brand Logo & Name */}
+          <div
+            onClick={() => setActiveTab('explore')}
+            className="flex items-center gap-3 cursor-pointer shrink-0 select-none group"
+          >
+            <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-amber-600 to-amber-500 text-white flex items-center justify-center shadow-md shadow-amber-500/20 group-hover:scale-105 transition-transform">
+              <Building2 className="w-5 h-5" />
+            </div>
+            <div className="min-w-0">
+              <span className="text-[10px] md:text-xs uppercase font-extrabold tracking-wider text-amber-600 block">
+                {t('appName')}
+              </span>
+              <h1 className="text-sm md:text-lg font-extrabold text-slate-900 truncate tracking-tight">
+                {museumName}
+              </h1>
+            </div>
+          </div>
+
+          {/* Desktop Navigation Tabs */}
+          <nav className="hidden md:flex items-center gap-1.5 bg-slate-100/90 p-1 rounded-2xl border border-slate-200/60 shadow-inner">
             <button
               onClick={() => setActiveTab('explore')}
-              className="p-1.5 rounded-full hover:bg-slate-100 text-slate-700 transition shrink-0"
-              title={t('backToExplore')}
+              className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all ${
+                activeTab === 'explore'
+                  ? 'bg-white text-amber-600 shadow-sm'
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/50'
+              }`}
             >
-              <Compass className="w-5 h-5 text-amber-600" />
+              <Compass className="w-4 h-4" />
+              <span>{t('explore')}</span>
             </button>
-          )}
-          <div className="min-w-0">
-            <span className="text-[10px] uppercase font-bold tracking-widest text-amber-600 block">
-              {t('appName')}
-            </span>
-            <h1 className="text-sm md:text-base font-extrabold text-slate-900 truncate">
-              {data.museum.name[currentLang] || data.museum.name['vi']}
-            </h1>
-          </div>
-        </div>
 
-        <div className="shrink-0">
-          <LanguageSwitcher />
+            <button
+              onClick={() => setActiveTab('map')}
+              className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all ${
+                activeTab === 'map'
+                  ? 'bg-white text-amber-600 shadow-sm'
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/50'
+              }`}
+            >
+              <Map className="w-4 h-4" />
+              <span>{t('map')}</span>
+            </button>
+
+            <button
+              onClick={() => setActiveTab('favorites')}
+              className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all relative ${
+                activeTab === 'favorites'
+                  ? 'bg-white text-amber-600 shadow-sm'
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/50'
+              }`}
+            >
+              <Heart className="w-4 h-4" />
+              <span>{t('favorites')}</span>
+              {favorites.length > 0 && (
+                <span className="px-1.5 py-0.2 text-[10px] bg-red-500 text-white rounded-full font-bold ml-0.5">
+                  {favorites.length}
+                </span>
+              )}
+            </button>
+
+            <button
+              onClick={() => setActiveTab('info')}
+              className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all ${
+                activeTab === 'info'
+                  ? 'bg-white text-amber-600 shadow-sm'
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/50'
+              }`}
+            >
+              <Info className="w-4 h-4" />
+              <span>{t('museumInfo')}</span>
+            </button>
+          </nav>
+
+          {/* Right Action Tools: QR, Admin link & Language Dropdown */}
+          <div className="flex items-center gap-2.5 shrink-0">
+            {/* Desktop Scan QR Button */}
+            <button
+              onClick={() => setIsQRScannerOpen(true)}
+              className="flex items-center gap-2 px-3 py-2 md:px-3.5 md:py-2 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 text-amber-700 font-semibold text-xs md:text-sm transition border border-amber-500/30"
+              title={t('scanQR')}
+            >
+              <QrCode className="w-4 h-4 text-amber-600 shrink-0" />
+              <span className="hidden sm:inline">{t('scanQR')}</span>
+            </button>
+
+            {/* Language Switcher */}
+            <LanguageSwitcher />
+
+            {/* Admin CMS Portal Shortcut */}
+            <Link
+              to="/admin/login"
+              className="hidden lg:flex items-center gap-1.5 p-2 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition"
+              title={t('adminPortal')}
+            >
+              <ShieldCheck className="w-5 h-5" />
+            </Link>
+          </div>
         </div>
       </header>
 
-      {/* Main Screen Content */}
-      <main className="flex-1 p-4 overflow-y-auto">
+      {/* Main Website Body Container */}
+      <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 w-full">
         {activeTab === 'explore' && (
           <ExploreView
             artifacts={data.artifacts}
@@ -166,7 +245,26 @@ export const VisitorLayout: React.FC = () => {
         {activeTab === 'info' && <MuseumInfoView museum={data.museum} />}
       </main>
 
-      {/* Detail Bottom Sheet Modal */}
+      {/* Footer on Web Desktop */}
+      <footer className="hidden md:block bg-white border-t border-slate-200 mt-auto py-6">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+          <div className="flex items-center gap-2">
+            <Building2 className="w-4 h-4 text-amber-600" />
+            <span className="font-semibold text-slate-700">{museumName}</span>
+            <span>&bull;</span>
+            <span>{t('appName')}</span>
+          </div>
+          <div className="flex items-center gap-4">
+            <Link to="/admin/login" className="hover:text-amber-600 transition">
+              {t('adminPortal')}
+            </Link>
+            <span>&bull;</span>
+            <span>&copy; {new Date().getFullYear()} Museum Audio Guide</span>
+          </div>
+        </div>
+      </footer>
+
+      {/* Detail Modal Dialog */}
       <ArtifactDetailSheet
         artifact={selectedArtifact}
         onClose={() => setSelectedArtifact(null)}
@@ -182,9 +280,9 @@ export const VisitorLayout: React.FC = () => {
       {/* Synchronized Audio Player Bar */}
       <AudioPlayerBar />
 
-      {/* Bottom Navigation Bar */}
-      <nav className="fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200 py-1.5 px-6 shadow-lg max-w-md mx-auto">
-        <div className="flex items-center justify-between relative">
+      {/* Mobile-Only Bottom Navigation Bar (Hidden on md and larger) */}
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200 py-1.5 px-6 shadow-lg">
+        <div className="flex items-center justify-between relative max-w-md mx-auto">
           <button
             onClick={() => setActiveTab('explore')}
             className={`flex flex-col items-center py-1 gap-1 text-xs font-semibold transition ${
