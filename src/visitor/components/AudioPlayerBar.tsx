@@ -24,11 +24,9 @@ export const AudioPlayerBar: React.FC = () => {
     toggleSubtitle
   } = usePlayerStore();
 
-  if (!currentArtifact) return null;
-
   const rawAudio =
-    currentArtifact.audio?.[currentLang] ||
-    currentArtifact.audio?.['vi'] ||
+    currentArtifact?.audio?.[currentLang] ||
+    currentArtifact?.audio?.['vi'] ||
     '/audio/guide_sample.wav';
   const isProduction = import.meta.env.PROD;
   const baseUrl = isProduction ? (import.meta.env.BASE_URL || '/').replace(/\/$/, '') : '';
@@ -39,8 +37,9 @@ export const AudioPlayerBar: React.FC = () => {
     ? cleanRaw
     : `${baseUrl}${cleanRaw}`;
 
+  // All Hooks must run on every render (Rules of Hooks)
   useEffect(() => {
-    if (audioRef.current) {
+    if (audioRef.current && currentArtifact) {
       if (isPlaying) {
         try {
           const playPromise = audioRef.current.play();
@@ -60,13 +59,16 @@ export const AudioPlayerBar: React.FC = () => {
         }
       }
     }
-  }, [isPlaying, audioSrc]);
+  }, [isPlaying, audioSrc, currentArtifact]);
 
   useEffect(() => {
-    if (audioRef.current) {
+    if (audioRef.current && currentArtifact) {
       audioRef.current.playbackRate = playbackRate;
     }
-  }, [playbackRate]);
+  }, [playbackRate, currentArtifact]);
+
+  // Return null AFTER all hooks are called
+  if (!currentArtifact) return null;
 
   // Find active subtitle cue
   const activeSubtitles = currentArtifact.subtitles?.[currentLang] || currentArtifact.subtitles?.['vi'] || [];

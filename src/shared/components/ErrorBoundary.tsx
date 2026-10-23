@@ -45,6 +45,12 @@ export class ErrorBoundary extends Component<Props, State> {
             <RefreshCw className="w-4 h-4" />
             <span>Tải lại trang</span>
           </button>
+
+          {this.state.error && (
+            <div className="mt-4 p-3 bg-slate-950/80 rounded-xl text-left font-mono text-[11px] text-red-400 max-w-sm overflow-x-auto border border-slate-800/80">
+              {this.state.error.message}
+            </div>
+          )}
         </div>
       );
     }
