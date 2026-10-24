@@ -115,26 +115,67 @@ class TTSService {
       const vLang = v.lang.toLowerCase().replace('_', '-');
       const target = targetLocale.toLowerCase().replace('_', '-');
 
-      // Exact dialect match (e.g. en-US for en-US)
+      // Exact dialect match (e.g. vi-VN for vi-VN)
       if (vLang === target) {
         score += 80;
       }
 
-      // Top-tier Edge Online Natural voices requested by user (HoaiMy, Jenny, Xiaoxiao, SunHi, Nanami)
-      if (
-        name.includes('hoaimy') ||
-        name.includes('namminh') ||
-        name.includes('jenny') ||
-        name.includes('xiaoxiao') ||
-        name.includes('sunhi') ||
-        name.includes('nanami')
-      ) {
-        score += 1000;
+      // STRICT SINGLE VOICE POLICY:
+      // Each language has EXACTLY ONE preferred voice (Studio-quality Female Edge Natural voice).
+      // Male voices and legacy robotic voices are heavily penalized to prevent random voice-switching!
+      if (lang === 'vi') {
+        // Vietnamese: STRICTLY HoaiMy (Edge Natural Female). Ban NamMinh (Male) & robotic voices.
+        if (name.includes('hoaimy')) {
+          score += 10000;
+        }
+        if (name.includes('namminh') || name.includes('an') || name.includes('desktop')) {
+          score -= 10000;
+        }
+      } else if (lang === 'en') {
+        // English: STRICTLY Jenny (Edge Natural Female). Ban Guy, Christopher, David, Mark, etc.
+        if (name.includes('jenny')) {
+          score += 10000;
+        }
+        if (
+          name.includes('guy') ||
+          name.includes('christopher') ||
+          name.includes('david') ||
+          name.includes('mark') ||
+          name.includes('george') ||
+          name.includes('stefan') ||
+          name.includes('desktop')
+        ) {
+          score -= 10000;
+        }
+      } else if (lang === 'zh') {
+        // Chinese: STRICTLY Xiaoxiao (Edge Natural Female). Ban male voices.
+        if (name.includes('xiaoxiao')) {
+          score += 10000;
+        }
+        if (name.includes('yunxi') || name.includes('yunjian') || name.includes('yunyang') || name.includes('desktop')) {
+          score -= 10000;
+        }
+      } else if (lang === 'ko') {
+        // Korean: STRICTLY SunHi (Edge Natural Female). Ban male voices.
+        if (name.includes('sunhi')) {
+          score += 10000;
+        }
+        if (name.includes('injoon') || name.includes('hyunsu') || name.includes('desktop')) {
+          score -= 10000;
+        }
+      } else if (lang === 'ja') {
+        // Japanese: STRICTLY Nanami (Edge Natural Female). Ban male voices.
+        if (name.includes('nanami')) {
+          score += 10000;
+        }
+        if (name.includes('keita') || name.includes('desktop')) {
+          score -= 10000;
+        }
       }
 
-      // High-tier Natural / Neural / Online voices (Edge, Windows 11 Natural, Azure)
+      // General tiering
       if (name.includes('natural') || name.includes('online')) {
-        score += 700;
+        score += 800;
       }
       if (name.includes('neural') || name.includes('premium')) {
         score += 500;
@@ -142,36 +183,8 @@ class TTSService {
       if (name.includes('microsoft')) {
         score += 350;
       }
-
-      // Studio Google voices (Chrome fallback)
       if (name.includes('google')) {
-        score += 200;
-      }
-
-      // Language-specific preferences
-      if (lang === 'en') {
-        // Preferred warm, clear English narrators
-        if (
-          name.includes('jenny') ||
-          name.includes('aria') ||
-          name.includes('guy') ||
-          name.includes('christopher') ||
-          name.includes('ana')
-        ) {
-          score += 250;
-        }
-        if (name.includes('samantha') || name.includes('karen') || name.includes('victoria') || name.includes('daniel')) {
-          score += 150;
-        }
-        // Penalize robotic legacy synthesizers (Microsoft David, Microsoft Mark, etc.)
-        if (name.includes('david') || name.includes('mark') || name.includes('desktop')) {
-          score -= 300;
-        }
-      } else if (lang === 'vi') {
-        // Vietnamese preferred voices (HoaiMy, NamMinh, Google Tiếng Việt)
-        if (name.includes('hoaimy') || name.includes('namminh')) {
-          score += 250;
-        }
+        score += 100;
       }
 
       if (v.default) {
@@ -242,32 +255,45 @@ class TTSService {
       try {
         const resolved = resolveAssetUrl(audioUrl);
         const audio = new Audio(resolved);
-        this.audioElement = audio;
+        audio.preload = 'auto';
         audio.playbackRate = playbackRate;
+        this.audioElement = audio;
         this.isAudioFileMode = true;
+        this.isSpeaking = true;
+        this.isPaused = false;
 
         const targetStartTime = cues[this.currentCueIndex]?.start || 0;
+        if (targetStartTime > 0) {
+          audio.currentTime = targetStartTime;
+        }
 
         audio.onloadedmetadata = () => {
           if (!this.isCuePlaying || !this.isAudioFileMode) return;
-          if (targetStartTime > 0) {
+          if (targetStartTime > 0 && Math.abs(audio.currentTime - targetStartTime) > 0.5) {
             audio.currentTime = targetStartTime;
           }
-          audio
-            .play()
-            .then(() => {
-              this.isSpeaking = true;
-              this.isPaused = false;
-            })
-            .catch((err) => {
-              console.warn('Audio play failed, falling back to Web Speech Synthesis:', err);
-              this.isAudioFileMode = false;
-              if (this.audioElement) {
-                this.audioElement = null;
-              }
-              this.speakCurrentCue();
-            });
         };
+
+        if (typeof audio.play === 'function') {
+          try {
+            const playPromise = audio.play();
+            if (playPromise !== undefined && typeof playPromise.catch === 'function') {
+              playPromise.catch(() => {
+                this.isAudioFileMode = false;
+                if (this.audioElement) {
+                  this.audioElement = null;
+                }
+                this.speakCurrentCue();
+              });
+            }
+          } catch {
+            this.isAudioFileMode = false;
+            if (this.audioElement) {
+              this.audioElement = null;
+            }
+            this.speakCurrentCue();
+          }
+        }
 
         audio.ontimeupdate = () => {
           if (!this.isCuePlaying || !this.isAudioFileMode) return;

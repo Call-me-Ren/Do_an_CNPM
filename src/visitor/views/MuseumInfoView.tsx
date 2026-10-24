@@ -2,9 +2,8 @@ import React from 'react';
 import { MuseumInfo } from '../../shared/types';
 import { useLangStore } from '../../shared/stores/langStore';
 import { resolveAssetUrl } from '../../shared/utils/assetHelper';
-import { MapPin, Clock, Phone, Building2, ShieldCheck, ArrowRight } from 'lucide-react';
+import { MapPin, Clock, Phone, Building2 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
 
 interface Props {
   museum: MuseumInfo;
@@ -85,29 +84,6 @@ export const MuseumInfoView: React.FC<Props> = ({ museum }) => {
         <p className="text-slate-600 text-sm sm:text-base leading-relaxed whitespace-pre-line max-w-4xl">
           {museum.description[currentLang] || museum.description['vi']}
         </p>
-      </div>
-
-      {/* Staff & Admin Access Section (Accessible across both Mobile & Desktop) */}
-      <div className="bg-gradient-to-r from-slate-900 via-slate-850 to-slate-900 text-white p-6 sm:p-8 rounded-3xl border border-slate-800 shadow-lg flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5">
-        <div className="flex items-center gap-4">
-          <div className="p-3 bg-amber-500/20 text-amber-400 rounded-2xl shrink-0">
-            <ShieldCheck className="w-7 h-7" />
-          </div>
-          <div>
-            <h4 className="font-bold text-base sm:text-lg text-white">Cổng Quản Trị Hệ Thống</h4>
-            <p className="text-xs sm:text-sm text-slate-400 mt-0.5">
-              Dành cho cán bộ quản lý bảo tàng, biên tập nội dung thuyết minh và kỹ thuật viên.
-            </p>
-          </div>
-        </div>
-
-        <Link
-          to="/admin/login"
-          className="inline-flex items-center gap-2 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-5 py-3 rounded-2xl text-xs sm:text-sm transition shadow-lg shadow-amber-500/20 shrink-0 w-full sm:w-auto justify-center"
-        >
-          <span>Đăng nhập Quản Trị</span>
-          <ArrowRight className="w-4 h-4" />
-        </Link>
       </div>
     </div>
   );
