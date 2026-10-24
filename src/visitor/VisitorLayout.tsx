@@ -319,11 +319,11 @@ export const VisitorLayout: React.FC = () => {
             currentArtifact
               ? 'bottom-[calc(10.5rem+env(safe-area-inset-bottom,0px))] md:bottom-24'
               : 'bottom-24 md:bottom-12'
-          } right-4 md:right-8 z-40 p-3 rounded-full bg-white/95 backdrop-blur-sm hover:bg-amber-500 text-slate-700 hover:text-white shadow-xl border border-slate-200/90 hover:border-amber-500 transition-all duration-300 hover:scale-110 active:scale-95 flex items-center justify-center cursor-pointer animate-fade-in group`}
+          } right-4 md:right-8 z-40 p-3.5 rounded-full bg-gradient-to-tr from-amber-600 via-amber-500 to-amber-400 hover:from-amber-500 hover:to-amber-300 text-white shadow-xl shadow-amber-500/40 ring-4 ring-white/90 hover:scale-110 active:scale-95 transition-all duration-300 flex items-center justify-center cursor-pointer animate-fade-in group`}
           title="Quay lại đầu trang"
           aria-label="Quay lại đầu trang"
         >
-          <ArrowUp className="w-5 h-5 transition-transform group-hover:-translate-y-0.5" />
+          <ArrowUp className="w-5 h-5 transition-transform group-hover:-translate-y-1 stroke-[2.5]" />
         </button>
       )}
 
