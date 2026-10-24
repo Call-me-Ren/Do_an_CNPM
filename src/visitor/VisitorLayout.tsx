@@ -240,7 +240,7 @@ export const VisitorLayout: React.FC = () => {
       </header>
 
       {/* Main Website Body Container */}
-      <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 w-full min-w-0 overflow-x-hidden">
+      <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-28 md:pb-14 w-full min-w-0 overflow-x-hidden">
         {activeTab === 'explore' && (
           <ExploreView
             artifacts={data.artifacts}
@@ -310,16 +310,16 @@ export const VisitorLayout: React.FC = () => {
       {/* Synchronized Audio Player Bar */}
       <AudioPlayerBar isDetailSheetOpen={Boolean(selectedArtifact)} />
 
-      {/* Back to Top Button at bottom-left */}
+      {/* Back to Top Button at bottom-right */}
       {showScrollTop && (
         <button
           type="button"
           onClick={scrollToTop}
           className={`fixed ${
             currentArtifact
-              ? 'bottom-[calc(8.5rem+env(safe-area-inset-bottom,0px))]'
-              : 'bottom-20'
-          } md:bottom-8 left-4 md:left-6 z-40 p-3 rounded-full bg-white/95 hover:bg-amber-500 text-slate-700 hover:text-white shadow-xl border border-slate-200/90 hover:border-amber-500 transition-all duration-300 hover:scale-110 active:scale-95 flex items-center justify-center cursor-pointer animate-fade-in group`}
+              ? 'bottom-[calc(10.5rem+env(safe-area-inset-bottom,0px))] md:bottom-24'
+              : 'bottom-24 md:bottom-12'
+          } right-4 md:right-8 z-40 p-3 rounded-full bg-white/95 backdrop-blur-sm hover:bg-amber-500 text-slate-700 hover:text-white shadow-xl border border-slate-200/90 hover:border-amber-500 transition-all duration-300 hover:scale-110 active:scale-95 flex items-center justify-center cursor-pointer animate-fade-in group`}
           title="Quay lại đầu trang"
           aria-label="Quay lại đầu trang"
         >
