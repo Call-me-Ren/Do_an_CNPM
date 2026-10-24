@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Floor, Artifact } from '../../shared/types';
 import { useLangStore } from '../../shared/stores/langStore';
 import { usePlayerStore } from '../../shared/stores/playerStore';
-import { Layers, MapPin, Volume2 } from 'lucide-react';
+import { Layers, MapPin, Volume2, Square } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 interface Props {
@@ -14,7 +14,7 @@ interface Props {
 export const FloorMapView: React.FC<Props> = ({ floors, artifacts, onSelectArtifact }) => {
   const { t } = useTranslation();
   const { currentLang } = useLangStore();
-  const { playArtifact, currentArtifact, isPlaying } = usePlayerStore();
+  const { playArtifact, stop, currentArtifact, isPlaying } = usePlayerStore();
   const [selectedFloorId, setSelectedFloorId] = useState<number>(floors[0]?.id || 1);
 
   const currentFloor = floors.find((f) => f.id === selectedFloorId) || floors[0];
@@ -152,14 +152,18 @@ export const FloorMapView: React.FC<Props> = ({ floors, artifacts, onSelectArtif
                           playArtifact(artifact);
                         }
                       }}
-                      className={`p-2 rounded-xl shrink-0 transition ${
+                      className={`p-2.5 rounded-xl shrink-0 transition cursor-pointer ${
                         isPlayingThis
-                          ? 'bg-amber-600 text-white animate-pulse'
+                          ? 'bg-amber-600 text-white animate-pulse shadow-md shadow-amber-600/30'
                           : 'bg-amber-100/70 text-amber-700 hover:bg-amber-500 hover:text-white'
                       }`}
                       title={isPlayingThis ? 'Dừng phát' : t('listenGuide')}
                     >
-                      <Volume2 className="w-4 h-4" />
+                      {isPlayingThis ? (
+                        <Square className="w-4 h-4 fill-current" />
+                      ) : (
+                        <Volume2 className="w-4 h-4" />
+                      )}
                     </button>
                   </div>
                 );
