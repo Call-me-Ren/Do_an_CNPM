@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { MuseumData, Artifact } from '../shared/types';
 import { museumApi } from '../shared/services/api';
 import { ExploreView } from './views/ExploreView';
@@ -42,6 +42,8 @@ export const VisitorLayout: React.FC = () => {
     });
   }, []);
 
+  const lastAutoPlayedIdRef = useRef<string | null>(null);
+
   // Geolocation Geofence Simulation & Tracking Engine
   useEffect(() => {
     if (!navigator.geolocation || !data) return;
@@ -73,11 +75,14 @@ export const VisitorLayout: React.FC = () => {
         if (minDistance <= 30 && nearest) {
           const matched: Artifact = nearest;
           setNearestArtifactId(matched.id);
-          if (!currentArtifact) {
+          // Only auto-play once when entering the artifact's radius
+          if (!currentArtifact && lastAutoPlayedIdRef.current !== matched.id) {
+            lastAutoPlayedIdRef.current = matched.id;
             playArtifact(matched);
           }
         } else {
           setNearestArtifactId(null);
+          lastAutoPlayedIdRef.current = null;
         }
       },
       (err) => {

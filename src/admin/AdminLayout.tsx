@@ -60,13 +60,6 @@ export const AdminLayout: React.FC = () => {
         </div>
 
         <div className="flex items-center gap-2">
-          <Link
-            to="/"
-            className="p-2 rounded-lg bg-slate-800 text-slate-300 hover:text-white text-xs"
-            title="Xem trang bảo tàng"
-          >
-            <ArrowLeft className="w-4 h-4" />
-          </Link>
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             className="p-2 rounded-lg bg-amber-500/15 text-amber-400 hover:bg-amber-500/25 border border-amber-500/30"
@@ -115,14 +108,14 @@ export const AdminLayout: React.FC = () => {
             </button>
           </div>
 
-          {/* Return to Visitor Site Link */}
+          {/* Return to Main Visitor Site Link */}
           <Link
             to="/"
             onClick={() => setMobileMenuOpen(false)}
             className="flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-semibold text-slate-400 hover:text-amber-400 bg-slate-900 border border-slate-800 transition"
           >
             <ArrowLeft className="w-3.5 h-3.5" />
-            <span>Xem trang Web Khách</span>
+            <span>Xem trang web chính</span>
           </Link>
 
           {/* Navigation Links */}
