@@ -49,10 +49,7 @@ export const museumApi = {
         const customArtifactsRaw = localStorage.getItem(STORAGE_CUSTOM_ARTIFACTS);
         if (customArtifactsRaw) {
           const customArtifacts: Artifact[] = JSON.parse(customArtifactsRaw);
-          data.artifacts = data.artifacts.map((a) => {
-            const found = customArtifacts.find((ca) => ca.id === a.id);
-            return found ? { ...a, ...found } : a;
-          });
+          data.artifacts = customArtifacts;
         }
       } catch {
         // Fall back to json

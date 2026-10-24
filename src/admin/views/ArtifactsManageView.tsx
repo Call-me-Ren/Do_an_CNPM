@@ -81,36 +81,36 @@ export const ArtifactsManageView: React.FC = () => {
 
     if (editingArtifact) {
       // Update
-      setArtifacts(
-        artifacts.map((a) =>
-          a.id === editingArtifact.id
-            ? {
-                ...a,
-                code: formCode,
-                floorId: formFloorId,
-                images: [formImageUrl],
-                title: { ...formTitles },
-                description: { ...formDescriptions }
-              }
-            : a
-        )
+      const updatedArtifacts = artifacts.map((a) =>
+        a.id === editingArtifact.id
+          ? {
+              ...a,
+              code: formCode.trim() || a.code,
+              floorId: formFloorId,
+              images: [formImageUrl.trim() || a.images[0]],
+              title: { ...formTitles },
+              description: { ...formDescriptions }
+            }
+          : a
       );
+      setArtifacts(updatedArtifacts);
+      museumApi.saveCustomArtifacts(updatedArtifacts);
     } else {
-      // Create
+      // Create - Generate unique ID
+      const nextId = `POI${String(Date.now()).slice(-6)}`;
       const newArtifact: Artifact = {
-        id: `POI00${artifacts.length + 1}`,
-        code: formCode,
+        id: nextId,
+        code: formCode.trim() || `HV-${String(artifacts.length + 1).padStart(3, '0')}`,
         floorId: formFloorId,
         title: { ...formTitles },
         description: { ...formDescriptions },
-        images: [formImageUrl],
+        images: [formImageUrl.trim() || 'https://images.unsplash.com/photo-1544967082-d9d25d867d66?auto=format&fit=crop&w=800&q=80'],
         mapCoordinates: { x: 300, y: 300 },
-        audio: {
-          vi: 'https://actions.google.com/sounds/v1/ambiences/coffee_shop.ogg',
-          en: 'https://actions.google.com/sounds/v1/ambiences/coffee_shop.ogg'
-        }
+        audio: {}
       };
-      setArtifacts([...artifacts, newArtifact]);
+      const updatedArtifacts = [...artifacts, newArtifact];
+      setArtifacts(updatedArtifacts);
+      museumApi.saveCustomArtifacts(updatedArtifacts);
     }
 
     setIsModalOpen(false);
@@ -253,7 +253,9 @@ export const ArtifactsManageView: React.FC = () => {
               <button
                 type="button"
                 onClick={() => {
-                  setArtifacts(artifacts.filter((a) => a.id !== deletingArtifact.id));
+                  const updatedArtifacts = artifacts.filter((a) => a.id !== deletingArtifact.id);
+                  setArtifacts(updatedArtifacts);
+                  museumApi.saveCustomArtifacts(updatedArtifacts);
                   setDeletingArtifact(null);
                 }}
                 className="px-4 py-2.5 rounded-xl bg-red-500 hover:bg-red-600 text-white font-bold text-xs transition shadow-md shadow-red-500/20"

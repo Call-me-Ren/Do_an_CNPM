@@ -121,7 +121,9 @@ export const AudioManageView: React.FC = () => {
           };
           const updatedArt = { ...selectedArtifact, subtitles: updatedSubtitles };
           setSelectedArtifact(updatedArt);
-          setArtifacts(artifacts.map((a) => (a.id === updatedArt.id ? updatedArt : a)));
+          const updatedArtifacts = artifacts.map((a) => (a.id === updatedArt.id ? updatedArt : a));
+          setArtifacts(updatedArtifacts);
+          museumApi.saveCustomArtifacts(updatedArtifacts);
           setModalAlert({
             title: 'Nhập Phụ Đề Thành Công',
             message: `Đã nhập thành công ${newCues.length} mốc phụ đề từ tệp [${file.name}]!`,
@@ -184,7 +186,9 @@ export const AudioManageView: React.FC = () => {
     };
     const updatedArt = { ...selectedArtifact, subtitles: updatedSubtitles };
     setSelectedArtifact(updatedArt);
-    setArtifacts(artifacts.map((a) => (a.id === updatedArt.id ? updatedArt : a)));
+    const updatedArtifacts = artifacts.map((a) => (a.id === updatedArt.id ? updatedArt : a));
+    setArtifacts(updatedArtifacts);
+    museumApi.saveCustomArtifacts(updatedArtifacts);
     setDeletingCueIndex(null);
   };
 
