@@ -13,7 +13,7 @@ import { useGeofenceStore } from '../shared/stores/geofenceStore';
 import { usePlayerStore } from '../shared/stores/playerStore';
 import { useLangStore } from '../shared/stores/langStore';
 import { useFavStore } from '../shared/stores/favStore';
-import { Compass, Map, Heart, Info, QrCode, Building2 } from 'lucide-react';
+import { Compass, Map, Heart, Info, QrCode, Building2, ArrowUp } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { AlertModal } from '../shared/components/AlertModal';
 import { Link } from 'react-router-dom';
@@ -26,6 +26,19 @@ export const VisitorLayout: React.FC = () => {
   const [selectedArtifact, setSelectedArtifact] = useState<Artifact | null>(null);
   const [isQRScannerOpen, setIsQRScannerOpen] = useState(false);
   const [scanAlert, setScanAlert] = useState<string | null>(null);
+  const [showScrollTop, setShowScrollTop] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowScrollTop(window.scrollY > 200);
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   const { setUserLocation, setNearestArtifactId, setIsTracking, setPermissionGranted } = useGeofenceStore();
   const { playArtifact, currentArtifact, stop } = usePlayerStore();
@@ -132,7 +145,7 @@ export const VisitorLayout: React.FC = () => {
   return (
     <div className="min-h-screen bg-slate-50/70 text-slate-900 flex flex-col w-full max-w-full overflow-x-hidden">
       {/* Top Navigation Bar (Full Desktop Header) */}
-      <header className="sticky top-0 z-30 bg-white/95 backdrop-blur-md border-b border-slate-200/80 shadow-xs w-full max-w-full overflow-x-hidden">
+      <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200/80 shadow-xs w-full max-w-full">
         <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-2 sm:gap-4 w-full min-w-0">
           {/* Brand Logo & Name */}
           <div
@@ -296,6 +309,23 @@ export const VisitorLayout: React.FC = () => {
 
       {/* Synchronized Audio Player Bar */}
       <AudioPlayerBar isDetailSheetOpen={Boolean(selectedArtifact)} />
+
+      {/* Back to Top Button at bottom-left */}
+      {showScrollTop && (
+        <button
+          type="button"
+          onClick={scrollToTop}
+          className={`fixed ${
+            currentArtifact
+              ? 'bottom-[calc(8.5rem+env(safe-area-inset-bottom,0px))]'
+              : 'bottom-20'
+          } md:bottom-8 left-4 md:left-6 z-40 p-3 rounded-full bg-white/95 hover:bg-amber-500 text-slate-700 hover:text-white shadow-xl border border-slate-200/90 hover:border-amber-500 transition-all duration-300 hover:scale-110 active:scale-95 flex items-center justify-center cursor-pointer animate-fade-in group`}
+          title="Quay lại đầu trang"
+          aria-label="Quay lại đầu trang"
+        >
+          <ArrowUp className="w-5 h-5 transition-transform group-hover:-translate-y-0.5" />
+        </button>
+      )}
 
       {/* Mobile-Only Bottom Navigation Bar (Hidden on md and larger) */}
       <nav className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200/90 pt-1.5 px-6 pb-[max(0.6rem,env(safe-area-inset-bottom,0px))] shadow-2xl select-none">

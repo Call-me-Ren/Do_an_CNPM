@@ -58,32 +58,42 @@ export const LanguageSwitcher: React.FC = () => {
 
       {/* Dropdown Menu Sổ Dọc Xuống */}
       {isOpen && (
-        <div className="absolute right-0 top-full mt-2 w-44 bg-white rounded-2xl shadow-2xl border border-slate-200/90 p-1.5 z-50 flex flex-col gap-0.5 animate-fade-in">
-          {languages.map((l) => {
-            const isSelected = currentLang === l.code;
-            return (
-              <button
-                type="button"
-                key={l.code}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleSelect(l.code);
-                }}
-                className={`flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-medium transition cursor-pointer ${
-                  isSelected
-                    ? 'bg-amber-50 text-amber-700 font-bold'
-                    : 'text-slate-700 hover:bg-slate-100'
-                }`}
-              >
-                <div className="flex items-center gap-2">
-                  <span className="text-sm">{l.flag}</span>
-                  <span>{l.label}</span>
-                </div>
-                {isSelected && <Check className="w-3.5 h-3.5 text-amber-600 shrink-0" />}
-              </button>
-            );
-          })}
-        </div>
+        <>
+          {/* Transparent Backdrop to capture clicks / touches outside */}
+          <div
+            className="fixed inset-0 z-40 bg-transparent"
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsOpen(false);
+            }}
+          />
+          <div className="absolute right-0 top-full mt-2 w-44 bg-white rounded-2xl shadow-2xl border border-slate-200/90 p-1.5 z-50 flex flex-col gap-0.5 animate-fade-in">
+            {languages.map((l) => {
+              const isSelected = currentLang === l.code;
+              return (
+                <button
+                  type="button"
+                  key={l.code}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleSelect(l.code);
+                  }}
+                  className={`flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-medium transition cursor-pointer ${
+                    isSelected
+                      ? 'bg-amber-50 text-amber-700 font-bold'
+                      : 'text-slate-700 hover:bg-slate-100'
+                  }`}
+                >
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm">{l.flag}</span>
+                    <span>{l.label}</span>
+                  </div>
+                  {isSelected && <Check className="w-3.5 h-3.5 text-amber-600 shrink-0" />}
+                </button>
+              );
+            })}
+          </div>
+        </>
       )}
     </div>
   );
