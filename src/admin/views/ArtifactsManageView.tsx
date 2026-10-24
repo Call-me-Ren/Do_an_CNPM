@@ -311,7 +311,7 @@ export const ArtifactsManageView: React.FC = () => {
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-400 mb-1">Hình Ảnh Hiện Vật</label>
+                <label className="block text-xs font-semibold text-slate-400 mb-1">URL Hình Ảnh Hiện Vật</label>
                 <div className="flex items-center gap-2">
                   <input
                     type="text"
