@@ -146,14 +146,18 @@ export const FloorMapView: React.FC<Props> = ({ floors, artifacts, onSelectArtif
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
-                        playArtifact(artifact);
+                        if (isPlayingThis) {
+                          stop();
+                        } else {
+                          playArtifact(artifact);
+                        }
                       }}
                       className={`p-2 rounded-xl shrink-0 transition ${
                         isPlayingThis
-                          ? 'bg-amber-600 text-white'
+                          ? 'bg-amber-600 text-white animate-pulse'
                           : 'bg-amber-100/70 text-amber-700 hover:bg-amber-500 hover:text-white'
                       }`}
-                      title={t('listenGuide')}
+                      title={isPlayingThis ? 'Dừng phát' : t('listenGuide')}
                     >
                       <Volume2 className="w-4 h-4" />
                     </button>

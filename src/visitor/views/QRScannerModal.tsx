@@ -61,14 +61,41 @@ export const QRScannerModal: React.FC<Props> = ({ isOpen, onClose, onScanSuccess
   }, [isOpen]);
 
   const stopScanner = async () => {
-    if (scannerRef.current && scannerRef.current.isScanning) {
-      try {
-        await scannerRef.current.stop();
+    try {
+      if (scannerRef.current) {
+        if (scannerRef.current.isScanning) {
+          await scannerRef.current.stop();
+        }
         scannerRef.current.clear();
-      } catch (e) {
-        console.error(e);
+        scannerRef.current = null;
+      }
+    } catch (e) {
+      console.warn('Error stopping scanner:', e);
+    }
+
+    // Force release all active camera media streams on the browser/device
+    if (typeof navigator !== 'undefined' && navigator.mediaDevices) {
+      try {
+        const streamContainer = document.getElementById(scannerRegionId);
+        const videos = streamContainer ? streamContainer.querySelectorAll('video') : document.querySelectorAll('video');
+        videos.forEach((video) => {
+          if (video.srcObject) {
+            const stream = video.srcObject as MediaStream;
+            stream.getTracks().forEach((track) => {
+              track.stop();
+            });
+            video.srcObject = null;
+          }
+        });
+      } catch (err) {
+        console.warn('Error clearing camera tracks:', err);
       }
     }
+  };
+
+  const handleManualClose = () => {
+    stopScanner();
+    onClose();
   };
 
   if (!isOpen) return null;
@@ -77,7 +104,8 @@ export const QRScannerModal: React.FC<Props> = ({ isOpen, onClose, onScanSuccess
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-md p-4 animate-fade-in">
       <div className="bg-slate-900 border border-slate-800 w-full max-w-sm rounded-3xl overflow-hidden shadow-2xl relative flex flex-col items-center p-5 text-white">
         <button
-          onClick={onClose}
+          type="button"
+          onClick={handleManualClose}
           className="absolute top-4 right-4 p-2 rounded-full bg-slate-800 text-slate-300 hover:text-white"
         >
           <X className="w-5 h-5" />
