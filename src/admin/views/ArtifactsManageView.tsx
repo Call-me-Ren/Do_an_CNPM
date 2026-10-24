@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Artifact, SupportedLanguage } from '../../shared/types';
 import { museumApi } from '../../shared/services/api';
 import { resolveAssetUrl, getArtifactFallbackImage } from '../../shared/utils/assetHelper';
 import { AlertModal } from '../../shared/components/AlertModal';
-import { Plus, Edit, Trash2, CheckCircle2, AlertCircle, X } from 'lucide-react';
+import { Plus, Edit, Trash2, CheckCircle2, AlertCircle, X, FolderOpen } from 'lucide-react';
 
 export const ArtifactsManageView: React.FC = () => {
   const [artifacts, setArtifacts] = useState<Artifact[]>([]);
@@ -34,6 +34,22 @@ export const ArtifactsManageView: React.FC = () => {
     ko: '',
     ja: ''
   });
+
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const dataUrl = event.target?.result as string;
+      if (dataUrl) {
+        setFormImageUrl(dataUrl);
+      }
+    };
+    reader.readAsDataURL(file);
+  };
 
   useEffect(() => {
     museumApi.getMuseumData().then((res) => {
@@ -318,12 +334,29 @@ export const ArtifactsManageView: React.FC = () => {
                     required
                     value={formImageUrl}
                     onChange={(e) => setFormImageUrl(e.target.value)}
-                    className="flex-1 bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none"
+                    className="flex-1 bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:ring-1 focus:ring-amber-500"
                     placeholder="Đường dẫn hoặc link ảnh (/images/... hoặc https://...)"
                   />
-                  {formImageUrl && (
-                    <img src={formImageUrl} alt="preview" className="w-9 h-9 rounded-lg object-cover shrink-0" />
-                  )}
+
+                  {/* Hidden file input for uploading from computer */}
+                  <input
+                    type="file"
+                    ref={fileInputRef}
+                    accept="image/*"
+                    onChange={handleFileSelect}
+                    className="hidden"
+                  />
+
+                  {/* Folder browse button */}
+                  <button
+                    type="button"
+                    onClick={() => fileInputRef.current?.click()}
+                    className="flex items-center gap-1.5 px-3 py-2 bg-slate-800 hover:bg-slate-700 text-amber-400 hover:text-amber-300 border border-slate-700 rounded-xl text-xs font-semibold shrink-0 transition cursor-pointer"
+                    title="Mở thư mục máy tính để chọn hình ảnh"
+                  >
+                    <FolderOpen className="w-4 h-4 text-amber-500" />
+                    <span>Chọn tệp</span>
+                  </button>
                 </div>
               </div>
 
