@@ -311,14 +311,15 @@ export const ArtifactsManageView: React.FC = () => {
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-400 mb-1">URL Hình Ảnh Hiện Vật</label>
+                <label className="block text-xs font-semibold text-slate-400 mb-1">Hình Ảnh Hiện Vật</label>
                 <div className="flex items-center gap-2">
                   <input
-                    type="url"
+                    type="text"
                     required
                     value={formImageUrl}
                     onChange={(e) => setFormImageUrl(e.target.value)}
                     className="flex-1 bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none"
+                    placeholder="Đường dẫn hoặc link ảnh (/images/... hoặc https://...)"
                   />
                   {formImageUrl && (
                     <img src={formImageUrl} alt="preview" className="w-9 h-9 rounded-lg object-cover shrink-0" />
