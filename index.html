@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
     <meta name="referrer" content="no-referrer" />
     <title>Thuyết Minh Tự Động Đa Ngôn Ngữ</title>
 
@@ -44,26 +44,22 @@
       }(window.location))
     </script>
     
-    <!-- Compiled Production Stylesheet -->
+    <!-- Production Stylesheet Fallback -->
     <link rel="stylesheet" crossorigin href="/Test_CNPM/assets/index.css">
   </head>
   <body class="bg-slate-50 text-slate-900 antialiased selection:bg-amber-500 selection:text-white">
     <div id="root"></div>
 
     <script type="text/javascript">
-      // Production vs Local Dev Loader
-      (function() {
-        var isLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
-        var script = document.createElement('script');
-        script.type = 'module';
-        script.crossOrigin = 'anonymous';
-        if (isLocal) {
-          script.src = '/src/main.tsx';
-        } else {
-          script.src = '/Test_CNPM/assets/index.js';
-        }
-        document.body.appendChild(script);
-      })();
+      // Production loader for root-served GitHub Pages
+      if (location.hostname !== 'localhost' && location.hostname !== '127.0.0.1') {
+        var prodScript = document.createElement('script');
+        prodScript.type = 'module';
+        prodScript.crossOrigin = 'anonymous';
+        prodScript.src = '/Test_CNPM/assets/index.js';
+        document.body.appendChild(prodScript);
+      }
     </script>
+    <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

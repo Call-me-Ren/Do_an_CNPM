@@ -9,32 +9,53 @@ interface AdminUserState {
   isAuthenticated: () => boolean;
 }
 
-export const useAdminAuthStore = create<AdminUserState>((set, get) => {
-  // Clear any existing localStorage or sessionStorage tokens on module initialization
-  if (typeof window !== 'undefined') {
-    try {
-      localStorage.removeItem('admin_token');
-      localStorage.removeItem('admin_user');
-      localStorage.removeItem('admin_role');
-      sessionStorage.removeItem('admin_session_token');
-      sessionStorage.removeItem('admin_session_user');
-      sessionStorage.removeItem('admin_session_role');
-    } catch {
-      // ignore
-    }
+const getStoredSession = () => {
+  if (typeof window === 'undefined') {
+    return { token: null, username: null, role: null };
   }
+  try {
+    const token = sessionStorage.getItem('admin_session_token');
+    const username = sessionStorage.getItem('admin_session_user');
+    const role = sessionStorage.getItem('admin_session_role');
+    if (token) {
+      return { token, username, role };
+    }
+  } catch {
+    // sessionStorage not available
+  }
+  return { token: null, username: null, role: null };
+};
+
+export const useAdminAuthStore = create<AdminUserState>((set, get) => {
+  const initial = getStoredSession();
 
   return {
-    // Strictly in-memory on each page load. Direct typing in URL bar ALWAYS starts at null!
-    token: null,
-    username: null,
-    role: null,
+    token: initial.token,
+    username: initial.username,
+    role: initial.role,
 
     login: (token, username, role) => {
+      try {
+        sessionStorage.setItem('admin_session_token', token);
+        sessionStorage.setItem('admin_session_user', username);
+        sessionStorage.setItem('admin_session_role', role);
+      } catch {
+        // ignore
+      }
       set({ token, username, role });
     },
 
     logout: () => {
+      try {
+        sessionStorage.removeItem('admin_session_token');
+        sessionStorage.removeItem('admin_session_user');
+        sessionStorage.removeItem('admin_session_role');
+        localStorage.removeItem('admin_token');
+        localStorage.removeItem('admin_user');
+        localStorage.removeItem('admin_role');
+      } catch {
+        // ignore
+      }
       set({ token: null, username: null, role: null });
     },
 

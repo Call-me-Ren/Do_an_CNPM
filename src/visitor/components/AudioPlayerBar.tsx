@@ -149,7 +149,7 @@ export const AudioPlayerBar: React.FC<Props> = ({ isDetailSheetOpen = false }) =
     <>
       {/* Floating Subtitle Transcript Card matching reference (only shown when modal detail is closed) */}
       {showSubtitle && !isDetailSheetOpen && activeSubtitles.length > 0 && (
-        <div className="fixed bottom-40 md:bottom-28 left-4 right-4 z-40 flex justify-center pointer-events-none">
+        <div className="fixed bottom-[calc(10rem+env(safe-area-inset-bottom,0px))] md:bottom-28 left-4 right-4 z-40 flex justify-center pointer-events-none">
           <div className="bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl border border-slate-200/90 max-w-lg w-full p-3 pointer-events-auto animate-fade-in">
             <div className="flex items-center justify-between px-2 pb-2 mb-1 border-b border-slate-100">
               <span className="inline-flex items-center gap-1.5 text-amber-600 font-bold text-xs uppercase tracking-wider">
@@ -176,7 +176,7 @@ export const AudioPlayerBar: React.FC<Props> = ({ isDetailSheetOpen = false }) =
       )}
 
       {/* Sticky Bottom Audio Player Bar */}
-      <div className="fixed bottom-20 md:bottom-6 left-0 right-0 max-w-md md:max-w-4xl lg:max-w-5xl mx-auto px-4 z-50 animate-fade-in">
+      <div className="fixed bottom-[calc(4.75rem+env(safe-area-inset-bottom,0px))] md:bottom-6 left-0 right-0 max-w-md md:max-w-4xl lg:max-w-5xl mx-auto px-3 sm:px-4 z-50 animate-fade-in">
         <div className="bg-slate-900/95 text-white backdrop-blur-md rounded-3xl p-3.5 sm:p-4 shadow-2xl border border-slate-700/80 flex flex-col gap-2.5">
           {/* Progress Bar */}
           <div className="flex items-center gap-3 text-xs font-mono text-slate-400">

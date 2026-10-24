@@ -205,14 +205,14 @@ export const VisitorLayout: React.FC = () => {
 
           {/* Right Action Tools: QR, Admin link & Language Dropdown */}
           <div className="flex items-center gap-2.5 shrink-0">
-            {/* Desktop Scan QR Button */}
+            {/* Desktop Scan QR Button (Hidden on Mobile because Mobile has floating center scan button) */}
             <button
               onClick={() => setIsQRScannerOpen(true)}
-              className="flex items-center gap-2 px-3 py-2 md:px-3.5 md:py-2 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 text-amber-700 font-semibold text-xs md:text-sm transition border border-amber-500/30"
+              className="hidden sm:flex items-center gap-2 px-3 py-2 md:px-3.5 md:py-2 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 text-amber-700 font-semibold text-xs md:text-sm transition border border-amber-500/30"
               title={t('scanQR')}
             >
               <QrCode className="w-4 h-4 text-amber-600 shrink-0" />
-              <span className="hidden sm:inline">{t('scanQR')}</span>
+              <span>{t('scanQR')}</span>
             </button>
 
             {/* Language Switcher */}
@@ -293,7 +293,7 @@ export const VisitorLayout: React.FC = () => {
       <AudioPlayerBar isDetailSheetOpen={Boolean(selectedArtifact)} />
 
       {/* Mobile-Only Bottom Navigation Bar (Hidden on md and larger) */}
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200 py-1.5 px-6 shadow-lg">
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200/90 pt-1.5 px-6 pb-[max(0.6rem,env(safe-area-inset-bottom,0px))] shadow-2xl select-none">
         <div className="flex items-center justify-between relative max-w-md mx-auto">
           <button
             onClick={() => setActiveTab('explore')}

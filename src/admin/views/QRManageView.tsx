@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Artifact } from '../../shared/types';
 import { museumApi } from '../../shared/services/api';
+import { resolveAssetUrl, getArtifactFallbackImage } from '../../shared/utils/assetHelper';
 import QRCode from 'qrcode';
 import { QrCode, Download, Printer, Copy, Check, ExternalLink } from 'lucide-react';
 
@@ -121,8 +122,12 @@ export const QRManageView: React.FC = () => {
                 }`}
               >
                 <img
-                  src={art.images[0]}
+                  src={resolveAssetUrl(art.images[0])}
                   alt={art.title['vi']}
+                  onError={(e) => {
+                    e.currentTarget.onerror = null;
+                    e.currentTarget.src = getArtifactFallbackImage(art.code, art.title['vi'], art.floorId);
+                  }}
                   className="w-10 h-10 rounded-lg object-cover shrink-0"
                 />
                 <div className="min-w-0 flex-1">

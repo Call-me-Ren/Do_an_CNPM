@@ -25,7 +25,7 @@ global.sessionStorage = dom.window.sessionStorage;
 global.history = dom.window.history;
 
 // Now load the bundle!
-import('../dist/assets/index-d4tL7QFV.js').then(() => {
+import('../dist/assets/index.js').then(() => {
   console.log('SUCCESSFULLY LOADED BUNDLE (NO TRAILING SLASH)!');
   setTimeout(() => {
     const root = dom.window.document.getElementById('root');

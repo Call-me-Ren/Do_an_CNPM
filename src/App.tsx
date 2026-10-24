@@ -9,6 +9,7 @@ import { AudioManageView } from './admin/views/AudioManageView';
 import { FloorMapEditorView } from './admin/views/FloorMapEditorView';
 import { SessionManageView } from './admin/views/SessionManageView';
 import { AnalyticsView } from './admin/views/AnalyticsView';
+import { QRManageView } from './admin/views/QRManageView';
 
 export const App: React.FC = () => {
   return (
@@ -27,6 +28,7 @@ export const App: React.FC = () => {
         <Route path="maps" element={<FloorMapEditorView />} />
         <Route path="sessions" element={<SessionManageView />} />
         <Route path="analytics" element={<AnalyticsView />} />
+        <Route path="qr" element={<QRManageView />} />
         <Route path="*" element={<Navigate to="/admin" replace />} />
       </Route>
 

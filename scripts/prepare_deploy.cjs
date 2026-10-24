@@ -29,4 +29,22 @@ if (fs.existsSync(path.join(distDir, 'assets'))) {
   console.log('Copied dist/assets -> assets/');
 }
 
+// 3. Ensure 404.html is at root and docs
+const fourOhFourSource = fs.existsSync(path.join(distDir, '404.html'))
+  ? path.join(distDir, '404.html')
+  : path.join(rootDir, 'public', '404.html');
+
+fs.copyFileSync(fourOhFourSource, path.join(rootDir, '404.html'));
+fs.copyFileSync(fourOhFourSource, path.join(docsDir, '404.html'));
+console.log('Copied 404.html to root and docs/');
+
+// 4. Create admin/index.html in root and docs for direct static resolution
+const indexHtmlContent = fs.readFileSync(path.join(rootDir, 'index.html'), 'utf-8');
+const adminDirs = [path.join(rootDir, 'admin'), path.join(docsDir, 'admin')];
+adminDirs.forEach(dir => {
+  fs.mkdirSync(dir, { recursive: true });
+  fs.writeFileSync(path.join(dir, 'index.html'), indexHtmlContent, 'utf-8');
+});
+console.log('Created admin/index.html in root and docs/');
+
 console.log('Deploy prep completed successfully!');
