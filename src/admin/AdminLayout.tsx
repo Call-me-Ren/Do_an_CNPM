@@ -36,15 +36,15 @@ export const AdminLayout: React.FC = () => {
     { path: '/admin/artifacts', label: 'Quản Lý Hiện Vật', icon: Package },
     { path: '/admin/audio', label: 'Tệp Âm Thanh & Sub', icon: Music },
     { path: '/admin/maps', label: 'Sơ Đồ Khu Vực', icon: Map },
+    { path: '/admin/qr', label: 'Quản Lý Mã QR', icon: QrCode },
     { path: '/admin/sessions', label: 'Quản Lý Phiên', icon: Calendar },
     { path: '/admin/analytics', label: 'Báo Cáo Thống Kê', icon: BarChart3 },
-    { path: '/admin/qr', label: 'Quản Lý Mã QR', icon: QrCode },
   ];
 
   const currentMenuItem = menuItems.find((item) => item.path === location.pathname);
 
   return (
-    <div className="h-screen w-screen overflow-hidden bg-slate-900 text-slate-100 flex flex-col md:flex-row">
+    <div className="h-screen w-full max-w-full overflow-hidden bg-slate-900 text-slate-100 flex flex-col md:flex-row">
       {/* Mobile Top Header (Visible only on mobile screens < md) */}
       <header className="md:hidden bg-slate-950 border-b border-slate-800 px-4 py-3 flex items-center justify-between shrink-0 z-30">
         <div className="flex items-center gap-2.5">

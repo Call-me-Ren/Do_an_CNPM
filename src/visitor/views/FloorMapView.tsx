@@ -21,7 +21,7 @@ export const FloorMapView: React.FC<Props> = ({ floors, artifacts, onSelectArtif
   const floorArtifacts = artifacts.filter((a) => a.floorId === selectedFloorId);
 
   return (
-    <div className="flex flex-col gap-6 pb-32">
+    <div className="flex flex-col gap-6 pb-32 w-full max-w-full min-w-0 overflow-x-hidden">
       {/* Top Header & Floor Switcher */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2 border-b border-slate-200">
         <div>

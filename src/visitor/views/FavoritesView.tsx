@@ -21,7 +21,7 @@ export const FavoritesView: React.FC<Props> = ({ artifacts, onSelectArtifact }) 
   const favArtifacts = artifacts.filter((a) => favorites.includes(a.id));
 
   return (
-    <div className="flex flex-col gap-6 pb-32">
+    <div className="flex flex-col gap-6 pb-32 w-full max-w-full min-w-0 overflow-x-hidden">
       <div className="flex items-center justify-between pb-2 border-b border-slate-200">
         <div>
           <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight flex items-center gap-2.5">

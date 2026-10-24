@@ -15,7 +15,7 @@ export const MuseumInfoView: React.FC<Props> = ({ museum }) => {
   const { currentLang } = useLangStore();
 
   return (
-    <div className="flex flex-col gap-8 pb-32">
+    <div className="flex flex-col gap-8 pb-32 w-full max-w-full min-w-0 overflow-x-hidden">
       {/* Web Hero Banner */}
       <div className="w-full h-64 sm:h-80 lg:h-96 rounded-3xl overflow-hidden shadow-xl relative border border-slate-200">
         <img

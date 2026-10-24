@@ -125,23 +125,23 @@ export const VisitorLayout: React.FC = () => {
   const museumName = data.museum.name[currentLang] || data.museum.name['vi'];
 
   return (
-    <div className="min-h-screen bg-slate-50/70 text-slate-900 flex flex-col w-full">
+    <div className="min-h-screen bg-slate-50/70 text-slate-900 flex flex-col w-full max-w-full overflow-x-hidden">
       {/* Top Navigation Bar (Full Desktop Header) */}
-      <header className="sticky top-0 z-30 bg-white/95 backdrop-blur-md border-b border-slate-200/80 shadow-xs">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
+      <header className="sticky top-0 z-30 bg-white/95 backdrop-blur-md border-b border-slate-200/80 shadow-xs w-full max-w-full overflow-x-hidden">
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-2 sm:gap-4 w-full min-w-0">
           {/* Brand Logo & Name */}
           <div
             onClick={() => setActiveTab('explore')}
-            className="flex items-center gap-3 cursor-pointer shrink-0 select-none group"
+            className="flex items-center gap-2.5 sm:gap-3 cursor-pointer min-w-0 flex-1 select-none group"
           >
-            <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-amber-600 to-amber-500 text-white flex items-center justify-center shadow-md shadow-amber-500/20 group-hover:scale-105 transition-transform">
-              <Building2 className="w-5 h-5" />
+            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-2xl bg-gradient-to-tr from-amber-600 to-amber-500 text-white flex items-center justify-center shadow-md shadow-amber-500/20 group-hover:scale-105 transition-transform shrink-0">
+              <Building2 className="w-4 h-4 sm:w-5 sm:h-5" />
             </div>
-            <div className="min-w-0">
-              <span className="text-[10px] md:text-xs uppercase font-extrabold tracking-wider text-amber-600 block">
+            <div className="min-w-0 flex-1">
+              <span className="text-[10px] md:text-xs uppercase font-extrabold tracking-wider text-amber-600 block truncate">
                 {t('appName')}
               </span>
-              <h1 className="text-sm md:text-lg font-extrabold text-slate-900 truncate tracking-tight">
+              <h1 className="text-xs sm:text-base md:text-lg font-extrabold text-slate-900 truncate tracking-tight">
                 {museumName}
               </h1>
             </div>
@@ -222,7 +222,7 @@ export const VisitorLayout: React.FC = () => {
       </header>
 
       {/* Main Website Body Container */}
-      <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 w-full">
+      <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 w-full min-w-0 overflow-x-hidden">
         {activeTab === 'explore' && (
           <ExploreView
             artifacts={data.artifacts}

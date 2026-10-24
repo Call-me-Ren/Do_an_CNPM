@@ -26,9 +26,9 @@ export const App: React.FC = () => {
         <Route path="artifacts" element={<ArtifactsManageView />} />
         <Route path="audio" element={<AudioManageView />} />
         <Route path="maps" element={<FloorMapEditorView />} />
+        <Route path="qr" element={<QRManageView />} />
         <Route path="sessions" element={<SessionManageView />} />
         <Route path="analytics" element={<AnalyticsView />} />
-        <Route path="qr" element={<QRManageView />} />
         <Route path="*" element={<Navigate to="/admin" replace />} />
       </Route>
 

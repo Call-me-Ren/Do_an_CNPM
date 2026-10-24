@@ -63,7 +63,7 @@ export const ExploreView: React.FC<Props> = ({ artifacts, onSelectArtifact }) =>
   const nearestArtifact = artifacts.find((a) => a.id === nearestArtifactId);
 
   return (
-    <div className="flex flex-col gap-8 pb-32">
+    <div className="flex flex-col gap-8 pb-32 w-full max-w-full min-w-0 overflow-x-hidden">
       {/* Web Hero & Search Section */}
       <div className="bg-gradient-to-br from-slate-900 via-slate-850 to-slate-900 text-white rounded-3xl p-6 sm:p-8 lg:p-10 shadow-xl border border-slate-800 relative overflow-hidden">
         {/* Subtle decorative circles */}

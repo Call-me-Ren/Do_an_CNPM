@@ -26,12 +26,6 @@ export const AdminLoginView: React.FC = () => {
     }
   };
 
-  const handleFillDemo = () => {
-    setUsername('admin@museum.vn');
-    setPassword('admin123');
-    setError(null);
-  };
-
   return (
     <div className="min-h-screen bg-slate-900 flex flex-col items-center justify-center p-4 relative">
       {/* Return to Visitor Website Button - Single Clean Navigation */}
@@ -101,26 +95,6 @@ export const AdminLoginView: React.FC = () => {
             Đăng nhập vào Dashboard
           </button>
         </form>
-
-        {/* Demo Credentials Box */}
-        <div className="bg-slate-900/80 border border-slate-700/60 rounded-2xl p-4 flex flex-col gap-2">
-          <div className="flex items-center justify-between">
-            <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
-              Tài khoản quản trị thử nghiệm
-            </span>
-            <button
-              type="button"
-              onClick={handleFillDemo}
-              className="text-xs font-semibold text-amber-400 hover:text-amber-300 underline cursor-pointer"
-            >
-              Điền nhanh
-            </button>
-          </div>
-          <div className="text-xs text-slate-300 font-mono space-y-0.5">
-            <div>Email: <span className="text-white font-semibold">admin@museum.vn</span></div>
-            <div>Mật khẩu: <span className="text-white font-semibold">admin123</span></div>
-          </div>
-        </div>
       </div>
     </div>
   );
