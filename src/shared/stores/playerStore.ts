@@ -88,7 +88,8 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
       );
     }
 
-    ttsService.seekToCueIndex(index, subtitleList, currentLang, currentRate);
+    const audioUrl = art?.audio?.[currentLang] || art?.audio?.['vi'];
+    ttsService.seekToCueIndex(index, subtitleList, currentLang, currentRate, audioUrl);
   },
 
   seekToTime: (time) => {

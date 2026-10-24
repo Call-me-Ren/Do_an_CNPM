@@ -96,11 +96,14 @@ export const AudioPlayerBar: React.FC<Props> = ({ isDetailSheetOpen = false }) =
 
     if (isPlaying) {
       if (artifactChanged || cueChanged || langChanged || !ttsService.getIsCuePlaying()) {
+        const audioUrl = currentArtifact?.audio?.[currentLang] || currentArtifact?.audio?.['vi'];
         ttsService.playCues(
           activeSubtitles,
           startCueIndex,
           currentLang,
-          playbackRate
+          playbackRate,
+          undefined,
+          audioUrl
         );
       } else if (ttsService.getIsPaused()) {
         ttsService.resume();

@@ -47,4 +47,10 @@ adminDirs.forEach(dir => {
 });
 console.log('Created admin/index.html in root and docs/');
 
+// 5. Copy dist/audio to audio/ in root for root GitHub Pages resolution
+if (fs.existsSync(path.join(distDir, 'audio'))) {
+  copyFolderSync(path.join(distDir, 'audio'), path.join(rootDir, 'audio'));
+  console.log('Copied dist/audio -> audio/');
+}
+
 console.log('Deploy prep completed successfully!');

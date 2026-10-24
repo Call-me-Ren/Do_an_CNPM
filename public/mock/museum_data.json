@@ -120,7 +120,11 @@
         "y": 240
       },
       "audio": {
-        "vi": "/audio/guide_sample.wav"
+        "vi": "/audio/artifacts/WRM001_vi.mp3",
+        "en": "/audio/artifacts/WRM001_en.mp3",
+        "zh": "/audio/artifacts/WRM001_zh.mp3",
+        "ko": "/audio/artifacts/WRM001_ko.mp3",
+        "ja": "/audio/artifacts/WRM001_ja.mp3"
       },
       "subtitles": {
         "vi": [
@@ -286,7 +290,11 @@
         "y": 200
       },
       "audio": {
-        "vi": "/audio/guide_sample.wav"
+        "vi": "/audio/artifacts/WRM002_vi.mp3",
+        "en": "/audio/artifacts/WRM002_en.mp3",
+        "zh": "/audio/artifacts/WRM002_zh.mp3",
+        "ko": "/audio/artifacts/WRM002_ko.mp3",
+        "ja": "/audio/artifacts/WRM002_ja.mp3"
       },
       "subtitles": {
         "vi": [
@@ -427,7 +435,11 @@
         "y": 280
       },
       "audio": {
-        "vi": "/audio/guide_sample.wav"
+        "vi": "/audio/artifacts/WRM003_vi.mp3",
+        "en": "/audio/artifacts/WRM003_en.mp3",
+        "zh": "/audio/artifacts/WRM003_zh.mp3",
+        "ko": "/audio/artifacts/WRM003_ko.mp3",
+        "ja": "/audio/artifacts/WRM003_ja.mp3"
       },
       "subtitles": {
         "vi": [
@@ -543,7 +555,11 @@
         "y": 380
       },
       "audio": {
-        "vi": "/audio/guide_sample.wav"
+        "vi": "/audio/artifacts/WRM004_vi.mp3",
+        "en": "/audio/artifacts/WRM004_en.mp3",
+        "zh": "/audio/artifacts/WRM004_zh.mp3",
+        "ko": "/audio/artifacts/WRM004_ko.mp3",
+        "ja": "/audio/artifacts/WRM004_ja.mp3"
       },
       "subtitles": {
         "vi": [
@@ -634,7 +650,11 @@
         "y": 180
       },
       "audio": {
-        "vi": "/audio/guide_sample.wav"
+        "vi": "/audio/artifacts/WRM005_vi.mp3",
+        "en": "/audio/artifacts/WRM005_en.mp3",
+        "zh": "/audio/artifacts/WRM005_zh.mp3",
+        "ko": "/audio/artifacts/WRM005_ko.mp3",
+        "ja": "/audio/artifacts/WRM005_ja.mp3"
       },
       "subtitles": {
         "vi": [
@@ -725,7 +745,11 @@
         "y": 420
       },
       "audio": {
-        "vi": "/audio/guide_sample.wav"
+        "vi": "/audio/artifacts/WRM006_vi.mp3",
+        "en": "/audio/artifacts/WRM006_en.mp3",
+        "zh": "/audio/artifacts/WRM006_zh.mp3",
+        "ko": "/audio/artifacts/WRM006_ko.mp3",
+        "ja": "/audio/artifacts/WRM006_ja.mp3"
       },
       "subtitles": {
         "vi": [
@@ -816,7 +840,11 @@
         "y": 420
       },
       "audio": {
-        "vi": "/audio/guide_sample.wav"
+        "vi": "/audio/artifacts/WRM007_vi.mp3",
+        "en": "/audio/artifacts/WRM007_en.mp3",
+        "zh": "/audio/artifacts/WRM007_zh.mp3",
+        "ko": "/audio/artifacts/WRM007_ko.mp3",
+        "ja": "/audio/artifacts/WRM007_ja.mp3"
       },
       "subtitles": {
         "vi": [
@@ -907,7 +935,11 @@
         "y": 480
       },
       "audio": {
-        "vi": "/audio/guide_sample.wav"
+        "vi": "/audio/artifacts/WRM008_vi.mp3",
+        "en": "/audio/artifacts/WRM008_en.mp3",
+        "zh": "/audio/artifacts/WRM008_zh.mp3",
+        "ko": "/audio/artifacts/WRM008_ko.mp3",
+        "ja": "/audio/artifacts/WRM008_ja.mp3"
       },
       "subtitles": {
         "vi": [
@@ -1023,7 +1055,11 @@
         "y": 380
       },
       "audio": {
-        "vi": "/audio/guide_sample.wav"
+        "vi": "/audio/artifacts/WRM009_vi.mp3",
+        "en": "/audio/artifacts/WRM009_en.mp3",
+        "zh": "/audio/artifacts/WRM009_zh.mp3",
+        "ko": "/audio/artifacts/WRM009_ko.mp3",
+        "ja": "/audio/artifacts/WRM009_ja.mp3"
       },
       "subtitles": {
         "vi": [
@@ -1114,7 +1150,11 @@
         "y": 250
       },
       "audio": {
-        "vi": "/audio/guide_sample.wav"
+        "vi": "/audio/artifacts/WRM010_vi.mp3",
+        "en": "/audio/artifacts/WRM010_en.mp3",
+        "zh": "/audio/artifacts/WRM010_zh.mp3",
+        "ko": "/audio/artifacts/WRM010_ko.mp3",
+        "ja": "/audio/artifacts/WRM010_ja.mp3"
       },
       "subtitles": {
         "vi": [
@@ -1230,7 +1270,11 @@
         "y": 250
       },
       "audio": {
-        "vi": "/audio/guide_sample.wav"
+        "vi": "/audio/artifacts/WRM011_vi.mp3",
+        "en": "/audio/artifacts/WRM011_en.mp3",
+        "zh": "/audio/artifacts/WRM011_zh.mp3",
+        "ko": "/audio/artifacts/WRM011_ko.mp3",
+        "ja": "/audio/artifacts/WRM011_ja.mp3"
       },
       "subtitles": {
         "vi": [
@@ -1321,7 +1365,11 @@
         "y": 320
       },
       "audio": {
-        "vi": "/audio/guide_sample.wav"
+        "vi": "/audio/artifacts/WRM012_vi.mp3",
+        "en": "/audio/artifacts/WRM012_en.mp3",
+        "zh": "/audio/artifacts/WRM012_zh.mp3",
+        "ko": "/audio/artifacts/WRM012_ko.mp3",
+        "ja": "/audio/artifacts/WRM012_ja.mp3"
       },
       "subtitles": {
         "vi": [
@@ -1437,7 +1485,11 @@
         "y": 280
       },
       "audio": {
-        "vi": "/audio/guide_sample.wav"
+        "vi": "/audio/artifacts/WRM013_vi.mp3",
+        "en": "/audio/artifacts/WRM013_en.mp3",
+        "zh": "/audio/artifacts/WRM013_zh.mp3",
+        "ko": "/audio/artifacts/WRM013_ko.mp3",
+        "ja": "/audio/artifacts/WRM013_ja.mp3"
       },
       "subtitles": {
         "vi": [
@@ -1553,7 +1605,11 @@
         "y": 300
       },
       "audio": {
-        "vi": "/audio/guide_sample.wav"
+        "vi": "/audio/artifacts/WRM014_vi.mp3",
+        "en": "/audio/artifacts/WRM014_en.mp3",
+        "zh": "/audio/artifacts/WRM014_zh.mp3",
+        "ko": "/audio/artifacts/WRM014_ko.mp3",
+        "ja": "/audio/artifacts/WRM014_ja.mp3"
       },
       "subtitles": {
         "vi": [
@@ -1644,7 +1700,11 @@
         "y": 300
       },
       "audio": {
-        "vi": "/audio/guide_sample.wav"
+        "vi": "/audio/artifacts/WRM015_vi.mp3",
+        "en": "/audio/artifacts/WRM015_en.mp3",
+        "zh": "/audio/artifacts/WRM015_zh.mp3",
+        "ko": "/audio/artifacts/WRM015_ko.mp3",
+        "ja": "/audio/artifacts/WRM015_ja.mp3"
       },
       "subtitles": {
         "vi": [

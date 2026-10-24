@@ -1,4 +1,5 @@
 import { SupportedLanguage, SubtitleCue } from '../types';
+import { resolveAssetUrl } from '../utils/assetHelper';
 
 const langLocaleMap: Record<SupportedLanguage, string> = {
   vi: 'vi-VN',
@@ -29,6 +30,8 @@ class TTSService {
   private isSpeaking: boolean = false;
   private isPaused: boolean = false;
   private cachedVoices: SpeechSynthesisVoice[] = [];
+  private audioElement: HTMLAudioElement | null = null;
+  private isAudioFileMode: boolean = false;
 
   // Cue queue state
   private activeCues: SubtitleCue[] = [];
@@ -117,17 +120,32 @@ class TTSService {
         score += 80;
       }
 
-      // High-tier Natural / Neural / Online voices (Edge, Windows 11 Natural, Azure)
-      if (name.includes('natural') || name.includes('online')) {
-        score += 500;
-      }
-      if (name.includes('neural') || name.includes('premium')) {
-        score += 400;
+      // Top-tier Edge Online Natural voices requested by user (HoaiMy, Jenny, Xiaoxiao, SunHi, Nanami)
+      if (
+        name.includes('hoaimy') ||
+        name.includes('namminh') ||
+        name.includes('jenny') ||
+        name.includes('xiaoxiao') ||
+        name.includes('sunhi') ||
+        name.includes('nanami')
+      ) {
+        score += 1000;
       }
 
-      // Studio Google voices (Chrome)
+      // High-tier Natural / Neural / Online voices (Edge, Windows 11 Natural, Azure)
+      if (name.includes('natural') || name.includes('online')) {
+        score += 700;
+      }
+      if (name.includes('neural') || name.includes('premium')) {
+        score += 500;
+      }
+      if (name.includes('microsoft')) {
+        score += 350;
+      }
+
+      // Studio Google voices (Chrome fallback)
       if (name.includes('google')) {
-        score += 300;
+        score += 200;
       }
 
       // Language-specific preferences
@@ -193,14 +211,16 @@ class TTSService {
     startIndex: number = 0,
     lang: SupportedLanguage = 'vi',
     playbackRate: number = 1.0,
-    callbacks?: CueCallbacks
+    callbacks?: CueCallbacks,
+    audioUrl?: string
   ): void {
-    if (!this.isSupported()) {
-      callbacks?.onFinish?.();
-      return;
-    }
-
     this.cancelSpeech();
+    if (this.audioElement) {
+      this.audioElement.pause();
+      this.audioElement.src = '';
+      this.audioElement = null;
+    }
+    this.isAudioFileMode = false;
 
     if (!cues || cues.length === 0) {
       callbacks?.onFinish?.();
@@ -216,6 +236,99 @@ class TTSService {
     }
     this.isCuePlaying = true;
     this.isPaused = false;
+
+    // 1. High-fidelity Microsoft Edge Natural Audio file playback
+    if (audioUrl && typeof window !== 'undefined' && typeof Audio !== 'undefined') {
+      try {
+        const resolved = resolveAssetUrl(audioUrl);
+        const audio = new Audio(resolved);
+        this.audioElement = audio;
+        audio.playbackRate = playbackRate;
+        this.isAudioFileMode = true;
+
+        const targetStartTime = cues[this.currentCueIndex]?.start || 0;
+
+        audio.onloadedmetadata = () => {
+          if (!this.isCuePlaying || !this.isAudioFileMode) return;
+          if (targetStartTime > 0) {
+            audio.currentTime = targetStartTime;
+          }
+          audio
+            .play()
+            .then(() => {
+              this.isSpeaking = true;
+              this.isPaused = false;
+            })
+            .catch((err) => {
+              console.warn('Audio play failed, falling back to Web Speech Synthesis:', err);
+              this.isAudioFileMode = false;
+              if (this.audioElement) {
+                this.audioElement = null;
+              }
+              this.speakCurrentCue();
+            });
+        };
+
+        audio.ontimeupdate = () => {
+          if (!this.isCuePlaying || !this.isAudioFileMode) return;
+          const curTime = audio.currentTime;
+          let matchedIdx = this.activeCues.findIndex(
+            (c) => curTime >= c.start && curTime <= c.end
+          );
+          if (matchedIdx === -1) {
+            if (curTime > (this.activeCues[this.activeCues.length - 1]?.end || 0)) {
+              matchedIdx = this.activeCues.length - 1;
+            } else {
+              matchedIdx = this.currentCueIndex;
+            }
+          }
+
+          if (
+            matchedIdx !== this.currentCueIndex &&
+            matchedIdx >= 0 &&
+            matchedIdx < this.activeCues.length
+          ) {
+            this.currentCueIndex = matchedIdx;
+            this.cueCallbacks?.onCueChange?.(matchedIdx, this.activeCues[matchedIdx]);
+          }
+          this.cueCallbacks?.onCueProgress?.(this.currentCueIndex, curTime);
+        };
+
+        audio.onended = () => {
+          if (!this.isCuePlaying || !this.isAudioFileMode) return;
+          this.isSpeaking = false;
+          this.isCuePlaying = false;
+          this.isPaused = false;
+          this.cueCallbacks?.onFinish?.();
+        };
+
+        audio.onerror = () => {
+          console.warn(
+            'Edge audio file failed to load, falling back to Web Speech Synthesis:',
+            resolved
+          );
+          this.isAudioFileMode = false;
+          if (this.audioElement) {
+            this.audioElement = null;
+          }
+          this.speakCurrentCue();
+        };
+
+        return;
+      } catch (err) {
+        console.warn('Audio init error, falling back to speech synthesis:', err);
+        this.isAudioFileMode = false;
+        if (this.audioElement) {
+          this.audioElement = null;
+        }
+      }
+    }
+
+    // 2. Fallback to Web Speech Synthesis if audioUrl is not provided or fails
+    if (!this.isSupported()) {
+      callbacks?.onFinish?.();
+      return;
+    }
 
     if (this.seekTimeout) clearTimeout(this.seekTimeout);
     this.seekTimeout = setTimeout(() => {
@@ -321,10 +434,9 @@ class TTSService {
     index: number,
     newCues?: SubtitleCue[],
     lang?: SupportedLanguage,
-    rate?: number
+    rate?: number,
+    audioUrl?: string
   ): void {
-    if (!this.isSupported()) return;
-
     if (newCues && newCues.length > 0) {
       this.activeCues = newCues;
     }
@@ -337,6 +449,36 @@ class TTSService {
     if (this.activeCues.length === 0) return;
 
     this.currentCueIndex = Math.max(0, Math.min(index, this.activeCues.length - 1));
+    const cue = this.activeCues[this.currentCueIndex];
+
+    if (this.isAudioFileMode && this.audioElement && cue) {
+      this.audioElement.currentTime = cue.start;
+      if (rate) this.audioElement.playbackRate = rate;
+      if (this.audioElement.paused) {
+        this.audioElement.play().catch(console.warn);
+      }
+      this.isCuePlaying = true;
+      this.isPaused = false;
+      this.isSpeaking = true;
+      this.cueCallbacks?.onCueChange?.(this.currentCueIndex, cue);
+      this.cueCallbacks?.onCueProgress?.(this.currentCueIndex, cue.start);
+      return;
+    }
+
+    if (audioUrl) {
+      this.playCues(
+        this.activeCues,
+        index,
+        this.currentLang,
+        this.currentRate,
+        this.cueCallbacks,
+        audioUrl
+      );
+      return;
+    }
+
+    if (!this.isSupported()) return;
+
     this.isCuePlaying = true;
     this.isPaused = false;
     this.clearProgressTimer();
@@ -352,6 +494,28 @@ class TTSService {
   }
 
   public seekToSeconds(seconds: number): void {
+    if (this.isAudioFileMode && this.audioElement) {
+      this.audioElement.currentTime = seconds;
+      if (this.audioElement.paused) {
+        this.audioElement.play().catch(console.warn);
+      }
+      let matchedIdx = this.activeCues.findIndex(
+        (c) => seconds >= c.start && seconds <= c.end
+      );
+      if (matchedIdx === -1 && this.activeCues.length > 0) {
+        matchedIdx =
+          seconds > this.activeCues[this.activeCues.length - 1].end
+            ? this.activeCues.length - 1
+            : 0;
+      }
+      if (matchedIdx !== -1) {
+        this.currentCueIndex = matchedIdx;
+        this.cueCallbacks?.onCueChange?.(matchedIdx, this.activeCues[matchedIdx]);
+      }
+      this.cueCallbacks?.onCueProgress?.(this.currentCueIndex, seconds);
+      return;
+    }
+
     if (!this.activeCues || this.activeCues.length === 0) return;
     const targetIdx = this.activeCues.findIndex(
       (c) => seconds >= c.start && seconds <= c.end
@@ -374,12 +538,19 @@ class TTSService {
 
   public setPlaybackRate(rate: number): void {
     this.currentRate = rate;
-    if (this.isSpeaking && this.isCuePlaying) {
+    if (this.isAudioFileMode && this.audioElement) {
+      this.audioElement.playbackRate = rate;
+    } else if (this.isSpeaking && this.isCuePlaying) {
       this.seekToCueIndex(this.currentCueIndex);
     }
   }
 
   public pause(): void {
+    if (this.isAudioFileMode && this.audioElement) {
+      this.audioElement.pause();
+      this.isPaused = true;
+      this.isSpeaking = false;
+    }
     if (this.isSupported()) {
       window.speechSynthesis.pause();
       this.isPaused = true;
@@ -388,6 +559,12 @@ class TTSService {
   }
 
   public resume(): void {
+    if (this.isAudioFileMode && this.audioElement) {
+      this.audioElement.play().catch(console.warn);
+      this.isPaused = false;
+      this.isSpeaking = true;
+      return;
+    }
     if (this.isSupported()) {
       if (window.speechSynthesis.paused) {
         window.speechSynthesis.resume();
@@ -412,6 +589,12 @@ class TTSService {
   }
 
   public stop(): void {
+    if (this.audioElement) {
+      this.audioElement.pause();
+      this.audioElement.src = '';
+      this.audioElement = null;
+    }
+    this.isAudioFileMode = false;
     this.isCuePlaying = false;
     this.isSpeaking = false;
     this.isPaused = false;
