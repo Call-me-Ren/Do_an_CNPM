@@ -29,10 +29,12 @@ export const AnalyticsView: React.FC = () => {
   const [timeRange, setTimeRange] = useState<'today' | '7days' | 'all'>('7days');
 
   const refreshData = () => {
+    analyticsService.removeCurrentSession();
     setEvents(analyticsService.getListenEvents());
   };
 
   useEffect(() => {
+    analyticsService.removeCurrentSession();
     museumApi.getMuseumData().then((res) => {
       setArtifacts(res.artifacts);
     });

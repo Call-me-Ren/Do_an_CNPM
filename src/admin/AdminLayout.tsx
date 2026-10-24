@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Outlet, Link, useNavigate, useLocation, Navigate } from 'react-router-dom';
 import { useAdminAuthStore } from '../shared/stores/adminAuthStore';
+import { analyticsService } from '../shared/services/analytics';
 import {
   LayoutDashboard,
   Package,
@@ -21,6 +22,10 @@ export const AdminLayout: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
+
+  useEffect(() => {
+    analyticsService.removeCurrentSession();
+  }, [location.pathname]);
 
   if (!isAuthenticated()) {
     return <Navigate to="/admin/login" replace />;

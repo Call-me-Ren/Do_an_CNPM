@@ -19,15 +19,22 @@ export interface ListenEvent {
   timestamp: number;
 }
 
-const STORAGE_KEY_SESSIONS = 'museum_active_sessions_v2';
-const STORAGE_KEY_EVENTS = 'museum_listen_events_v2';
+const STORAGE_KEY_SESSIONS = 'museum_active_sessions_v3';
+const STORAGE_KEY_EVENTS = 'museum_listen_events_v3';
 
-// 5 minutes timeout for active devices so background tabs / idle visitors are not prematurely dropped
-const SESSION_TIMEOUT_MS = 5 * 60 * 1000;
+// 35 seconds timeout for live devices (heartbeat sent every 10s)
+const SESSION_TIMEOUT_MS = 35 * 1000;
+
+// Free public high-availability real-time presence channel
+const CLOUD_PRESENCE_URL = 'https://ntfy.sh/wrm_museum_presence_cnpm';
+const CLOUD_PRESENCE_WS = 'wss://ntfy.sh/wrm_museum_presence_cnpm/ws';
 
 class AnalyticsService {
   private currentSessionId: string = '';
   private heartbeatInterval: any = null;
+  private ws: WebSocket | null = null;
+  private reconnectTimeout: any = null;
+  private startedAt: number = Date.now();
 
   constructor() {
     if (typeof window !== 'undefined') {
@@ -35,24 +42,44 @@ class AnalyticsService {
     }
   }
 
+  public isAdminPage(): boolean {
+    if (typeof window === 'undefined') return false;
+    const path = (window.location.pathname || '').toLowerCase();
+    const hash = (window.location.hash || '').toLowerCase();
+    const href = (window.location.href || '').toLowerCase();
+    return (
+      path.includes('admin') ||
+      hash.includes('admin') ||
+      href.includes('admin') ||
+      Boolean(localStorage.getItem('admin_token'))
+    );
+  }
+
   private initSession(): void {
     if (typeof window === 'undefined') return;
 
-    // Do not register admin portal as visitor devices
-    if (window.location.pathname.includes('/admin')) {
+    // Do NOT register admin pages or logged-in admin as visitor devices!
+    if (this.isAdminPage()) {
+      this.removeCurrentSession();
+      this.connectCloudPresence();
       return;
     }
 
-    // Always assign a distinct unique sessionId per tab instance in memory.
-    // This guarantees duplicating tabs or opening multiple tabs/windows counts as distinct devices.
-    this.currentSessionId = `vis_${Math.random().toString(36).substring(2, 9)}_${Date.now().toString(36)}`;
+    // Assign a unique session ID per browser tab
+    let tabSession = sessionStorage.getItem('museum_visitor_session_id');
+    if (!tabSession) {
+      tabSession = `vis_${Math.random().toString(36).substring(2, 9)}_${Date.now().toString(36)}`;
+      sessionStorage.setItem('museum_visitor_session_id', tabSession);
+    }
+    this.currentSessionId = tabSession;
+    this.startedAt = Date.now();
 
-    // Start background presence heartbeat
+    // Start background presence heartbeat (every 10s)
     this.sendHeartbeat();
     if (this.heartbeatInterval) clearInterval(this.heartbeatInterval);
     this.heartbeatInterval = setInterval(() => {
       this.sendHeartbeat();
-    }, 3000);
+    }, 10000);
 
     // Refresh presence whenever tab becomes visible, focused, or receives user interaction
     document.addEventListener('visibilitychange', () => {
@@ -61,8 +88,32 @@ class AnalyticsService {
       }
     });
     window.addEventListener('focus', () => this.sendHeartbeat());
-    window.addEventListener('click', () => this.sendHeartbeat());
-    window.addEventListener('touchstart', () => this.sendHeartbeat());
+
+    // Clean up when user closes or leaves tab
+    window.addEventListener('beforeunload', () => {
+      this.notifyLeave();
+    });
+    window.addEventListener('pagehide', () => {
+      this.notifyLeave();
+    });
+
+    // Connect to cloud presence to sync devices across phone, Chrome, Edge
+    this.connectCloudPresence();
+  }
+
+  private notifyLeave(): void {
+    if (typeof window === 'undefined' || !this.currentSessionId || this.isAdminPage()) return;
+    this.removeCurrentSession();
+    try {
+      const payload = JSON.stringify({ type: 'leave', sessionId: this.currentSessionId });
+      if (navigator.sendBeacon) {
+        navigator.sendBeacon(CLOUD_PRESENCE_URL, payload);
+      } else {
+        fetch(CLOUD_PRESENCE_URL, { method: 'POST', body: payload, keepalive: true }).catch(() => {});
+      }
+    } catch {
+      // ignore
+    }
   }
 
   public sendHeartbeat(
@@ -72,8 +123,11 @@ class AnalyticsService {
   ): void {
     if (typeof window === 'undefined') return;
 
-    // Do not register admin portal as visitor devices
-    if (window.location.pathname.includes('/admin')) return;
+    // Strict guard: Admin pages NEVER send visitor heartbeats!
+    if (this.isAdminPage()) {
+      this.removeCurrentSession();
+      return;
+    }
 
     try {
       if (!this.currentSessionId) {
@@ -104,7 +158,7 @@ class AnalyticsService {
         currentArtifactId: artifactId || (existingIndex !== -1 ? sessions[existingIndex].currentArtifactId : null),
         currentArtifactTitle: artifactTitle || (existingIndex !== -1 ? sessions[existingIndex].currentArtifactTitle : null),
         lastActive: now,
-        startedAt: existingIndex !== -1 ? sessions[existingIndex].startedAt : now,
+        startedAt: existingIndex !== -1 ? sessions[existingIndex].startedAt : this.startedAt,
       };
 
       if (existingIndex !== -1) {
@@ -114,15 +168,137 @@ class AnalyticsService {
       }
 
       localStorage.setItem(STORAGE_KEY_SESSIONS, JSON.stringify(sessions));
+
+      // Broadcast heartbeat to Cloud Channel so Admin on PC immediately sees Phone/Chrome!
+      this.publishCloudPresence({
+        type: 'ping',
+        session: updatedSession
+      });
     } catch {
       // Ignore localStorage errors
+    }
+  }
+
+  private publishCloudPresence(msg: any): void {
+    try {
+      fetch(CLOUD_PRESENCE_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(msg)
+      }).catch(() => {});
+    } catch {
+      // ignore
+    }
+  }
+
+  private connectCloudPresence(): void {
+    if (typeof window === 'undefined' || typeof WebSocket === 'undefined') return;
+    if (this.ws && (this.ws.readyState === WebSocket.OPEN || this.ws.readyState === WebSocket.CONNECTING)) {
+      return;
+    }
+
+    try {
+      // Poll recent 35s history on load to immediately discover devices already active on phone/other browsers
+      fetch(`${CLOUD_PRESENCE_URL}/json?poll=1&since=35s`)
+        .then((r) => r.text())
+        .then((txt) => {
+          if (!txt) return;
+          const lines = txt.trim().split('\n');
+          lines.forEach((line) => {
+            try {
+              const parsed = JSON.parse(line);
+              if (parsed.message) {
+                const inner = JSON.parse(parsed.message);
+                this.handleCloudMessage(inner);
+              }
+            } catch {
+              // ignore
+            }
+          });
+        })
+        .catch(() => {});
+
+      // Connect WebSocket for instant live real-time push
+      const ws = new WebSocket(CLOUD_PRESENCE_WS);
+      this.ws = ws;
+
+      ws.onmessage = (event) => {
+        try {
+          const parsed = JSON.parse(event.data);
+          if (parsed.message) {
+            const inner = JSON.parse(parsed.message);
+            this.handleCloudMessage(inner);
+          }
+        } catch {
+          // ignore
+        }
+      };
+
+      ws.onclose = () => {
+        this.ws = null;
+        if (this.reconnectTimeout) clearTimeout(this.reconnectTimeout);
+        this.reconnectTimeout = setTimeout(() => {
+          this.connectCloudPresence();
+        }, 6000);
+      };
+
+      ws.onerror = () => {
+        try {
+          ws.close();
+        } catch {}
+      };
+    } catch {
+      // ignore
+    }
+  }
+
+  private handleCloudMessage(msg: any): void {
+    if (!msg || typeof msg !== 'object') return;
+
+    if (msg.type === 'ping' && msg.session) {
+      const incoming: ActiveSession = msg.session;
+      // Do not accept admin as visitor
+      if (
+        incoming.sessionId.startsWith('admin_') ||
+        (incoming.sessionId === this.currentSessionId && this.isAdminPage())
+      ) {
+        return;
+      }
+
+      const sessions = this.getActiveSessions();
+      const idx = sessions.findIndex((s) => s.sessionId === incoming.sessionId);
+      if (idx !== -1) {
+        sessions[idx] = { ...sessions[idx], ...incoming, lastActive: Date.now() };
+      } else {
+        sessions.push({ ...incoming, lastActive: Date.now() });
+      }
+      try {
+        localStorage.setItem(STORAGE_KEY_SESSIONS, JSON.stringify(sessions));
+      } catch {}
+    } else if (msg.type === 'leave' && msg.sessionId) {
+      const sessions = this.getActiveSessions().filter((s) => s.sessionId !== msg.sessionId);
+      try {
+        localStorage.setItem(STORAGE_KEY_SESSIONS, JSON.stringify(sessions));
+      } catch {}
+    } else if (msg.type === 'listen' && msg.event) {
+      const incomingEvent: ListenEvent = msg.event;
+      const events = this.getListenEvents();
+      if (!events.some((e) => e.id === incomingEvent.id)) {
+        events.push(incomingEvent);
+        if (events.length > 2000) events.shift();
+        try {
+          localStorage.setItem(STORAGE_KEY_EVENTS, JSON.stringify(events));
+        } catch {}
+      }
     }
   }
 
   public removeCurrentSession(): void {
     if (typeof window === 'undefined') return;
     try {
-      const sessions = this.getActiveSessions().filter((s) => s.sessionId !== this.currentSessionId);
+      const sessions = this.getActiveSessions().filter(
+        (s) => s.sessionId !== this.currentSessionId && !s.sessionId.startsWith('admin_')
+      );
       localStorage.setItem(STORAGE_KEY_SESSIONS, JSON.stringify(sessions));
     } catch {
       // Ignore
@@ -138,7 +314,7 @@ class AnalyticsService {
       if (!Array.isArray(parsed)) return [];
 
       const now = Date.now();
-      // Keep sessions active within SESSION_TIMEOUT_MS (5 minutes) so background tabs / idle sessions are preserved
+      // Keep devices that pinged within SESSION_TIMEOUT_MS (35s)
       const fresh = parsed.filter(
         (s) =>
           typeof s === 'object' &&
@@ -146,7 +322,8 @@ class AnalyticsService {
           typeof s.lastActive === 'number' &&
           now - s.lastActive < SESSION_TIMEOUT_MS &&
           typeof s.sessionId === 'string' &&
-          !s.sessionId.startsWith('admin_')
+          !s.sessionId.startsWith('admin_') &&
+          (!this.isAdminPage() || s.sessionId !== this.currentSessionId)
       );
 
       if (fresh.length !== parsed.length) {
@@ -183,7 +360,6 @@ class AnalyticsService {
         timestamp: now,
       };
 
-      // Keep recent 2000 events
       events.push(newEvent);
       if (events.length > 2000) {
         events.shift();
@@ -191,7 +367,12 @@ class AnalyticsService {
 
       localStorage.setItem(STORAGE_KEY_EVENTS, JSON.stringify(events));
 
-      // Update current heartbeat with this artifact
+      // Broadcast listen event to Cloud Channel in real time
+      this.publishCloudPresence({
+        type: 'listen',
+        event: newEvent
+      });
+
       this.sendHeartbeat(artifactId, artifactTitle, lang);
     } catch {
       // Ignore

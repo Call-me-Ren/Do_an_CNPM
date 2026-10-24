@@ -36,11 +36,13 @@ export const AdminDashboardView: React.FC = () => {
 
   // Load Real Data & Set up Live Presence Polling
   const refreshData = () => {
+    analyticsService.removeCurrentSession();
     setActiveSessions(analyticsService.getActiveSessions());
     setListenEvents(analyticsService.getListenEvents());
   };
 
   useEffect(() => {
+    analyticsService.removeCurrentSession();
     museumApi.getMuseumData().then((res) => {
       setArtifacts(res.artifacts);
       setFloors(res.floors);
