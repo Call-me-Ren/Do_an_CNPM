@@ -478,6 +478,8 @@ class TTSService {
     const cue = this.activeCues[this.currentCueIndex];
 
     if (this.isAudioFileMode && this.audioElement && cue) {
+      // Single channel check: ensure speech synthesis is cancelled
+      this.cancelSpeech();
       this.audioElement.currentTime = cue.start;
       if (rate) this.audioElement.playbackRate = rate;
       if (this.audioElement.paused) {
@@ -505,10 +507,16 @@ class TTSService {
 
     if (!this.isSupported()) return;
 
+    // SpeechSynthesis fallback
+    if (this.audioElement) {
+      this.audioElement.pause();
+      this.audioElement.src = '';
+      this.audioElement = null;
+    }
+    this.isAudioFileMode = false;
     this.isCuePlaying = true;
     this.isPaused = false;
     this.clearProgressTimer();
-
     this.cancelSpeech();
 
     if (this.seekTimeout) clearTimeout(this.seekTimeout);
@@ -521,6 +529,7 @@ class TTSService {
 
   public seekToSeconds(seconds: number): void {
     if (this.isAudioFileMode && this.audioElement) {
+      this.cancelSpeech();
       this.audioElement.currentTime = seconds;
       if (this.audioElement.paused) {
         this.audioElement.play().catch(console.warn);

@@ -178,19 +178,6 @@ export const AdminLayout: React.FC = () => {
           <div className="text-sm text-slate-400">
             Khu vực quản trị / <span className="text-slate-200 font-semibold">{location.pathname}</span>
           </div>
-
-          <div className="flex items-center gap-3">
-            <Link
-              to="/"
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-800 text-slate-300 hover:text-amber-400 text-xs font-semibold border border-slate-700 transition"
-            >
-              <ArrowLeft className="w-3.5 h-3.5" />
-              <span>Xem trang bảo tàng</span>
-            </Link>
-            <span className="text-xs text-slate-400 font-mono">
-              Bảo tàng Chứng tích Chiến tranh
-            </span>
-          </div>
         </header>
 
         <main className="p-4 sm:p-6 flex-1 pb-16 md:pb-6">

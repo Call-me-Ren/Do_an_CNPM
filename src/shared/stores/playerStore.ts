@@ -47,6 +47,10 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
   startCueIndex: 0,
 
   playArtifact: (artifact, startCueIndex = 0, startTime = 0, autoShowSubtitle = true) => {
+    // Immediately stop any existing playback (both audio file & speech synthesis)
+    // to strictly prevent any voice layering or dual audio tracks!
+    ttsService.stop();
+
     const lang = useLangStore.getState().currentLang;
     set({
       currentArtifact: artifact,

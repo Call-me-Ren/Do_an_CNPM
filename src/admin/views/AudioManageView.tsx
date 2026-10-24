@@ -149,6 +149,7 @@ export const AudioManageView: React.FC = () => {
       ttsService.stop();
       setPreviewPlaying(false);
     } else {
+      const audioUrl = selectedArtifact?.audio?.[selectedLang] || selectedArtifact?.audio?.['vi'];
       if (currentSubtitles.length > 0) {
         setPreviewPlaying(true);
         ttsService.playCues(
@@ -159,7 +160,8 @@ export const AudioManageView: React.FC = () => {
           {
             onFinish: () => setPreviewPlaying(false),
             onError: () => setPreviewPlaying(false)
-          }
+          },
+          audioUrl
         );
       } else if (currentDesc) {
         setPreviewPlaying(true);
