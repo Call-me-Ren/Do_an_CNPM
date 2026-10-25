@@ -21,6 +21,7 @@ export interface TTSCallbacks {
 export interface CueCallbacks {
   onCueChange?: (cueIndex: number, cue: SubtitleCue) => void;
   onCueProgress?: (cueIndex: number, currentSeconds: number) => void;
+  onDurationChange?: (duration: number) => void;
   onFinish?: () => void;
   onError?: (err: any) => void;
 }
@@ -278,13 +279,16 @@ class TTSService {
 
         const targetStartTime = cues[this.currentCueIndex]?.start || 0;
         if (targetStartTime > 0) {
-          audio.currentTime = targetStartTime;
+          audio.currentTime = Math.max(0, targetStartTime - 0.05);
         }
 
         audio.onloadedmetadata = () => {
           if (!this.isCuePlaying || !this.isAudioFileMode) return;
+          if (isFinite(audio.duration) && audio.duration > 0) {
+            this.cueCallbacks?.onDurationChange?.(audio.duration);
+          }
           if (targetStartTime > 0 && Math.abs(audio.currentTime - targetStartTime) > 0.5) {
-            audio.currentTime = targetStartTime;
+            audio.currentTime = Math.max(0, targetStartTime - 0.05);
           }
         };
 
@@ -306,11 +310,14 @@ class TTSService {
         audio.ontimeupdate = () => {
           if (!this.isCuePlaying || !this.isAudioFileMode) return;
           const curTime = audio.currentTime;
+          if (isFinite(audio.duration) && audio.duration > 0) {
+            this.cueCallbacks?.onDurationChange?.(audio.duration);
+          }
           let matchedIdx = this.activeCues.findIndex(
-            (c) => curTime >= c.start && curTime <= c.end
+            (c) => curTime >= c.start && curTime < c.end
           );
           if (matchedIdx === -1) {
-            if (curTime > (this.activeCues[this.activeCues.length - 1]?.end || 0)) {
+            if (curTime >= (this.activeCues[this.activeCues.length - 1]?.end || 0)) {
               matchedIdx = this.activeCues.length - 1;
             } else {
               matchedIdx = this.currentCueIndex;
@@ -333,6 +340,8 @@ class TTSService {
           this.isSpeaking = false;
           this.isCuePlaying = false;
           this.isPaused = false;
+          const finalTime = isFinite(audio.duration) && audio.duration > 0 ? audio.duration : audio.currentTime;
+          this.cueCallbacks?.onCueProgress?.(this.activeCues.length - 1, finalTime);
           this.cueCallbacks?.onFinish?.();
         };
 
@@ -477,7 +486,7 @@ class TTSService {
     if (this.isAudioFileMode && this.audioElement && cue) {
       // Single channel check: ensure speech synthesis is cancelled
       this.cancelSpeech();
-      this.audioElement.currentTime = cue.start;
+      this.audioElement.currentTime = Math.max(0, cue.start - 0.05);
       if (rate) this.audioElement.playbackRate = rate;
       if (this.audioElement.paused) {
         this.audioElement.play().catch(console.warn);

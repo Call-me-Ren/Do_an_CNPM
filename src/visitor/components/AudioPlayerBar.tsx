@@ -78,7 +78,14 @@ export const AudioPlayerBar: React.FC<Props> = ({ isDetailSheetOpen = false }) =
       onCueProgress: (_idx, curTime) => {
         setCurrentTime(curTime);
       },
+      onDurationChange: (dur) => {
+        if (dur > 0) {
+          setDuration(dur);
+        }
+      },
       onFinish: () => {
+        const curDur = usePlayerStore.getState().duration || totalDuration;
+        setCurrentTime(curDur);
         pause();
       },
       onError: (err) => {
