@@ -23,6 +23,7 @@ export interface Artifact {
   };
   audio: Partial<Record<SupportedLanguage, string>>;
   subtitles?: Partial<Record<SupportedLanguage, SubtitleCue[]>>;
+  createdAt?: number;
 }
 
 export interface Floor {

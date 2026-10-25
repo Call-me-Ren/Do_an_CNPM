@@ -246,11 +246,18 @@ export const FloorMapEditorView: React.FC = () => {
                           isSelected ? 'text-amber-400' : 'text-slate-500'
                         }`}
                       />
-                      <div className="min-w-0">
-                        <div className="text-[10px] font-mono font-bold text-amber-400/90">
-                          {art.code}
+                      <div className="min-w-0 flex-1">
+                        <div className="flex items-center gap-1.5">
+                          <span className="text-[10px] font-mono font-bold text-amber-400/90">
+                            {art.code}
+                          </span>
+                          {(art.createdAt || (!art.id.startsWith('WRM') && artifacts[0]?.id === art.id)) && (
+                            <span className="text-[9px] font-sans font-bold bg-amber-500 text-slate-950 px-1 py-0.2 rounded shadow-sm">
+                              MỚI
+                            </span>
+                          )}
                         </div>
-                        <div className="text-xs font-semibold truncate max-w-[160px] text-slate-200">
+                        <div className="text-xs font-semibold truncate max-w-[150px] text-slate-200">
                           {art.title['vi']}
                         </div>
                       </div>
@@ -294,6 +301,7 @@ export const FloorMapEditorView: React.FC = () => {
 
                 {floorArtifacts.map((art) => {
                   const isSelected = selectedArtifactId === art.id;
+                  const isNewest = artifacts[0]?.id === art.id;
                   const leftPercent = (art.mapCoordinates.x / currentFloor.bounds.width) * 100;
                   const topPercent = (art.mapCoordinates.y / currentFloor.bounds.height) * 100;
 
@@ -303,7 +311,9 @@ export const FloorMapEditorView: React.FC = () => {
                       style={{ left: `${leftPercent}%`, top: `${topPercent}%` }}
                       className={`absolute -translate-x-1/2 -translate-y-1/2 flex items-center justify-center p-2 rounded-full shadow-2xl transition-all ${
                         isSelected
-                          ? 'bg-amber-400 text-slate-950 scale-125 ring-4 ring-amber-400/50 z-20 animate-pulse'
+                          ? 'bg-amber-400 text-slate-950 scale-125 ring-4 ring-amber-400/50 z-30 animate-pulse'
+                          : isNewest
+                          ? 'bg-amber-500 text-slate-950 ring-2 ring-amber-400/80 hover:scale-110 z-20 shadow-amber-500/30'
                           : 'bg-slate-900/90 text-white border border-slate-600 hover:scale-110 z-10'
                       }`}
                       title={`${art.code} - ${art.title['vi']}`}

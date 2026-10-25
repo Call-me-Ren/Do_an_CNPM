@@ -49,7 +49,27 @@ export const museumApi = {
         const customArtifactsRaw = localStorage.getItem(STORAGE_CUSTOM_ARTIFACTS);
         if (customArtifactsRaw) {
           const customArtifacts: Artifact[] = JSON.parse(customArtifactsRaw);
-          data.artifacts = customArtifacts;
+          const defaultIds = new Set([
+            'WRM001', 'WRM002', 'WRM003', 'WRM004', 'WRM005',
+            'WRM006', 'WRM007', 'WRM008', 'WRM009', 'WRM010',
+            'WRM011', 'WRM012', 'WRM013', 'WRM014', 'WRM015'
+          ]);
+
+          const userAdded: Artifact[] = [];
+          const originalList: Artifact[] = [];
+
+          customArtifacts.forEach((art) => {
+            if (!defaultIds.has(art.id) || art.createdAt || art.code?.startsWith('HV-')) {
+              userAdded.push(art);
+            } else {
+              originalList.push(art);
+            }
+          });
+
+          // Sort user-added by createdAt descending if present
+          userAdded.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+
+          data.artifacts = [...userAdded, ...originalList];
         }
       } catch {
         // Fall back to json

@@ -192,7 +192,8 @@ export const ArtifactsManageView: React.FC = () => {
         description: { ...formDescriptions },
         images: [formImageUrl.trim() || 'https://images.unsplash.com/photo-1544967082-d9d25d867d66?auto=format&fit=crop&w=800&q=80'],
         mapCoordinates: { x: 300, y: 300 },
-        audio: {}
+        audio: {},
+        createdAt: Date.now()
       };
       const updatedArtifacts = [newArtifact, ...artifacts];
       setArtifacts(updatedArtifacts);
@@ -251,7 +252,14 @@ export const ArtifactsManageView: React.FC = () => {
                 {artifacts.map((item) => (
                   <tr key={item.id} className="hover:bg-slate-750 transition-colors">
                     <td className="py-3.5 px-4 font-mono font-semibold text-amber-400">
-                      {item.code}
+                      <div className="flex items-center gap-1.5">
+                        <span>{item.code}</span>
+                        {(item.createdAt || (!item.id.startsWith('WRM') && artifacts[0]?.id === item.id)) && (
+                          <span className="text-[10px] font-sans font-bold bg-amber-500 text-slate-950 px-1.5 py-0.5 rounded shadow-sm">
+                            MỚI
+                          </span>
+                        )}
+                      </div>
                     </td>
                     <td className="py-3.5 px-4 font-medium text-white flex items-center gap-3">
                       <img

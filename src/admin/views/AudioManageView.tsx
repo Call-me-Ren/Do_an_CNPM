@@ -299,7 +299,14 @@ export const AudioManageView: React.FC = () => {
                   className="w-10 h-10 rounded-lg object-cover shrink-0"
                 />
                 <div className="min-w-0 flex-1">
-                  <div className="text-xs font-mono font-bold text-amber-500">{art.code}</div>
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-xs font-mono font-bold text-amber-500">{art.code}</span>
+                    {(art.createdAt || (!art.id.startsWith('WRM') && artifacts[0]?.id === art.id)) && (
+                      <span className="text-[10px] font-sans font-bold bg-amber-500 text-slate-950 px-1.5 py-0.5 rounded shadow-sm">
+                        MỚI
+                      </span>
+                    )}
+                  </div>
                   <div className="font-medium text-sm text-slate-200 truncate">
                     {art.title['vi']}
                   </div>
