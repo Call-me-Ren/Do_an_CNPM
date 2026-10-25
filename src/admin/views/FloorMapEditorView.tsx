@@ -26,7 +26,11 @@ export const FloorMapEditorView: React.FC = () => {
       setFloors(res.floors);
       setArtifacts(res.artifacts);
       if (res.artifacts.length > 0) {
-        setSelectedArtifactId(res.artifacts[0].id);
+        const topArtifact = res.artifacts[0];
+        setSelectedArtifactId(topArtifact.id);
+        if (topArtifact.floorId) {
+          setSelectedFloorId(topArtifact.floorId);
+        }
       }
     });
   }, []);
@@ -152,7 +156,15 @@ export const FloorMapEditorView: React.FC = () => {
         {floors.map((f) => (
           <button
             key={f.id}
-            onClick={() => setSelectedFloorId(f.id)}
+            onClick={() => {
+              setSelectedFloorId(f.id);
+              const floorArts = artifacts.filter((a) => a.floorId === f.id);
+              if (floorArts.length > 0) {
+                setSelectedArtifactId(floorArts[0].id);
+              } else {
+                setSelectedArtifactId(null);
+              }
+            }}
             className={`px-4 py-2 rounded-xl font-bold transition shrink-0 ${
               selectedFloorId === f.id
                 ? 'bg-amber-500 text-slate-950 shadow-md'

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Artifact, SupportedLanguage, SubtitleCue } from '../../shared/types';
 import { museumApi } from '../../shared/services/api';
 import { ttsService } from '../../shared/services/tts';
+import { resolveAssetUrl, getArtifactFallbackImage } from '../../shared/utils/assetHelper';
 import { AlertModal } from '../../shared/components/AlertModal';
 import {
   Music,
@@ -13,7 +14,9 @@ import {
   AlertCircle,
   FileAudio,
   Trash2,
-  FileText
+  FileText,
+  Plus,
+  X
 } from 'lucide-react';
 
 export const AudioManageView: React.FC = () => {
@@ -24,6 +27,10 @@ export const AudioManageView: React.FC = () => {
   const [uploadProgress, setUploadProgress] = useState(0);
   const [previewPlaying, setPreviewPlaying] = useState(false);
   const [deletingCueIndex, setDeletingCueIndex] = useState<number | null>(null);
+  const [isAddingCue, setIsAddingCue] = useState(false);
+  const [newCueStart, setNewCueStart] = useState(0);
+  const [newCueEnd, setNewCueEnd] = useState(5);
+  const [newCueText, setNewCueText] = useState('');
   const [modalAlert, setModalAlert] = useState<{
     title?: string;
     message: string;
@@ -53,7 +60,7 @@ export const AudioManageView: React.FC = () => {
 
   const handleSimulateUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (!file) return;
+    if (!file || !selectedArtifact) return;
 
     if (file.size > 50 * 1024 * 1024) {
       setModalAlert({
@@ -66,21 +73,40 @@ export const AudioManageView: React.FC = () => {
 
     setIsUploading(true);
     setUploadProgress(10);
-    const interval = setInterval(() => {
-      setUploadProgress((prev) => {
-        if (prev >= 100) {
-          clearInterval(interval);
-          setIsUploading(false);
-          setModalAlert({
-            title: 'Tải Lên Thành Công',
-            message: `Đã tải lên tệp âm thanh [${file.name}] cho ngôn ngữ [${selectedLang.toUpperCase()}] thành công!`,
-            type: 'success'
-          });
-          return 100;
-        }
-        return prev + 30;
-      });
-    }, 400);
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const dataUrl = event.target?.result as string;
+      const interval = setInterval(() => {
+        setUploadProgress((prev) => {
+          if (prev >= 100) {
+            clearInterval(interval);
+            setIsUploading(false);
+
+            if (dataUrl && selectedArtifact) {
+              const updatedAudio = {
+                ...(selectedArtifact.audio || {}),
+                [selectedLang]: dataUrl
+              };
+              const updatedArt = { ...selectedArtifact, audio: updatedAudio };
+              setSelectedArtifact(updatedArt);
+              const updatedArtifacts = artifacts.map((a) => (a.id === updatedArt.id ? updatedArt : a));
+              setArtifacts(updatedArtifacts);
+              museumApi.saveCustomArtifacts(updatedArtifacts);
+            }
+
+            setModalAlert({
+              title: 'Tải Lên Thành Công',
+              message: `Đã tải lên tệp âm thanh [${file.name}] cho ngôn ngữ [${selectedLang.toUpperCase()}] thành công!`,
+              type: 'success'
+            });
+            return 100;
+          }
+          return prev + 30;
+        });
+      }, 300);
+    };
+    reader.readAsDataURL(file);
   };
 
   const handleSubtitleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -115,9 +141,12 @@ export const AudioManageView: React.FC = () => {
         }
 
         if (newCues.length > 0) {
+          const currentList = selectedArtifact.subtitles?.[selectedLang] || [];
+          // Prepend newly imported subtitle cues to the top
+          const nextList = [...newCues, ...currentList];
           const updatedSubtitles = {
             ...(selectedArtifact.subtitles || {}),
-            [selectedLang]: newCues
+            [selectedLang]: nextList
           };
           const updatedArt = { ...selectedArtifact, subtitles: updatedSubtitles };
           setSelectedArtifact(updatedArt);
@@ -126,7 +155,7 @@ export const AudioManageView: React.FC = () => {
           museumApi.saveCustomArtifacts(updatedArtifacts);
           setModalAlert({
             title: 'Nhập Phụ Đề Thành Công',
-            message: `Đã nhập thành công ${newCues.length} mốc phụ đề từ tệp [${file.name}]!`,
+            message: `Đã nhập thành công ${newCues.length} mốc phụ đề từ tệp [${file.name}] vào đầu danh sách!`,
             type: 'success'
           });
         }
@@ -139,6 +168,41 @@ export const AudioManageView: React.FC = () => {
       }
     };
     reader.readAsText(file);
+  };
+
+  const handleAddCue = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newCueText.trim() || !selectedArtifact) return;
+
+    const newCue: SubtitleCue = {
+      start: Number(newCueStart),
+      end: Number(newCueEnd),
+      text: newCueText.trim()
+    };
+
+    const currentList = selectedArtifact.subtitles?.[selectedLang] || [];
+    // Newly added subtitle cue appears at the top!
+    const nextList = [newCue, ...currentList];
+
+    const updatedSubtitles = {
+      ...(selectedArtifact.subtitles || {}),
+      [selectedLang]: nextList
+    };
+    const updatedArt = { ...selectedArtifact, subtitles: updatedSubtitles };
+    setSelectedArtifact(updatedArt);
+    const updatedArtifacts = artifacts.map((a) => (a.id === updatedArt.id ? updatedArt : a));
+    setArtifacts(updatedArtifacts);
+    museumApi.saveCustomArtifacts(updatedArtifacts);
+
+    setNewCueText('');
+    setNewCueStart(0);
+    setNewCueEnd(5);
+    setIsAddingCue(false);
+    setModalAlert({
+      title: 'Thành Công',
+      message: 'Đã thêm mốc phụ đề mới vào đầu danh sách!',
+      type: 'success'
+    });
   };
 
   const currentSubtitles: SubtitleCue[] = selectedArtifact?.subtitles?.[selectedLang] || [];
@@ -226,8 +290,12 @@ export const AudioManageView: React.FC = () => {
                 }`}
               >
                 <img
-                  src={art.images[0]}
+                  src={resolveAssetUrl(art.images[0])}
                   alt={art.title['vi']}
+                  onError={(e) => {
+                    e.currentTarget.onerror = null;
+                    e.currentTarget.src = getArtifactFallbackImage(art.code, art.title['vi'], art.floorId);
+                  }}
                   className="w-10 h-10 rounded-lg object-cover shrink-0"
                 />
                 <div className="min-w-0 flex-1">
@@ -344,23 +412,35 @@ export const AudioManageView: React.FC = () => {
 
               {/* Subtitles Cue List */}
               <div className="flex flex-col gap-3">
-                <div className="flex items-center justify-between">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                   <h4 className="font-bold text-white text-sm flex items-center gap-2">
                     <Subtitles className="w-4 h-4 text-amber-500" />
                     <span>Phụ Đề Đồng Bộ Thời Gian ({currentSubtitles.length} mốc)</span>
                   </h4>
 
-                  {/* Upload file phụ đề tự động đồng bộ */}
-                  <label className="text-xs text-amber-400 hover:text-amber-300 font-semibold cursor-pointer flex items-center gap-1.5 bg-slate-900 border border-slate-700 px-3 py-1.5 rounded-xl transition">
-                    <FileText className="w-3.5 h-3.5" />
-                    <span>Nhập file phụ đề (.srt, .vtt, .txt, .json)</span>
-                    <input
-                      type="file"
-                      accept=".srt,.vtt,.txt,.json"
-                      onChange={handleSubtitleFileUpload}
-                      className="hidden"
-                    />
-                  </label>
+                  <div className="flex items-center gap-2">
+                    {/* Thêm mốc phụ đề mới lên đầu */}
+                    <button
+                      type="button"
+                      onClick={() => setIsAddingCue(true)}
+                      className="text-xs text-slate-950 font-bold bg-amber-500 hover:bg-amber-600 px-3 py-1.5 rounded-xl transition flex items-center gap-1.5 shadow"
+                    >
+                      <Plus className="w-3.5 h-3.5" />
+                      <span>Thêm mốc phụ đề</span>
+                    </button>
+
+                    {/* Upload file phụ đề tự động đồng bộ */}
+                    <label className="text-xs text-amber-400 hover:text-amber-300 font-semibold cursor-pointer flex items-center gap-1.5 bg-slate-900 border border-slate-700 px-3 py-1.5 rounded-xl transition">
+                      <FileText className="w-3.5 h-3.5" />
+                      <span>Nhập file (.srt, .vtt)</span>
+                      <input
+                        type="file"
+                        accept=".srt,.vtt,.txt,.json"
+                        onChange={handleSubtitleFileUpload}
+                        className="hidden"
+                      />
+                    </label>
+                  </div>
                 </div>
 
                 {currentSubtitles.length === 0 ? (
@@ -430,6 +510,84 @@ export const AudioManageView: React.FC = () => {
                 Xác nhận xóa
               </button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Add Subtitle Cue Modal */}
+      {isAddingCue && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/70 backdrop-blur-sm p-4 animate-fade-in">
+          <div className="bg-slate-800 border border-slate-700 rounded-3xl p-6 w-full max-w-md shadow-2xl flex flex-col gap-4 text-white">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-700">
+              <h3 className="text-base font-bold text-white flex items-center gap-2">
+                <Plus className="w-4 h-4 text-amber-400" />
+                <span>Thêm Mốc Phụ Đề Mới ({selectedLang.toUpperCase()})</span>
+              </h3>
+              <button
+                type="button"
+                onClick={() => setIsAddingCue(false)}
+                className="text-slate-400 hover:text-white p-1 rounded-lg transition"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <form onSubmit={handleAddCue} className="flex flex-col gap-4">
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="text-xs text-slate-400 mb-1 block">Bắt đầu (giây)</label>
+                  <input
+                    type="number"
+                    min="0"
+                    step="0.5"
+                    value={newCueStart}
+                    onChange={(e) => setNewCueStart(parseFloat(e.target.value) || 0)}
+                    className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:ring-2 focus:ring-amber-500"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="text-xs text-slate-400 mb-1 block">Kết thúc (giây)</label>
+                  <input
+                    type="number"
+                    min="0"
+                    step="0.5"
+                    value={newCueEnd}
+                    onChange={(e) => setNewCueEnd(parseFloat(e.target.value) || 0)}
+                    className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:ring-2 focus:ring-amber-500"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="text-xs text-slate-400 mb-1 block">Nội dung phụ đề</label>
+                <textarea
+                  rows={3}
+                  value={newCueText}
+                  onChange={(e) => setNewCueText(e.target.value)}
+                  placeholder="Nhập câu phụ đề thuyết minh..."
+                  className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:ring-2 focus:ring-amber-500 resize-none"
+                  required
+                />
+              </div>
+
+              <div className="flex items-center justify-end gap-2 pt-2 border-t border-slate-700">
+                <button
+                  type="button"
+                  onClick={() => setIsAddingCue(false)}
+                  className="px-4 py-2 rounded-xl border border-slate-600 hover:bg-slate-700 text-slate-300 font-bold text-xs transition"
+                >
+                  Hủy
+                </button>
+                <button
+                  type="submit"
+                  className="px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-xs transition shadow-md shadow-amber-500/20"
+                >
+                  Thêm lên đầu danh sách
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       )}

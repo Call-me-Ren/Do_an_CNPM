@@ -9,7 +9,6 @@ import {
   Map,
   BarChart3,
   Calendar,
-  QrCode,
   LogOut,
   ShieldAlert,
   Menu,
@@ -38,10 +37,9 @@ export const AdminLayout: React.FC = () => {
 
   const menuItems = [
     { path: '/admin', label: 'Dashboard Trực Quan', icon: LayoutDashboard },
-    { path: '/admin/artifacts', label: 'Quản Lý Hiện Vật', icon: Package },
+    { path: '/admin/artifacts', label: 'Quản Lý Hiện Vật & QR', icon: Package },
     { path: '/admin/audio', label: 'Tệp Âm Thanh & Sub', icon: Music },
     { path: '/admin/maps', label: 'Sơ Đồ Khu Vực', icon: Map },
-    { path: '/admin/qr', label: 'Quản Lý Mã QR', icon: QrCode },
     { path: '/admin/sessions', label: 'Quản Lý Phiên', icon: Calendar },
     { path: '/admin/analytics', label: 'Báo Cáo Thống Kê', icon: BarChart3 },
   ];

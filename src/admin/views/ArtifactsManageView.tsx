@@ -3,12 +3,33 @@ import { Artifact, SupportedLanguage } from '../../shared/types';
 import { museumApi } from '../../shared/services/api';
 import { resolveAssetUrl, getArtifactFallbackImage } from '../../shared/utils/assetHelper';
 import { AlertModal } from '../../shared/components/AlertModal';
-import { Plus, Edit, Trash2, CheckCircle2, AlertCircle, X, FolderOpen } from 'lucide-react';
+import QRCode from 'qrcode';
+import {
+  Plus,
+  Edit,
+  Trash2,
+  CheckCircle2,
+  AlertCircle,
+  X,
+  FolderOpen,
+  QrCode,
+  Download,
+  Printer,
+  Copy,
+  Check,
+  ExternalLink
+} from 'lucide-react';
 
 export const ArtifactsManageView: React.FC = () => {
   const [artifacts, setArtifacts] = useState<Artifact[]>([]);
   const [loading, setLoading] = useState(true);
   const [alertMessage, setAlertMessage] = useState<string | null>(null);
+
+  // QR Modal State
+  const [selectedQrTarget, setSelectedQrTarget] = useState<Artifact | 'GATE' | null>(null);
+  const [qrCopied, setQrCopied] = useState(false);
+  const qrCanvasRef = useRef<HTMLCanvasElement | null>(null);
+  const baseUrl = window.location.origin + (import.meta.env.BASE_URL || '/');
 
   // Modal State
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -57,6 +78,55 @@ export const ArtifactsManageView: React.FC = () => {
       setLoading(false);
     });
   }, []);
+
+  useEffect(() => {
+    if (selectedQrTarget && qrCanvasRef.current) {
+      const activeUrl =
+        selectedQrTarget === 'GATE'
+          ? baseUrl
+          : `${baseUrl}?artifact=${selectedQrTarget.id}`;
+
+      QRCode.toCanvas(
+        qrCanvasRef.current,
+        activeUrl,
+        {
+          width: 220,
+          margin: 2,
+          color: {
+            dark: '#0f172a',
+            light: '#ffffff'
+          }
+        },
+        (error) => {
+          if (error) console.error(error);
+        }
+      );
+    }
+  }, [selectedQrTarget]);
+
+  const handleDownloadQr = () => {
+    if (!qrCanvasRef.current || !selectedQrTarget) return;
+    const link = document.createElement('a');
+    const name = selectedQrTarget === 'GATE' ? 'Cong_Bao_Tang' : selectedQrTarget.code;
+    link.download = `QR_${name}.png`;
+    link.href = qrCanvasRef.current.toDataURL('image/png');
+    link.click();
+  };
+
+  const handleCopyQrUrl = () => {
+    if (!selectedQrTarget) return;
+    const activeUrl =
+      selectedQrTarget === 'GATE'
+        ? baseUrl
+        : `${baseUrl}?artifact=${selectedQrTarget.id}`;
+    navigator.clipboard.writeText(activeUrl);
+    setQrCopied(true);
+    setTimeout(() => setQrCopied(false), 2000);
+  };
+
+  const handlePrintQr = () => {
+    window.print();
+  };
 
   const langs: { code: SupportedLanguage; label: string }[] = [
     { code: 'vi', label: 'Tiếng Việt' },
@@ -124,7 +194,7 @@ export const ArtifactsManageView: React.FC = () => {
         mapCoordinates: { x: 300, y: 300 },
         audio: {}
       };
-      const updatedArtifacts = [...artifacts, newArtifact];
+      const updatedArtifacts = [newArtifact, ...artifacts];
       setArtifacts(updatedArtifacts);
       museumApi.saveCustomArtifacts(updatedArtifacts);
     }
@@ -142,13 +212,24 @@ export const ArtifactsManageView: React.FC = () => {
           </p>
         </div>
 
-        <button
-          onClick={handleOpenAdd}
-          className="flex items-center gap-2 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-4 py-2 rounded-xl text-sm transition shadow-md"
-        >
-          <Plus className="w-4 h-4" />
-          <span>Thêm Hiện Vật Mới</span>
-        </button>
+        <div className="flex items-center gap-2.5">
+          <button
+            onClick={() => setSelectedQrTarget('GATE')}
+            className="flex items-center gap-2 bg-slate-800 hover:bg-slate-750 text-amber-400 border border-amber-500/30 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold transition shadow-sm"
+            title="Xem và xuất mã QR cổng chính / trang chủ bảo tàng"
+          >
+            <QrCode className="w-4 h-4 text-amber-500" />
+            <span>Mã QR Cổng Bảo Tàng</span>
+          </button>
+
+          <button
+            onClick={handleOpenAdd}
+            className="flex items-center gap-2 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-4 py-2 rounded-xl text-xs sm:text-sm transition shadow-md"
+          >
+            <Plus className="w-4 h-4" />
+            <span>Thêm Hiện Vật Mới</span>
+          </button>
+        </div>
       </div>
 
       {loading ? (
@@ -220,17 +301,24 @@ export const ArtifactsManageView: React.FC = () => {
                       </div>
                     </td>
                     <td className="py-3.5 px-4 text-right">
-                      <div className="flex items-center justify-end gap-2">
+                      <div className="flex items-center justify-end gap-1.5">
+                        <button
+                          onClick={() => setSelectedQrTarget(item)}
+                          className="p-1.5 text-slate-400 hover:text-amber-400 hover:bg-slate-700/60 rounded-lg transition"
+                          title="Xem & Xuất mã QR trưng bày"
+                        >
+                          <QrCode className="w-4 h-4" />
+                        </button>
                         <button
                           onClick={() => handleOpenEdit(item)}
-                          className="p-1.5 text-slate-400 hover:text-amber-400 rounded-lg transition"
+                          className="p-1.5 text-slate-400 hover:text-amber-400 hover:bg-slate-700/60 rounded-lg transition"
                           title="Chỉnh sửa"
                         >
                           <Edit className="w-4 h-4" />
                         </button>
                         <button
                           onClick={() => setDeletingArtifact({ id: item.id, code: item.code, title: item.title['vi'] || item.code })}
-                          className="p-1.5 text-slate-400 hover:text-red-400 rounded-lg transition"
+                          className="p-1.5 text-slate-400 hover:text-red-400 hover:bg-slate-700/60 rounded-lg transition"
                           title="Xóa"
                         >
                           <Trash2 className="w-4 h-4" />
@@ -426,6 +514,107 @@ export const ArtifactsManageView: React.FC = () => {
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* QR Code Modal Popup */}
+      {selectedQrTarget && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-sm p-4 animate-fade-in">
+          <div className="bg-slate-800 border border-slate-700 rounded-3xl p-6 w-full max-w-lg shadow-2xl flex flex-col gap-5 text-white">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-700">
+              <h3 className="font-bold text-base text-white flex items-center gap-2">
+                <QrCode className="w-5 h-5 text-amber-500" />
+                <span>
+                  {selectedQrTarget === 'GATE'
+                    ? 'Mã QR Cổng Chính Bảo Tàng'
+                    : `Mã QR Hiện Vật [${selectedQrTarget.code}]`}
+                </span>
+              </h3>
+              <button
+                type="button"
+                onClick={() => setSelectedQrTarget(null)}
+                className="text-slate-400 hover:text-white p-1 rounded-lg transition"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <div className="flex flex-col items-center gap-4">
+              <div className="bg-white p-4 rounded-2xl shadow-xl flex flex-col items-center gap-2 border-4 border-amber-500/40">
+                <canvas ref={qrCanvasRef} className="rounded-lg"></canvas>
+                <div className="text-center">
+                  <div className="font-bold text-slate-900 text-sm">
+                    {selectedQrTarget === 'GATE'
+                      ? 'Bảo Tàng Lịch Sử'
+                      : selectedQrTarget.title['vi']}
+                  </div>
+                  <div className="text-xs text-amber-600 font-mono font-semibold">
+                    {selectedQrTarget === 'GATE'
+                      ? 'CỔNG CHÍNH BẢO TÀNG'
+                      : `MÃ: ${selectedQrTarget.code} • TẦNG ${selectedQrTarget.floorId}`}
+                  </div>
+                </div>
+              </div>
+
+              {/* URL input */}
+              <div className="w-full flex flex-col gap-1.5">
+                <span className="text-xs text-slate-400 font-semibold uppercase">Đường dẫn quét QR:</span>
+                <div className="flex items-center gap-2 bg-slate-900 border border-slate-700 rounded-xl px-3 py-2">
+                  <input
+                    type="text"
+                    value={
+                      selectedQrTarget === 'GATE'
+                        ? baseUrl
+                        : `${baseUrl}?artifact=${selectedQrTarget.id}`
+                    }
+                    readOnly
+                    className="bg-transparent text-xs font-mono text-slate-300 flex-1 outline-none"
+                  />
+                  <button
+                    type="button"
+                    onClick={handleCopyQrUrl}
+                    className="p-1.5 text-slate-400 hover:text-white rounded-lg transition"
+                    title="Sao chép liên kết"
+                  >
+                    {qrCopied ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4" />}
+                  </button>
+                </div>
+              </div>
+
+              {/* Action buttons */}
+              <div className="flex items-center gap-3 w-full justify-center pt-2">
+                <button
+                  type="button"
+                  onClick={handleDownloadQr}
+                  className="flex-1 flex items-center justify-center gap-2 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-4 py-2.5 rounded-xl text-xs transition shadow-md"
+                >
+                  <Download className="w-4 h-4" />
+                  <span>Tải ảnh PNG</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={handlePrintQr}
+                  className="flex-1 flex items-center justify-center gap-2 bg-slate-700 hover:bg-slate-650 text-white font-semibold px-4 py-2.5 rounded-xl text-xs transition border border-slate-600"
+                >
+                  <Printer className="w-4 h-4" />
+                  <span>In bản mã QR</span>
+                </button>
+                <a
+                  href={
+                    selectedQrTarget === 'GATE'
+                      ? baseUrl
+                      : `${baseUrl}?artifact=${selectedQrTarget.id}`
+                  }
+                  target="_blank"
+                  rel="noreferrer"
+                  className="p-2.5 bg-slate-700 hover:bg-slate-650 text-slate-300 hover:text-white rounded-xl transition border border-slate-600"
+                  title="Mở thử nghiệm giao diện khách"
+                >
+                  <ExternalLink className="w-4 h-4" />
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       )}
