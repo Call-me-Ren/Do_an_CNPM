@@ -10,16 +10,18 @@ const basePath =
     ? ''
     : rawBase;
 
-const STORAGE_CUSTOM_FLOORS = 'museum_custom_floors_v2';
-const STORAGE_CUSTOM_ARTIFACTS = 'museum_custom_artifacts_v2';
+const STORAGE_CUSTOM_FLOORS = 'museum_custom_floors_v3';
+const STORAGE_CUSTOM_ARTIFACTS = 'museum_custom_artifacts_v3';
 
 export const museumApi = {
   getMuseumData: async (): Promise<MuseumData> => {
-    // Clear legacy v1 cached artifacts to prevent stale shared images
+    // Clear legacy cached artifacts to prevent stale shared images and old uncalibrated subtitles
     if (typeof window !== 'undefined') {
       try {
         localStorage.removeItem('museum_custom_artifacts_v1');
         localStorage.removeItem('museum_custom_floors_v1');
+        localStorage.removeItem('museum_custom_artifacts_v2');
+        localStorage.removeItem('museum_custom_floors_v2');
       } catch {
         // ignore
       }
@@ -56,20 +58,27 @@ export const museumApi = {
           ]);
 
           const userAdded: Artifact[] = [];
-          const originalList: Artifact[] = [];
-
           customArtifacts.forEach((art) => {
             if (!defaultIds.has(art.id) || art.createdAt || art.code?.startsWith('HV-')) {
               userAdded.push(art);
-            } else {
-              originalList.push(art);
             }
           });
 
           // Sort user-added by createdAt descending if present
           userAdded.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
 
-          data.artifacts = [...userAdded, ...originalList];
+          // Default artifacts ALWAYS retain fresh audio and calibrated subtitles from json,
+          // only preserving custom mapCoordinates if edited on the floor map
+          data.artifacts = data.artifacts.map((defaultArt) => {
+            const saved = customArtifacts.find((c) => c.id === defaultArt.id);
+            if (saved && saved.mapCoordinates) {
+              return { ...defaultArt, mapCoordinates: saved.mapCoordinates };
+            }
+            return defaultArt;
+          });
+
+          // Newly added artifacts are kept at the top
+          data.artifacts = [...userAdded, ...data.artifacts];
         }
       } catch {
         // Fall back to json

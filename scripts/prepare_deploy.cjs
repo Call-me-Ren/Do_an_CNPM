@@ -53,4 +53,16 @@ if (fs.existsSync(path.join(distDir, 'audio'))) {
   console.log('Copied dist/audio -> audio/');
 }
 
+// 6. Ensure .nojekyll in root, docs, and dist to prevent GitHub Pages from blocking SPA files
+fs.writeFileSync(path.join(rootDir, '.nojekyll'), '');
+fs.writeFileSync(path.join(docsDir, '.nojekyll'), '');
+fs.writeFileSync(path.join(distDir, '.nojekyll'), '');
+console.log('Created .nojekyll in root, docs/, and dist/');
+
+// 7. Ensure mock folder is in root as well
+if (fs.existsSync(path.join(distDir, 'mock'))) {
+  copyFolderSync(path.join(distDir, 'mock'), path.join(rootDir, 'mock'));
+  console.log('Copied dist/mock -> mock/');
+}
+
 console.log('Deploy prep completed successfully!');

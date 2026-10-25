@@ -80,12 +80,15 @@ export const AudioPlayerBar: React.FC<Props> = ({ isDetailSheetOpen = false }) =
       },
       onDurationChange: (dur) => {
         if (dur > 0) {
-          setDuration(dur);
+          const currentStoreDur = usePlayerStore.getState().duration;
+          if (!currentStoreDur || Math.abs(currentStoreDur - dur) > 0.8) {
+            setDuration(Math.round(dur * 10) / 10);
+          }
         }
       },
       onFinish: () => {
-        const curDur = usePlayerStore.getState().duration || totalDuration;
-        setCurrentTime(curDur);
+        const finalDur = usePlayerStore.getState().duration || totalDuration;
+        setCurrentTime(finalDur);
         pause();
       },
       onError: (err) => {
@@ -132,8 +135,9 @@ export const AudioPlayerBar: React.FC<Props> = ({ isDetailSheetOpen = false }) =
 
   const formatTime = (secs: number) => {
     if (isNaN(secs) || secs < 0) return '0:00';
-    const m = Math.floor(secs / 60);
-    const s = Math.floor(secs % 60);
+    const rounded = Math.round(secs);
+    const m = Math.floor(rounded / 60);
+    const s = rounded % 60;
     return `${m}:${s < 10 ? '0' : ''}${s}`;
   };
 
@@ -195,7 +199,7 @@ export const AudioPlayerBar: React.FC<Props> = ({ isDetailSheetOpen = false }) =
               type="range"
               min={0}
               max={duration || totalDuration || 100}
-              value={currentTime}
+              value={Math.min(currentTime, duration || totalDuration)}
               onChange={(e) => handleSeek(Number(e.target.value))}
               className="w-full accent-amber-500 h-1.5 bg-slate-700 rounded-lg cursor-pointer"
             />
