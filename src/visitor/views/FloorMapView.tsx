@@ -62,7 +62,23 @@ export const FloorMapView: React.FC<Props> = ({ floors, artifacts, onSelectArtif
               <img
                 src={resolveAssetUrl(currentFloor.mapImage)}
                 alt={currentFloor.name[currentLang] || currentFloor.name['vi']}
-                className="w-full h-full object-cover opacity-80"
+                className="w-full h-full object-cover opacity-100 transition-opacity"
+                onError={(e) => {
+                  const target = e.currentTarget;
+                  if (!target.dataset.retried) {
+                    target.dataset.retried = 'true';
+                    const currentSrc = target.src;
+                    if (currentSrc.includes('.jpg')) {
+                      target.src = currentSrc.replace(/\.jpg(\?.*)?$/, '.png$1');
+                      return;
+                    } else if (currentSrc.includes('.png')) {
+                      target.src = currentSrc.replace(/\.png(\?.*)?$/, '.jpg$1');
+                      return;
+                    }
+                  }
+                  target.onerror = null;
+                  target.src = resolveAssetUrl('/maps/floor_1_outdoor.png');
+                }}
               />
 
               {/* Pins on the Map */}

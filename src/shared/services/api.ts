@@ -10,7 +10,7 @@ const basePath =
     ? ''
     : rawBase;
 
-const STORAGE_CUSTOM_FLOORS = 'museum_custom_floors_v4';
+const STORAGE_CUSTOM_FLOORS = 'museum_custom_floors_v5';
 const STORAGE_CUSTOM_ARTIFACTS = 'museum_custom_artifacts_v3';
 
 export const museumApi = {
@@ -23,6 +23,7 @@ export const museumApi = {
         localStorage.removeItem('museum_custom_artifacts_v2');
         localStorage.removeItem('museum_custom_floors_v2');
         localStorage.removeItem('museum_custom_floors_v3');
+        localStorage.removeItem('museum_custom_floors_v4');
       } catch {
         // ignore
       }
@@ -30,7 +31,7 @@ export const museumApi = {
 
     let data: MuseumData;
     try {
-      const res = await axios.get<MuseumData>(`${basePath}/mock/museum_data.json`);
+      const res = await axios.get<MuseumData>(`${basePath}/mock/museum_data.json?t=${Date.now()}`);
       data = res.data;
     } catch {
       // Fallback to embedded data if network fetch is blocked, offline, or returns error
