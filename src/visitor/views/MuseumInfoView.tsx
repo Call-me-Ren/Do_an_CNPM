@@ -18,11 +18,11 @@ export const MuseumInfoView: React.FC<Props> = ({ museum }) => {
       {/* Web Hero Banner */}
       <div className="w-full h-64 sm:h-80 lg:h-96 rounded-3xl overflow-hidden shadow-xl relative border border-slate-200">
         <img
-          src={resolveAssetUrl(museum.banner || '/images/museum/war_remnants_museum_banner.svg')}
+          src={resolveAssetUrl(museum.banner || '/images/museum/Bảo tàng Chứng tích Chiến tranh thông tin.webp')}
           alt={museum.name[currentLang] || museum.name['vi']}
           onError={(e) => {
             e.currentTarget.onerror = null;
-            e.currentTarget.src = resolveAssetUrl('/images/museum/war_remnants_museum_banner.svg');
+            e.currentTarget.src = resolveAssetUrl('/images/museum/Bảo tàng Chứng tích Chiến tranh thông tin.webp');
           }}
           className="w-full h-full object-cover"
         />

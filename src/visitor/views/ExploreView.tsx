@@ -65,7 +65,16 @@ export const ExploreView: React.FC<Props> = ({ artifacts, onSelectArtifact }) =>
   return (
     <div className="flex flex-col gap-8 pb-32 w-full max-w-full min-w-0 overflow-x-hidden">
       {/* Web Hero & Search Section */}
-      <div className="bg-gradient-to-br from-slate-900 via-slate-850 to-slate-900 text-white rounded-3xl p-6 sm:p-8 lg:p-10 shadow-xl border border-slate-800 relative overflow-hidden">
+      <div className="bg-slate-900 text-white rounded-3xl p-6 sm:p-8 lg:p-10 shadow-xl border border-slate-800 relative overflow-hidden">
+        {/* Background Hero Image */}
+        <img
+          src={resolveAssetUrl('/images/museum/Bảo tàng Chứng tích Chiến tranh.jpg')}
+          alt="Bảo tàng Chứng tích Chiến tranh"
+          className="absolute inset-0 w-full h-full object-cover opacity-25 scale-105 pointer-events-none transition duration-700 hover:scale-100"
+        />
+        {/* Gradient Overlay for high text readability */}
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-950/95 via-slate-950/80 to-slate-900/60 pointer-events-none" />
+
         {/* Subtle decorative circles */}
         <div className="absolute top-0 right-0 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute -bottom-20 -left-20 w-80 h-80 bg-amber-600/10 rounded-full blur-2xl pointer-events-none" />
