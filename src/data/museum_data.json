@@ -262,7 +262,12 @@
             "text": "続いて隣に展示されている軍用機をご覧ください。"
           }
         ]
-      }
+      },
+      "geoCoordinates": {
+        "latitude": 10.779601,
+        "longitude": 106.691877
+      },
+      "triggerRadius": 12
     },
     {
       "id": "WRM002",
@@ -407,7 +412,12 @@
             "text": "歴史的転換点を物語る貴重な実機展示品です。"
           }
         ]
-      }
+      },
+      "geoCoordinates": {
+        "latitude": 10.779655,
+        "longitude": 106.692097
+      },
+      "triggerRadius": 12
     },
     {
       "id": "WRM003",
@@ -527,7 +537,12 @@
             "text": "ベトナム全土の大規模な部隊展開や補給作戦に投入されました。"
           }
         ]
-      }
+      },
+      "geoCoordinates": {
+        "latitude": 10.779547,
+        "longitude": 106.692345
+      },
+      "triggerRadius": 12
     },
     {
       "id": "WRM004",
@@ -622,7 +637,12 @@
             "text": "戦場の主力機として偵察、近接対地攻撃、負傷兵の救助など多用途に用いられました。"
           }
         ]
-      }
+      },
+      "geoCoordinates": {
+        "latitude": 10.779412,
+        "longitude": 106.692249
+      },
+      "triggerRadius": 12
     },
     {
       "id": "WRM005",
@@ -717,7 +737,12 @@
             "text": "1975年4月28日、解放軍パイロットが鹵獲したA-37でタンソンニャット空港を奇襲爆撃しました。"
           }
         ]
-      }
+      },
+      "geoCoordinates": {
+        "latitude": 10.779682,
+        "longitude": 106.692483
+      },
+      "triggerRadius": 12
     },
     {
       "id": "WRM006",
@@ -812,7 +837,12 @@
             "text": "34キロを超える長射程を持ち、解放区や村落への激しい砲撃に投入されました。"
           }
         ]
-      }
+      },
+      "geoCoordinates": {
+        "latitude": 10.779358,
+        "longitude": 106.69196
+      },
+      "triggerRadius": 12
     },
     {
       "id": "WRM007",
@@ -907,7 +937,12 @@
             "text": "重量約7トンで、C-130輸送機から投下され、ヘリ着陸帯を作るため密林を一掃しました。"
           }
         ]
-      }
+      },
+      "geoCoordinates": {
+        "latitude": 10.779358,
+        "longitude": 106.692565
+      },
+      "triggerRadius": 12
     },
     {
       "id": "WRM008",
@@ -1027,7 +1062,12 @@
             "text": "過酷な苦難の中でも、愛国者たちは不屈の信念を貫き通しました。"
           }
         ]
-      }
+      },
+      "geoCoordinates": {
+        "latitude": 10.779277,
+        "longitude": 106.691795
+      },
+      "triggerRadius": 12
     },
     {
       "id": "WRM009",
@@ -1122,7 +1162,12 @@
             "text": "10/59弾圧法の下で、南ベトナム各地を巡回して愛国者を公開処刑する凶器となりました。"
           }
         ]
-      }
+      },
+      "geoCoordinates": {
+        "latitude": 10.779412,
+        "longitude": 106.691822
+      },
+      "triggerRadius": 12
     },
     {
       "id": "WRM010",
@@ -1242,7 +1287,12 @@
             "text": "ナパーム弾で大火傷を負い泣き叫ぶ9歳の少女キム・フックの姿は世界に衝撃を与え、反戦運動を決定的に加速させました。"
           }
         ]
-      }
+      },
+      "geoCoordinates": {
+        "latitude": 10.779588,
+        "longitude": 106.692042
+      },
+      "triggerRadius": 12
     },
     {
       "id": "WRM011",
@@ -1337,7 +1387,12 @@
             "text": "裁判も経ず白昼の路上で処刑されたこの写真は、戦争の残虐性を世界に知らしめました。"
           }
         ]
-      }
+      },
+      "geoCoordinates": {
+        "latitude": 10.779588,
+        "longitude": 106.69229
+      },
+      "triggerRadius": 12
     },
     {
       "id": "WRM012",
@@ -1457,7 +1512,12 @@
             "text": "480万人以上が被曝し、数世代にわたり子どもたちに重い先天性障害が引き継がれています。"
           }
         ]
-      }
+      },
+      "geoCoordinates": {
+        "latitude": 10.779493,
+        "longitude": 106.692524
+      },
+      "triggerRadius": 12
     },
     {
       "id": "WRM013",
@@ -1577,7 +1637,12 @@
             "text": "一枚一枚の写真が、戦争の真実と平和を希求する切実な叫びを伝えています。"
           }
         ]
-      }
+      },
+      "geoCoordinates": {
+        "latitude": 10.779547,
+        "longitude": 106.692152
+      },
+      "triggerRadius": 12
     },
     {
       "id": "WRM014",
@@ -1672,7 +1737,12 @@
             "text": "戦争の不当性を痛感した多くの退役兵が、自身の勲章を悔悟のメッセージと共に博物館へ寄贈しました。"
           }
         ]
-      }
+      },
+      "geoCoordinates": {
+        "latitude": 10.77952,
+        "longitude": 106.691987
+      },
+      "triggerRadius": 12
     },
     {
       "id": "WRM015",
@@ -1767,7 +1837,12 @@
             "text": "過去の痛みを展示するのは憎悪のためではなく、全人類が平和の尊さを守り抜くためです。"
           }
         ]
-      }
+      },
+      "geoCoordinates": {
+        "latitude": 10.77952,
+        "longitude": 106.692428
+      },
+      "triggerRadius": 12
     }
   ]
 }

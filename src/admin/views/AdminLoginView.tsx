@@ -1,12 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAdminAuthStore } from '../../shared/stores/adminAuthStore';
-import { ShieldCheck, Lock, User, AlertCircle, ArrowLeft } from 'lucide-react';
+import { ShieldCheck, Lock, User, AlertCircle, ArrowLeft, Clock } from 'lucide-react';
+import {
+  getLockRemainingMs,
+  getAttemptsLeft,
+  registerFailedAttempt,
+  resetLoginLock,
+} from '../../shared/utils/loginLock';
 
 export const AdminLoginView: React.FC = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
+  const [lockRemainingSec, setLockRemainingSec] = useState<number>(() =>
+    Math.ceil(getLockRemainingMs() / 1000)
+  );
   const { login, isAuthenticated } = useAdminAuthStore();
   const navigate = useNavigate();
 
@@ -16,13 +25,41 @@ export const AdminLoginView: React.FC = () => {
     }
   }, [isAuthenticated, navigate]);
 
+  useEffect(() => {
+    if (lockRemainingSec <= 0) return;
+    const timer = setInterval(() => {
+      const sec = Math.ceil(getLockRemainingMs() / 1000);
+      setLockRemainingSec(sec);
+      if (sec <= 0) {
+        clearInterval(timer);
+        setError(null);
+      }
+    }, 1000);
+    return () => clearInterval(timer);
+  }, [lockRemainingSec]);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    const remaining = getLockRemainingMs();
+    if (remaining > 0) {
+      setLockRemainingSec(Math.ceil(remaining / 1000));
+      return;
+    }
+
     if (username.trim() === 'admin@museum.vn' && password === 'admin123') {
+      resetLoginLock();
       login('mock-jwt-token-xyz-123', 'Quản Trị Viên', 'ADMIN');
       navigate('/admin', { replace: true });
     } else {
-      setError('Tên đăng nhập hoặc mật khẩu không chính xác.');
+      const locked = registerFailedAttempt();
+      if (locked) {
+        const sec = Math.ceil(getLockRemainingMs() / 1000);
+        setLockRemainingSec(sec);
+        setError(`Bạn đã nhập sai quá 5 lần. Tài khoản bị tạm khóa trong ${Math.ceil(sec / 60)} phút.`);
+      } else {
+        const attemptsLeft = getAttemptsLeft();
+        setError(`Tên đăng nhập hoặc mật khẩu không chính xác. Còn lại ${attemptsLeft} lần thử trước khi bị khóa tạm thời.`);
+      }
     }
   };
 
@@ -90,9 +127,24 @@ export const AdminLoginView: React.FC = () => {
 
           <button
             type="submit"
-            className="w-full bg-amber-500 hover:bg-amber-600 font-semibold py-3 rounded-xl transition shadow-lg shadow-amber-500/20 text-white mt-2 cursor-pointer"
+            disabled={lockRemainingSec > 0}
+            className={`w-full font-semibold py-3 rounded-xl transition shadow-lg text-white mt-2 flex items-center justify-center gap-2 ${
+              lockRemainingSec > 0
+                ? 'bg-slate-700 text-slate-400 cursor-not-allowed shadow-none'
+                : 'bg-amber-500 hover:bg-amber-600 shadow-amber-500/20 cursor-pointer'
+            }`}
           >
-            Đăng nhập vào Dashboard
+            {lockRemainingSec > 0 ? (
+              <>
+                <Clock className="w-4 h-4 animate-spin" />
+                <span>
+                  Đang khóa tạm ({Math.floor(lockRemainingSec / 60)}:
+                  {String(lockRemainingSec % 60).padStart(2, '0')})
+                </span>
+              </>
+            ) : (
+              <span>Đăng nhập vào Dashboard</span>
+            )}
           </button>
         </form>
       </div>

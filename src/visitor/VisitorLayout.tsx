@@ -17,6 +17,13 @@ import { Compass, Map, Heart, Info, QrCode, Building2, ArrowUp } from 'lucide-re
 import { useTranslation } from 'react-i18next';
 import { AlertModal } from '../shared/components/AlertModal';
 import { Link } from 'react-router-dom';
+import { TrackingPanel } from './components/TrackingPanel';
+import {
+  MAX_ACCEPTABLE_ACCURACY,
+  findNearbyByGps,
+  findTriggered,
+} from '../shared/utils/geofence';
+import { parseQrPayload } from '../shared/utils/qrHelper';
 
 export const VisitorLayout: React.FC = () => {
   const { t } = useTranslation();
@@ -26,6 +33,7 @@ export const VisitorLayout: React.FC = () => {
   const [selectedArtifact, setSelectedArtifact] = useState<Artifact | null>(null);
   const [isQRScannerOpen, setIsQRScannerOpen] = useState(false);
   const [scanAlert, setScanAlert] = useState<string | null>(null);
+  const [scanAlertType, setScanAlertType] = useState<'info' | 'warning'>('warning');
   const [showScrollTop, setShowScrollTop] = useState(false);
 
   useEffect(() => {
@@ -40,7 +48,20 @@ export const VisitorLayout: React.FC = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const { setUserLocation, setNearestArtifactId, setIsTracking, setPermissionGranted } = useGeofenceStore();
+  const {
+    setUserLocation,
+    setNearestArtifactId,
+    setIsTracking,
+    setPermissionGranted,
+    trackingEnabled,
+    startTracking,
+    setAnchor,
+    setGpsStatus,
+    setAccuracy,
+    setNearby,
+    setSuggestion,
+    markHeard,
+  } = useGeofenceStore();
   const { playArtifact, currentArtifact, stop } = usePlayerStore();
   const { currentLang } = useLangStore();
   const { favorites, cleanInvalidFavorites } = useFavStore();
@@ -55,60 +76,128 @@ export const VisitorLayout: React.FC = () => {
     });
   }, []);
 
-  const lastAutoPlayedIdRef = useRef<string | null>(null);
+  // Hiện vật gần nhất đã kích hoạt gần đây (tránh kích hoạt lặp khi người dùng vẫn đứng trong vùng)
+  const lastTriggeredRef = useRef<string | null>(null);
 
-  // Geolocation Geofence Simulation & Tracking Engine
+  // Đánh dấu hiện vật đã nghe trong phiên (phục vụ gợi ý "Nghe lại" - USC14 A3)
   useEffect(() => {
-    if (!navigator.geolocation || !data) return;
+    if (currentArtifact) markHeard(currentArtifact.id);
+  }, [currentArtifact?.id]);
+
+  // Deep link từ mã QR: ?artifact=<id> (QR hiện vật) hoặc ?entry=gate (QR cổng bảo tàng).
+  // Quét QR một lần sẽ đặt điểm xuất phát và bật theo dõi GPS (USC02 bước 6, USC14).
+  useEffect(() => {
+    if (!data) return;
+    const params = new URLSearchParams(window.location.search);
+    const artifactParam = params.get('artifact');
+    const entryParam = params.get('entry');
+    if (!artifactParam && entryParam !== 'gate') return;
+
+    const found = artifactParam
+      ? data.artifacts.find((a) => a.id === artifactParam || a.code === artifactParam)
+      : undefined;
+    if (found) {
+      setAnchor(found.id);
+      startTracking(found.id);
+      setSelectedArtifact(found);
+    } else if (entryParam === 'gate') {
+      startTracking();
+      setScanAlertType('info');
+      setScanAlert(t('trackEnabledByQr'));
+    }
+
+    // Xóa tham số khỏi URL để tải lại trang không mở lại hiện vật
+    params.delete('artifact');
+    params.delete('entry');
+    const qs = params.toString();
+    window.history.replaceState(
+      {},
+      '',
+      window.location.pathname + (qs ? '?' + qs : '') + window.location.hash
+    );
+  }, [data]);
+
+  // Theo dõi vị trí GPS (USC14). Chỉ chạy khi người dùng đã bật (tự bật sau khi quét QR).
+  useEffect(() => {
+    if (!data || !trackingEnabled) {
+      setIsTracking(false);
+      return;
+    }
+    // E3: thiếu dữ liệu khu trưng bày
+    if (data.artifacts.length === 0 || data.floors.length === 0) {
+      setGpsStatus('nodata');
+      return;
+    }
+    // E1: thiết bị không hỗ trợ định vị
+    if (!navigator.geolocation) {
+      setGpsStatus('unavailable');
+      return;
+    }
 
     setIsTracking(true);
+    setGpsStatus('searching');
     const watchId = navigator.geolocation.watchPosition(
       (pos) => {
         setPermissionGranted(true);
-        const { latitude, longitude } = pos.coords;
+        const { latitude, longitude, accuracy } = pos.coords;
         setUserLocation({ latitude, longitude });
+        setAccuracy(accuracy);
 
-        // Calculate nearest artifact
-        let minDistance = Infinity;
-        let nearest: Artifact | null = null;
+        // E2: sai số lớn, không tự kích hoạt để tránh phát nhầm hiện vật
+        if (accuracy > MAX_ACCEPTABLE_ACCURACY) {
+          setGpsStatus('low-accuracy');
+          return;
+        }
+        setGpsStatus('active');
 
-        data.artifacts.forEach((art) => {
-          if (art.geoCoordinates) {
-            const dLat = (art.geoCoordinates.latitude - latitude) * 111000;
-            const dLon = (art.geoCoordinates.longitude - longitude) * 111000 * Math.cos(latitude * (Math.PI / 180));
-            const dist = Math.sqrt(dLat * dLat + dLon * dLon);
-            if (dist < minDistance) {
-              minDistance = dist;
-              nearest = art;
-            }
-          }
-        });
+        const nearby = findNearbyByGps(data.artifacts, { latitude, longitude });
+        setNearby(nearby.slice(0, 5));
 
-        // Trigger if within 30m
-        if (minDistance <= 30 && nearest) {
-          const matched: Artifact = nearest;
-          setNearestArtifactId(matched.id);
-          // Only auto-play once when entering the artifact's radius
-          if (!currentArtifact && lastAutoPlayedIdRef.current !== matched.id) {
-            lastAutoPlayedIdRef.current = matched.id;
-            playArtifact(matched);
-          }
-        } else {
+        // A2: nếu nhiều hiện vật cùng trong vùng, chọn hiện vật gần nhất
+        const hit = findTriggered(data.artifacts, nearby);
+        if (!hit) {
           setNearestArtifactId(null);
-          lastAutoPlayedIdRef.current = null;
+          lastTriggeredRef.current = null;
+          return;
+        }
+
+        const matched = data.artifacts.find((a) => a.id === hit.artifactId);
+        if (!matched) return;
+        setNearestArtifactId(matched.id);
+        setAnchor(matched.id);
+
+        // Chỉ xử lý một lần khi bước vào vùng của hiện vật
+        if (lastTriggeredRef.current === matched.id) return;
+        lastTriggeredRef.current = matched.id;
+
+        const player = usePlayerStore.getState();
+        const alreadyHeard = useGeofenceStore.getState().heardIds.includes(matched.id);
+        if (player.currentArtifact && player.currentArtifact.id === matched.id) return;
+
+        if (player.currentArtifact && player.isPlaying) {
+          // A3: đang nghe dở hiện vật khác, không ngắt mà hỏi người dùng
+          setSuggestion({ artifactId: matched.id, kind: 'switch' });
+        } else if (alreadyHeard) {
+          // A3: đã nghe rồi, chỉ gợi ý "Nghe lại"
+          setSuggestion({ artifactId: matched.id, kind: 'replay' });
+        } else {
+          playArtifact(matched);
         }
       },
       (err) => {
+        // E1: từ chối quyền hoặc mất tín hiệu, dừng tracking tự động
         console.warn('Geolocation error or denied:', err);
         setPermissionGranted(false);
+        setGpsStatus('denied');
+        setIsTracking(false);
       },
-      { enableHighAccuracy: true, timeout: 10000, maximumAge: 5000 }
+      { enableHighAccuracy: true, timeout: 15000, maximumAge: 5000 }
     );
 
     return () => {
       navigator.geolocation.clearWatch(watchId);
     };
-  }, [data, currentArtifact]);
+  }, [data, trackingEnabled]);
 
   const handleSelectArtifact = (art: Artifact) => {
     if (currentArtifact && currentArtifact.id !== art.id) {
@@ -120,13 +209,20 @@ export const VisitorLayout: React.FC = () => {
   const handleScanSuccess = (decoded: string) => {
     setIsQRScannerOpen(false);
     if (!data) return;
-    const found = data.artifacts.find(
-      (a) => a.id === decoded || a.code === decoded || decoded.includes(a.code) || decoded.includes(a.id)
-    );
-    if (found) {
-      handleSelectArtifact(found);
-      playArtifact(found);
+    const payload = parseQrPayload(decoded, data.artifacts);
+    if (payload.type === 'artifact') {
+      // Quét QR hiện vật: đặt điểm xuất phát, bật GPS và mở thuyết minh
+      setAnchor(payload.artifact.id);
+      startTracking(payload.artifact.id);
+      handleSelectArtifact(payload.artifact);
+      playArtifact(payload.artifact);
+    } else if (payload.type === 'museum') {
+      // Quét QR bảo tàng: bật GPS để tự phát hiện hiện vật khi đến gần
+      startTracking();
+      setScanAlertType('info');
+      setScanAlert(t('trackEnabledByQr'));
     } else {
+      setScanAlertType('warning');
       setScanAlert(`Đã quét mã: "${decoded}".\nKhông tìm thấy hiện vật tương ứng trong danh mục.`);
     }
   };
@@ -241,6 +337,8 @@ export const VisitorLayout: React.FC = () => {
 
       {/* Main Website Body Container */}
       <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-28 md:pb-14 w-full min-w-0 overflow-x-hidden">
+        <TrackingPanel artifacts={data.artifacts} />
+
         {activeTab === 'explore' && (
           <ExploreView
             artifacts={data.artifacts}
@@ -303,7 +401,7 @@ export const VisitorLayout: React.FC = () => {
         isOpen={!!scanAlert}
         title="Quét Mã QR"
         message={scanAlert || ''}
-        type="warning"
+        type={scanAlertType}
         onClose={() => setScanAlert(null)}
       />
 

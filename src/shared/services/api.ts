@@ -70,13 +70,16 @@ export const museumApi = {
           userAdded.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
 
           // Default artifacts ALWAYS retain fresh audio and calibrated subtitles from json,
-          // only preserving custom mapCoordinates if edited on the floor map
+          // only preserving custom mapCoordinates / GPS position / trigger radius if edited by Admin
           data.artifacts = data.artifacts.map((defaultArt) => {
             const saved = customArtifacts.find((c) => c.id === defaultArt.id);
-            if (saved && saved.mapCoordinates) {
-              return { ...defaultArt, mapCoordinates: saved.mapCoordinates };
-            }
-            return defaultArt;
+            if (!saved) return defaultArt;
+            return {
+              ...defaultArt,
+              mapCoordinates: saved.mapCoordinates || defaultArt.mapCoordinates,
+              geoCoordinates: saved.geoCoordinates || defaultArt.geoCoordinates,
+              triggerRadius: saved.triggerRadius || defaultArt.triggerRadius,
+            };
           });
 
           // Newly added artifacts are kept at the top

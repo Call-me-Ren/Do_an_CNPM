@@ -29,10 +29,12 @@ export const ExploreView: React.FC<Props> = ({ artifacts, onSelectArtifact }) =>
   const uniqueFloors = Array.from(new Set(artifacts.map((a) => a.floorId))).sort((a, b) => a - b);
 
   const filtered = artifacts.filter((a) => {
-    const title = (a.title[currentLang] || a.title['vi']).toLowerCase();
+    const title = (a.title[currentLang] || a.title['vi'] || '').toLowerCase();
+    const desc = (a.description[currentLang] || a.description['vi'] || '').toLowerCase();
     const code = a.code.toLowerCase();
-    const query = searchTerm.toLowerCase();
-    const matchSearch = title.includes(query) || code.includes(query);
+    const query = searchTerm.toLowerCase().trim();
+    const matchSearch =
+      !query || title.includes(query) || code.includes(query) || desc.includes(query);
     const matchFloor = selectedFloorFilter === 'all' || a.floorId === selectedFloorFilter;
     return matchSearch && matchFloor;
   });

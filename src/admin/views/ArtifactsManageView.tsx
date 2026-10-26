@@ -42,6 +42,9 @@ export const ArtifactsManageView: React.FC = () => {
   const [formCode, setFormCode] = useState('');
   const [formFloorId, setFormFloorId] = useState(1);
   const [formImageUrl, setFormImageUrl] = useState('');
+  const [formTriggerRadius, setFormTriggerRadius] = useState<number>(15);
+  const [formLat, setFormLat] = useState<string>('');
+  const [formLon, setFormLon] = useState<string>('');
   const [formTitles, setFormTitles] = useState<Record<SupportedLanguage, string>>({
     vi: '',
     en: '',
@@ -142,6 +145,9 @@ export const ArtifactsManageView: React.FC = () => {
     setFormCode(`HV-00${artifacts.length + 1}`);
     setFormFloorId(1);
     setFormImageUrl('https://images.unsplash.com/photo-1544967082-d9d25d867d66?auto=format&fit=crop&w=800&q=80');
+    setFormTriggerRadius(15);
+    setFormLat('10.779520');
+    setFormLon('106.692180');
     setFormTitles({ vi: '', en: '', zh: '', ko: '', ja: '' });
     setFormDescriptions({ vi: '', en: '', zh: '', ko: '', ja: '' });
     setActiveLangTab('vi');
@@ -153,6 +159,9 @@ export const ArtifactsManageView: React.FC = () => {
     setFormCode(art.code);
     setFormFloorId(art.floorId);
     setFormImageUrl(art.images[0] || '');
+    setFormTriggerRadius(art.triggerRadius || 15);
+    setFormLat(art.geoCoordinates ? String(art.geoCoordinates.latitude) : '');
+    setFormLon(art.geoCoordinates ? String(art.geoCoordinates.longitude) : '');
     setFormTitles({ ...art.title });
     setFormDescriptions({ ...art.description });
     setActiveLangTab('vi');
@@ -166,6 +175,14 @@ export const ArtifactsManageView: React.FC = () => {
       return;
     }
 
+    const parsedLat = parseFloat(formLat);
+    const parsedLon = parseFloat(formLon);
+    const geoCoords =
+      !isNaN(parsedLat) && !isNaN(parsedLon)
+        ? { latitude: parsedLat, longitude: parsedLon }
+        : undefined;
+    const triggerRadius = Number(formTriggerRadius) > 0 ? Number(formTriggerRadius) : 15;
+
     if (editingArtifact) {
       // Update
       const updatedArtifacts = artifacts.map((a) =>
@@ -175,6 +192,8 @@ export const ArtifactsManageView: React.FC = () => {
               code: formCode.trim() || a.code,
               floorId: formFloorId,
               images: [formImageUrl.trim() || a.images[0]],
+              triggerRadius,
+              geoCoordinates: geoCoords || a.geoCoordinates,
               title: { ...formTitles },
               description: { ...formDescriptions }
             }
@@ -193,6 +212,8 @@ export const ArtifactsManageView: React.FC = () => {
         description: { ...formDescriptions },
         images: [formImageUrl.trim() || 'https://images.unsplash.com/photo-1544967082-d9d25d867d66?auto=format&fit=crop&w=800&q=80'],
         mapCoordinates: { x: 300, y: 300 },
+        triggerRadius,
+        geoCoordinates: geoCoords,
         audio: {},
         createdAt: Date.now()
       };
@@ -454,6 +475,48 @@ export const ArtifactsManageView: React.FC = () => {
                     <FolderOpen className="w-4 h-4 text-amber-500" />
                     <span>Chọn tệp</span>
                   </button>
+                </div>
+              </div>
+
+              {/* Geofence & GPS Trigger Config (USC14) */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 p-3 bg-slate-900/60 border border-slate-700/60 rounded-xl">
+                <div>
+                  <label className="block text-[11px] font-semibold text-slate-400 mb-1">
+                    Bán Kính Tự Bật (m)
+                  </label>
+                  <input
+                    type="number"
+                    min={3}
+                    max={100}
+                    value={formTriggerRadius}
+                    onChange={(e) => setFormTriggerRadius(Number(e.target.value))}
+                    className="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none focus:ring-1 focus:ring-amber-500"
+                    placeholder="15"
+                  />
+                </div>
+                <div>
+                  <label className="block text-[11px] font-semibold text-slate-400 mb-1">
+                    Vĩ Độ GPS (Lat)
+                  </label>
+                  <input
+                    type="text"
+                    value={formLat}
+                    onChange={(e) => setFormLat(e.target.value)}
+                    className="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none focus:ring-1 focus:ring-amber-500 font-mono"
+                    placeholder="10.779520"
+                  />
+                </div>
+                <div>
+                  <label className="block text-[11px] font-semibold text-slate-400 mb-1">
+                    Kinh Độ GPS (Lon)
+                  </label>
+                  <input
+                    type="text"
+                    value={formLon}
+                    onChange={(e) => setFormLon(e.target.value)}
+                    className="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none focus:ring-1 focus:ring-amber-500 font-mono"
+                    placeholder="106.692180"
+                  />
                 </div>
               </div>
 

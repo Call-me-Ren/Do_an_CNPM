@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { Floor, Artifact } from '../../shared/types';
 import { useLangStore } from '../../shared/stores/langStore';
 import { usePlayerStore } from '../../shared/stores/playerStore';
+import { useGeofenceStore } from '../../shared/stores/geofenceStore';
+import { findNearbyByMap } from '../../shared/utils/geofence';
 import { resolveAssetUrl, getArtifactFallbackImage } from '../../shared/utils/assetHelper';
-import { Layers, MapPin, Volume2, Square } from 'lucide-react';
+import { Layers, MapPin, Volume2, Square, Crosshair } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 interface Props {
@@ -17,9 +19,13 @@ export const FloorMapView: React.FC<Props> = ({ floors, artifacts, onSelectArtif
   const { currentLang } = useLangStore();
   const { playArtifact, stop, currentArtifact, isPlaying } = usePlayerStore();
   const [selectedFloorId, setSelectedFloorId] = useState<number>(floors[0]?.id || 1);
+  const { anchorArtifactId, trackingEnabled } = useGeofenceStore();
 
   const currentFloor = floors.find((f) => f.id === selectedFloorId) || floors[0];
   const floorArtifacts = artifacts.filter((a) => a.floorId === selectedFloorId);
+  const anchorArtifact = artifacts.find((a) => a.id === anchorArtifactId);
+  const nearbyOnFloor = anchorArtifact ? findNearbyByMap(artifacts, anchorArtifact).slice(0, 3) : [];
+  const nearbyMap = new Map(nearbyOnFloor.map((n) => [n.artifactId, n.distance]));
 
   return (
     <div className="flex flex-col gap-6 pb-32 w-full max-w-full min-w-0 overflow-x-hidden">
@@ -86,6 +92,7 @@ export const FloorMapView: React.FC<Props> = ({ floors, artifacts, onSelectArtif
                 const leftPercent = (artifact.mapCoordinates.x / currentFloor.bounds.width) * 100;
                 const topPercent = (artifact.mapCoordinates.y / currentFloor.bounds.height) * 100;
                 const isPlayingThis = currentArtifact?.id === artifact.id && isPlaying;
+                const isAnchorThis = trackingEnabled && anchorArtifactId === artifact.id;
 
                 return (
                   <button
@@ -93,14 +100,24 @@ export const FloorMapView: React.FC<Props> = ({ floors, artifacts, onSelectArtif
                     onClick={() => onSelectArtifact(artifact)}
                     style={{ left: `${leftPercent}%`, top: `${topPercent}%` }}
                     className={`absolute -translate-x-1/2 -translate-y-1/2 p-2.5 rounded-full shadow-2xl transition-transform hover:scale-125 focus:outline-none ring-4 ${
-                      isPlayingThis
+                      isAnchorThis
+                        ? 'bg-emerald-500 text-white ring-emerald-400/50 scale-125 z-30'
+                        : isPlayingThis
                         ? 'bg-amber-400 text-slate-950 ring-amber-400/50 animate-pulse scale-110 z-20'
                         : 'bg-amber-500 text-white ring-amber-400/30 group z-10'
                     }`}
                     title={artifact.title[currentLang] || artifact.title['vi']}
                   >
-                    <MapPin className="w-5 h-5" />
+                    {isAnchorThis && (
+                      <span className="absolute -inset-2 rounded-full bg-emerald-400/40 animate-ping pointer-events-none" />
+                    )}
+                    {isAnchorThis ? (
+                      <Crosshair className="w-5 h-5 animate-spin" />
+                    ) : (
+                      <MapPin className="w-5 h-5" />
+                    )}
                     <div className="hidden sm:group-hover:block absolute bottom-full mb-2 left-1/2 -translate-x-1/2 bg-slate-900 text-white text-xs font-semibold px-3 py-1.5 rounded-xl whitespace-nowrap shadow-2xl pointer-events-none z-30 border border-slate-700">
+                      {isAnchorThis ? `[${t('youAreHere')}] ` : ''}
                       {artifact.title[currentLang] || artifact.title['vi']}
                     </div>
                   </button>
@@ -155,8 +172,20 @@ export const FloorMapView: React.FC<Props> = ({ floors, artifacts, onSelectArtif
                         className="w-12 h-12 rounded-xl object-cover shrink-0 group-hover:scale-105 transition-transform"
                       />
                       <div className="min-w-0">
-                        <div className="text-[11px] font-mono font-bold text-amber-600">
-                          {artifact.code}
+                        <div className="flex items-center gap-1.5">
+                          <span className="text-[11px] font-mono font-bold text-amber-600">
+                            {artifact.code}
+                          </span>
+                          {trackingEnabled && anchorArtifactId === artifact.id && (
+                            <span className="text-[9px] font-bold px-1.5 py-0.2 rounded-full bg-emerald-500/10 text-emerald-600 border border-emerald-500/30">
+                              {t('youAreHere')}
+                            </span>
+                          )}
+                          {nearbyMap.has(artifact.id) && anchorArtifactId !== artifact.id && (
+                            <span className="text-[9px] font-bold px-1.5 py-0.2 rounded-full bg-amber-500/10 text-amber-700 border border-amber-500/30">
+                              {t('nearYou')} (~{Math.round(nearbyMap.get(artifact.id) || 0)}m)
+                            </span>
+                          )}
                         </div>
                         <div className="text-sm font-bold text-slate-800 truncate group-hover:text-amber-600 transition-colors">
                           {artifact.title[currentLang] || artifact.title['vi']}

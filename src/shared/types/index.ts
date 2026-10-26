@@ -21,6 +21,8 @@ export interface Artifact {
     latitude: number;
     longitude: number;
   };
+  /** Bán kính kích hoạt thuyết minh tự động (mét). Mặc định 15m nếu không khai báo. */
+  triggerRadius?: number;
   audio: Partial<Record<SupportedLanguage, string>>;
   subtitles?: Partial<Record<SupportedLanguage, SubtitleCue[]>>;
   createdAt?: number;

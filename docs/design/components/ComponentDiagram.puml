@@ -1,91 +1,90 @@
 @startuml
+title Sơ Đồ Thành Phần (Component Diagram) - Hệ Thống Thuyết Minh Tự Động Đa Ngôn Ngữ (As-Built)
+skinparam componentStyle uml2
 left to right direction
 
-' ---------- Client
-component "Client" as Client {
-  component "GUI" as Gui
-  together {
-    component "Media Player" as MediaPlayer
-    component "QR Scanner" as QrScanner
-    component "Client Session" as ClientSession
+package "Client (Trình Duyệt Khách Tham Quan & Quản Trị Viên)" as ClientPkg {
+  package "Giao Diện Khách Tham Quan (Visitor Experience)" {
+    component "ExploreView (Khám Phá & Tìm Kiếm)" as ExploreComp
+    component "FloorMapView (Sơ Đồ Tầng & Bạn Đang Ở Đây)" as MapComp
+    component "FavoritesView (Hiện Vật Yêu Thích)" as FavComp
+    component "QRScannerModal (Quét Mã QR)" as QrComp
+    component "AudioPlayerBar (Trình Phát Âm Thanh & Phụ Đề)" as PlayerComp
+    component "TrackingPanel (Theo Dõi Định Vị & Gợi Ý)" as TrackComp
   }
 
-  portout " " as ClientPortAuth
-  portout " " as ClientPortArtifactSession
-  portout " " as ClientPortArtifactQr
-  portout " " as ClientPortAudio
-}
-
-' ---------- Server
-component "Server" as Server {
-  together {
-    component "Auth Server" as AuthServer
-    component "Artifact Manager" as ArtifactManager
-    component "Audio Streamer" as AudioStreamer
+  package "Giao Diện Quản Trị (Admin Experience)" {
+    component "AdminAuth (Đăng Nhập & Khóa Tạm)" as AdminAuthComp
+    component "ArtifactsManageView (Quản Lý Hiện Vật & QR)" as ArtMgmtComp
+    component "AudioManageView (Tệp Âm Thanh & Phụ Đề)" as AudioMgmtComp
+    component "FloorMapEditorView (Biên Tập Sơ Đồ & Tọa Độ)" as MapEditorComp
+    component "AnalyticsView (Báo Cáo & Thiết Bị Trực Tuyến)" as AnalyticsComp
   }
 
-  portin " " as ServerPortAuth
-  portin " " as ServerPortArtifact
-  portin " " as ServerPortAudio
-
-  portout " " as ServerPortDb
-  portout " " as ServerPortStorage
-}
-
-' ---------- Storage & DB
-component "Storage & DB" as Storage {
-  together {
-    component "System DB" as SystemDb
-    component "Media Archive" as MediaArchive
+  package "Tầng Quản Lý Trạng Thái (Zustand Stores)" {
+    component "PlayerStore" as PlayerStore
+    component "GeofenceStore" as GeofenceStore
+    component "LangStore (i18n 5 Ngôn Ngữ)" as LangStore
+    component "FavStore" as FavStore
+    component "AdminAuthStore" as AuthStore
   }
 
-  portin " " as StoragePortDb
-  portin " " as StoragePortStorage
+  package "Tầng Dịch Vụ & Tiện Ích (Services & Helpers)" {
+    component "MuseumApiService (Tải Dữ Liệu & Cache-Bust)" as ApiService
+    component "TTSService (Audio Stream & Web Speech Fallback)" as TtsService
+    component "AnalyticsService (Heartbeat & Listen Tracker)" as AnalyticsService
+    component "GeofenceHelper (Haversine & Proximity)" as GeoHelper
+    component "LoginLockHelper (Đếm Lần Thử & Khóa 5 Phút)" as LockHelper
+  }
 }
 
-' ---------- Interfaces
-() "I_Auth" as IAuth
-() "I_Artifact" as IArtifact
-() "I_Audio" as IAudio
-() "I_Database" as IDatabase
-() "I_Storage" as IStorage
+package "Nền Tảng Lưu Trữ & Phân Phối (Hosting & Static Server)" as HostPkg {
+  component "GitHub Pages Web Hosting" as GhPages {
+    artifact "museum_data.json (CSDL Hiện Vật, Sơ Đồ, Tọa Độ)" as JsonData
+    artifact "Audio Stream Archive (/audio/artifacts/*.mp3)" as AudioFiles
+    artifact "Floor Map Images (/maps/*.png, *.jpg)" as MapImages
+    artifact "Artifact Photos (/images/artifacts/*)" as ArtImages
+  }
 
-' ---- Client internals
-Gui -- ClientSession
-Gui -- QrScanner
-Gui -- MediaPlayer
+  component "Cloud Realtime Presence (ntfy.sh)" as NtfyChannel {
+    portin "WebSocket / HTTP Post" as NtfyPort
+  }
+}
 
-ClientSession -- ClientPortAuth
-ClientSession -- ClientPortArtifactSession
-QrScanner -- ClientPortArtifactQr
-MediaPlayer -- ClientPortAudio
+database "Trình Duyệt (Browser LocalStorage & SessionStorage)" as LocalDb {
+  storage "museum_custom_floors_v5" as StoreFloors
+  storage "museum_custom_artifacts_v3" as StoreArts
+  storage "museum_fav_ids" as StoreFavs
+  storage "admin_login_lock_v1" as StoreLock
+  storage "admin_session_token" as StoreSession
+}
 
-' ---- Client → Server
-ClientPortAuth --( IAuth
-ClientPortArtifactSession ..( IArtifact
-ClientPortArtifactQr ..( IArtifact
-ClientPortAudio --( IAudio
+' Liên kết Visitor UI
+ExploreComp --> ApiService
+ExploreComp --> PlayerStore
+MapComp --> GeofenceStore
+MapComp --> PlayerStore
+TrackComp --> GeofenceStore
+TrackComp --> GeoHelper
+QrComp --> GeofenceStore
+PlayerComp --> PlayerStore
+PlayerComp --> TtsService
 
-IAuth -- ServerPortAuth
-IArtifact -- ServerPortArtifact
-IAudio -- ServerPortAudio
+' Liên kết Admin UI
+AdminAuthComp --> LockHelper
+AdminAuthComp --> AuthStore
+ArtMgmtComp --> ApiService
+AudioMgmtComp --> ApiService
+MapEditorComp --> ApiService
+AnalyticsComp --> AnalyticsService
 
-ServerPortAuth -- AuthServer
-ServerPortArtifact -- ArtifactManager
-ServerPortAudio -- AudioStreamer
-
-' ---- Server → Storage
-AuthServer -- ServerPortDb
-ArtifactManager -- ServerPortDb
-ArtifactManager -- ServerPortStorage
-AudioStreamer -- ServerPortStorage
-
-ServerPortDb ..( IDatabase
-ServerPortStorage ..( IStorage
-
-IDatabase -- StoragePortDb
-IStorage -- StoragePortStorage
-
-StoragePortDb -- SystemDb
-StoragePortStorage -- MediaArchive
+' Liên kết Services với Hạ Tầng
+ApiService ..> JsonData : HTTP GET (Cache-Bust)
+TtsService ..> AudioFiles : HTTP Audio Stream
+AnalyticsService ..> NtfyPort : Realtime WS / POST
+ApiService <--> StoreFloors : Lưu Custom Sơ Đồ
+ApiService <--> StoreArts : Lưu Custom Hiện Vật
+FavStore <--> StoreFavs : Lưu Yêu Thích Cục Bộ
+LockHelper <--> StoreLock : Lưu Trạng Thái Khóa
+AuthStore <--> StoreSession : Lưu Phiên Quản Trị
 @enduml
