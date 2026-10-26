@@ -5,7 +5,7 @@ const mockDataFile = path.join(__dirname, '..', 'public', 'mock', 'museum_data.j
 const srcDataFile = path.join(__dirname, '..', 'src', 'data', 'museum_data.json');
 
 const imageMap = {
-  'WRM001': '/images/artifacts/Xe tăng chiến đấu M48A3 Patton.webp',
+  'WRM001': '/images/artifacts/Xe tăng chiến đấu M48A3 Patton.png',
   'WRM002': '/images/artifacts/Máy bay tiêm kích phản lực F-5A Freedom Fighter.webp',
   'WRM003': '/images/artifacts/Trực thăng vận tải CH-47A Chinook.jpg',
   'WRM004': '/images/artifacts/Trực thăng vũ trang Bell UH-1 Iroquois (Huey).webp',
