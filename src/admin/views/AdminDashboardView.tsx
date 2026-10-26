@@ -49,7 +49,11 @@ export const AdminDashboardView: React.FC = () => {
     });
 
     // Generate reliable dynamic QR Data-URL
-    QRCode.toDataURL('https://call-me-ren.github.io/Test_CNPM/', {
+    const portalUrl = typeof window !== 'undefined' && window.location.origin.includes('github.io')
+      ? 'https://call-me-ren.github.io/Do_an_CNPM/'
+      : `${window.location.origin}${import.meta.env.BASE_URL}`;
+
+    QRCode.toDataURL(portalUrl, {
       width: 400,
       margin: 2,
       color: {
@@ -268,7 +272,7 @@ export const AdminDashboardView: React.FC = () => {
               <span>Tải Mã QR In Ấn (PNG)</span>
             </a>
             <a
-              href="https://call-me-ren.github.io/Test_CNPM/"
+              href="https://call-me-ren.github.io/Do_an_CNPM/"
               target="_blank"
               rel="noreferrer"
               className="w-full py-2 px-3 bg-slate-900 hover:bg-slate-750 text-slate-300 font-semibold text-xs rounded-xl flex items-center justify-center gap-1.5 transition text-center"

@@ -8,7 +8,7 @@ fs.mkdirSync(targetDir, { recursive: true });
 
 QRCode.toFile(
   targetPath,
-  'https://call-me-ren.github.io/Test_CNPM/',
+  'https://call-me-ren.github.io/Do_an_CNPM/',
   {
     width: 600,
     margin: 2,

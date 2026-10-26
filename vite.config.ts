@@ -9,7 +9,7 @@ export default defineConfig({
     react(),
     tailwindcss(),
   ],
-  base: process.env.NODE_ENV === 'production' ? '/Test_CNPM/' : '/',
+  base: process.env.NODE_ENV === 'production' ? '/Do_an_CNPM/' : '/',
   build: {
     rollupOptions: {
       output: {
