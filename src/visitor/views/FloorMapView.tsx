@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Floor, Artifact } from '../../shared/types';
 import { useLangStore } from '../../shared/stores/langStore';
 import { usePlayerStore } from '../../shared/stores/playerStore';
-import { resolveAssetUrl } from '../../shared/utils/assetHelper';
+import { resolveAssetUrl, getArtifactFallbackImage } from '../../shared/utils/assetHelper';
 import { Layers, MapPin, Volume2, Square } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
@@ -126,11 +126,15 @@ export const FloorMapView: React.FC<Props> = ({ floors, artifacts, onSelectArtif
                   >
                     <div className="flex items-center gap-3 min-w-0">
                       <img
-                        src={artifact.images[0]}
+                        src={resolveAssetUrl(artifact.images[0])}
                         alt={artifact.title[currentLang] || artifact.title['vi']}
                         onError={(e) => {
-                          e.currentTarget.src =
-                            'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=400&q=80';
+                          e.currentTarget.onerror = null;
+                          e.currentTarget.src = getArtifactFallbackImage(
+                            artifact.code,
+                            artifact.title[currentLang] || artifact.title['vi'],
+                            artifact.floorId
+                          );
                         }}
                         className="w-12 h-12 rounded-xl object-cover shrink-0 group-hover:scale-105 transition-transform"
                       />
