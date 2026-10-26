@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Floor, Artifact } from '../../shared/types';
 import { museumApi } from '../../shared/services/api';
+import { resolveAssetUrl } from '../../shared/utils/assetHelper';
 import {
   Map,
   MapPin,
@@ -290,7 +291,7 @@ export const FloorMapEditorView: React.FC = () => {
             {currentFloor && (
               <>
                 <img
-                  src={currentFloor.mapImage}
+                  src={resolveAssetUrl(currentFloor.mapImage)}
                   alt={currentFloor.name.vi}
                   className="w-full h-full object-cover opacity-80 pointer-events-none transition-opacity"
                   onError={(e) => {

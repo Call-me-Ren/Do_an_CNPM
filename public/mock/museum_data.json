@@ -41,7 +41,7 @@
         "ko": "야외 전시장 - 중장비 및 호랑이 우리",
         "ja": "屋外展示場 - 大型兵器とトラの檻"
       },
-      "mapImage": "/maps/floor_1_outdoor.svg",
+      "mapImage": "/maps/floor_1_outdoor.png",
       "bounds": {
         "width": 800,
         "height": 600
@@ -56,7 +56,7 @@
         "ko": "1층 (지상층) - 감옥 제도 및 세계의 연대",
         "ja": "1階（グラウンドフロア） - 監獄制度と世界各国の連帯"
       },
-      "mapImage": "/maps/floor_2_ground.svg",
+      "mapImage": "/maps/floor_2_ground.png",
       "bounds": {
         "width": 800,
         "height": 600
@@ -71,7 +71,7 @@
         "ko": "1층 (1F) - 전쟁 범죄 및 고엽제 피해",
         "ja": "1階 (1F) - 戦争犯罪と枯葉剤の被害"
       },
-      "mapImage": "/maps/floor_3_level1.svg",
+      "mapImage": "/maps/floor_3_level1.png",
       "bounds": {
         "width": 800,
         "height": 600
@@ -86,7 +86,7 @@
         "ko": "2층 (2F) - 레퀴엠 사진전 및 평화의 방",
         "ja": "2階 (2F) - レクイエム写真展と平和への願い"
       },
-      "mapImage": "/maps/floor_4_level2.svg",
+      "mapImage": "/maps/floor_4_level2.png",
       "bounds": {
         "width": 800,
         "height": 600

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Floor, Artifact } from '../../shared/types';
 import { useLangStore } from '../../shared/stores/langStore';
 import { usePlayerStore } from '../../shared/stores/playerStore';
+import { resolveAssetUrl } from '../../shared/utils/assetHelper';
 import { Layers, MapPin, Volume2, Square } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
@@ -59,7 +60,7 @@ export const FloorMapView: React.FC<Props> = ({ floors, artifacts, onSelectArtif
           {currentFloor ? (
             <div className="relative w-full h-full">
               <img
-                src={currentFloor.mapImage}
+                src={resolveAssetUrl(currentFloor.mapImage)}
                 alt={currentFloor.name[currentLang] || currentFloor.name['vi']}
                 className="w-full h-full object-cover opacity-80"
               />
