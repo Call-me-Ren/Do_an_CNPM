@@ -113,7 +113,7 @@
         "ja": "アメリカ製52トンの主力戦車であり、ベトナム戦争でアメリカ軍の主要地上戦闘車両として配備されました。"
       },
       "images": [
-        "/images/artifacts/WRM001_tank.svg"
+        "/images/artifacts/Xe tăng chiến đấu M48A3 Patton.webp"
       ],
       "mapCoordinates": {
         "x": 180,
@@ -129,7 +129,7 @@
       "subtitles": {
         "vi": [
           {
-            "start": 0.0,
+            "start": 0,
             "end": 4.6,
             "text": "Chào mừng bạn đến với khu trưng bày ngoài trời của Bảo tàng Chứng tích Chiến tranh."
           },
@@ -156,17 +156,17 @@
         ],
         "en": [
           {
-            "start": 0.0,
+            "start": 0,
             "end": 3.7,
             "text": "Welcome to the outdoor yard of the War Remnants Museum."
           },
           {
             "start": 3.7,
-            "end": 11.0,
+            "end": 11,
             "text": "Standing before you is the M48A3 Patton tank, a heavy armor battle vehicle weighing 52 tons."
           },
           {
-            "start": 11.0,
+            "start": 11,
             "end": 18.3,
             "text": "Equipped with a 90mm main gun and advanced rangefinders, it served extensively across the battlefields."
           },
@@ -183,7 +183,7 @@
         ],
         "zh": [
           {
-            "start": 0.0,
+            "start": 0,
             "end": 4.7,
             "text": "欢迎参观战争遗迹博物馆的室外重型武器展区。"
           },
@@ -210,7 +210,7 @@
         ],
         "ko": [
           {
-            "start": 0.0,
+            "start": 0,
             "end": 4.7,
             "text": "전쟁증적박물관 야외 전시장에 오신 것을 환영합니다."
           },
@@ -237,7 +237,7 @@
         ],
         "ja": [
           {
-            "start": 0.0,
+            "start": 0,
             "end": 5.6,
             "text": "戦争証跡博物館の屋外大型兵器展示場へようこそ。"
           },
@@ -248,17 +248,17 @@
           },
           {
             "start": 12.6,
-            "end": 19.0,
+            "end": 19,
             "text": "90ミリ砲を搭載し、ベトナム戦争の激戦地に広く配備されました。"
           },
           {
-            "start": 19.0,
+            "start": 19,
             "end": 26.4,
             "text": "1975年の春季攻勢において、解放軍によって多数が鹵獲されました。"
           },
           {
             "start": 26.4,
-            "end": 31.0,
+            "end": 31,
             "text": "続いて隣に展示されている軍用機をご覧ください。"
           }
         ]
@@ -283,7 +283,7 @@
         "ja": "米ノースロップ社製の超音速戦闘機。マッハ1.4の最高速度を誇り、20mm機関砲とミサイルを装備していました。"
       },
       "images": [
-        "/images/artifacts/WRM002_f5a.svg"
+        "/images/artifacts/Máy bay tiêm kích phản lực F-5A Freedom Fighter.webp"
       ],
       "mapCoordinates": {
         "x": 340,
@@ -299,7 +299,7 @@
       "subtitles": {
         "vi": [
           {
-            "start": 0.0,
+            "start": 0,
             "end": 5.2,
             "text": "Đây là chiếc máy bay tiêm kích phản lực siêu thanh Northrop F-5A Freedom Fighter."
           },
@@ -321,7 +321,7 @@
         ],
         "en": [
           {
-            "start": 0.0,
+            "start": 0,
             "end": 4.2,
             "text": "This is the Northrop F-5A Freedom Fighter supersonic jet."
           },
@@ -343,7 +343,7 @@
         ],
         "zh": [
           {
-            "start": 0.0,
+            "start": 0,
             "end": 4.8,
             "text": "这是诺斯洛普F-5A自由斗士超音速战斗机。"
           },
@@ -365,7 +365,7 @@
         ],
         "ko": [
           {
-            "start": 0.0,
+            "start": 0,
             "end": 5.7,
             "text": "이 항공기는 노스롭 F-5A 프리덤 파이터 초음속 전투기입니다."
           },
@@ -387,7 +387,7 @@
         ],
         "ja": [
           {
-            "start": 0.0,
+            "start": 0,
             "end": 5.8,
             "text": "こちらはノースロップF-5Aフリーダムファイター超音速戦闘機です。"
           },
@@ -428,7 +428,7 @@
         "ja": "タンデムローター式の大型輸送ヘリコプター。兵員33名または約10トンの物資を輸送可能でした。"
       },
       "images": [
-        "/images/artifacts/WRM003_chinook.svg"
+        "/images/artifacts/Trực thăng vận tải CH-47A Chinook.jpg"
       ],
       "mapCoordinates": {
         "x": 520,
@@ -444,7 +444,7 @@
       "subtitles": {
         "vi": [
           {
-            "start": 0.0,
+            "start": 0,
             "end": 5.3,
             "text": "Trước mắt bạn là Trực thăng vận tải hạng nặng Boeing CH-47A Chinook."
           },
@@ -461,7 +461,7 @@
         ],
         "en": [
           {
-            "start": 0.0,
+            "start": 0,
             "end": 5.5,
             "text": "In front of you is the Boeing CH-47A Chinook heavy transport helicopter."
           },
@@ -478,7 +478,7 @@
         ],
         "zh": [
           {
-            "start": 0.0,
+            "start": 0,
             "end": 6.1,
             "text": "呈现在您面前的是波音CH-47A支奴干重型运输直升机。"
           },
@@ -495,7 +495,7 @@
         ],
         "ko": [
           {
-            "start": 0.0,
+            "start": 0,
             "end": 5.7,
             "text": "눈앞의 헬기는 보잉 CH-47A 치누크 대형 수송헬기입니다."
           },
@@ -512,17 +512,17 @@
         ],
         "ja": [
           {
-            "start": 0.0,
+            "start": 0,
             "end": 6.5,
             "text": "こちらはボーイングCH-47Aチヌーク大型輸送ヘリコプターです。"
           },
           {
             "start": 6.5,
-            "end": 13.0,
+            "end": 13,
             "text": "前後に配置されたローターにより、重砲や軽装甲車も空輸可能でした。"
           },
           {
-            "start": 13.0,
+            "start": 13,
             "end": 18.9,
             "text": "ベトナム全土の大規模な部隊展開や補給作戦に投入されました。"
           }
@@ -548,7 +548,7 @@
         "ja": "ベトナム戦争の象徴とされる多目的ヘリコプター。ミニガンやロケット弾ポッドを装備。"
       },
       "images": [
-        "/images/artifacts/WRM004_uh1.svg"
+        "/images/artifacts/Trực thăng vũ trang Bell UH-1 Iroquois (Huey).webp"
       ],
       "mapCoordinates": {
         "x": 450,
@@ -564,7 +564,7 @@
       "subtitles": {
         "vi": [
           {
-            "start": 0.0,
+            "start": 0,
             "end": 5.8,
             "text": "Chiếc trực thăng UH-1 Huey là hình ảnh quen thuộc xuất hiện trong vô số tư liệu về cuộc chiến."
           },
@@ -576,7 +576,7 @@
         ],
         "en": [
           {
-            "start": 0.0,
+            "start": 0,
             "end": 5.6,
             "text": "The UH-1 Huey helicopter is the most recognizable icon of the Vietnam War."
           },
@@ -588,7 +588,7 @@
         ],
         "zh": [
           {
-            "start": 0.0,
+            "start": 0,
             "end": 6.2,
             "text": "UH-1休伊直升机是越南战争中辨识度最高的军事装备符号。"
           },
@@ -600,7 +600,7 @@
         ],
         "ko": [
           {
-            "start": 0.0,
+            "start": 0,
             "end": 7.5,
             "text": "UH-1 휴이 헬기는 베트남 전쟁 관련 다큐멘터리에서 가장 자주 등장하는 상징물입니다."
           },
@@ -612,7 +612,7 @@
         ],
         "ja": [
           {
-            "start": 0.0,
+            "start": 0,
             "end": 7.1,
             "text": "UH-1ヒューイヘリコプターは、ベトナム戦争を象徴する最も有名な航空機です。"
           },
@@ -643,7 +643,7 @@
         "ja": "低空からの対地近接支援に特化した攻撃機。8箇所のパイロンに計2.5トンの爆弾を搭載可能。"
       },
       "images": [
-        "/images/artifacts/WRM005_a37.svg"
+        "/images/artifacts/Máy bay cường kích A-37 Dragonfly.jpg"
       ],
       "mapCoordinates": {
         "x": 620,
@@ -659,19 +659,19 @@
       "subtitles": {
         "vi": [
           {
-            "start": 0.0,
+            "start": 0,
             "end": 5.9,
             "text": "A-37 Dragonfly là loại máy bay ném bom cường kích hạng nhẹ phản lực hai động cơ."
           },
           {
             "start": 5.9,
-            "end": 15.0,
+            "end": 15,
             "text": "Đặc biệt vào ngày 28 tháng 4 năm 1975, Phi đội Quyết Thắng đã dùng chính các máy bay A-37 thu được để ném bom sân bay Tân Sơn Nhất."
           }
         ],
         "en": [
           {
-            "start": 0.0,
+            "start": 0,
             "end": 4.9,
             "text": "The A-37 Dragonfly is a twin-engine light attack jet aircraft."
           },
@@ -683,7 +683,7 @@
         ],
         "zh": [
           {
-            "start": 0.0,
+            "start": 0,
             "end": 4.9,
             "text": "A-37蜻蜓式攻击机是双发轻型对地攻击机。"
           },
@@ -695,19 +695,19 @@
         ],
         "ko": [
           {
-            "start": 0.0,
-            "end": 5.0,
+            "start": 0,
+            "end": 5,
             "text": "A-37 드래곤플라이는 쌍발 경량 대지 공격기입니다."
           },
           {
-            "start": 5.0,
+            "start": 5,
             "end": 14.6,
             "text": "1975년 4월 28일, 베트남 조종사들이 노획한 A-37로 떤선녓 공항을 전격 폭격한 역사로 유명합니다."
           }
         ],
         "ja": [
           {
-            "start": 0.0,
+            "start": 0,
             "end": 5.6,
             "text": "A-37ドラゴンフライは双発の軽対地攻撃機です。"
           },
@@ -738,7 +738,7 @@
         "ja": "砲身長9メートル、最大射程34キロを誇り、当時米軍から「戦場の王」と呼ばれた長距離自走砲。"
       },
       "images": [
-        "/images/artifacts/WRM006_m107.svg"
+        "/images/artifacts/Pháo tự hành 175mm M107 'Vua chiến trường'.webp"
       ],
       "mapCoordinates": {
         "x": 240,
@@ -754,31 +754,31 @@
       "subtitles": {
         "vi": [
           {
-            "start": 0.0,
+            "start": 0,
             "end": 5.8,
             "text": "Đây là khẩu pháo tự hành tầm xa cỡ nòng 175mm M107."
           },
           {
             "start": 5.8,
-            "end": 14.0,
+            "end": 14,
             "text": "Với tầm bắn trên 34 km, loại pháo này từng bắn phá ác liệt vào các vùng giải phóng và khu dân cư trước năm 1975."
           }
         ],
         "en": [
           {
-            "start": 0.0,
+            "start": 0,
             "end": 5.8,
             "text": "This is the M107 175mm long-range self-propelled gun."
           },
           {
             "start": 5.8,
-            "end": 14.0,
+            "end": 14,
             "text": "With a range exceeding 34 km, it unleashed heavy barrages on liberated zones and villages before 1975."
           }
         ],
         "zh": [
           {
-            "start": 0.0,
+            "start": 0,
             "end": 5.3,
             "text": "这是M107型175毫米重型远程自行火炮。"
           },
@@ -790,7 +790,7 @@
         ],
         "ko": [
           {
-            "start": 0.0,
+            "start": 0,
             "end": 5.6,
             "text": "이 대형 포는 175mm M107 장거리 자주포입니다."
           },
@@ -802,7 +802,7 @@
         ],
         "ja": [
           {
-            "start": 0.0,
+            "start": 0,
             "end": 5.5,
             "text": "こちらはM107 175ミリ長距離自走カノン砲です。"
           },
@@ -833,7 +833,7 @@
         "ja": "重量約7トンに達する超大型通常爆弾。爆風により半径100メートルの密林を一瞬でなぎ倒しました。"
       },
       "images": [
-        "/images/artifacts/WRM007_blu82.svg"
+        "/images/artifacts/Bom phát quang BLU-82 'Daisy Cutter' (15.000 lb).webp"
       ],
       "mapCoordinates": {
         "x": 680,
@@ -849,7 +849,7 @@
       "subtitles": {
         "vi": [
           {
-            "start": 0.0,
+            "start": 0,
             "end": 5.2,
             "text": "Quả bom khổng lồ trước mắt bạn là bom phát quang BLU-82 Daisy Cutter."
           },
@@ -861,7 +861,7 @@
         ],
         "en": [
           {
-            "start": 0.0,
+            "start": 0,
             "end": 4.3,
             "text": "The massive bomb before you is the BLU-82 Daisy Cutter."
           },
@@ -873,7 +873,7 @@
         ],
         "zh": [
           {
-            "start": 0.0,
+            "start": 0,
             "end": 5.3,
             "text": "展现在您面前的这枚巨大炸弹是BLU-82型重磅炸弹。"
           },
@@ -885,7 +885,7 @@
         ],
         "ko": [
           {
-            "start": 0.0,
+            "start": 0,
             "end": 5.2,
             "text": "눈앞의 거대한 폭탄은 BLU-82 데이지 커터 폭탄입니다."
           },
@@ -897,7 +897,7 @@
         ],
         "ja": [
           {
-            "start": 0.0,
+            "start": 0,
             "end": 5.2,
             "text": "目の前の巨大爆弾はBLU-82デイジーカッターです。"
           },
@@ -928,7 +928,7 @@
         "ja": "政治犯や愛国者を過酷に監禁・拷問したコンダオ島刑務所の秘密独房「トラの檻」の再現展示。"
       },
       "images": [
-        "/images/artifacts/WRM008_cage.svg"
+        "/images/artifacts/Chuồng Cọp Côn Đảo (Khu phục dựng).webp"
       ],
       "mapCoordinates": {
         "x": 120,
@@ -944,7 +944,7 @@
       "subtitles": {
         "vi": [
           {
-            "start": 0.0,
+            "start": 0,
             "end": 4.4,
             "text": "Chào mừng bạn đến với khu phục dựng Chuồng cọp Côn Đảo ở góc sân sau."
           },
@@ -961,7 +961,7 @@
         ],
         "en": [
           {
-            "start": 0.0,
+            "start": 0,
             "end": 4.7,
             "text": "Welcome to the Con Dao Tiger Cages reconstruction in the rear courtyard."
           },
@@ -978,24 +978,24 @@
         ],
         "zh": [
           {
-            "start": 0.0,
-            "end": 4.0,
+            "start": 0,
+            "end": 4,
             "text": "这里是后院复原的昆仑岛‘虎笼’囚室展区。"
           },
           {
-            "start": 4.0,
-            "end": 13.0,
+            "start": 4,
+            "end": 13,
             "text": "牢房面积仅约1.5平方米，顶部装有铁条，看守在上方用长竹竿和生石灰粉折磨囚犯。"
           },
           {
-            "start": 13.0,
+            "start": 13,
             "end": 18.7,
             "text": "面对残酷折磨，被囚禁的越南志士展现了坚贞不屈的意志。"
           }
         ],
         "ko": [
           {
-            "start": 0.0,
+            "start": 0,
             "end": 4.8,
             "text": "뒤편 야외에 마련된 꼰다오 '호랑이 우리' 복원 구역입니다."
           },
@@ -1012,7 +1012,7 @@
         ],
         "ja": [
           {
-            "start": 0.0,
+            "start": 0,
             "end": 5.8,
             "text": "中庭奥に復元されたコンダオ島「トラの檻」展示エリアです。"
           },
@@ -1048,7 +1048,7 @@
         "ja": "フランス統治期に持ち込まれ、10/59法令下で南ベトナム各地で愛国者の処刑に用いられたギロチン。"
       },
       "images": [
-        "/images/artifacts/WRM009_guillotine.svg"
+        "/images/artifacts/Máy chém thời Pháp và Luật.jpg"
       ],
       "mapCoordinates": {
         "x": 140,
@@ -1064,7 +1064,7 @@
       "subtitles": {
         "vi": [
           {
-            "start": 0.0,
+            "start": 0,
             "end": 5.8,
             "text": "Trước mắt bạn là chiếc máy chém cao hơn 4 mét do Pháp đưa sang Việt Nam từ đầu thế kỷ 20."
           },
@@ -1076,7 +1076,7 @@
         ],
         "en": [
           {
-            "start": 0.0,
+            "start": 0,
             "end": 6.1,
             "text": "Standing before you is a 4-meter tall guillotine brought from France in the early 20th century."
           },
@@ -1088,7 +1088,7 @@
         ],
         "zh": [
           {
-            "start": 0.0,
+            "start": 0,
             "end": 6.8,
             "text": "您眼前的这座断头台高达4米，系20世纪初由法国殖民者引入越南。"
           },
@@ -1100,7 +1100,7 @@
         ],
         "ko": [
           {
-            "start": 0.0,
+            "start": 0,
             "end": 6.9,
             "text": "높이 4미터가 넘는 이 단두대는 20세기 초 프랑스에 의해 베트남에 반입되었습니다."
           },
@@ -1112,7 +1112,7 @@
         ],
         "ja": [
           {
-            "start": 0.0,
+            "start": 0,
             "end": 7.4,
             "text": "目の前のギロチンは高さ4メートルを超え、20世紀初頭にフランスから持ち込まれました。"
           },
@@ -1143,7 +1143,7 @@
         "ja": "1973年ピュリッツァー賞受賞作。1972年にナパーム弾の火傷を負い逃げ惑う少女ファン・ティ・キム・フックを撮影した歴史的一枚。"
       },
       "images": [
-        "/images/artifacts/WRM010_napalm.svg"
+        "/images/artifacts/Bức ảnh lịch sử 'Em bé Napalm' (Nick Út).webp"
       ],
       "mapCoordinates": {
         "x": 300,
@@ -1159,7 +1159,7 @@
       "subtitles": {
         "vi": [
           {
-            "start": 0.0,
+            "start": 0,
             "end": 4.4,
             "text": "Chào mừng bạn đến với Phòng trưng bày Tội ác Chiến tranh tại Tầng 2."
           },
@@ -1176,7 +1176,7 @@
         ],
         "en": [
           {
-            "start": 0.0,
+            "start": 0,
             "end": 4.1,
             "text": "Welcome to the War Crimes exhibition room on the 2nd Floor."
           },
@@ -1193,7 +1193,7 @@
         ],
         "zh": [
           {
-            "start": 0.0,
+            "start": 0,
             "end": 3.7,
             "text": "欢迎参观位于二楼的战争罪行展厅。"
           },
@@ -1210,7 +1210,7 @@
         ],
         "ko": [
           {
-            "start": 0.0,
+            "start": 0,
             "end": 4.3,
             "text": "2층 전쟁 범죄 전시실에 오신 것을 환영합니다."
           },
@@ -1227,7 +1227,7 @@
         ],
         "ja": [
           {
-            "start": 0.0,
+            "start": 0,
             "end": 4.2,
             "text": "2階の「戦争犯罪」展示室へようこそ。"
           },
@@ -1263,7 +1263,7 @@
         "ja": "1968年のテト攻勢時、サイゴンの路上で捕虜が即決射殺された瞬間を捉えたエディ・アダムズの衝撃作。"
       },
       "images": [
-        "/images/artifacts/WRM011_exec.svg"
+        "/images/artifacts/Bức ảnh lịch sử 'Hành quyết tại Sài Gòn' (Eddie Adams).webp"
       ],
       "mapCoordinates": {
         "x": 480,
@@ -1279,7 +1279,7 @@
       "subtitles": {
         "vi": [
           {
-            "start": 0.0,
+            "start": 0,
             "end": 5.4,
             "text": "Bức ảnh 'Hành quyết tại Sài Gòn' được chụp vào ngày 1 tháng 2 năm 1968."
           },
@@ -1291,7 +1291,7 @@
         ],
         "en": [
           {
-            "start": 0.0,
+            "start": 0,
             "end": 5.7,
             "text": "The 'Saigon Execution' photo was captured on February 1, 1968."
           },
@@ -1303,7 +1303,7 @@
         ],
         "zh": [
           {
-            "start": 0.0,
+            "start": 0,
             "end": 5.3,
             "text": "《西贡处决》拍摄于1968年2月1日春节攻势期间。"
           },
@@ -1315,7 +1315,7 @@
         ],
         "ko": [
           {
-            "start": 0.0,
+            "start": 0,
             "end": 6.5,
             "text": "'사이공 처형' 사진은 1968년 2월 1일 테트 공세 중에 촬영되었습니다."
           },
@@ -1327,7 +1327,7 @@
         ],
         "ja": [
           {
-            "start": 0.0,
+            "start": 0,
             "end": 7.9,
             "text": "「サイゴンでの処刑」は1968年2月1日のテト攻勢中に撮影されました。"
           },
@@ -1358,7 +1358,7 @@
         "ja": "約8,000万リットルの枯葉剤散布による壊滅的被害と、今なお第4世代にまで及ぶ深刻な後遺症を伝える展示。"
       },
       "images": [
-        "/images/artifacts/WRM012_dioxin.svg"
+        "/images/artifacts/Phòng trưng bày Hậu quả Chất độc Da cam.webp"
       ],
       "mapCoordinates": {
         "x": 650,
@@ -1374,7 +1374,7 @@
       "subtitles": {
         "vi": [
           {
-            "start": 0.0,
+            "start": 0,
             "end": 4.3,
             "text": "Bạn đang đứng trong Phòng trưng bày Hậu quả Chất độc Da cam Dioxin."
           },
@@ -1391,7 +1391,7 @@
         ],
         "en": [
           {
-            "start": 0.0,
+            "start": 0,
             "end": 4.9,
             "text": "You are standing in the Agent Orange and Dioxin consequences exhibition room."
           },
@@ -1408,7 +1408,7 @@
         ],
         "zh": [
           {
-            "start": 0.0,
+            "start": 0,
             "end": 4.1,
             "text": "您现在位于橙剂与二恶英危害专题展厅。"
           },
@@ -1425,7 +1425,7 @@
         ],
         "ko": [
           {
-            "start": 0.0,
+            "start": 0,
             "end": 5.3,
             "text": "현재 관람하시는 곳은 고엽제 다이옥신 피해 전시실입니다."
           },
@@ -1442,7 +1442,7 @@
         ],
         "ja": [
           {
-            "start": 0.0,
+            "start": 0,
             "end": 4.5,
             "text": "こちらは枯葉剤・ダイオキシン被害展示室です。"
           },
@@ -1478,7 +1478,7 @@
         "ja": "インドシナ戦争の取材中に命を落とした11カ国・134名の報道写真家たちが命がけで遺した貴重な作品群。"
       },
       "images": [
-        "/images/artifacts/WRM013_requiem.svg"
+        "/images/artifacts/Bộ sưu tập ảnh chiến trường 'Hồi Niệm' (Requiem).webp"
       ],
       "mapCoordinates": {
         "x": 380,
@@ -1494,7 +1494,7 @@
       "subtitles": {
         "vi": [
           {
-            "start": 0.0,
+            "start": 0,
             "end": 4.6,
             "text": "Tầng 3 là không gian trưng bày Bộ sưu tập ảnh 'Hồi Niệm' - Requiem."
           },
@@ -1511,7 +1511,7 @@
         ],
         "en": [
           {
-            "start": 0.0,
+            "start": 0,
             "end": 4.5,
             "text": "The 3rd Floor houses the profound 'Requiem' photography exhibition."
           },
@@ -1528,7 +1528,7 @@
         ],
         "zh": [
           {
-            "start": 0.0,
+            "start": 0,
             "end": 4.3,
             "text": "三楼是享誉国际的《怀念》战地摄影专集展厅。"
           },
@@ -1545,7 +1545,7 @@
         ],
         "ko": [
           {
-            "start": 0.0,
+            "start": 0,
             "end": 5.8,
             "text": "3층은 숭고한 보도사진전 '레퀴엠(진혼곡)' 전용 공간입니다."
           },
@@ -1556,13 +1556,13 @@
           },
           {
             "start": 14.1,
-            "end": 21.0,
+            "end": 21,
             "text": "한 장 한 장의 사진은 전쟁의 진실과 평화에 대한 인류의 열망을 생생히 전달합니다."
           }
         ],
         "ja": [
           {
-            "start": 0.0,
+            "start": 0,
             "end": 6.4,
             "text": "3階には国際的に著名な「レクイエム」写真展が開設されています。"
           },
@@ -1598,7 +1598,7 @@
         "ja": "アメリカの退役軍人たちが謝罪と和解の証としてベトナム人民に返還した勲章や手紙。"
       },
       "images": [
-        "/images/artifacts/WRM014_medals.svg"
+        "/images/artifacts/Huân chương & Kỷ vật phản chiến của Cựu chiến binh Mỹ.webp"
       ],
       "mapCoordinates": {
         "x": 260,
@@ -1614,7 +1614,7 @@
       "subtitles": {
         "vi": [
           {
-            "start": 0.0,
+            "start": 0,
             "end": 5.2,
             "text": "Tại Tầng 1, bạn sẽ thấy tủ trưng bày huân chương do cựu binh Mỹ trao trả lại."
           },
@@ -1626,7 +1626,7 @@
         ],
         "en": [
           {
-            "start": 0.0,
+            "start": 0,
             "end": 5.5,
             "text": "On the 1st Floor, you can observe military medals returned by American veterans."
           },
@@ -1638,7 +1638,7 @@
         ],
         "zh": [
           {
-            "start": 0.0,
+            "start": 0,
             "end": 5.2,
             "text": "在一楼展厅，您将看到美国老兵退还勋章的专题展柜。"
           },
@@ -1650,7 +1650,7 @@
         ],
         "ko": [
           {
-            "start": 0.0,
+            "start": 0,
             "end": 6.4,
             "text": "1층에는 미국 참전용사들이 직접 기증하고 반환한 훈장 전시관이 있습니다."
           },
@@ -1662,7 +1662,7 @@
         ],
         "ja": [
           {
-            "start": 0.0,
+            "start": 0,
             "end": 6.4,
             "text": "1階には米退役軍人が返還した軍事勲章の展示ケースがあります。"
           },
@@ -1693,7 +1693,7 @@
         "ja": "各国の子供たちが描いた平和の絵画や白い鳩の造形が並び、戦争のない未来への願いを発信しています。"
       },
       "images": [
-        "/images/artifacts/WRM015_peace.svg"
+        "/images/artifacts/Biểu tượng 'Bồ Câu Trắng vì Hòa Bình'.jpg"
       ],
       "mapCoordinates": {
         "x": 580,
@@ -1709,7 +1709,7 @@
       "subtitles": {
         "vi": [
           {
-            "start": 0.0,
+            "start": 0,
             "end": 4.6,
             "text": "Khép lại hành trình tham quan là không gian 'Bồ Câu Trắng vì Hòa Bình'."
           },
@@ -1721,19 +1721,19 @@
         ],
         "en": [
           {
-            "start": 0.0,
-            "end": 4.0,
+            "start": 0,
+            "end": 4,
             "text": "Concluding your tour is the 'White Dove of Peace' exhibition."
           },
           {
-            "start": 4.0,
+            "start": 4,
             "end": 12.6,
             "text": "The War Remnants Museum preserves the pain of the past not to breed hatred, but to inspire humanity to cherish and protect lasting peace."
           }
         ],
         "zh": [
           {
-            "start": 0.0,
+            "start": 0,
             "end": 3.6,
             "text": "参观旅程的尾声是‘和平白鸽’展区。"
           },
@@ -1745,19 +1745,19 @@
         ],
         "ko": [
           {
-            "start": 0.0,
+            "start": 0,
             "end": 4.5,
             "text": "관람의 마지막 여정은 '평화의 흰 비둘기' 공간입니다."
           },
           {
             "start": 4.5,
-            "end": 13.0,
+            "end": 13,
             "text": "전쟁증적박물관이 과거의 상흔을 기록하는 까닭은 증오가 아닌, 인류 모두가 평화의 소중함을 되새기기 위함입니다."
           }
         ],
         "ja": [
           {
-            "start": 0.0,
+            "start": 0,
             "end": 5.6,
             "text": "見学の最後を飾るのは「平和の白い鳩」展示エリアです。"
           },
