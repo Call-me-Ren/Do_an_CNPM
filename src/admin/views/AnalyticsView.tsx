@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { getFloorName } from '../../shared/utils/floorHelper';
 import {
   BarChart3,
   Globe,
@@ -371,7 +372,7 @@ export const AnalyticsView: React.FC = () => {
                     </td>
                     <td className="py-3 px-3 text-slate-400">
                       <span className="bg-slate-900 px-2.5 py-1 rounded-lg border border-slate-700/60 font-mono text-[11px]">
-                        {art.floorId === 1 ? 'Sân Ngoài Trời' : `Tầng ${art.floorId}`}
+                        {getFloorName(art.floorId)}
                       </span>
                     </td>
                     <td className="py-3 px-3 text-right font-mono font-bold text-amber-400 text-sm">

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Artifact, SupportedLanguage } from '../../shared/types';
 import { museumApi } from '../../shared/services/api';
 import { resolveAssetUrl, getArtifactFallbackImage } from '../../shared/utils/assetHelper';
+import { getFloorName } from '../../shared/utils/floorHelper';
 import { AlertModal } from '../../shared/components/AlertModal';
 import QRCode from 'qrcode';
 import {
@@ -277,7 +278,7 @@ export const ArtifactsManageView: React.FC = () => {
                       </div>
                     </td>
                     <td className="py-3.5 px-4 text-slate-300">
-                      Tầng {item.floorId} ({item.mapCoordinates.x}, {item.mapCoordinates.y})
+                      {getFloorName(item.floorId)} ({item.mapCoordinates.x}, {item.mapCoordinates.y})
                     </td>
                     <td className="py-3.5 px-4">
                       <div className="flex items-center gap-1.5">
@@ -415,9 +416,9 @@ export const ArtifactsManageView: React.FC = () => {
                     className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none"
                   >
                     <option value={1}>Sân Ngoài Trời - Vũ Khí Hạng Nặng & Chuồng Cọp</option>
-                    <option value={2}>Tầng 1 - Chế Độ Lao Tù & Thế Giới Ủng Hộ</option>
-                    <option value={3}>Tầng 2 - Tội Ác Chiến Tranh & Hậu Quả Da Cam</option>
-                    <option value={4}>Tầng 3 - Hồi Niệm (Requiem) & Hòa Bình</option>
+                    <option value={2}>Tầng Trệt - Chế Độ Lao Tù & Thế Giới Ủng Hộ</option>
+                    <option value={3}>Tầng 1 - Tội Ác Chiến Tranh & Hậu Quả Da Cam</option>
+                    <option value={4}>Tầng 2 - Hồi Niệm (Requiem) & Hòa Bình</option>
                   </select>
                 </div>
               </div>
@@ -560,7 +561,7 @@ export const ArtifactsManageView: React.FC = () => {
                   <div className="text-xs text-amber-600 font-mono font-semibold">
                     {selectedQrTarget === 'GATE'
                       ? 'CỔNG CHÍNH BẢO TÀNG'
-                      : `MÃ: ${selectedQrTarget.code} • TẦNG ${selectedQrTarget.floorId}`}
+                      : `MÃ: ${selectedQrTarget.code} • ${getFloorName(selectedQrTarget.floorId).toUpperCase()}`}
                   </div>
                 </div>
               </div>

@@ -44,7 +44,7 @@ export const museumApi = {
           const customFloors: Floor[] = JSON.parse(customFloorsRaw);
           data.floors = data.floors.map((f) => {
             const found = customFloors.find((cf) => cf.id === f.id);
-            return found ? { ...f, ...found } : f;
+            return found ? { ...f, mapImage: found.mapImage || f.mapImage, bounds: found.bounds || f.bounds } : f;
           });
         }
 

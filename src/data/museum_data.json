@@ -50,11 +50,11 @@
     {
       "id": 2,
       "name": {
-        "vi": "Tầng 1 - Chế Độ Lao Tù & Thế Giới Ủng Hộ",
-        "en": "1st Floor - Prison Regimes & World Solidarity",
-        "zh": "一楼 - 监狱制度与世界声援",
-        "ko": "1층 - 감옥 제도 및 세계의 연대",
-        "ja": "1階 - 監獄制度と世界各国の連帯"
+        "vi": "Tầng Trệt - Chế Độ Lao Tù & Thế Giới Ủng Hộ",
+        "en": "Ground Floor - Prison Regimes & World Solidarity",
+        "zh": "一楼地面展区 - 监狱制度与世界声援",
+        "ko": "1층 (지상층) - 감옥 제도 및 세계의 연대",
+        "ja": "1階（グラウンドフロア） - 監獄制度と世界各国の連帯"
       },
       "mapImage": "/maps/floor_2_ground.svg",
       "bounds": {
@@ -65,11 +65,11 @@
     {
       "id": 3,
       "name": {
-        "vi": "Tầng 2 - Tội Ác Chiến Tranh & Hậu Quả Da Cam",
-        "en": "2nd Floor - War Crimes & Agent Orange Legacy",
-        "zh": "二楼 - 战争罪行与橙剂遗害",
-        "ko": "2층 - 전쟁 범죄 및 고엽제 피해",
-        "ja": "2階 - 戦争犯罪と枯葉剤の被害"
+        "vi": "Tầng 1 - Tội Ác Chiến Tranh & Hậu Quả Da Cam",
+        "en": "1st Floor - War Crimes & Agent Orange Legacy",
+        "zh": "一楼 (1F) - 战争罪行与橙剂遗害",
+        "ko": "1층 (1F) - 전쟁 범죄 및 고엽제 피해",
+        "ja": "1階 (1F) - 戦争犯罪と枯葉剤の被害"
       },
       "mapImage": "/maps/floor_3_level1.svg",
       "bounds": {
@@ -80,11 +80,11 @@
     {
       "id": 4,
       "name": {
-        "vi": "Tầng 3 - Hồi Niệm (Requiem) & Hòa Bình",
-        "en": "3rd Floor - Requiem Photography & Peace",
-        "zh": "三楼 - 怀念展厅与和平愿景",
-        "ko": "3층 - 레퀴엠 사진전 및 평화의 방",
-        "ja": "3階 - レクイエム写真展と平和への願い"
+        "vi": "Tầng 2 - Hồi Niệm (Requiem) & Hòa Bình",
+        "en": "2nd Floor - Requiem Photography & Peace",
+        "zh": "二楼 (2F) - 怀念展厅与和平愿景",
+        "ko": "2층 (2F) - 레퀴엠 사진전 및 평화의 방",
+        "ja": "2階 (2F) - レクイエム写真展と平和への願い"
       },
       "mapImage": "/maps/floor_4_level2.svg",
       "bounds": {
@@ -1161,7 +1161,7 @@
           {
             "start": 0,
             "end": 4.4,
-            "text": "Chào mừng bạn đến với Phòng trưng bày Tội ác Chiến tranh tại Tầng 2."
+            "text": "Chào mừng bạn đến với Phòng trưng bày Tội ác Chiến tranh tại Tầng 1."
           },
           {
             "start": 4.4,
@@ -1496,7 +1496,7 @@
           {
             "start": 0,
             "end": 4.6,
-            "text": "Tầng 3 là không gian trưng bày Bộ sưu tập ảnh 'Hồi Niệm' - Requiem."
+            "text": "Tầng 2 là không gian trưng bày Bộ sưu tập ảnh 'Hồi Niệm' - Requiem."
           },
           {
             "start": 4.6,
@@ -1616,7 +1616,7 @@
           {
             "start": 0,
             "end": 5.2,
-            "text": "Tại Tầng 1, bạn sẽ thấy tủ trưng bày huân chương do cựu binh Mỹ trao trả lại."
+            "text": "Tại Tầng Trệt, bạn sẽ thấy tủ trưng bày huân chương do cựu binh Mỹ trao trả lại."
           },
           {
             "start": 5.2,

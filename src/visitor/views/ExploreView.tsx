@@ -5,6 +5,7 @@ import { usePlayerStore } from '../../shared/stores/playerStore';
 import { useGeofenceStore } from '../../shared/stores/geofenceStore';
 import { useFavStore } from '../../shared/stores/favStore';
 import { resolveAssetUrl, getArtifactFallbackImage } from '../../shared/utils/assetHelper';
+import { getFloorName } from '../../shared/utils/floorHelper';
 import { Search, Volume2, Square, Radio, Sparkles, Heart, Compass, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
@@ -70,26 +71,30 @@ export const ExploreView: React.FC<Props> = ({ artifacts, onSelectArtifact }) =>
         <img
           src={resolveAssetUrl('/images/museum/Bảo tàng Chứng tích Chiến tranh.jpg')}
           alt="Bảo tàng Chứng tích Chiến tranh"
-          className="absolute inset-0 w-full h-full object-cover opacity-25 scale-105 pointer-events-none transition duration-700 hover:scale-100"
+          onError={(e) => {
+            e.currentTarget.onerror = null;
+            e.currentTarget.src = resolveAssetUrl('/images/museum/Bảo tàng Chứng tích Chiến tranh thông tin.webp');
+          }}
+          className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none transition duration-700 hover:scale-105"
         />
-        {/* Gradient Overlay for high text readability */}
-        <div className="absolute inset-0 bg-gradient-to-r from-slate-950/95 via-slate-950/80 to-slate-900/60 pointer-events-none" />
+        {/* Balanced Gradient Overlay: subtle darkening on left for text readability, clear museum view on right */}
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-950/85 via-slate-950/45 to-transparent pointer-events-none" />
 
         {/* Subtle decorative circles */}
         <div className="absolute top-0 right-0 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute -bottom-20 -left-20 w-80 h-80 bg-amber-600/10 rounded-full blur-2xl pointer-events-none" />
 
         <div className="relative z-10 max-w-2xl flex flex-col gap-3">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/15 border border-amber-500/30 text-amber-400 text-xs font-bold uppercase tracking-wider w-fit">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-950/60 border border-amber-500/40 text-amber-400 text-xs font-bold uppercase tracking-wider w-fit backdrop-blur-md shadow-sm">
             <Compass className="w-3.5 h-3.5" />
             <span>{t('appName')}</span>
           </div>
 
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-white leading-tight">
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-white leading-tight drop-shadow-md">
             {t('heroTitle')}
           </h2>
 
-          <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
+          <p className="text-slate-200 text-sm sm:text-base leading-relaxed drop-shadow-sm font-medium">
             {t('heroSubtitle')}
           </p>
 
@@ -101,19 +106,19 @@ export const ExploreView: React.FC<Props> = ({ artifacts, onSelectArtifact }) =>
               value={searchTerm}
               onChange={(e) => handleSearchChange(e.target.value)}
               placeholder={t('searchPlaceholder')}
-              className="w-full pl-12 pr-4 py-3.5 bg-slate-800/90 rounded-2xl border border-slate-700 text-white placeholder-slate-400 shadow-lg focus:outline-none focus:ring-2 focus:ring-amber-500/60 text-sm sm:text-base backdrop-blur-md"
+              className="w-full pl-12 pr-4 py-3.5 bg-slate-900/80 rounded-2xl border border-slate-700/80 text-white placeholder-slate-400 shadow-xl focus:outline-none focus:ring-2 focus:ring-amber-500/70 text-sm sm:text-base backdrop-blur-md"
             />
           </div>
 
           {/* Quick Filter Floor Pills */}
           <div className="flex items-center gap-2 mt-1 overflow-x-auto pb-1 text-xs">
-            <span className="text-slate-400 font-medium shrink-0">{t('filterBy')}</span>
+            <span className="text-slate-300 font-semibold shrink-0 drop-shadow">{t('filterBy')}</span>
             <button
               onClick={() => handleFloorChange('all')}
-              className={`px-3 py-1.5 rounded-xl font-semibold transition shrink-0 ${
+              className={`px-3 py-1.5 rounded-xl font-semibold transition shrink-0 backdrop-blur-md ${
                 selectedFloorFilter === 'all'
-                  ? 'bg-amber-500 text-slate-950 shadow'
-                  : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
+                  ? 'bg-amber-500 text-slate-950 shadow-md font-bold'
+                  : 'bg-slate-900/70 border border-slate-700/60 text-slate-200 hover:bg-slate-800'
               }`}
             >
               {t('allFloors')}
@@ -122,13 +127,13 @@ export const ExploreView: React.FC<Props> = ({ artifacts, onSelectArtifact }) =>
               <button
                 key={floorId}
                 onClick={() => handleFloorChange(floorId)}
-                className={`px-3 py-1.5 rounded-xl font-semibold transition shrink-0 ${
+                className={`px-3 py-1.5 rounded-xl font-semibold transition shrink-0 backdrop-blur-md ${
                   selectedFloorFilter === floorId
-                    ? 'bg-amber-500 text-slate-950 shadow'
-                    : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
+                    ? 'bg-amber-500 text-slate-950 shadow-md font-bold'
+                    : 'bg-slate-900/70 border border-slate-700/60 text-slate-200 hover:bg-slate-800'
                 }`}
               >
-                {floorId === 1 ? 'Sân ngoài trời' : `${t('floorPrefix')} ${floorId}`}
+                {getFloorName(floorId, currentLang)}
               </button>
             ))}
           </div>
@@ -247,9 +252,7 @@ export const ExploreView: React.FC<Props> = ({ artifacts, onSelectArtifact }) =>
                   <div className="p-4 flex flex-col flex-1 justify-between gap-3">
                     <div>
                       <div className="text-[11px] font-semibold text-amber-600 uppercase tracking-wider mb-1">
-                        {artifact.floorId === 1
-                          ? 'Sân ngoài trời'
-                          : `${t('floorPrefix')} ${artifact.floorId}`}
+                        {getFloorName(artifact.floorId, currentLang)}
                       </div>
                       <h4 className="font-bold text-slate-900 text-base leading-snug line-clamp-1 group-hover:text-amber-600 transition-colors">
                         {artifact.title[currentLang] || artifact.title['vi']}

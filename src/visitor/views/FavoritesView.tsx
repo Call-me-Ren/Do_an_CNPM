@@ -4,6 +4,7 @@ import { useFavStore as useFavorites } from '../../shared/stores/favStore';
 import { useLangStore } from '../../shared/stores/langStore';
 import { usePlayerStore } from '../../shared/stores/playerStore';
 import { resolveAssetUrl, getArtifactFallbackImage } from '../../shared/utils/assetHelper';
+import { getFloorName } from '../../shared/utils/floorHelper';
 import { Heart, Volume2, Square } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
@@ -89,7 +90,7 @@ export const FavoritesView: React.FC<Props> = ({ artifacts, onSelectArtifact }) 
                 <div className="p-4 flex flex-col flex-1 justify-between gap-3">
                   <div>
                     <div className="text-[11px] font-semibold text-amber-600 uppercase tracking-wider mb-1">
-                      {t('floorPrefix')} {artifact.floorId}
+                      {getFloorName(artifact.floorId, currentLang)}
                     </div>
                     <h4 className="font-bold text-slate-900 text-base leading-snug line-clamp-1 group-hover:text-amber-600 transition-colors">
                       {artifact.title[currentLang] || artifact.title['vi']}

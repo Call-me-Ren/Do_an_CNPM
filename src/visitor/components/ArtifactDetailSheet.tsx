@@ -4,6 +4,7 @@ import { useLangStore } from '../../shared/stores/langStore';
 import { usePlayerStore } from '../../shared/stores/playerStore';
 import { useFavStore } from '../../shared/stores/favStore';
 import { resolveAssetUrl, getArtifactFallbackImage } from '../../shared/utils/assetHelper';
+import { getFloorName } from '../../shared/utils/floorHelper';
 import { LiveTranscriptCard } from './LiveTranscriptCard';
 import { X, Volume2, Square, Heart, MapPin, Layers, FileText } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
@@ -76,7 +77,7 @@ export const ArtifactDetailSheet: React.FC<Props> = ({ artifact, onClose }) => {
 
           <div className="absolute bottom-4 right-4 bg-slate-900/85 backdrop-blur-md text-slate-300 font-semibold text-xs px-3 py-1.5 rounded-xl shadow-md flex items-center gap-1.5 border border-slate-800">
             <Layers className="w-3.5 h-3.5 text-amber-400" />
-            <span>{t('floorPrefix')} {artifact.floorId}</span>
+            <span>{getFloorName(artifact.floorId, currentLang)}</span>
           </div>
         </div>
 

@@ -3,6 +3,7 @@ import { usePlayerStore } from '../../shared/stores/playerStore';
 import { useLangStore } from '../../shared/stores/langStore';
 import { ttsService } from '../../shared/services/tts';
 import { resolveAssetUrl, getArtifactFallbackImage } from '../../shared/utils/assetHelper';
+import { getFloorName } from '../../shared/utils/floorHelper';
 import { LiveTranscriptCard } from './LiveTranscriptCard';
 import { Play, Pause, Subtitles, Volume2, X, Sparkles } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
@@ -234,7 +235,7 @@ export const AudioPlayerBar: React.FC<Props> = ({ isDetailSheetOpen = false }) =
                   <span>{currentArtifact.code}</span>
                   <span className="hidden sm:inline text-slate-500">&bull;</span>
                   <span className="hidden sm:inline text-slate-400">
-                    {t('floorPrefix')} {currentArtifact.floorId}
+                    {getFloorName(currentArtifact.floorId, currentLang)}
                   </span>
                   <span className="hidden sm:inline text-emerald-400 text-[10px] bg-emerald-500/15 px-2 py-0.5 rounded-full font-bold">
                     AI Voice ({currentLang.toUpperCase()})

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import QRCode from 'qrcode';
+import { getFloorName } from '../../shared/utils/floorHelper';
 import {
   Users,
   Headphones,
@@ -189,7 +190,7 @@ export const AdminDashboardView: React.FC = () => {
               {floors.length}
             </div>
             <div className="text-xs text-slate-400 mt-1">
-              Sân ngoài trời & 3 tầng trưng bày
+              Sân ngoài trời, Tầng trệt, Tầng 1 & Tầng 2
             </div>
           </div>
           <div className="p-3 bg-purple-500/15 text-purple-400 rounded-2xl">
@@ -312,7 +313,7 @@ export const AdminDashboardView: React.FC = () => {
                     <div className="truncate">
                       <div className="font-bold text-white truncate">{art.title}</div>
                       <div className="text-[11px] font-mono text-slate-400">
-                        {art.code} &bull; Tầng {art.floorId === 1 ? 'Sân Ngoài Trời' : art.floorId}
+                        {art.code} &bull; {getFloorName(art.floorId)}
                       </div>
                     </div>
                   </div>
