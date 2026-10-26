@@ -7,6 +7,7 @@ import {
   getTriggerRadius,
   DEFAULT_TRIGGER_RADIUS,
 } from '../shared/utils/geofence';
+import { useGeofenceStore } from '../shared/stores/geofenceStore';
 import { Artifact } from '../shared/types';
 
 const mockArtifacts: Artifact[] = [
@@ -99,5 +100,17 @@ describe('Geofence Distance and Triggering Logic (USC14)', () => {
 
   it('uses default trigger radius when not specified', () => {
     expect(getTriggerRadius(mockArtifacts[2])).toBe(DEFAULT_TRIGGER_RADIUS);
+  });
+
+  it('enables automatic location tracking by default and requires QR scan for tour trigger', () => {
+    const store = useGeofenceStore.getState();
+    expect(store.trackingEnabled).toBe(true);
+    expect(store.hasScannedQr).toBe(false);
+
+    // After scanning gate or exhibit QR
+    store.startTracking('ART1');
+    const updated = useGeofenceStore.getState();
+    expect(updated.hasScannedQr).toBe(true);
+    expect(updated.anchorArtifactId).toBe('ART1');
   });
 });

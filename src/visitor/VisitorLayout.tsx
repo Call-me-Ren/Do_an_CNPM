@@ -166,6 +166,12 @@ export const VisitorLayout: React.FC = () => {
         setNearestArtifactId(matched.id);
         setAnchor(matched.id);
 
+        // Chỉ tự động phát thuyết minh khi khách tham quan đã quét mã QR (cổng bảo tàng hoặc 1 hiện vật)
+        const { hasScannedQr } = useGeofenceStore.getState();
+        if (!hasScannedQr) {
+          return;
+        }
+
         // Chỉ xử lý một lần khi bước vào vùng của hiện vật
         if (lastTriggeredRef.current === matched.id) return;
         lastTriggeredRef.current = matched.id;
@@ -337,7 +343,10 @@ export const VisitorLayout: React.FC = () => {
 
       {/* Main Website Body Container */}
       <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-28 md:pb-14 w-full min-w-0 overflow-x-hidden">
-        <TrackingPanel artifacts={data.artifacts} />
+        <TrackingPanel
+          artifacts={data.artifacts}
+          onOpenScanner={() => setIsQRScannerOpen(true)}
+        />
 
         {activeTab === 'explore' && (
           <ExploreView

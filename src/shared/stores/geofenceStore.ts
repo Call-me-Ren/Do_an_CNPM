@@ -32,8 +32,10 @@ interface GeofenceState {
   isTracking: boolean;
   permissionGranted: boolean | null;
 
-  /** Người dùng đã bật theo dõi (tự bật sau khi quét QR hoặc bấm nút) */
+  /** Theo dõi vị trí GPS (mặc định bật khi mở web để tự động yêu cầu quyền) */
   trackingEnabled: boolean;
+  /** Đã quét mã QR cổng hoặc hiện vật để kích hoạt tự động phát thuyết minh khi đến gần */
+  hasScannedQr: boolean;
   /** Hiện vật làm điểm xuất phát / vị trí hiện tại ("Bạn đang ở đây") */
   anchorArtifactId: string | null;
   gpsStatus: GpsStatus;
@@ -48,6 +50,7 @@ interface GeofenceState {
   setNearestArtifactId: (id: string | null) => void;
   setIsTracking: (isTracking: boolean) => void;
   setPermissionGranted: (granted: boolean) => void;
+  setHasScannedQr: (hasScannedQr: boolean) => void;
 
   /** Bật theo dõi; nếu có anchorId thì đặt làm điểm xuất phát. */
   startTracking: (anchorId?: string | null) => void;
@@ -67,7 +70,8 @@ export const useGeofenceStore = create<GeofenceState>((set, get) => ({
   isTracking: false,
   permissionGranted: null,
 
-  trackingEnabled: false,
+  trackingEnabled: true,
+  hasScannedQr: false,
   anchorArtifactId: null,
   gpsStatus: 'idle',
   accuracy: null,
@@ -79,10 +83,12 @@ export const useGeofenceStore = create<GeofenceState>((set, get) => ({
   setNearestArtifactId: (nearestArtifactId) => set({ nearestArtifactId }),
   setIsTracking: (isTracking) => set({ isTracking }),
   setPermissionGranted: (permissionGranted) => set({ permissionGranted }),
+  setHasScannedQr: (hasScannedQr) => set({ hasScannedQr }),
 
   startTracking: (anchorId) =>
     set((state) => ({
       trackingEnabled: true,
+      hasScannedQr: true,
       anchorArtifactId: anchorId === undefined ? state.anchorArtifactId : anchorId,
       gpsStatus: state.gpsStatus === 'active' ? 'active' : 'searching',
     })),
