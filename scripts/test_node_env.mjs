@@ -1,7 +1,7 @@
 import { JSDOM } from 'jsdom';
 
 const dom = new JSDOM('<!DOCTYPE html><html><head></head><body><div id="root"></div></body></html>', {
-  url: 'https://call-me-ren.github.io/Test_CNPM', // WITHOUT TRAILING SLASH!
+  url: 'https://call-me-ren.github.io/Do_an_CNPM', // WITHOUT TRAILING SLASH!
   pretendToBeVisual: true
 });
 
