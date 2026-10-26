@@ -10,7 +10,7 @@ const basePath =
     ? ''
     : rawBase;
 
-const STORAGE_CUSTOM_FLOORS = 'museum_custom_floors_v3';
+const STORAGE_CUSTOM_FLOORS = 'museum_custom_floors_v4';
 const STORAGE_CUSTOM_ARTIFACTS = 'museum_custom_artifacts_v3';
 
 export const museumApi = {
@@ -22,6 +22,7 @@ export const museumApi = {
         localStorage.removeItem('museum_custom_floors_v1');
         localStorage.removeItem('museum_custom_artifacts_v2');
         localStorage.removeItem('museum_custom_floors_v2');
+        localStorage.removeItem('museum_custom_floors_v3');
       } catch {
         // ignore
       }
