@@ -8,8 +8,8 @@ import { Artifact } from '../types';
 /** Bán kính kích hoạt mặc định (mét) khi hiện vật không khai báo triggerRadius. */
 export const DEFAULT_TRIGGER_RADIUS = 15;
 
-/** Sai số GPS tối đa chấp nhận (mét). Vượt ngưỡng này hệ thống không tự kích hoạt (E2). */
-export const MAX_ACCEPTABLE_ACCURACY = 50;
+/** Sai số GPS tối đa chấp nhận (mét). Phù hợp cả môi trường bảo tàng trong nhà và ngoài trời. */
+export const MAX_ACCEPTABLE_ACCURACY = 150;
 
 /** Quy đổi pixel trên sơ đồ sang mét (dùng cho gợi ý "Gần bạn" khi chỉ có điểm QR). */
 export const MAP_METERS_PER_PIXEL = 0.15;
