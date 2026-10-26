@@ -43,23 +43,9 @@
         }
       }(window.location))
     </script>
-    
-    <!-- Production Stylesheet Fallback -->
-    <link rel="stylesheet" crossorigin href="/Test_CNPM/assets/index.css">
   </head>
   <body class="bg-slate-50 text-slate-900 antialiased selection:bg-amber-500 selection:text-white overflow-x-hidden max-w-full">
     <div id="root" class="overflow-x-hidden max-w-full"></div>
-
-    <script type="text/javascript">
-      // Production loader for root-served GitHub Pages
-      if (location.hostname !== 'localhost' && location.hostname !== '127.0.0.1') {
-        var prodScript = document.createElement('script');
-        prodScript.type = 'module';
-        prodScript.crossOrigin = 'anonymous';
-        prodScript.src = '/Test_CNPM/assets/index.js';
-        document.body.appendChild(prodScript);
-      }
-    </script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

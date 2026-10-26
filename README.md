@@ -57,6 +57,43 @@ Client (Browser / PWA)
 
 ---
 
+## 📁 Cấu Trúc Thư Mục Dự Án
+
+Dự án được tổ chức gọn gàng, phân định rành mạch giữa mã nguồn ứng dụng, tài sản tĩnh và tài liệu đồ án:
+
+```
+Do_an_CNPM/
+├── .github/                      # CI/CD Workflows (GitHub Actions)
+│   └── workflows/deploy.yml      # Tự động kiểm thử và deploy lên GitHub Pages
+├── docs/                         # Toàn bộ tài liệu đồ án & báo cáo
+│   ├── report/                   # File báo cáo tổng kết đồ án (Word docx)
+│   ├── requirements/             # Phân tích yêu cầu & đặc tả Use Case (MD, PDF, media)
+│   ├── design/                   # Sơ đồ thiết kế UML (Component, Deploy, ERD, Use Cases)
+│   └── README.md                 # Mục lục và hướng dẫn tra cứu tài liệu
+├── public/                       # Tài nguyên tĩnh được Vite phân phối (audio, images, maps...)
+│   ├── audio/                    # File thuyết minh giọng đọc 5 thứ tiếng
+│   ├── images/                   # Ảnh hiện vật bảo tàng
+│   ├── maps/                     # Bản đồ các tầng
+│   ├── mock/                     # Dữ liệu JSON tĩnh
+│   ├── qr/                       # Mã QR demo
+│   ├── 404.html                  # Trang điều hướng SPA trên GitHub Pages
+│   └── .nojekyll                 # Cấu hình bỏ qua Jekyll engine
+├── scripts/                      # Bộ công cụ & script hỗ trợ (TTS, QR, deploy prep, tests)
+├── src/                          # Mã nguồn chính ứng dụng React + TypeScript
+│   ├── admin/                    # Phân hệ quản trị (Dashboard, Exhibits, Sessions, Floor Map...)
+│   ├── visitor/                  # Phân hệ khách tham quan (Home, Scan, Map, Audio Player...)
+│   ├── shared/                   # Components, stores Zustand, hooks dùng chung
+│   ├── locales/                  # Bản dịch 5 thứ tiếng (i18n)
+│   ├── data/                     # Dữ liệu hiện vật chuẩn
+│   └── __tests__/                # Kiểm thử tự động (Vitest)
+├── index.html                    # Entry point HTML của Vite
+├── vite.config.ts                # Cấu hình Vite & Tailwind
+├── tsconfig.json                 # Cấu hình TypeScript
+└── package.json                  # Khai báo dependencies & npm scripts
+```
+
+---
+
 ## 🛠️ Hướng Dẫn Cài Đặt & Chạy Thử
 
 ### Yêu cầu môi trường
