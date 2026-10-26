@@ -295,8 +295,8 @@ export const FloorMapEditorView: React.FC = () => {
                   alt={currentFloor.name.vi}
                   className="w-full h-full object-cover opacity-80 pointer-events-none transition-opacity"
                   onError={(e) => {
-                    e.currentTarget.src =
-                      'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=1200&q=80';
+                    e.currentTarget.onerror = null;
+                    e.currentTarget.src = resolveAssetUrl('/maps/floor_1_outdoor.png');
                   }}
                 />
 
