@@ -139,5 +139,5 @@ Dự án được tích hợp luồng CI/CD tự động trong [`.github/workflo
 
 ## 👨‍💻 Thông Tin Đồ Án
 - **Tên đề tài:** Hệ Thống Thuyết Minh Tự Động Đa Ngôn Ngữ
-- **Lĩnh vực:** Frontend Engineering (Web PWA, Mobile Friendly) & CI/CD Pipeline
+- **Chủ đề:** 1. FE DEV (React Native + React.js) chuyên nghiệp xử lý giao diện (trên Web, Mobile) bao gồm CD/CI
 - **Sinh viên thực hiện:** Khóa K24 - Trường Đại học Sài Gòn (SGU)
