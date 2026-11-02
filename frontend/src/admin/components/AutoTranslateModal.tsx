@@ -28,6 +28,7 @@ export interface AutoTranslateResult {
   descriptions: Record<SupportedLanguage, string>;
   audioDataUrl?: string;
   sourceLang: SupportedLanguage;
+  subtitles?: import('../../shared/types').SubtitleCue[];
 }
 
 interface AutoTranslateModalProps {
@@ -183,6 +184,7 @@ export const AutoTranslateModal: React.FC<AutoTranslateModalProps> = ({
       titles: translatedTitles,
       descriptions: translatedDescriptions,
       audioDataUrl: parsedFile?.audioDataUrl,
+      subtitles: parsedFile?.subtitles,
       sourceLang: sourceLang === 'auto' ? detectLanguage(inputDescription || inputTitle) : sourceLang,
     });
     ttsService.stop();

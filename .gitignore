@@ -39,3 +39,7 @@ graphify-out/
 
 # Tools
 cloudflared.exe
+
+# Test sample files
+sample_*
+

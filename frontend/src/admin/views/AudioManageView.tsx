@@ -216,7 +216,7 @@ export const AudioManageView: React.FC = () => {
       ttsService.stop();
       setPreviewPlaying(false);
     } else {
-      const audioUrl = selectedArtifact?.audio?.[selectedLang] || selectedArtifact?.audio?.['vi'];
+      const audioUrl = selectedArtifact?.audio?.[selectedLang];
       if (currentSubtitles.length > 0) {
         setPreviewPlaying(true);
         ttsService.playCues(
@@ -264,33 +264,47 @@ export const AudioManageView: React.FC = () => {
   const handleApplyAutoTranslate = (res: AutoTranslateResult) => {
     if (!selectedArtifact) return;
 
+    const allLangs: SupportedLanguage[] = ['vi', 'en', 'zh', 'ko', 'ja'];
     const updatedTitle = { ...(selectedArtifact.title || {}), ...res.titles };
     const updatedDesc = { ...(selectedArtifact.description || {}), ...res.descriptions };
     const updatedAudio = { ...(selectedArtifact.audio || {}) };
+
     if (res.audioDataUrl) {
       updatedAudio[res.sourceLang || selectedLang] = res.audioDataUrl;
+    } else {
+      // Khi áp dụng văn bản mới (không kèm file mp3 tải lên):
+      // Xóa đường dẫn file mp3 cũ để hệ thống kích hoạt giọng đọc AI Voice (TTS) phát trực tiếp nội dung mới!
+      for (const l of allLangs) {
+        if (res.descriptions[l]) {
+          delete updatedAudio[l];
+        }
+      }
     }
 
     const updatedSubtitles = { ...(selectedArtifact.subtitles || {}) };
-    const allLangs: SupportedLanguage[] = ['vi', 'en', 'zh', 'ko', 'ja'];
     for (const l of allLangs) {
-      const descText = res.descriptions[l];
-      if (descText && (!updatedSubtitles[l] || updatedSubtitles[l]!.length === 0)) {
-        const sentences = descText
-          .split(/(?<=[.?!])\s+/)
-          .map((s) => s.trim())
-          .filter(Boolean);
-        let curTime = 0;
-        updatedSubtitles[l] = sentences.map((sentence) => {
-          const duration = Math.max(3, Math.min(8, Math.round(sentence.length / 15)));
-          const cue: SubtitleCue = {
-            start: curTime,
-            end: curTime + duration,
-            text: sentence,
-          };
-          curTime += duration;
-          return cue;
-        });
+      if (l === res.sourceLang && res.subtitles && res.subtitles.length > 0) {
+        updatedSubtitles[l] = res.subtitles;
+      } else {
+        const descText = res.descriptions[l];
+        if (descText) {
+          // Luôn làm mới phụ đề từ nội dung dịch mới
+          const sentences = descText
+            .split(/(?<=[.?!])\s+|\n+/)
+            .map((s) => s.trim())
+            .filter(Boolean);
+          let curTime = 0;
+          updatedSubtitles[l] = sentences.map((sentence) => {
+            const duration = Math.max(3, Math.min(8, Math.round(sentence.length / 15)));
+            const cue: SubtitleCue = {
+              start: curTime,
+              end: curTime + duration,
+              text: sentence,
+            };
+            curTime += duration;
+            return cue;
+          });
+        }
       }
     }
 
@@ -303,13 +317,14 @@ export const AudioManageView: React.FC = () => {
     };
 
     setSelectedArtifact(updatedArt);
+    setSelectedLang(res.sourceLang || selectedLang);
     const updatedArtifacts = artifacts.map((a) => (a.id === updatedArt.id ? updatedArt : a));
     setArtifacts(updatedArtifacts);
     museumApi.saveCustomArtifacts(updatedArtifacts);
 
     setModalAlert({
       title: 'Đồng Bộ Thành Công',
-      message: `Đã tự động dịch và đồng bộ âm thanh & phụ đề cho cả 5 ngôn ngữ của hiện vật [${selectedArtifact.code}]!`,
+      message: `Đã làm mới phụ đề và giọng đọc AI cho cả 5 ngôn ngữ của hiện vật [${selectedArtifact.code}]! Hãy bấm nút "Nghe thử phát âm" để nghe nội dung mới.`,
       type: 'success',
     });
   };
