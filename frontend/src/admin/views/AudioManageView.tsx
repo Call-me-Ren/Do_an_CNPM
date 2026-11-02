@@ -316,25 +316,14 @@ export const AudioManageView: React.FC = () => {
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <h2 className="text-xl font-bold text-white flex items-center gap-2">
-            <Music className="w-5 h-5 text-amber-500" />
-            Quản Lý Tệp Âm Thanh & Phụ Đề Đồng Bộ
-          </h2>
-          <p className="text-xs text-slate-400 mt-0.5">
-            Hệ thống Thuyết minh tự động đa ngôn ngữ &bull; Nghe thử phát âm AI thực tế theo từng ngôn ngữ.
-          </p>
-        </div>
-
-        <button
-          type="button"
-          onClick={() => setIsAutoTranslateOpen(true)}
-          className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-amber-500/20 to-amber-600/20 hover:from-amber-500/30 hover:to-amber-600/30 text-amber-300 border border-amber-500/40 font-bold text-xs sm:text-sm shadow-sm transition cursor-pointer shrink-0"
-        >
-          <Sparkles className="w-4 h-4 text-amber-400" />
-          <span>🪄 AI Tự Động Dịch 5 Ngôn Ngữ</span>
-        </button>
+      <div>
+        <h2 className="text-xl font-bold text-white flex items-center gap-2">
+          <Music className="w-5 h-5 text-amber-500" />
+          Quản Lý Tệp Âm Thanh & Phụ Đề Đồng Bộ
+        </h2>
+        <p className="text-xs text-slate-400 mt-0.5">
+          Hệ thống Thuyết minh tự động đa ngôn ngữ &bull; Nghe thử phát âm AI thực tế theo từng ngôn ngữ.
+        </p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
