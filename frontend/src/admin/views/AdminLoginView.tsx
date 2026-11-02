@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAdminAuthStore } from '../../shared/stores/adminAuthStore';
+import { http, apiEnabled, isNetworkError } from '../../shared/services/http';
 import { ShieldCheck, Lock, User, AlertCircle, ArrowLeft, Clock } from 'lucide-react';
 import {
   getLockRemainingMs,
@@ -38,12 +39,33 @@ export const AdminLoginView: React.FC = () => {
     return () => clearInterval(timer);
   }, [lockRemainingSec]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const remaining = getLockRemainingMs();
     if (remaining > 0) {
       setLockRemainingSec(Math.ceil(remaining / 1000));
       return;
+    }
+
+    // Đăng nhập qua back-end (JWT + khoá tài khoản phía server). Nếu không kết nối được -> chế độ demo.
+    if (apiEnabled) {
+      try {
+        const res = await http.post<{ token: string; username: string; role: string }>('/auth/login', {
+          email: username.trim(),
+          password,
+        });
+        resetLoginLock();
+        login(res.data.token, res.data.username, res.data.role);
+        navigate('/admin', { replace: true });
+        return;
+      } catch (err) {
+        if (!isNetworkError(err)) {
+          const msg = (err as { response?: { data?: { error?: string } } }).response?.data?.error;
+          setError(msg || 'Đăng nhập thất bại. Vui lòng thử lại.');
+          return;
+        }
+        // lỗi mạng: tiếp tục xuống đăng nhập demo bên dưới
+      }
     }
 
     if (username.trim() === 'admin@museum.vn' && password === 'admin123') {

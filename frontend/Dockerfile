@@ -11,6 +11,9 @@ RUN npm ci
 COPY . .
 
 # Set environment variable so base URL is '/'
+# Back-end được nginx proxy tại /api
+ARG VITE_API_URL=/api
+ENV VITE_API_URL=$VITE_API_URL
 ENV DOCKER=true
 ENV NODE_ENV=production
 

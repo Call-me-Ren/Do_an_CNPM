@@ -1,0 +1,120 @@
+IF OBJECT_ID('dbo.Museum') IS NULL
+CREATE TABLE dbo.Museum (
+  Id INT NOT NULL PRIMARY KEY DEFAULT 1,
+  Hotline NVARCHAR(50) NOT NULL DEFAULT '',
+  Banner NVARCHAR(500) NOT NULL DEFAULT '',
+  CONSTRAINT CK_Museum_Single CHECK (Id = 1)
+);
+GO
+IF OBJECT_ID('dbo.MuseumTranslation') IS NULL
+CREATE TABLE dbo.MuseumTranslation (
+  Lang CHAR(2) NOT NULL PRIMARY KEY,
+  Name NVARCHAR(300) NOT NULL DEFAULT '',
+  Address NVARCHAR(500) NOT NULL DEFAULT '',
+  OpenHours NVARCHAR(300) NOT NULL DEFAULT '',
+  Description NVARCHAR(MAX) NOT NULL DEFAULT ''
+);
+GO
+IF OBJECT_ID('dbo.Floor') IS NULL
+CREATE TABLE dbo.Floor (
+  Id INT NOT NULL PRIMARY KEY,
+  MapImage NVARCHAR(500) NOT NULL DEFAULT '',
+  Width FLOAT NOT NULL DEFAULT 0,
+  Height FLOAT NOT NULL DEFAULT 0
+);
+GO
+IF OBJECT_ID('dbo.FloorTranslation') IS NULL
+CREATE TABLE dbo.FloorTranslation (
+  FloorId INT NOT NULL REFERENCES dbo.Floor(Id) ON DELETE CASCADE,
+  Lang CHAR(2) NOT NULL,
+  Name NVARCHAR(200) NOT NULL,
+  PRIMARY KEY (FloorId, Lang)
+);
+GO
+IF OBJECT_ID('dbo.Artifact') IS NULL
+CREATE TABLE dbo.Artifact (
+  Id NVARCHAR(50) NOT NULL PRIMARY KEY,
+  Code NVARCHAR(50) NOT NULL,
+  FloorId INT NOT NULL REFERENCES dbo.Floor(Id),
+  MapX FLOAT NOT NULL DEFAULT 0,
+  MapY FLOAT NOT NULL DEFAULT 0,
+  Latitude FLOAT NULL,
+  Longitude FLOAT NULL,
+  TriggerRadius FLOAT NULL,
+  CreatedAt BIGINT NULL,
+  SortOrder INT NOT NULL DEFAULT 0
+);
+GO
+IF OBJECT_ID('dbo.ArtifactTranslation') IS NULL
+CREATE TABLE dbo.ArtifactTranslation (
+  ArtifactId NVARCHAR(50) NOT NULL REFERENCES dbo.Artifact(Id) ON DELETE CASCADE,
+  Lang CHAR(2) NOT NULL,
+  Title NVARCHAR(500) NOT NULL DEFAULT '',
+  Description NVARCHAR(MAX) NOT NULL DEFAULT '',
+  PRIMARY KEY (ArtifactId, Lang)
+);
+GO
+IF OBJECT_ID('dbo.ArtifactImage') IS NULL
+CREATE TABLE dbo.ArtifactImage (
+  ArtifactId NVARCHAR(50) NOT NULL REFERENCES dbo.Artifact(Id) ON DELETE CASCADE,
+  SortOrder INT NOT NULL,
+  Url NVARCHAR(1000) NOT NULL,
+  PRIMARY KEY (ArtifactId, SortOrder)
+);
+GO
+IF OBJECT_ID('dbo.ArtifactAudio') IS NULL
+CREATE TABLE dbo.ArtifactAudio (
+  ArtifactId NVARCHAR(50) NOT NULL REFERENCES dbo.Artifact(Id) ON DELETE CASCADE,
+  Lang CHAR(2) NOT NULL,
+  Url NVARCHAR(1000) NOT NULL,
+  PRIMARY KEY (ArtifactId, Lang)
+);
+GO
+IF OBJECT_ID('dbo.SubtitleCue') IS NULL
+CREATE TABLE dbo.SubtitleCue (
+  ArtifactId NVARCHAR(50) NOT NULL REFERENCES dbo.Artifact(Id) ON DELETE CASCADE,
+  Lang CHAR(2) NOT NULL,
+  SortOrder INT NOT NULL,
+  StartSec FLOAT NOT NULL,
+  EndSec FLOAT NOT NULL,
+  Text NVARCHAR(MAX) NOT NULL,
+  PRIMARY KEY (ArtifactId, Lang, SortOrder)
+);
+GO
+IF OBJECT_ID('dbo.AdminUser') IS NULL
+CREATE TABLE dbo.AdminUser (
+  Id INT IDENTITY(1,1) PRIMARY KEY,
+  Email NVARCHAR(200) NOT NULL UNIQUE,
+  PasswordHash NVARCHAR(200) NOT NULL,
+  DisplayName NVARCHAR(200) NOT NULL,
+  Role NVARCHAR(30) NOT NULL DEFAULT 'ADMIN',
+  FailedAttempts INT NOT NULL DEFAULT 0,
+  LockedUntil DATETIME2 NULL
+);
+GO
+IF OBJECT_ID('dbo.VisitorSession') IS NULL
+CREATE TABLE dbo.VisitorSession (
+  SessionId NVARCHAR(100) NOT NULL PRIMARY KEY,
+  DeviceType NVARCHAR(20) NOT NULL,
+  Browser NVARCHAR(50) NOT NULL,
+  Lang NVARCHAR(10) NOT NULL,
+  CurrentArtifactId NVARCHAR(50) NULL,
+  CurrentArtifactTitle NVARCHAR(500) NULL,
+  StartedAt BIGINT NOT NULL,
+  LastActive BIGINT NOT NULL
+);
+GO
+IF OBJECT_ID('dbo.ListenEvent') IS NULL
+CREATE TABLE dbo.ListenEvent (
+  Id NVARCHAR(100) NOT NULL PRIMARY KEY,
+  SessionId NVARCHAR(100) NOT NULL,
+  ArtifactId NVARCHAR(50) NOT NULL,
+  ArtifactCode NVARCHAR(50) NOT NULL DEFAULT '',
+  ArtifactTitle NVARCHAR(500) NOT NULL DEFAULT '',
+  Lang NVARCHAR(10) NOT NULL,
+  Timestamp BIGINT NOT NULL
+);
+GO
+IF NOT EXISTS (SELECT 1 FROM sys.indexes WHERE name = 'IX_ListenEvent_Timestamp')
+CREATE INDEX IX_ListenEvent_Timestamp ON dbo.ListenEvent(Timestamp);
+GO

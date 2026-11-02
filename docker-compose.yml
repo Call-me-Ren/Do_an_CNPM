@@ -1,12 +1,38 @@
 services:
-  museum-app:
+  frontend:
     build:
-      context: .
+      context: ./frontend
       dockerfile: Dockerfile
+      args:
+        VITE_API_URL: /api
     image: museum-audio-guide:latest
-    container_name: museum_audio_guide
+    container_name: museum_frontend
     restart: unless-stopped
     ports:
       - "8080:80"
+    depends_on:
+      - backend
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    image: museum-audio-guide-backend:latest
+    container_name: museum_backend
+    restart: unless-stopped
+    env_file:
+      - ./backend/.env
     environment:
+      # SQL Server cài sẵn trên máy host (SSMS), truy cập từ container qua host.docker.internal
+      - DB_SERVER=host.docker.internal
+      - CORS_ORIGIN=http://localhost:8080
       - NODE_ENV=production
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - museum_uploads:/app/uploads
+    ports:
+      - "4000:4000"
+
+volumes:
+  museum_uploads:

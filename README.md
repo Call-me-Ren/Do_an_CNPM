@@ -6,6 +6,33 @@
 
 ---
 
+## 🗂️ Cấu Trúc Repo & Cách Chạy (Front-end + Back-end + SQL Server)
+
+```
+frontend/   React + Vite + TS (visitor PWA + admin)
+backend/    Node.js + Express + TS, kết nối SQL Server qua `mssql`
+docs/       tài liệu đồ án
+```
+
+**1. Back-end** (cần SQL Server đã bật TCP/IP, port 1433):
+```bash
+cd backend
+cp .env.example .env        # điền DB_SERVER, DB_USER, DB_PASSWORD, JWT_SECRET
+npm install
+npm run db:migrate          # tạo database MuseumGuide + các bảng
+npm run db:seed             # nạp 15 hiện vật, 5 ngôn ngữ, tài khoản admin
+npm run dev                 # http://localhost:4000/api/health
+```
+**2. Front-end** (request `/api` được Vite proxy sang back-end):
+```bash
+cd frontend && npm install && npm run dev   # http://localhost:3000
+```
+**3. Docker:** `docker-compose up --build` (SQL Server dùng bản cài trên máy host) → http://localhost:8080
+
+> Không có back-end (ví dụ GitHub Pages) thì front-end tự chạy ở **chế độ demo** bằng mock JSON + `localStorage`.
+
+---
+
 ## 🌟 Tính Năng Nổi Bật
 
 ### 1. Phân Hệ Khách Tham Quan (Visitor PWA Web App - Không Cần Đăng Nhập)

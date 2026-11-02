@@ -1,3 +1,6 @@
+import { http, apiEnabled, API_BASE } from './http';
+import { useAdminAuthStore } from '../stores/adminAuthStore';
+
 export interface ActiveSession {
   sessionId: string;
   deviceType: 'Mobile' | 'Desktop' | 'Tablet';
@@ -99,6 +102,7 @@ class AnalyticsService {
 
     // Connect to cloud presence to sync devices across phone, Chrome, Edge
     this.connectCloudPresence();
+    this.startAdminPull();
   }
 
   private notifyLeave(): void {
@@ -106,6 +110,11 @@ class AnalyticsService {
     this.removeCurrentSession();
     try {
       const payload = JSON.stringify({ type: 'leave', sessionId: this.currentSessionId });
+      if (apiEnabled) {
+        const blob = new Blob([JSON.stringify({ sessionId: this.currentSessionId })], { type: 'application/json' });
+        navigator.sendBeacon?.(API_BASE + '/sessions/leave', blob);
+        return;
+      }
       if (navigator.sendBeacon) {
         navigator.sendBeacon(CLOUD_PRESENCE_URL, payload);
       } else {
@@ -169,6 +178,8 @@ class AnalyticsService {
 
       localStorage.setItem(STORAGE_KEY_SESSIONS, JSON.stringify(sessions));
 
+      this.postBackend('/sessions/heartbeat', updatedSession);
+
       // Broadcast heartbeat to Cloud Channel so Admin on PC immediately sees Phone/Chrome!
       this.publishCloudPresence({
         type: 'ping',
@@ -179,7 +190,34 @@ class AnalyticsService {
     }
   }
 
+  private postBackend(path: string, body: unknown): void {
+    if (!apiEnabled) return;
+    http.post(path, body).catch(() => {});
+  }
+
+  /** Admin: kéo danh sách thiết bị online & lượt nghe từ back-end vào localStorage (các view đang đọc từ đây). */
+  private startAdminPull(): void {
+    if (!apiEnabled || typeof window === 'undefined') return;
+    const pull = async () => {
+      const token = useAdminAuthStore.getState().token;
+      if (!token || token.startsWith('mock-')) return;
+      try {
+        const [s, e] = await Promise.all([
+          http.get<ActiveSession[]>('/sessions/active'),
+          http.get<ListenEvent[]>('/analytics/events'),
+        ]);
+        localStorage.setItem(STORAGE_KEY_SESSIONS, JSON.stringify(s.data));
+        localStorage.setItem(STORAGE_KEY_EVENTS, JSON.stringify(e.data));
+      } catch {
+        // ignore
+      }
+    };
+    pull();
+    setInterval(pull, 5000);
+  }
+
   private publishCloudPresence(msg: any): void {
+    if (apiEnabled) return; // có back-end riêng thì không gửi dữ liệu ra dịch vụ ntfy.sh
     try {
       fetch(CLOUD_PRESENCE_URL, {
         method: 'POST',
@@ -192,6 +230,7 @@ class AnalyticsService {
   }
 
   private connectCloudPresence(): void {
+    if (apiEnabled) return;
     if (typeof window === 'undefined' || typeof WebSocket === 'undefined') return;
     if (this.ws && (this.ws.readyState === WebSocket.OPEN || this.ws.readyState === WebSocket.CONNECTING)) {
       return;
@@ -366,6 +405,8 @@ class AnalyticsService {
       }
 
       localStorage.setItem(STORAGE_KEY_EVENTS, JSON.stringify(events));
+
+      this.postBackend('/analytics/listen', newEvent);
 
       // Broadcast listen event to Cloud Channel in real time
       this.publishCloudPresence({
