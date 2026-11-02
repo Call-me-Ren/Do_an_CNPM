@@ -18,8 +18,10 @@ import {
   Printer,
   Copy,
   Check,
-  ExternalLink
+  ExternalLink,
+  Sparkles
 } from 'lucide-react';
+import { AutoTranslateModal, AutoTranslateResult } from '../components/AutoTranslateModal';
 
 export const ArtifactsManageView: React.FC = () => {
   const [artifacts, setArtifacts] = useState<Artifact[]>([]);
@@ -34,6 +36,7 @@ export const ArtifactsManageView: React.FC = () => {
 
   // Modal State
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isAutoTranslateOpen, setIsAutoTranslateOpen] = useState(false);
   const [editingArtifact, setEditingArtifact] = useState<Artifact | null>(null);
   const [deletingArtifact, setDeletingArtifact] = useState<{ id: string; code: string; title: string } | null>(null);
   const [activeLangTab, setActiveLangTab] = useState<SupportedLanguage>('vi');
@@ -225,6 +228,14 @@ export const ArtifactsManageView: React.FC = () => {
     setIsModalOpen(false);
   };
 
+  const handleApplyAutoTranslate = (res: AutoTranslateResult) => {
+    setFormTitles((prev) => ({ ...prev, ...res.titles }));
+    setFormDescriptions((prev) => ({ ...prev, ...res.descriptions }));
+    setActiveLangTab(res.sourceLang || 'vi');
+    setIsModalOpen(true);
+    setAlertMessage('Đã tự động dịch và điền đầy đủ nội dung cho cả 5 ngôn ngữ thành công!');
+  };
+
   return (
     <div className="flex flex-col gap-6">
       <div className="flex items-center justify-between">
@@ -236,6 +247,15 @@ export const ArtifactsManageView: React.FC = () => {
         </div>
 
         <div className="flex items-center gap-2.5">
+          <button
+            onClick={() => setIsAutoTranslateOpen(true)}
+            className="flex items-center gap-2 bg-gradient-to-r from-amber-500/15 to-amber-600/15 hover:from-amber-500/25 hover:to-amber-600/25 text-amber-300 border border-amber-500/40 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold transition shadow-xs cursor-pointer"
+            title="Kéo thả tệp hoặc nhập văn bản để tự động dịch 5 thứ tiếng"
+          >
+            <Sparkles className="w-4 h-4 text-amber-400" />
+            <span>AI Dịch Đa Ngôn Ngữ</span>
+          </button>
+
           <button
             onClick={() => setSelectedQrTarget('GATE')}
             className="flex items-center gap-2 bg-slate-800 hover:bg-slate-750 text-amber-400 border border-amber-500/30 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold transition shadow-sm"
@@ -520,6 +540,18 @@ export const ArtifactsManageView: React.FC = () => {
                 </div>
               </div>
 
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-bold text-slate-300">Thông tin đa ngôn ngữ (5 thứ tiếng)</span>
+                <button
+                  type="button"
+                  onClick={() => setIsAutoTranslateOpen(true)}
+                  className="flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-amber-500/20 to-amber-600/20 hover:from-amber-500/30 text-amber-300 border border-amber-500/40 rounded-xl text-xs font-bold transition shadow-xs cursor-pointer"
+                >
+                  <Sparkles className="w-3.5 h-3.5" />
+                  <span>🪄 Kéo thả tệp / Dịch tự động 5 ngôn ngữ</span>
+                </button>
+              </div>
+
               {/* Multilingual Tabs */}
               <div className="border border-slate-700/80 rounded-2xl p-4 bg-slate-900/60 flex flex-col gap-3">
                 <div className="flex items-center gap-1.5 overflow-x-auto pb-1 border-b border-slate-700/60">
@@ -690,6 +722,15 @@ export const ArtifactsManageView: React.FC = () => {
           </div>
         </div>
       )}
+
+      {/* Auto Translate Modal */}
+      <AutoTranslateModal
+        isOpen={isAutoTranslateOpen}
+        onClose={() => setIsAutoTranslateOpen(false)}
+        onApply={handleApplyAutoTranslate}
+        defaultTitle={formTitles[activeLangTab]}
+        defaultDescription={formDescriptions[activeLangTab]}
+      />
 
       {/* In-App Alert Popup Modal */}
       <AlertModal

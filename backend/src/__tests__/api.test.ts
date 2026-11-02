@@ -44,4 +44,14 @@ describe('API (không cần DB)', () => {
     const res = await request(app).post('/api/artifacts').set('Authorization', `Bearer ${token}`).send({ id: 'X' });
     expect(res.status).toBe(400);
   });
+
+  it('dịch thuật tự động /api/translate -> 200', async () => {
+    const res = await request(app).post('/api/translate').send({
+      text: 'Bảo tàng',
+      from: 'vi',
+      to: 'en',
+    });
+    expect(res.status).toBe(200);
+    expect(res.body.translatedText).toBeDefined();
+  });
 });

@@ -9,6 +9,7 @@ import { authRouter } from './routes/auth.js';
 import { museumRouter } from './routes/museum.js';
 import { analyticsRouter } from './routes/analytics.js';
 import { uploadRouter, UPLOAD_ROOT } from './routes/uploads.js';
+import { translateRouter } from './routes/translate.js';
 
 export function createApp() {
   const app = express();
@@ -30,6 +31,7 @@ export function createApp() {
   app.use('/api', museumRouter);
   app.use('/api', analyticsRouter);
   app.use('/api', uploadRouter);
+  app.use('/api', translateRouter);
   app.use('/api', (_req, res) => {
     res.status(404).json({ error: 'Không tìm thấy endpoint' });
   });

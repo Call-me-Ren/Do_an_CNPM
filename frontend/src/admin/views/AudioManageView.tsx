@@ -16,8 +16,10 @@ import {
   Trash2,
   FileText,
   Plus,
-  X
+  X,
+  Sparkles
 } from 'lucide-react';
+import { AutoTranslateModal, AutoTranslateResult } from '../components/AutoTranslateModal';
 
 export const AudioManageView: React.FC = () => {
   const [artifacts, setArtifacts] = useState<Artifact[]>([]);
@@ -31,6 +33,7 @@ export const AudioManageView: React.FC = () => {
   const [newCueStart, setNewCueStart] = useState(0);
   const [newCueEnd, setNewCueEnd] = useState(5);
   const [newCueText, setNewCueText] = useState('');
+  const [isAutoTranslateOpen, setIsAutoTranslateOpen] = useState(false);
   const [modalAlert, setModalAlert] = useState<{
     title?: string;
     message: string;
@@ -258,16 +261,80 @@ export const AudioManageView: React.FC = () => {
     setDeletingCueIndex(null);
   };
 
+  const handleApplyAutoTranslate = (res: AutoTranslateResult) => {
+    if (!selectedArtifact) return;
+
+    const updatedTitle = { ...(selectedArtifact.title || {}), ...res.titles };
+    const updatedDesc = { ...(selectedArtifact.description || {}), ...res.descriptions };
+    const updatedAudio = { ...(selectedArtifact.audio || {}) };
+    if (res.audioDataUrl) {
+      updatedAudio[res.sourceLang || selectedLang] = res.audioDataUrl;
+    }
+
+    const updatedSubtitles = { ...(selectedArtifact.subtitles || {}) };
+    const allLangs: SupportedLanguage[] = ['vi', 'en', 'zh', 'ko', 'ja'];
+    for (const l of allLangs) {
+      const descText = res.descriptions[l];
+      if (descText && (!updatedSubtitles[l] || updatedSubtitles[l]!.length === 0)) {
+        const sentences = descText
+          .split(/(?<=[.?!])\s+/)
+          .map((s) => s.trim())
+          .filter(Boolean);
+        let curTime = 0;
+        updatedSubtitles[l] = sentences.map((sentence) => {
+          const duration = Math.max(3, Math.min(8, Math.round(sentence.length / 15)));
+          const cue: SubtitleCue = {
+            start: curTime,
+            end: curTime + duration,
+            text: sentence,
+          };
+          curTime += duration;
+          return cue;
+        });
+      }
+    }
+
+    const updatedArt: Artifact = {
+      ...selectedArtifact,
+      title: updatedTitle as any,
+      description: updatedDesc as any,
+      audio: updatedAudio,
+      subtitles: updatedSubtitles,
+    };
+
+    setSelectedArtifact(updatedArt);
+    const updatedArtifacts = artifacts.map((a) => (a.id === updatedArt.id ? updatedArt : a));
+    setArtifacts(updatedArtifacts);
+    museumApi.saveCustomArtifacts(updatedArtifacts);
+
+    setModalAlert({
+      title: 'Đồng Bộ Thành Công',
+      message: `Đã tự động dịch và đồng bộ âm thanh & phụ đề cho cả 5 ngôn ngữ của hiện vật [${selectedArtifact.code}]!`,
+      type: 'success',
+    });
+  };
+
   return (
     <div className="flex flex-col gap-6">
-      <div>
-        <h2 className="text-xl font-bold text-white flex items-center gap-2">
-          <Music className="w-5 h-5 text-amber-500" />
-          Quản Lý Tệp Âm Thanh & Phụ Đề Đồng Bộ
-        </h2>
-        <p className="text-xs text-slate-400 mt-0.5">
-          Hệ thống Thuyết minh tự động đa ngôn ngữ &bull; Nghe thử phát âm AI thực tế theo từng ngôn ngữ.
-        </p>
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <h2 className="text-xl font-bold text-white flex items-center gap-2">
+            <Music className="w-5 h-5 text-amber-500" />
+            Quản Lý Tệp Âm Thanh & Phụ Đề Đồng Bộ
+          </h2>
+          <p className="text-xs text-slate-400 mt-0.5">
+            Hệ thống Thuyết minh tự động đa ngôn ngữ &bull; Nghe thử phát âm AI thực tế theo từng ngôn ngữ.
+          </p>
+        </div>
+
+        <button
+          type="button"
+          onClick={() => setIsAutoTranslateOpen(true)}
+          className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-amber-500/20 to-amber-600/20 hover:from-amber-500/30 hover:to-amber-600/30 text-amber-300 border border-amber-500/40 font-bold text-xs sm:text-sm shadow-sm transition cursor-pointer shrink-0"
+        >
+          <Sparkles className="w-4 h-4 text-amber-400" />
+          <span>🪄 AI Tự Động Dịch 5 Ngôn Ngữ</span>
+        </button>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -353,6 +420,33 @@ export const AudioManageView: React.FC = () => {
                     </button>
                   );
                 })}
+              </div>
+
+              {/* AI Auto-Translate Quick Action Banner */}
+              <div className="bg-gradient-to-r from-amber-500/10 via-amber-500/5 to-slate-900 border border-amber-500/30 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div className="flex items-center gap-3">
+                  <div className="p-2.5 bg-amber-500/20 text-amber-400 rounded-xl shrink-0">
+                    <Sparkles className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <div className="text-xs font-bold text-white">
+                      Kéo thả tệp âm thanh / văn bản để tự động dịch 5 thứ tiếng
+                    </div>
+                    <div className="text-[11px] text-slate-400">
+                      Tự động điền thuyết minh & phụ đề cho hiện vật{' '}
+                      <span className="text-amber-400 font-semibold">{selectedArtifact.code}</span> (hỗ trợ nhập bất kỳ ngôn ngữ nào).
+                    </div>
+                  </div>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => setIsAutoTranslateOpen(true)}
+                  className="px-3.5 py-2 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs rounded-xl transition shadow-sm shrink-0 cursor-pointer flex items-center justify-center gap-1.5"
+                >
+                  <Sparkles className="w-3.5 h-3.5" />
+                  <span>Mở Trạm Dịch Thuật</span>
+                </button>
               </div>
 
               {/* Audio Status & Upload Area */}
@@ -598,6 +692,15 @@ export const AudioManageView: React.FC = () => {
           </div>
         </div>
       )}
+
+      {/* Auto Translate Modal */}
+      <AutoTranslateModal
+        isOpen={isAutoTranslateOpen}
+        onClose={() => setIsAutoTranslateOpen(false)}
+        onApply={handleApplyAutoTranslate}
+        defaultTitle={selectedArtifact?.title?.[selectedLang] || ''}
+        defaultDescription={selectedArtifact?.description?.[selectedLang] || ''}
+      />
 
       {/* In-App Alert Popup Modal */}
       <AlertModal
