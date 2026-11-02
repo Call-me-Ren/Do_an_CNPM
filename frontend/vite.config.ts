@@ -25,6 +25,7 @@ export default defineConfig({
     },
   },
   server: {
+    host: true, // Mở mạng LAN để điện thoại hoặc máy tính khác cùng Wi-Fi vào được
     port: 3000,
     open: true,
     proxy: {
