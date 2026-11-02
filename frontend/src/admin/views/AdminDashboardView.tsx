@@ -36,13 +36,15 @@ export const AdminDashboardView: React.FC = () => {
   const [qrDataUrl, setQrDataUrl] = useState<string>('');
 
   // Load Real Data & Set up Live Presence Polling
-  const refreshData = () => {
+  const refreshData = async () => {
+    await analyticsService.pullAdminData();
     analyticsService.removeCurrentSession();
     setActiveSessions(analyticsService.getActiveSessions());
     setListenEvents(analyticsService.getListenEvents());
   };
 
   useEffect(() => {
+    analyticsService.startAdminPull();
     analyticsService.removeCurrentSession();
     museumApi.getMuseumData().then((res) => {
       setArtifacts(res.artifacts);

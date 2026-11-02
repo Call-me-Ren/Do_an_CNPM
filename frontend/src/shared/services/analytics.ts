@@ -35,6 +35,7 @@ const CLOUD_PRESENCE_WS = 'wss://ntfy.sh/wrm_museum_presence_cnpm/ws';
 class AnalyticsService {
   private currentSessionId: string = '';
   private heartbeatInterval: any = null;
+  private adminPullInterval: any = null;
   private ws: WebSocket | null = null;
   private reconnectTimeout: any = null;
   private startedAt: number = Date.now();
@@ -53,8 +54,7 @@ class AnalyticsService {
     return (
       path.includes('admin') ||
       hash.includes('admin') ||
-      href.includes('admin') ||
-      Boolean(localStorage.getItem('admin_token'))
+      href.includes('admin')
     );
   }
 
@@ -65,6 +65,7 @@ class AnalyticsService {
     if (this.isAdminPage()) {
       this.removeCurrentSession();
       this.connectCloudPresence();
+      this.startAdminPull();
       return;
     }
 
@@ -196,24 +197,33 @@ class AnalyticsService {
   }
 
   /** Admin: kéo danh sách thiết bị online & lượt nghe từ back-end vào localStorage (các view đang đọc từ đây). */
-  private startAdminPull(): void {
+  public async pullAdminData(): Promise<void> {
     if (!apiEnabled || typeof window === 'undefined') return;
-    const pull = async () => {
-      const token = useAdminAuthStore.getState().token;
-      if (!token || token.startsWith('mock-')) return;
-      try {
-        const [s, e] = await Promise.all([
-          http.get<ActiveSession[]>('/sessions/active'),
-          http.get<ListenEvent[]>('/analytics/events'),
-        ]);
+    const token = useAdminAuthStore.getState().token;
+    if (!token || token.startsWith('mock-')) return;
+    try {
+      const [s, e] = await Promise.all([
+        http.get<ActiveSession[]>('/sessions/active'),
+        http.get<ListenEvent[]>('/analytics/events'),
+      ]);
+      if (Array.isArray(s.data)) {
         localStorage.setItem(STORAGE_KEY_SESSIONS, JSON.stringify(s.data));
-        localStorage.setItem(STORAGE_KEY_EVENTS, JSON.stringify(e.data));
-      } catch {
-        // ignore
       }
-    };
-    pull();
-    setInterval(pull, 5000);
+      if (Array.isArray(e.data)) {
+        localStorage.setItem(STORAGE_KEY_EVENTS, JSON.stringify(e.data));
+      }
+    } catch {
+      // ignore
+    }
+  }
+
+  public startAdminPull(): void {
+    if (!apiEnabled || typeof window === 'undefined') return;
+    if (this.adminPullInterval) return;
+    this.pullAdminData();
+    this.adminPullInterval = setInterval(() => {
+      this.pullAdminData();
+    }, 4000);
   }
 
   private publishCloudPresence(msg: any): void {

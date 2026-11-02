@@ -31,3 +31,8 @@ tsconfig.tsbuildinfo
 frontend/assets
 backend/uploads
 
+# Graphify
+graphify-out/
+
+# Agents 
+.agents/

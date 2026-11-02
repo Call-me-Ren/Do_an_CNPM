@@ -29,17 +29,21 @@ export const AnalyticsView: React.FC = () => {
   const [artifacts, setArtifacts] = useState<Artifact[]>([]);
   const [timeRange, setTimeRange] = useState<'today' | '7days' | 'all'>('7days');
 
-  const refreshData = () => {
+  const refreshData = async () => {
+    await analyticsService.pullAdminData();
     analyticsService.removeCurrentSession();
     setEvents(analyticsService.getListenEvents());
   };
 
   useEffect(() => {
+    analyticsService.startAdminPull();
     analyticsService.removeCurrentSession();
     museumApi.getMuseumData().then((res) => {
       setArtifacts(res.artifacts);
     });
     refreshData();
+    const interval = setInterval(refreshData, 5000);
+    return () => clearInterval(interval);
   }, []);
 
   // Filter events by time range
