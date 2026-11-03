@@ -26,13 +26,13 @@ export default defineConfig({
     },
   },
   server: {
-    host: true, // Mở mạng LAN để điện thoại hoặc máy tính khác cùng Wi-Fi vào được
+    host: '0.0.0.0', // Ép buộc lắng nghe cả IPv4 rõ ràng để nhận kết nối LAN
     port: 3000,
     open: true,
     allowedHosts: true, // Cho phép truy cập qua Ngrok / Cloudflare Tunnel
     proxy: {
-      '/api': 'http://localhost:4000',
-      '/uploads': 'http://localhost:4000',
+      '/api': 'http://127.0.0.1:4000',
+      '/uploads': 'http://127.0.0.1:4000',
     },
   },
   test: {
