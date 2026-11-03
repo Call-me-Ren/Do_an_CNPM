@@ -1,45 +1,54 @@
 @startuml
-skinparam linetype polyline
+title Sơ Đồ Triển Khai (Deployment Diagram) - Hệ Thống Thuyết Minh Tự Động Đa Ngôn Ngữ (As-Built)
+skinparam linetype ortho
 
-' ---------- Client
-node "Client PC" <<device>> as ClientPC {
-  node "Browser / App Runtime" <<execution environment>> as BrowserRuntime {
-    artifact "GUI.spa" <<artifact>> as GuiSpa
-    artifact "ClientSession.js" <<artifact>> as ClientSessionJs
-    artifact "QRScanner.js" <<artifact>> as QrScannerJs
-    artifact "MediaPlayer.js" <<artifact>> as MediaPlayerJs
+' ---------- Thiết Bị Người Dùng & Quản Trị
+node "Thiết Bị Khách Tham Quan (Smartphone / Tablet)" <<device>> as VisitorDevice {
+  node "Mobile Browser Runtime (iOS Safari / Android Chrome)" <<execution environment>> as VisitorBrowser {
+    artifact "React SPA (Visitor Bundle)" as VisitorBundle
+    database "LocalStorage & SessionStorage" as VisitorStorage
   }
 }
 
-' ---------- Application server
-node "Application Server" <<device>> as ApplicationServer {
-  node "Docker / JVM" <<execution environment>> as DockerJvm {
-    artifact "AuthServer.jar" <<artifact>> as AuthServerJar
-    artifact "ArtifactManager.jar" <<artifact>> as ArtifactManagerJar
-    artifact "AudioStreamer.jar" <<artifact>> as AudioStreamerJar
+node "Máy Tính Quản Trị Viên (Admin Workstation)" <<device>> as AdminDevice {
+  node "Desktop Browser (Chrome / Edge / Firefox)" <<execution environment>> as AdminBrowser {
+    artifact "React SPA (Admin Dashboard Bundle)" as AdminBundle
+    database "SessionStorage (Admin Token)" as AdminStorage
   }
 }
 
-' ---------- Database and media storage
-together {
-  node "Database Server" <<device>> as DatabaseServer {
-    node "DBMS Engine" <<execution environment>> as DbmsEngine {
-      database "System DB" <<database system>> as SystemDb
-    }
-  }
-
-  node "Media Storage Server" <<device>> as MediaStorageServer {
-    node "File Storage Service" <<execution environment>> as FileStorageService {
-      artifact "MediaArchive.storage" <<artifact>> as MediaArchiveStorage
-    }
+' ---------- Hạ Tầng CI/CD Build
+node "GitHub Actions Runner (Ubuntu Latest)" <<device>> as CiCdRunner {
+  node "Node.js 20 Build Runtime" <<execution environment>> as NodeRuntime {
+    artifact "Vite 6 + TailwindCSS v4 Compiler" as Compiler
+    artifact "Static Dist Generator" as DistGen
   }
 }
 
-' ---------- Communication paths
-ClientPC -right- ApplicationServer : HTTPS / REST API
-ApplicationServer -right- DatabaseServer : JDBC / TCP
-ApplicationServer -right- MediaStorageServer : HTTP / REST API
+' ---------- Hạ Tầng Phân Phối Tĩnh (Hosting)
+node "GitHub Pages Global CDN / Edge Servers" <<device>> as GhPagesEdge {
+  node "HTTPS Static Web Server" <<execution environment>> as StaticWebServer {
+    artifact "index.html & assets/index.js & assets/index.css" as WebAssets
+    artifact "museum_data.json (Mock CSDL Hiện Vật)" as MockDb
+    artifact "audio/artifacts/*.mp3 (Kho Lưu Tệp Âm Thanh)" as AudioArchive
+    artifact "maps/*.png, *.jpg (Kho Ảnh Sơ Đồ 4 Tầng)" as MapArchive
+    artifact "images/artifacts/* (Kho Ảnh Hiện Vật)" as ImgArchive
+  }
+}
 
-' Layout only: place the media server below the database server
-DatabaseServer -[hidden]down- MediaStorageServer
+' ---------- Kênh Dữ Liệu Thời Gian Thực
+node "ntfy.sh Realtime Cloud Service" <<device>> as NtfyCloud {
+  node "WebSocket & SSE Message Broker" <<execution environment>> as BrokerEnv {
+    queue "Topic: wrm_museum_presence_cnpm" as PresenceQueue
+  }
+}
+
+' ---------- Các Tuyến Giao Tiếp
+VisitorDevice -down-> GhPagesEdge : "HTTPS GET / (Tải Bundle, JSON, Ảnh, Audio Stream)"
+AdminDevice -down-> GhPagesEdge : "HTTPS GET /admin (Tải Bundle Quản Trị, CSDL)"
+
+VisitorDevice <--> NtfyCloud : "WebSocket / HTTPS POST (Gửi Heartbeat & Sự Kiện Nghe)"
+AdminDevice <--> NtfyCloud : "WebSocket Subscribe (Cập Nhật Thiết Bị Trực Tuyến Tức Thì)"
+
+CiCdRunner -right-> GhPagesEdge : "GitHub Actions Deploy Pages Artifact (Automated CI/CD)"
 @enduml

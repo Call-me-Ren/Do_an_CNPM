@@ -23,7 +23,26 @@ tsconfig.tsbuildinfo
 *.njsproj
 *.sln
 *.sw?
-.agents/*
+
+.env
+.env.local
+*.env
+!*.env.example
+frontend/assets
+backend/uploads
+
+# Graphify
+graphify-out/
+
+# Agents 
+.agents/
+
+# Tools
+cloudflared.exe
+
+# Test sample files
+sample_*
+
 
 /docs/syntax/*
 /archive/*

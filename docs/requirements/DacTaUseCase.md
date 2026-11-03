@@ -28,7 +28,7 @@
 [3.5 USC05 --- Lưu Sự Vật Yêu Thích
 [16](#usc05-lưu-sự-vật-yêu-thích)](#usc05-lưu-sự-vật-yêu-thích)
 
-[3.6 USC6 --- Xem Hồ Sơ Bảo Tàng
+[3.6 USC06 --- Xem Hồ Sơ Bảo Tàng
 [18](#usc6-xem-hồ-sơ-bảo-tàng)](#usc6-xem-hồ-sơ-bảo-tàng)
 
 [3.7 USC07 --- Xem Phụ Đề [20](#usc07-xem-phụ-đề)](#usc07-xem-phụ-đề)
@@ -38,7 +38,7 @@
 [3.9 USC09 --- Quản Lý Sự Vật
 [26](#usc09-quản-lý-sự-vật)](#usc09-quản-lý-sự-vật)
 
-[3.10 USC10 --- Chỉnh Sửa Mã QR
+[3.10 USC10 --- Quản Lý Phiên Tham Quan & Mã QR
 [29](#usc10-quản-lý-phiên)](#usc10-quản-lý-phiên)
 
 [3.11 USC11 --- Quản Lý Tệp Âm Thanh
@@ -50,11 +50,8 @@
 [3.13 USC13 --- Quản Lý Sơ Đồ
 [39](#usc13-quản-lý-sơ-đồ)](#usc13-quản-lý-sơ-đồ)
 
-[3.14 USC14 --- Phát Luồng Dữ Liệu Âm Thanh
+[3.14 USC14 --- Định Vị Vị Trí & Tự Động Thuyết Minh
 [43](#usc14-định-vị-vị-trí)](#usc14-định-vị-vị-trí)
-
-[3.15 USC15 --- Lưu Trữ Tệp Âm Thanh
-[46](#_Toc243643263)](#_Toc243643263)
 
 # 1. Sơ Đồ Use Case Tổng Quát
 
@@ -312,12 +309,11 @@ height="2.425in"}
 | **Dòng sự kiện chính:**            |   ----------------------------------------------------------- |
 |                                    |   **Hành động của Actor**       **Phản hồi của Hệ thống**     |
 |                                    |   ----------------------------- ----------------------------- |
-|                                    |   1\. Người dùng đăng nhập                                    |
-|                                    |                                                               |
-|                                    |                                 2\. Hệ thống hiển thị lời     |
-|                                    |                                 chào mừng đăng nhập cùng với  |
-|                                    |                                 những chức năng chính cho     |
-|                                    |                                 người dùng lựa chọn           |
+|                                    |   1\. Người dùng xem hiện vật                                  |
+|                                    | (không yêu cầu đăng nhập)                                     |
+|                                    |                                 2\. Hệ thống hiển thị chi tiết|
+|                                    |                                 hiện vật cùng nút yêu thích   |
+|                                    |                                 để người dùng lựa chọn        |
 |                                    |                                                               |
 |                                    |   3\. Người dùng chọn nghe                                    |
 |                                    |   thuyết minh của hiện vật                                    |
@@ -500,8 +496,8 @@ height="1.5583333333333333in"}
 +------------------------------------+---------------------------------------------------------------+
 | **Luồng ngoại lệ (Exception):**    | Không có.                                                     |
 +------------------------------------+---------------------------------------------------------------+
-| **Điều kiện kết thúc:**            | Hiện vật được thêm vào danh sách yêu thích của tài khoản      |
-|                                    | người dùng.                                                   |
+| **Điều kiện kết thúc:**            | Hiện vật được lưu vào danh sách yêu thích trên thiết bị       |
+|                                    | của người dùng (LocalStorage).                                                   |
 +------------------------------------+---------------------------------------------------------------+
 | **Sự kiện kích hoạt (Trigger):**   | Người dùng nhấn vào nút \"Thêm vào Yêu thích\" (biểu tượng    |
 |                                    | trái tim/ngôi sao).                                           |
@@ -512,7 +508,7 @@ height="1.5583333333333333in"}
 ![](./assets/media/image8.png){width="3.7743055555555554in"
 height="7.425in"}
 
-## 3.6 USC6 --- Xem Hồ Sơ Bảo Tàng
+## 3.6 USC06 --- Xem Hồ Sơ Bảo Tàng
 
 ***Sơ đồ Use Case --- USC06***
 
@@ -586,7 +582,7 @@ height="7.870967847769029in"}
 height="2.0416666666666665in"}
 
 +----------------------------------------------------------------------------------------------------+
-| **USC18: Xem Phụ Đề (XemPhuDe)**                                                                   |
+| **USC07: Xem Phụ Đề (XemPhuDe)**                                                                   |
 +====================================+===============================================================+
 | **Tác nhân (Actor):**              | Người Dùng                                                    |
 +------------------------------------+---------------------------------------------------------------+
@@ -656,7 +652,7 @@ height="7.520833333333333in"}
 height="1.1051159230096237in"}
 
 +----------------------------------------------------------------------------------------------------+
-| **USC15: Tìm Kiếm (TimKiem)**                                                                      |
+| **USC08: Tìm Kiếm (TimKiem)**                                                                      |
 +====================================+===============================================================+
 | **Tác nhân (Actor):**              | Người Dùng                                                    |
 +------------------------------------+---------------------------------------------------------------+
@@ -730,7 +726,7 @@ height="7.979166666666667in"}
 height="1.1666666666666667in"}
 
 +-------------------------+----------------------------+----------------------------+
-| **USC07: Quản Lý Sự Vật (QLSuVat)**                                               |
+| **USC09: Quản Lý Sự Vật (QLSuVat)**                                               |
 +-------------------------+---------------------------------------------------------+
 | **Tác nhân (Actor):**   | Admin                                                   |
 +-------------------------+---------------------------------------------------------+
@@ -818,7 +814,7 @@ height="1.1666666666666667in"}
 ![](./assets/media/image15.png){width="3.341666666666667in"
 height="9.226246719160105in"}
 
-## 3.10 USC10 --- Quản lý phiên
+## 3.10 USC10 --- Quản Lý Phiên Tham Quan & Mã QR
 
 ***Sơ đồ Use Case --- USC10***
 
@@ -826,7 +822,7 @@ height="9.226246719160105in"}
 height="1.1667672790901138in"}
 
 +-------------------------+-----------------------------+-----------------------------+
-| **USC10: Quản Lý Phiên Tham Quan (QuanLyPhien)**                                    |
+| **USC10: Quản Lý Phiên Tham Quan & Mã QR (QuanLyPhienVaMaQR)**                                    |
 +-------------------------+-----------------------------------------------------------+
 | **Tác nhân (Actor):**   | Admin                                                     |
 +-------------------------+-----------------------------------------------------------+
@@ -1052,7 +1048,7 @@ height="7.884615048118985in"}
 height="1.0454538495188102in"}
 
 +-------------------------+----------------------------+----------------------------+
-| **USC10: Xem Thống Kê Lượt Nghe (XemThongKeLuotNghe)**                            |
+| **USC12: Xem Thống Kê Lượt Nghe (XemThongKeLuotNghe)**                            |
 +-------------------------+---------------------------------------------------------+
 | **Tác nhân (Actor):**   | Admin                                                   |
 +-------------------------+---------------------------------------------------------+
@@ -1150,7 +1146,7 @@ height="9.0in"}
 height="1.0667596237970254in"}
 
 +-------------------------+----------------------------+----------------------------+
-| **USC11: Quản Lý Sơ Đồ (QLSoDo)**                                                 |
+| **USC13: Quản Lý Sơ Đồ (QLSoDo)**                                                 |
 +-------------------------+---------------------------------------------------------+
 | **Tác nhân (Actor):**   | Admin                                                   |
 +-------------------------+---------------------------------------------------------+
@@ -1235,7 +1231,7 @@ height="9.0in"}
 
 ##  
 
-## 3.14 USC14 --- Định vị vị trí
+## 3.14 USC14 --- Định Vị Vị Trí & Tự Động Thuyết Minh
 
 ***Sơ đồ Use Case --- USC14***
 
@@ -1243,7 +1239,7 @@ height="9.0in"}
 height="1.34375in"}
 
 +-------------------------+-----------------------------+-----------------------------+
-| **USC14: Định Vị Vị Trí (DinhViViTri)**                                             |
+| **USC14: Định Vị Vị Trí & Tự Động Thuyết Minh (DinhViViTriVaTuDongThuyetMinh)**                                             |
 +-------------------------+-----------------------------------------------------------+
 | **Tác nhân (Actor):**   | Người Dùng (hoặc Khách tham quan)                         |
 +-------------------------+-----------------------------------------------------------+
@@ -1372,111 +1368,94 @@ height="1.34375in"}
 height="9.468252405949256in"}
 
 
-## 3.15 USC15 --- Lưu Trữ Tệp Âm Thanh
-
-***Sơ đồ Use Case --- USC15***
-
-![](./assets/media/image30.jpg){width="5.308333333333334in"
-height="1.1461253280839896in"}
-
-+----------------------------------------------------------------------------------------------------+
-| **USC15: Lưu Trữ Tệp Âm Thanh (LuuTruTepAmThanh)**                                                 |
-+====================================+===============================================================+
-| **Tác nhân (Actor):**              | Thiết Bị Lưu Âm Thanh                                         |
-+------------------------------------+---------------------------------------------------------------+
-| **Mức độ hoàn thiện:**             | Focused                                                       |
-+------------------------------------+---------------------------------------------------------------+
-| **Mô tả tóm tắt:**                 | Lưu trữ tệp âm thanh thuyết minh (kèm thông tin hiện vật,     |
-|                                    | ngôn ngữ) lên Thiết Bị Lưu Âm Thanh để phục vụ việc phát      |
-|                                    | luồng. Use case này gọi use case {Quản Lý Tệp Âm Thanh}       |
-|                                    | («include») để nhận tệp và thông tin do Admin cung cấp.       |
-+------------------------------------+---------------------------------------------------------------+
-| **Điều kiện tiên quyết:**          | - Thiết Bị Lưu Âm Thanh sẵn sàng kết nối.                     |
-|                                    |                                                               |
-|                                    | - Tệp âm thanh và thông tin kèm theo đã được Admin cung cấp   |
-|                                    |   qua {Quản Lý Tệp Âm Thanh}.                                 |
-+------------------------------------+---------------------------------------------------------------+
-| **Dòng sự kiện chính:**            |   ----------------------------------------------------------- |
-|                                    |   **Hành động của Actor**       **Phản hồi của Hệ thống**     |
-|                                    |   ----------------------------- ----------------------------- |
-|                                    |                                 1. Hệ thống gọi use case      |
-|                                    |                                 {Quản Lý Tệp Âm Thanh}        |
-|                                    |                                 («include») để nhận tệp âm    |
-|                                    |                                 thanh thuyết minh và thông    |
-|                                    |                                 tin kèm theo (hiện vật, ngôn  |
-|                                    |                                 ngữ) do Admin cung cấp.       |
-|                                    |                                                               |
-|                                    |                                 2. Hệ thống kiểm tra tệp:     |
-|                                    |                                 đúng định dạng âm thanh và    |
-|                                    |                                 trong dung lượng cho phép     |
-|                                    |                                 (E1).                         |
-|                                    |                                                               |
-|                                    |                                 3. Hệ thống kiểm tra đã có    |
-|                                    |                                 tệp cùng hiện vật và ngôn ngữ |
-|                                    |                                 chưa (A1), tạo ID tệp và gửi  |
-|                                    |                                 yêu cầu lưu kèm dữ liệu đến   |
-|                                    |                                 Thiết Bị Lưu Âm Thanh.        |
-|                                    |                                                               |
-|                                    |   4. Thiết Bị Lưu Âm Thanh                                    |
-|                                    |   tiếp nhận yêu cầu và kiểm                                   |
-|                                    |   tra dung lượng trống (E2).                                  |
-|                                    |                                                               |
-|                                    |   5. Thiết Bị Lưu Âm Thanh                                    |
-|                                    |   ghi tệp lên bộ nhớ và                                       |
-|                                    |   kiểm tra tính toàn vẹn của                                  |
-|                                    |   tệp (E3).                                                   |
-|                                    |                                                               |
-|                                    |   6. Thiết Bị Lưu Âm Thanh                                    |
-|                                    |   trả kết quả lưu thành công                                  |
-|                                    |   kèm ID và đường dẫn tệp.                                    |
-|                                    |                                                               |
-|                                    |                                 7. Hệ thống cập nhật thông    |
-|                                    |                                 tin tệp (ID, hiện vật, ngôn   |
-|                                    |                                 ngữ, đường dẫn) vào CSDL và   |
-|                                    |                                 thông báo "Lưu tệp âm thanh   |
-|                                    |                                 thành công".                  |
-|                                    |                                                               |
-|                                    |                                 Use case kết thúc.            |
-|                                    |   ----------------------------------------------------------- |
-+------------------------------------+---------------------------------------------------------------+
-| **Luồng thay thế (Alternative):**  | - A1 - Thay thế tệp đã có: Tại bước 3, nếu đã tồn tại tệp     |
-|                                    |   cùng hiện vật và ngôn ngữ, hệ thống thông báo tệp đã có và  |
-|                                    |   gửi tệp mới đến Thiết Bị Lưu Âm Thanh. Tệp cũ chỉ bị thay   |
-|                                    |   thế sau khi tệp mới được lưu xong. Dòng sự kiện tiếp tục từ |
-|                                    |   bước 4.                                                     |
-+------------------------------------+---------------------------------------------------------------+
-| **Luồng ngoại lệ (Exception):**    | - E1 - Tệp không hợp lệ: Tệp sai định dạng âm thanh hoặc vượt |
-|                                    |   dung lượng cho phép. Hệ thống thông báo lỗi và không lưu    |
-|                                    |   tệp.                                                        |
-|                                    |                                                               |
-|                                    | - E2 - Thiết bị không đủ dung lượng: Thiết Bị Lưu Âm Thanh    |
-|                                    |   trả mã lỗi; hệ thống thông báo "Không đủ dung lượng lưu     |
-|                                    |   trữ" và không lưu tệp.                                      |
-|                                    |                                                               |
-|                                    | - E3 - Ghi tệp thất bại hoặc mất kết nối: Hệ thống tự động    |
-|                                    |   thử lại. Nếu vẫn thất bại, hệ thống xóa phần tệp ghi dở và  |
-|                                    |   thông báo "Lưu tệp thất bại, vui lòng thử lại".             |
-+------------------------------------+---------------------------------------------------------------+
-| **Điều kiện kết thúc:**            | - Thành công: Tệp âm thanh được lưu đầy đủ trên Thiết Bị Lưu  |
-|                                    |   Âm Thanh và thông tin tệp được cập nhật trong CSDL.         |
-|                                    |                                                               |
-|                                    | - Thất bại: Không lưu được tệp; hệ thống không giữ lại tệp    |
-|                                    |   ghi dở.                                                     |
-+------------------------------------+---------------------------------------------------------------+
-| **Sự kiện kích hoạt (Trigger):**   | Hệ thống cần lưu một tệp âm thanh thuyết minh mới hoặc tệp    |
-|                                    | được cập nhật (khi Admin thêm hoặc thay tệp).                 |
-+------------------------------------+---------------------------------------------------------------+
-
-***Sơ đồ hoạt động (Activity Diagram) --- USC15***
-
-![](./assets/media/image31.jpg){width="2.8933333333333335in"
-height="8.333333333333334in"}
-
 # 4. Sơ Đồ Thành Phần (Component Diagram)
 
-![](./assets/media/image32.jpg){width="6.905001093613298in"
-height="2.1066666666666665in"}
+*Chi tiết mã nguồn PlantUML: [ComponentDiagram.puml](../design/components/ComponentDiagram.puml)*
+
+```mermaid
+flowchart TB
+    subgraph BrowserClient["Trình Duyệt Khách và Admin (Client-side SPA)"]
+        subgraph VisitorApp["Phân Hệ Khách Tham Quan (Visitor)"]
+            V_Layout["VisitorLayout (QR và GPS Router)"]
+            V_Track["TrackingPanel (Hiển thị trạng thái và Đề xuất)"]
+            V_Audio["AudioPlayer và Subtitles (Phát âm thanh và phụ đề)"]
+            V_Map["FloorMapView (Bản đồ tương tác tầng và Halo vị trí)"]
+            V_Explore["ExploreView (Tìm kiếm, Lọc danh mục)"]
+            V_Detail["ArtifactDetailView (Nội dung chi tiết hiện vật)"]
+        end
+
+        subgraph AdminApp["Phân Hệ Quản Trị (Admin)"]
+            A_Login["AdminLoginView (Khóa 5 phút khi sai 5 lần)"]
+            A_Dash["AdminDashboard (Thống kê lượt nghe)"]
+            A_Art["ArtifactsManageView (CRUD hiện vật và Bán kính kích hoạt)"]
+            A_Sess["SessionsManageView (Quản lý phiên và Xuất mã QR)"]
+        end
+
+        subgraph CoreModules["Shared Core Services và Utilities"]
+            U_Geo["geofence.ts (Haversine và Proximity Calculation)"]
+            U_QR["qrHelper.ts (QR Parser và Deep Link Resolver)"]
+            U_Lock["loginLock.ts (Lockout Engine 5 lần / 5 phút)"]
+            S_Geo["geofenceStore (Zustand: Tracking và Suggestion)"]
+            S_Audio["audioStore (Zustand: Trình phát audio)"]
+            S_Fav["favoritesStore (Zustand: LocalStorage Yêu thích)"]
+            S_Lang["languageStore (5 ngôn ngữ: vi, en, zh, ko, ja)"]
+            S_Sess["sessionStore (Zustand: Quản lý phiên tham quan)"]
+            API["api.ts (Mock Data và LocalStorage persistence)"]
+        end
+
+        V_Layout --> V_Track
+        V_Track --> U_Geo
+        V_Track --> U_QR
+        V_Track --> S_Geo
+        V_Audio --> S_Audio
+        V_Map --> S_Geo
+        A_Login --> U_Lock
+        VisitorApp --> API
+        AdminApp --> API
+    end
+
+    subgraph StaticHost["Hạ Tầng GitHub Pages (HTTPS CDN Hosting)"]
+        HTML["index.html"]
+        Bundle["JS/CSS Bundle (React 18 + Vite + Tailwind)"]
+        StaticData["museum_data.json (Dữ liệu gốc hiện vật và tọa độ)"]
+        AudioFiles["Audio Assets (/audio/*.mp3)"]
+        FloorImages["Floor Map Images (/images/*.png)"]
+    end
+
+    subgraph CloudServices["Dịch Vụ Ngoại Vi / Analytics"]
+        Ntfy["ntfy.sh (HTTPS Push Notification / Event Telemetry)"]
+    end
+
+    BrowserClient -->|HTTP GET / Assets| StaticHost
+    AdminApp -->|Pub/Sub Telemetry| Ntfy
+```
 
 # 5. Sơ Đồ Triển Khai (Deployment Diagram)
 
-![](./assets/media/image33.jpg){width="6.5in" height="3.58in"}
+*Chi tiết mã nguồn PlantUML: [UMLDeployDiagram.puml](../design/deployment/UMLDeployDiagram.puml)*
+
+```mermaid
+flowchart TD
+    subgraph ClientDevice["Thiết Bị Khách Tham Quan / Quản Trị Viên (Mobile / Desktop)"]
+        subgraph WebBrowser["Modern Web Browser (Chrome, Safari, Edge, Firefox)"]
+            HTML5["HTML5 / React 18 Application Bundle"]
+            WebAudio["HTML5 Web Audio API (Phát âm thanh thuyết minh)"]
+            GeoAPI["HTML5 Geolocation API (GPS High Accuracy tracking)"]
+            CameraAPI["HTML5 MediaDevices / Camera API (Quét mã QR)"]
+            LStorage["Browser LocalStorage (Yêu thích, Ghi đè Admin, Session)"]
+        end
+    end
+
+    subgraph GitHubInfra["Hạ Tầng GitHub Pages (Nginx HTTPS CDN)"]
+        PagesServer["Static Web Server (GitHub CDN / HTTPS :443)"]
+        DistAssets["dist/ (Vite Bundles, index.html, scripts)"]
+        MediaStorage["public/audio/ và public/images/ (MP3 và PNG/JPG Assets)"]
+    end
+
+    subgraph TelemetryInfra["Hạ Tầng Giám Sát / Analytics Ngoại Vi"]
+        NtfyServer["ntfy.sh Push Gateway (HTTPS :443)"]
+    end
+
+    ClientDevice -->|HTTPS GET :443 (Tải app, dữ liệu sơ đồ và audio)| PagesServer
+    ClientDevice -->|HTTPS POST Events :443 (Đồng bộ số liệu thống kê)| NtfyServer
+```
