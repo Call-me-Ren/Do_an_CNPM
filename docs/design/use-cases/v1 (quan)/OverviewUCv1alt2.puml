@@ -1,0 +1,126 @@
+@startuml
+title Sơ Đồ Use Case Tổng Quát - Hệ Thống Thuyết Minh Tự Động Đa Ngôn Ngữ
+left to right direction
+skinparam packageStyle rectangle
+' skinparam linetype polyline
+' skinparam nodesep 30
+' skinparam ranksep 70
+' skinparam shadowing false
+' skinparam defaultFontName Arial
+
+' ==============================================================================
+' ĐỊNH NGHĨA CÁC TÁC NHÂN (ACTORS VIẾT HOA THEO CHUẨN)
+' ==============================================================================
+actor "Người (Khách vãng lai)" as NGUOI
+actor "Người Dùng (Đã Đăng Ký)" as NGUOI_DUNG
+actor "Quản Trị Viên (Admin)" as ADMIN
+actor "Thiết Bị Lưu Âm Thanh" as THIETBI_LUU_AMTHANH
+
+' QUAN HỆ KẾ THỪA: Người Dùng kế thừa Người (hưởng toàn bộ quyền cơ bản)
+NGUOI_DUNG --|> NGUOI
+
+rectangle "Hệ Thống Thuyết Minh Bảo Tàng" {
+
+  ' --- Phân hệ Xác thực & Tài khoản ---
+  together {
+    usecase "Đăng Ký\n(USC01)" as DangKi
+    usecase "Đăng Nhập\n(USC02)" as DangNhap
+    usecase "Xác Thực Đăng Nhập" as XacThucDangNhap
+    usecase "Đăng Xuất\n(USC16)" as DangXuat
+    usecase "Quên Mật Khẩu\n(USC17)" as QuenMK
+  }
+
+  ' --- Phân hệ Khách tham quan & Trải nghiệm ---
+  together {
+    usecase "Quét Mã QR\n(USC03)" as QuetMaQR
+    usecase "Nghe Thuyết Minh Tự Động\n(USC04)" as NgheThuyetMinh
+    usecase "Chuyển Đổi Ngôn Ngữ\n(USC05)" as ChuyenDoiNgonNgu
+    usecase "Lưu Sự Vật Yêu Thích\n(USC06)" as LuuSVYeuThich
+    usecase "Đọc Nội Dung Văn Bản\n(USC12)" as DocND
+    usecase "Xem Hình Ảnh Hiện Vật\n(USC13)" as XemHinhAnh
+    usecase "Xem Hồ Sơ Bảo Tàng\n(USC14)" as XemHoSoBaoTang
+    usecase "Tìm Kiếm Hiện Vật\n(USC15)" as TimKiem
+    usecase "Xem Phụ Đề Đồng Bộ\n(USC18)" as XemPhuDe
+  }
+
+  ' --- Phân hệ Quản trị viên (Admin CMS) ---
+  together {
+    usecase "Quản Lý Sự Vật\n(USC07)" as QLSuVat
+    usecase "Chỉnh Sửa / Tạo Mã QR\n(USC08)" as ChinhSuaQR
+    usecase "Quản Lý Tệp Âm Thanh\n(USC09)" as QLTepAmThanh
+    usecase "Xem Thống Kê Lượt Nghe\n(USC10)" as XemThongKeLuotNghe
+    usecase "Quản Lý Sơ Đồ Trưng Bày\n(USC11)" as QLSoDo
+  }
+
+  ' --- Phân hệ Tác vụ Nền & Thiết Bị Âm Thanh ---
+  together {
+    usecase "Phát Luồng Dữ Liệu Âm Thanh\n(USC19)" as PhatLuongDLAmThanh
+    usecase "Lưu Trữ Tệp Âm Thanh\n(USC20)" as LuuTruTepAmThanh
+  }
+}
+
+' ==============================================================================
+' KẾT NỐI TÁC NHÂN VỚI USE CASE CƠ SỞ
+' ==============================================================================
+
+' 1. Khách vãng lai (NGUOI) sử dụng các chức năng công khai (Public)
+NGUOI -- DangNhap
+NGUOI -- DangXuat
+' FIX #4: Khách vãng lai và Người dùng đều có quyền Tìm Kiếm khi QR lỗi/mờ
+NGUOI --- TimKiem
+NGUOI --- QuetMaQR
+NGUOI --- NgheThuyetMinh
+NGUOI --- ChuyenDoiNgonNgu
+NGUOI --- DocND
+NGUOI --- XemHinhAnh
+NGUOI -- XemHoSoBaoTang
+
+' 2. Người Dùng đã đăng ký (NGUOI_DUNG)
+NGUOI_DUNG -- DangKi
+NGUOI_DUNG -- LuuSVYeuThich
+
+' 3. Quản Trị Viên (ADMIN)
+ADMIN --- QLSuVat
+ADMIN --- ChinhSuaQR
+ADMIN --- QLTepAmThanh
+ADMIN --- XemThongKeLuotNghe
+ADMIN --- QLSoDo
+
+' 4. Thiết Bị / Dịch Vụ Lưu Trữ Âm Thanh
+THIETBI_LUU_AMTHANH -- PhatLuongDLAmThanh
+THIETBI_LUU_AMTHANH -- LuuTruTepAmThanh
+
+' ==============================================================================
+' CÁC QUAN HỆ PHỤ THUỘC (<<include>> và <<extend>>) ĐÃ ĐƯỢC CHUẨN HÓA
+' ==============================================================================
+
+' FIX #1: QuetMaQR không bao gồm ChinhSuaQR. Quét xong bắt buộc hiển thị hồ sơ hiện vật
+QuetMaQR .> XemHoSoBaoTang : <<include>>
+
+' FIX #2: Mũi tên <<include>> từ Use Case cơ sở (QLTepAmThanh) gọi tác vụ lưu trữ nền (LuuTruTepAmThanh)
+QLTepAmThanh .> LuuTruTepAmThanh : <<include>>
+
+' FIX #3: Nghe thuyết minh KHÔNG bắt buộc đăng nhập (cho phép khách vãng lai trải nghiệm)
+' Chỉ bắt buộc gọi luồng phát dữ liệu âm thanh
+NgheThuyetMinh ..> PhatLuongDLAmThanh : <<include>>
+
+' FIX #3b: Chỉ chức năng Lưu Yêu Thích mới bắt buộc người dùng phải Đăng Nhập
+LuuSVYeuThich ..> DangNhap : <<include>>
+
+' FIX #5a: Mũi tên <<extend>> hướng từ Use Case mở rộng (QuenMK) về Use Case cơ sở (DangNhap)
+QuenMK ..> DangNhap : <<extend>>
+
+' FIX #5b: Mũi tên <<extend>> hướng từ Use Case mở rộng (XemPhuDe) về Use Case cơ sở (NgheThuyetMinh)
+XemPhuDe .> NgheThuyetMinh : <<extend>>
+
+' Đăng nhập luôn kích hoạt module xác thực tài khoản/mật khẩu
+DangNhap ..> XacThucDangNhap : <<include>>
+
+' Toàn bộ chức năng quản trị bắt buộc quản trị viên phải đăng nhập
+QLSuVat ..> DangNhap : <<include>>
+ChinhSuaQR ..> DangNhap : <<include>>
+QLTepAmThanh ..> DangNhap : <<include>>
+XemThongKeLuotNghe ..> DangNhap : <<include>>
+QLSoDo ..> DangNhap : <<include>>
+
+@enduml

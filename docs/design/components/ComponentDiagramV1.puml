@@ -1,0 +1,125 @@
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+
+' ========================================================
+' FRONTEND CLIENT TIER (Topic 1: React Native Mobile & React Web CMS)
+' ========================================================
+package "Client Applications (Frontend Tier)" {
+
+  package "Mobile / Web Visitor Client\n(React Native / React.js Web PWA)" as VisitorClient {
+    component "UI Shell & Navigation" as Gui
+    component "Client Session Manager" as ClientSession
+    component "QR Scanner Component\n(Camera API)" as QrScanner
+    component "Audio Player Component\n(PlayerBar & MediaPlayer)" as MediaPlayer
+    component "Artifact Viewer & Localizer\n(I18nService)" as Localizer
+
+    Gui -- ClientSession
+    Gui -- QrScanner
+    Gui -- MediaPlayer
+    Gui -- Localizer
+  }
+
+  package "Web Admin CMS\n(React.js Single Page App)" as AdminClient {
+    component "Admin Dashboard View" as AdminDashboard
+    component "Artifact & Map Manager\n(CRUD & Sơ đồ khu vực)" as AdminArtifactManager
+    component "QR & Audio Manager\n(Media & Mã QR)" as AdminMediaManager
+    component "Analytics & Report View\n(Thống kê lượt nghe)" as AdminAnalytics
+
+    AdminDashboard -- AdminArtifactManager
+    AdminDashboard -- AdminMediaManager
+    AdminDashboard -- AdminAnalytics
+  }
+
+  portout " " as ClientPortAuth
+  portout " " as ClientPortArtifact
+  portout " " as ClientPortAudio
+  portout " " as ClientPortAdmin
+
+  ClientSession -- ClientPortAuth
+  Localizer -- ClientPortArtifact
+  QrScanner -- ClientPortArtifact
+  MediaPlayer -- ClientPortAudio
+
+  AdminArtifactManager -- ClientPortAdmin
+  AdminMediaManager -- ClientPortAdmin
+  AdminAnalytics -- ClientPortAdmin
+}
+
+' ========================================================
+' BACKEND APPLICATION SERVER TIER
+' ========================================================
+package "Server Application Tier" as ServerTier {
+  component "Auth Server\n(JWT & Identity Service)" as AuthServer
+  component "Artifact Manager\n(Catalog & Exhibition Service)" as ArtifactManager
+  component "Audio Streamer\n(HTTP Range Audio Service)" as AudioStreamer
+  component "Admin CMS Service\n(Analytics & Management)" as AdminCmsService
+
+  portin " " as ServerPortAuth
+  portin " " as ServerPortArtifact
+  portin " " as ServerPortAudio
+  portin " " as ServerPortAdmin
+
+  portout " " as ServerPortDb
+  portout " " as ServerPortStorage
+}
+
+' ========================================================
+' STORAGE & PERSISTENCE TIER
+' ========================================================
+package "Storage & Persistence Tier" as StorageTier {
+  database "System Database\n(Relational DBMS)" as SystemDb
+  storage "Media Archive Storage\n(Cloud / Object Storage)" as MediaArchive
+
+  portin " " as StoragePortDb
+  portin " " as StoragePortStorage
+}
+
+' ========================================================
+' INTERFACES DEFINITIONS
+' ========================================================
+() "I_Auth\n(REST / JSON)" as IAuth
+() "I_Artifact\n(REST / JSON)" as IArtifact
+() "I_Audio\n(HTTP Audio Stream)" as IAudio
+() "I_Admin_CMS\n(REST / JSON)" as IAdminCMS
+() "I_Database\n(SQL / Connection Pool)" as IDatabase
+() "I_Storage\n(S3 / Blob Storage API)" as IStorage
+
+' ========================================================
+' CONNECTIONS: CLIENT -> BACKEND INTERFACES
+' ========================================================
+ClientPortAuth --( IAuth
+ClientPortArtifact ..( IArtifact
+ClientPortAudio --( IAudio
+ClientPortAdmin --( IAdminCMS
+
+IAuth -- ServerPortAuth
+IArtifact -- ServerPortArtifact
+IAudio -- ServerPortAudio
+IAdminCMS -- ServerPortAdmin
+
+ServerPortAuth -- AuthServer
+ServerPortArtifact -- ArtifactManager
+ServerPortAudio -- AudioStreamer
+ServerPortAdmin -- AdminCmsService
+
+' ========================================================
+' CONNECTIONS: BACKEND -> STORAGE INTERFACES
+' ========================================================
+AuthServer -- ServerPortDb
+ArtifactManager -- ServerPortDb
+ArtifactManager -- ServerPortStorage
+AdminCmsService -- ServerPortDb
+AdminCmsService -- ServerPortStorage
+AudioStreamer -- ServerPortStorage
+
+ServerPortDb ..( IDatabase
+ServerPortStorage ..( IStorage
+
+IDatabase -- StoragePortDb
+IStorage -- StoragePortStorage
+
+StoragePortDb -- SystemDb
+StoragePortStorage -- MediaArchive
+
+@enduml

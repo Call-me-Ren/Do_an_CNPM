@@ -51,19 +51,20 @@ rectangle "Hệ thống thuyết minh tự động đa ngôn ngữ" {
 }
 
 ' ---- PERSON
+PERSON ------ SignUp
 PERSON ------ Login
+PERSON ------ ForgotPassword
 PERSON ------ Logout
+PERSON ------ Search
+PERSON ------ SwitchLanguage
+PERSON ------ ReadContent
+PERSON ------ ViewImages
+PERSON ------ ViewMuseumProfile
+PERSON ------ ScanQRCode
+PERSON ------ ListenToNarration
 
 ' ---- USER
-USER -- SignUp
-USER -- Search
-USER -- SwitchLanguage
-USER -- ReadContent
-USER -- ViewImages
-USER -- ViewMuseumProfile
-USER -- ScanQRCode
 USER -- SaveFavoriteItem
-USER -- ListenToNarration
 
 ' ---- ADMIN
 ADMIN -- ManageItems
@@ -77,7 +78,6 @@ AUDIO_STORAGE_DEVICE --- StreamAudioData
 AUDIO_STORAGE_DEVICE --- StoreAudioFiles
 
 ' ---- include / extend (all arrows: source → target)
-ListenToNarration ..> Login : <<include>>
 ListenToNarration ..> StreamAudioData : <<include>>
 SaveFavoriteItem ..> Login : <<include>>
 ManageItems ..> Login : <<include>>
@@ -85,8 +85,8 @@ ManageFloorPlans ..> Login : <<include>>
 EditQRCode ..> Login : <<include>>
 ManageAudioFiles ..> Login : <<include>>
 ViewListeningStatistics ..> Login : <<include>>
-StoreAudioFiles ..> ManageAudioFiles : <<include>>
-ScanQRCode ..> EditQRCode : <<include>>
+ManageAudioFiles ..> StoreAudioFiles : <<include>>
+ScanQRCode ..> ReadContent : <<include>>
 
 ViewSubtitles ..> ListenToNarration : <<extend>>
 ForgotPassword ..> Login : <<extend>>
@@ -225,7 +225,6 @@ actor "Thiết bị lưu âm thanh" as AUDIO_STORAGE_DEVICE
 
 rectangle "Hệ thống thuyết minh tự động đa ngôn ngữ" {
   usecase "Nghe thuyết minh" as ListenToNarration
-  usecase "Đăng nhập" as Login
   usecase "Phát luồng dữ liệu âm thanh" as StreamAudioData
   usecase "Xem phụ đề" as ViewSubtitles
 }
@@ -233,7 +232,6 @@ rectangle "Hệ thống thuyết minh tự động đa ngôn ngữ" {
 USER --> ListenToNarration
 AUDIO_STORAGE_DEVICE --> StreamAudioData
 
-ListenToNarration ..> Login : <<include>>
 ListenToNarration ..> StreamAudioData : <<include>>
 ViewSubtitles ..> ListenToNarration : <<extend>>
 @enduml
@@ -452,8 +450,8 @@ rectangle "Hệ thống thuyết minh tự động đa ngôn ngữ" {
 
 ADMIN --> ManageAudioFiles
 
-Login ..> ManageAudioFiles : <<include>>
-StoreAudioFiles ..> ManageAudioFiles : <<include>>
+ManageAudioFiles ..> Login : <<include>>
+ManageAudioFiles ..> StoreAudioFiles : <<include>>
 @enduml
 
 ' ---------- UC09_activity ----------
@@ -820,13 +818,11 @@ actor "Người dùng" as USER
 rectangle "Hệ thống thuyết minh tự động đa ngôn ngữ" {
   usecase "Nghe thuyết minh" as ListenToNarration
   usecase "Xem phụ đề" as ViewSubtitles
-  usecase "Đăng nhập" as Login
 }
 
 USER --> ListenToNarration
 
 ViewSubtitles ..> ListenToNarration : <<extend>>
-ListenToNarration ..> Login : <<include>>
 @enduml
 
 ' ---------- UC18_activity ----------
@@ -904,7 +900,7 @@ rectangle "Hệ thống thuyết minh tự động đa ngôn ngữ" {
 
 AUDIO_STORAGE_DEVICE --> StoreAudioFiles
 
-StoreAudioFiles ..> ManageAudioFiles : <<include>>
+ManageAudioFiles ..> StoreAudioFiles : <<include>>
 @enduml
 
 ' ---------- UC20_activity ----------

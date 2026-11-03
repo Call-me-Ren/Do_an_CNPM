@@ -1,0 +1,125 @@
+@startuml Use_cases_activities
+left to right direction
+skinparam packageStyle rectangle
+skinparam linetype polyline
+' skinparam nodesep 30
+' skinparam shadowing false
+' skinparam defaultFontName Arial
+
+' ========================================================
+' ĐỊNH NGHĨA TÁC NHÂN (ACTORS)
+' ========================================================
+actor "Người\n(Khách vãng lai)" as Nguoi
+actor "Người Dùng\n(Đã đăng ký)" as NguoiDung
+actor "Quản Trị Viên\n(Admin)" as Admin
+actor "Thiết Bị Lưu Âm Thanh\n(Audio Storage / Streaming)" as ThietBiAudio <<System>>
+
+' Phân cấp tác nhân: Người dùng kế thừa Khách vãng lai
+Nguoi <|-- NguoiDung
+
+' ========================================================
+' RÀN BUỘC HỆ THỐNG: THUYẾT MINH TỰ ĐỘNG ĐA NGÔN NGỮ
+' ========================================================
+rectangle "Hệ Thống Thuyết Minh Tự Động Đa Ngôn Ngữ (Bảo Tàng)" {
+
+    ' --- PHÂN HỆ XÁC THỰC & CHUNG (USC01, 02, 16, 17) ---
+    package "Xác Thực & Tài Khoản" {
+        usecase "USC01: Đăng Ký" as DangKi
+        usecase "USC02: Đăng Nhập" as DangNhap
+        usecase "USC16: Đăng Xuất" as DangXuat
+        usecase "USC17: Quên Mật Khẩu" as QuenMK
+        usecase "Xác Thực Đăng Nhập" as XacThucDN
+    }
+
+    ' --- PHÂN HỆ KHÁCH THAM QUAN (MOBILE / WEB) ---
+    package "Dịch Vụ Khách Tham Quan" {
+        usecase "USC03: Quét Mã QR" as QuetMaQR
+        usecase "USC04: Nghe Thuyết Minh Tự Động" as NgheThuyetMinh
+        usecase "USC05: Chuyển Đổi Ngôn Ngữ" as ChuyenDoiNgonNgu
+        usecase "USC06: Lưu Sự Vật Yêu Thích" as LuuSVYeuThich
+        usecase "USC12: Đọc Nội Dung" as DocNoiDung
+        usecase "USC13: Xem Hình Ảnh" as XemHinhAnh
+        usecase "USC14: Xem Hồ Sơ Bảo Tàng" as XemHoSoBaoTang
+        usecase "USC15: Tìm Kiếm" as TimKiem
+        usecase "USC18: Xem Phụ Đề" as XemPhuDe
+    }
+
+    ' --- PHÂN HỆ QUẢN TRỊ VIÊN (WEB CMS ADMIN) ---
+    package "Quản Trị Bảo Tàng (Admin CMS)" {
+        usecase "USC07: Quản Lý Sự Vật (Hiện Vật)" as QLSuVat
+        usecase "USC08: Chỉnh Sửa Mã QR" as ChinhSuaQR
+        usecase "USC09: Quản Lý Tệp Âm Thanh" as QLTepAmThanh
+        usecase "USC10: Xem Thống Kê Lượt Nghe" as XemThongKeLuotNghe
+        usecase "USC11: Quản Lý Sơ Đồ Trưng Bày" as QLSoDo
+    }
+
+    ' --- PHÂN HỆ HẠ TẦNG ÂM THANH (EXTERNAL AUDIO SERVICE) ---
+    package "Hạ Tầng Dữ Liệu Âm Thanh" {
+        usecase "USC19: Phát Luồng Dữ Liệu Âm Thanh" as PhatLuongDLAmThanh
+        usecase "USC20: Lưu Trữ Tệp Âm Thanh" as LuuTruTepAmThanh
+    }
+}
+
+' ========================================================
+' KẾT NỐI TÁC NHÂN - USE CASE
+' ========================================================
+
+' 1. Khách vãng lai (Nguoi)
+Nguoi ---> DangKi
+Nguoi --> DangNhap
+Nguoi --> QuetMaQR
+Nguoi ---> NgheThuyetMinh
+Nguoi ---> ChuyenDoiNgonNgu
+Nguoi ---> DocNoiDung
+Nguoi ---> XemHinhAnh
+Nguoi ---> XemHoSoBaoTang
+Nguoi ---> TimKiem
+Nguoi ---> DangXuat
+
+' 2. Người dùng đã đăng ký (NguoiDung)
+NguoiDung --> LuuSVYeuThich
+
+' 3. Quản trị viên (Admin)
+Admin --> DangNhap
+Admin ---> DangXuat
+Admin ---> QLSuVat
+Admin ---> ChinhSuaQR
+Admin ---> QLTepAmThanh
+Admin ---> XemThongKeLuotNghe
+Admin ---> QLSoDo
+
+' 4. Thiết bị âm thanh (ThietBiAudio)
+ThietBiAudio --> PhatLuongDLAmThanh
+ThietBiAudio --> LuuTruTepAmThanh
+
+' ========================================================
+' QUAN HỆ NỘI TẠI: <<include>> VÀ <<extend>> (ĐÃ SỬA CHUẨN)
+' ========================================================
+
+' Xác thực đăng nhập
+(DangNhap) ..> (XacThucDN) : <<include>>
+(QuenMK) ..> (DangNhap) : <<extend>>
+
+' Yêu thích bắt buộc đăng nhập
+(LuuSVYeuThich) ..> (DangNhap) : <<include>>
+
+' Quét QR xong tự động mở nội dung hiện vật (Sửa lỗi USC03 -> USC08)
+(QuetMaQR) .> (DocNoiDung) : <<include>>
+
+' Nghe thuyết minh gọi luồng phát audio thực tế
+(NgheThuyetMinh) ...> (PhatLuongDLAmThanh) : <<include>>
+
+' Bật phụ đề mở rộng cho việc nghe âm thanh (Sửa chiều extend)
+(XemPhuDe) .> (NgheThuyetMinh) : <<extend>>
+
+' Quản lý âm thanh bao gồm việc lưu trữ vào storage (Sửa chiều include USC09 -> USC20)
+(QLTepAmThanh) ..> (LuuTruTepAmThanh) : <<include>>
+
+' Các nghiệp vụ Admin bắt buộc phải đăng nhập hợp lệ
+(QLSuVat) .> (DangNhap) : <<include>>
+(ChinhSuaQR) ..> (DangNhap) : <<include>>
+(QLTepAmThanh) ..> (DangNhap) : <<include>>
+(XemThongKeLuotNghe) ..> (DangNhap) : <<include>>
+(QLSoDo) ..> (DangNhap) : <<include>>
+
+@enduml

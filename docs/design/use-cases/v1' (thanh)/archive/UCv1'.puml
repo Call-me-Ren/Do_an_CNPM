@@ -1,0 +1,803 @@
+' ============================================================
+' Use cases & activity diagrams V2: General, UC01..UC14 (29 diagrams)
+' One @startuml <name> block per diagram: the name is the exported file name.
+' ============================================================
+
+' ---------- General ----------
+@startuml General
+left to right direction
+' skinparam shadowing false
+' skinparam linetype polyline
+skinparam nodesep 30
+skinparam ranksep 70
+skinparam packageStyle rectangle
+
+actor "Người dùng" as USER
+actor "Admin" as ADMIN
+actor "Hệ thống định vị" as POSITIONING_SYSTEM
+
+rectangle "Hệ thống thuyết minh tự động đa ngôn ngữ" {
+  together {
+    usecase "Tìm kiếm" as Search
+    usecase "Chuyển đổi ngôn ngữ" as SwitchLanguage
+    usecase "Xem hồ sơ bảo tàng" as ViewMuseumProfile
+    usecase "Quét mã QR" as ScanQRCode
+    usecase "Lưu sự vật yêu thích" as SaveFavoriteItem
+    usecase "Nghe thuyết minh" as ListenToNarration
+    usecase "Xem phụ đề" as ViewSubtitles
+  }
+
+  usecase "Đăng nhập" as Login
+
+  together {
+    usecase "Quản lý sự vật" as ManageItems
+    usecase "Quản lý sơ đồ" as ManageFloorPlans
+    usecase "Quản lý phiên" as ManageSessions
+    usecase "Quản lý tệp âm thanh" as ManageAudioFiles
+    usecase "Xem thống kê lượt nghe" as ViewListeningStatistics
+    usecase "Định vị vị trí" as LocationTracking
+  }
+}
+
+' ---- USER
+USER -- Search
+USER -- SwitchLanguage
+USER -- ViewMuseumProfile
+USER -- ScanQRCode
+USER -- SaveFavoriteItem
+USER -- ListenToNarration
+
+' ---- ADMIN
+ADMIN -- ManageItems
+ADMIN -- ManageFloorPlans
+ADMIN -- ManageSessions
+ADMIN -- ManageAudioFiles
+ADMIN -- ViewListeningStatistics
+
+' ---- POSITIONING_SYSTEM
+POSITIONING_SYSTEM -- LocationTracking
+
+' ---- include / extend (all arrows: source → target)
+ManageItems ..> Login : <<include>>
+ManageFloorPlans ..> Login : <<include>>
+ManageSessions ..> Login : <<include>>
+ManageAudioFiles ..> Login : <<include>>
+ViewListeningStatistics ..> Login : <<include>>
+
+ViewSubtitles ..> ListenToNarration : <<extend>>
+@enduml
+
+' ---------- UC01_usecase ----------
+@startuml UC01_usecase
+left to right direction
+
+actor "Admin" as ADMIN
+
+rectangle "Hệ thống thuyết minh tự động đa ngôn ngữ" {
+  usecase "Đăng nhập" as Login
+}
+
+ADMIN --> Login
+@enduml
+
+' ---------- UC01_activity ----------
+@startuml UC01_activity
+title UC01 - Đăng nhập
+start
+:Tác nhân chọn chức năng đăng nhập;
+:Hệ thống hiển thị biểu mẫu đăng nhập;
+repeat
+  :Nhập thông tin;
+  :Xác thực đăng nhập;
+backward :Hiển thị thông báo mật khẩu sai;
+repeat while (Mật khẩu đúng?) is ([Không]) not ([Có])
+:Khởi động phiên làm việc;
+:Hiển thị dashboard quản trị;
+stop
+@enduml
+
+' ---------- UC02_usecase ----------
+@startuml UC02_usecase
+left to right direction
+
+actor "Người dùng" as USER
+
+rectangle "Hệ thống thuyết minh tự động đa ngôn ngữ" {
+  usecase "Quét mã QR" as ScanQRCode
+}
+
+USER --> ScanQRCode
+@enduml
+
+' ---------- UC02_activity ----------
+@startuml UC02_activity
+title UC02 - Quét mã QR
+start
+:Người dùng chọn chức năng quét mã QR;
+:Hệ thống thông báo kích hoạt camera và hiển thị khung quét;
+if (Bật camera?) then ([Có])
+  repeat
+    :Người dùng hướng camera về phía mã QR;
+    :Hệ thống nhận diện và giải mã chuỗi định danh QR;
+  backward :Hiển thị thông báo không quét được mã QR;
+  repeat while (Nhận diện được?) is ([Không]) not ([Có])
+  :Mở chi tiết hiện vật;
+  repeat
+    repeat
+      :Hệ thống tự động tracking vị trí;
+      if (Mất tín hiệu?) then ([Có])
+        :Thông báo mất tracking, gợi ý quét thủ công;
+        stop
+      else ([Không])
+      endif
+    backward :Tự động thuyết minh hiện vật mới;
+    repeat while (Gần hiện vật mới?) is ([Có]) not ([Không])
+  repeat while (Người dùng dừng?) is ([Không]) not ([Có])
+  :Kết thúc hệ thống;
+else ([Không])
+endif
+stop
+@enduml
+
+' ---------- UC03_usecase ----------
+@startuml UC03_usecase
+left to right direction
+
+actor "Người dùng" as USER
+
+rectangle "Hệ thống thuyết minh tự động đa ngôn ngữ" {
+  usecase "Nghe thuyết minh" as ListenToNarration
+}
+
+USER --> ListenToNarration
+@enduml
+
+' ---------- UC03_activity ----------
+@startuml UC03_activity
+title UC03 - Nghe thuyết minh
+start
+:Người dùng chọn chức năng nghe thuyết minh;
+:Hệ thống xác định ngôn ngữ người dùng đang chọn;
+:Hệ thống yêu cầu lấy tệp từ thiết bị lưu âm thanh;
+:Thiết bị lưu âm thanh truyền luồng dữ liệu về hệ thống;
+if (Kết nối được?) then ([Không])
+  :Nhận thông báo lỗi không thể phát âm thanh và yêu cầu chuyển về đọc văn bản;
+else ([Có])
+  :Khởi tạo trình phát;
+  :Nghe và điều khiển;
+  if (Bật phụ đề?) then ([Có])
+    :Bật phụ đề;
+  else ([Không])
+  endif
+  if (Đổi ngôn ngữ?) then ([Có])
+    :Đổi ngôn ngữ;
+  else ([Không])
+  endif
+  :Âm thanh kết thúc, hệ thống cập nhật lượt nghe và dừng trình phát;
+endif
+stop
+@enduml
+
+' ---------- UC04_usecase ----------
+@startuml UC04_usecase
+left to right direction
+
+actor "Người dùng" as USER
+
+rectangle "Hệ thống thuyết minh tự động đa ngôn ngữ" {
+  usecase "Chuyển đổi ngôn ngữ" as SwitchLanguage
+}
+
+USER --> SwitchLanguage
+@enduml
+
+' ---------- UC04_activity ----------
+@startuml UC04_activity
+title UC04 - Chuyển đổi ngôn ngữ
+start
+:NguoiDung chọn chức năng Chuyển đổi ngôn ngữ;
+:Hệ Thống hiển thị danh sách ngôn ngữ được hỗ trợ;
+:Người dùng chọn ngôn ngữ mong muốn;
+:Hệ thống ghi nhận thiết lập ngôn ngữ mới;
+:Hệ thống tải lại tài nguyên giao diện, nội dung theo ngôn ngữ mới;
+stop
+@enduml
+
+' ---------- UC05_usecase ----------
+@startuml UC05_usecase
+left to right direction
+
+actor "Người dùng" as USER
+
+rectangle "Hệ thống thuyết minh tự động đa ngôn ngữ" {
+  usecase "Lưu sự vật yêu thích" as SaveFavoriteItem
+}
+
+USER --> SaveFavoriteItem
+@enduml
+
+' ---------- UC05_activity ----------
+@startuml UC05_activity
+title UC05 - Lưu sự vật yêu thích
+start
+:Người dùng chọn chức năng lưu sự vật yêu thích;
+:Hệ thống kiểm tra trạng thái lưu;
+if (Đã lưu chưa?) then (Chưa)
+  :Thêm vào danh mục yêu thích;
+else (Rồi)
+  :Hiển thị tùy chọn xóa;
+  :Chọn bỏ lưu;
+  :Cập nhật biểu tượng;
+endif
+stop
+@enduml
+
+' ---------- UC06_usecase ----------
+@startuml UC06_usecase
+left to right direction
+
+actor "Người dùng" as USER
+
+rectangle "Hệ thống thuyết minh tự động đa ngôn ngữ" {
+  usecase "Xem hồ sơ bảo tàng" as ViewMuseumProfile
+}
+
+USER --> ViewMuseumProfile
+@enduml
+
+' ---------- UC06_activity ----------
+@startuml UC06_activity
+title UC06 - Xem hồ sơ bảo tàng
+start
+:Người dùng chọn chức năng xem hồ sơ bảo tàng;
+repeat
+  :Hệ thống truy vấn hồ sơ bảo tàng;
+backward :Báo lỗi và hiện nút tải lại;
+repeat while (Tải được?) is ([Không]) not ([Có])
+:Hiển thị hồ sơ;
+repeat
+  :Xem thông tin;
+backward :Hiển thị sơ đồ;
+repeat while (Xem được sơ đồ?) is ([Có]) not ([Không])
+:Đóng chế độ xem;
+stop
+@enduml
+
+' ---------- UC07_usecase ----------
+@startuml UC07_usecase
+left to right direction
+
+actor "Người dùng" as USER
+
+rectangle "Hệ thống thuyết minh tự động đa ngôn ngữ" {
+  usecase "Nghe thuyết minh" as ListenToNarration
+  usecase "Xem phụ đề" as ViewSubtitles
+}
+
+USER --> ListenToNarration
+
+ViewSubtitles ..> ListenToNarration : <<extend>>
+@enduml
+
+' ---------- UC07_activity ----------
+@startuml UC07_activity
+title UC07 - Xem phụ đề
+start
+:Tác nhân chọn chức năng xem phụ đề;
+:Hệ thống xác định ngôn ngữ;
+:Truy vấn phụ đề;
+if (Có phụ đề?) then ([Không])
+  :Báo không có phụ đề;
+  stop
+else ([Có])
+endif
+:Hiển thị phụ đề;
+repeat
+  :Cập nhật phụ đề;
+backward :Hiển thị phụ đề mới;
+repeat while (Đổi ngôn ngữ?) is ([Có]) not ([Không])
+:Hiển thị phụ đề đến hết video;
+stop
+@enduml
+
+' ---------- UC08_usecase ----------
+@startuml UC08_usecase
+left to right direction
+
+actor "Người dùng" as USER
+
+rectangle "Hệ thống thuyết minh tự động đa ngôn ngữ" {
+  usecase "Tìm kiếm" as Search
+}
+
+USER --> Search
+@enduml
+
+' ---------- UC08_activity ----------
+@startuml UC08_activity
+title UC08 - Tìm kiếm
+start
+:Tác nhân chọn chức năng tìm kiếm;
+:Hệ thống hiển thị ô nhập;
+repeat
+  :Người dùng nhập từ khóa hoặc mã số hiện vật;
+backward :Yêu cầu người dùng nhập từ khóa hoặc mã số;
+repeat while (Từ khóa rỗng?) is ([Có]) not ([Không])
+:Hệ thống tìm trong cơ sở dữ liệu;
+if (Có kết quả?) then ([Không])
+  :Báo không tìm thấy;
+else ([Có])
+  :Trả về kết quả tìm kiếm;
+endif
+stop
+@enduml
+
+' ---------- UC09_usecase ----------
+@startuml UC09_usecase
+left to right direction
+
+actor "Admin" as ADMIN
+
+rectangle "Hệ thống thuyết minh tự động đa ngôn ngữ" {
+  usecase "Quản lý sự vật" as ManageItems
+  usecase "Đăng nhập" as Login
+}
+
+ADMIN --> ManageItems
+
+ManageItems ..> Login : <<include>>
+@enduml
+
+' ---------- UC09_activity ----------
+@startuml UC09_activity
+title UC09 - Quản lý sự vật
+start
+:Admin chọn chức năng đăng nhập;
+:Hệ thống chào mừng đăng nhập cùng với hiển thị chức năng;
+:Admin chọn quản lý sự vật;
+:Hệ thống hiển thị danh sách chức năng;
+repeat
+  :Chọn thao tác;
+  if (Chọn xóa?) then ([Có])
+    :Hiển thị hộp thoại xác nhận;
+    :Xóa và báo thành công;
+  else ([Không])
+    if (Chọn sửa?) then ([Có])
+    else ([Không])
+      if (Chọn thêm mới?) then ([Có])
+      else ([Không])
+        stop
+      endif
+    endif
+    :Hiển thị biểu mẫu;
+    repeat
+      :Điền thông tin;
+      if (Nhấn hủy?) then ([Có])
+        break
+      else ([Không])
+      endif
+      if (Đủ trường?) then ([Không])
+        :Báo lỗi thiếu trường;
+      else ([Có])
+        if (Mã số trùng?) then ([Có])
+          :Báo lỗi trùng mã;
+        else ([Không])
+          if (Lưu được?) then ([Không])
+            :Báo lỗi không lưu được;
+          else ([Có])
+            stop
+          endif
+        endif
+      endif
+    repeat while (Nhập lại?) is (Lỗi)
+  endif
+repeat while (Quay lại chọn thao tác?)
+stop
+@enduml
+
+' ---------- UC09_activity (alt)----------
+@startuml UC09_activity_alt
+title UC09 - Quản lý sự vật
+start
+:Admin chọn chức năng đăng nhập;
+:Hệ thống chào mừng đăng nhập cùng với hiển thị chức năng;
+:Admin chọn quản lý sự vật;
+:Hệ thống hiển thị danh sách chức năng;
+repeat
+  :Chọn thao tác;
+  if (Chọn xóa?) then ([Có])
+    :Hiển thị hộp thoại xác nhận;
+    :Xóa và báo thành công;
+  else ([Không])
+    if (Chọn sửa?) then ([Có])
+    else ([Không])
+      if (Chọn thêm mới?) then ([Có])
+      else ([Không])
+        stop
+      endif
+    endif
+    :Hiển thị biểu mẫu;
+    while (Nhấn hủy?) is ([Không])
+      :Điền thông tin;
+      if (Đủ trường?) then ([Không])
+        :Báo lỗi thiếu trường;
+      else ([Có])
+        if (Mã số trùng?) then ([Có])
+          :Báo lỗi trùng mã;
+        else ([Không])
+          if (Lưu được?) then ([Không])
+            :Báo lỗi không lưu được;
+          else ([Có])
+            stop
+          endif
+        endif
+      endif
+    endwhile ([Có])
+  endif
+repeat while (Tiếp tục thao tác?) is ([Có]) not ([Không])
+stop
+@enduml
+
+' ---------- UC10_usecase ----------
+@startuml UC10_usecase
+left to right direction
+
+actor "Admin" as ADMIN
+
+rectangle "Hệ thống thuyết minh tự động đa ngôn ngữ" {
+  usecase "Quản lý phiên" as ManageSessions
+  usecase "Đăng nhập" as Login
+}
+
+ADMIN --> ManageSessions
+
+ManageSessions ..> Login : <<include>>
+@enduml
+
+' ---------- UC10_activity ----------
+@startuml UC10_activity
+title UC10 - Quản lý phiên
+start
+:Admin chọn chức năng đăng nhập;
+:Hệ thống chào mừng đăng nhập cùng với hiển thị chức năng;
+:Admin chọn Quản lý phiên;
+repeat
+  :Tải danh sách phiên;
+backward :Báo lỗi tải;
+repeat while (Tải được?) is ([Không]) not ([Có])
+if (Đến giờ chuyển?) then ([Có])
+  :Tự đổi trạng thái;
+else ([Không])
+endif
+:Hiển thị danh sách;
+:Chọn thao tác;
+while (Chọn xóa?) is ([Có])
+  :Hiển thị hộp thoại xác nhận;
+  :Xóa và báo thành công;
+  :Chọn thao tác;
+endwhile ([Không])
+if (Chọn sửa?) then ([Có])
+else ([Không])
+  if (Chọn thêm mới?) then ([Có])
+  else ([Không])
+    stop
+  endif
+endif
+:Hiển thị biểu mẫu;
+repeat
+  :Điền thông tin;
+  if (Nhấn hủy?) then ([Có])
+    :Chọn thao tác;
+  else ([Không])
+  endif
+  if (Kiểm tra tính hợp lệ?) then (Có lỗi)
+    :Báo lỗi;
+  else (Hợp lệ)
+    :Hệ thống cập nhật danh sách phiên;
+    stop
+  endif
+repeat while (Nhập lại?)
+stop
+@enduml
+
+
+@startuml UC10_activity
+title UC10 - Quản lý phiên
+start
+:Admin chọn chức năng đăng nhập;
+:Hệ thống chào mừng đăng nhập cùng với hiển thị chức năng;
+:Admin chọn Quản lý phiên;
+repeat
+  :Tải danh sách phiên;
+backward :Báo lỗi tải;
+repeat while (Tải được?) is ([Không]) not ([Có])
+if (Đến giờ chuyển?) then ([Có])
+  :Tự đổi trạng thái;
+endif
+:Hiển thị danh sách;
+
+repeat
+  :Chọn thao tác;
+  if (Chọn xóa?) then ([Có])
+    :Hiển thị hộp thoại xác nhận;
+    :Xóa và báo thành công;
+    :Tải lại danh sách;
+  elseif (Chọn sửa hoặc thêm mới?) then ([Có])
+    :Hiển thị biểu mẫu;
+    repeat
+      :Điền thông tin;
+      if (Nhấn hủy?) then ([Có])
+        break
+      endif
+      if (Hợp lệ?) then ([Có])
+        :Cập nhật danh sách phiên;
+        break
+      else ([Không])
+        :Báo lỗi;
+      endif
+    repeat while (Nhập lại?) is ([Có]) not ([Không])
+  else ([Thoát])
+    stop
+  endif
+repeat while (Tiếp tục?) is ([Có]) not ([Không])
+stop
+@enduml
+
+@startuml
+start
+:Admin chọn quản lý phiên;
+
+repeat
+  :Tải danh sách phiên;
+backward :Báo lỗi tải;
+repeat while (Tải được?) is (không) not (có)
+
+if (Đến giờ chuyển?) then (có)
+  :Tự đổi trạng thái;
+endif
+
+repeat
+  :Hiển thị danh sách;
+  :Admin chọn thao tác;
+  if (Admin chọn xóa, sửa hoặc thêm mới?) then (không)
+    stop
+  endif
+  if (Admin chọn xóa?) then (có)
+    :Hiển thị hộp thoại xác nhận;
+    if (Admin xác nhận xóa?) then (có)
+      :Xóa phiên;
+      if (Xóa lỗi?) then (có)
+        :Báo lỗi xóa;
+      else (không)
+        :Báo xóa thành công;
+      endif
+    else (không)
+    endif
+  else (không)
+    :Hiển thị biểu mẫu;
+    :Admin điền thông tin;
+    while (Admin nhấn hủy?) is (không)
+      if (Dữ liệu hợp lệ?) then (có)
+        :Lưu phiên;
+        if (Lưu lỗi?) then (có)
+          :Báo lỗi lưu;
+        else (không)
+          :Báo lưu thành công;
+          :Hệ thống cập nhật danh sách phiên;
+          stop
+        endif
+      else (không)
+        :Báo lỗi trường nhập;
+      endif
+    backward :Admin điền thông tin;
+    endwhile (có)
+  endif
+repeat while
+@enduml
+
+' ---------- UC11_usecase ----------
+@startuml UC11_usecase
+left to right direction
+
+actor "Admin" as ADMIN
+
+rectangle "Hệ thống thuyết minh tự động đa ngôn ngữ" {
+  usecase "Quản lý tệp âm thanh" as ManageAudioFiles
+  usecase "Đăng nhập" as Login
+}
+
+ADMIN --> ManageAudioFiles
+
+ManageAudioFiles ..> Login : <<include>>
+@enduml
+
+' ---------- UC11_activity ----------
+@startuml UC11_activity
+title UC11 - Quản lý tệp âm thanh
+start
+:Admin chọn chức năng đăng nhập;
+:Hệ thống chào mừng đăng nhập cùng với hiển thị chức năng;
+:Admin chọn xem danh sách tệp;
+:Hệ thống hiển thị danh sách chức năng;
+:Chọn thao tác;
+while (Chọn xóa?) is ([Có])
+  :Hiển thị hộp thoại xác nhận;
+  :Xóa và báo thành công;
+  :Chọn thao tác;
+endwhile ([Không])
+if (Chọn sửa?) then ([Có])
+else ([Không])
+  if (Chọn thêm mới?) then ([Có])
+  else ([Không])
+    stop
+  endif
+endif
+:Hiển thị biểu mẫu;
+repeat
+  :Tải tệp lên;
+backward :Báo lỗi;
+repeat while (Tệp hợp lệ?) is ([Không]) not ([Có])
+repeat
+  :Xem trước, nhấn lưu;
+backward :Báo lỗi;
+repeat while (Lưu được?) is ([Không]) not ([Có])
+:Cập nhật hồ sơ;
+stop
+@enduml
+
+' ---------- UC12_usecase ----------
+@startuml UC12_usecase
+left to right direction
+
+actor "Admin" as ADMIN
+
+rectangle "Hệ thống thuyết minh tự động đa ngôn ngữ" {
+  usecase "Xem thống kê lượt nghe" as ViewListeningStatistics
+  usecase "Đăng nhập" as Login
+}
+
+ADMIN --> ViewListeningStatistics
+
+ViewListeningStatistics ..> Login : <<include>>
+@enduml
+
+' ---------- UC12_activity ----------
+@startuml UC12_activity
+title UC12 - Xem thống kê lượt nghe
+start
+:Admin chọn chức năng đăng nhập;
+:Hệ thống chào mừng đăng nhập cùng với hiển thị chức năng;
+:Admin chọn xem thống kê lượt nghe;
+:Hệ thống hiển thị bộ lọc tiêu chí báo cáo;
+repeat
+  :Thiết lập tiêu chí lọc, bấm xem thống kê;
+  if (Tiêu chí hợp lệ?) then ([Không])
+    :Hiển thị cảnh báo tiêu chí;
+  else ([Có])
+    if (Có dữ liệu?) then ([Không])
+      :Báo không có dữ liệu;
+    else ([Có])
+    endif
+  endif
+repeat while (Kết quả hợp lệ?) is ([Không]) not ([Có])
+:Hiển thị biểu đồ và bảng số liệu;
+if (Xuất báo cáo?) then ([Có])
+  repeat
+    :Chọn định dạng tệp;
+  repeat while (Tạo được tệp?) is ([Không]) not ([Có])
+  :Tải tệp về máy;
+else ([Không])
+endif
+stop
+@enduml
+
+' ---------- UC13_usecase ----------
+@startuml UC13_usecase
+left to right direction
+
+actor "Admin" as ADMIN
+
+rectangle "Hệ thống thuyết minh tự động đa ngôn ngữ" {
+  usecase "Quản lý sơ đồ" as ManageFloorPlans
+  usecase "Đăng nhập" as Login
+}
+
+ADMIN --> ManageFloorPlans
+
+ManageFloorPlans ..> Login : <<include>>
+@enduml
+
+' ---------- UC13_activity ----------
+@startuml UC13_activity
+title UC13 - Quản lý sơ đồ
+start
+:Admin chọn chức năng đăng nhập;
+:Hệ thống chào mừng đăng nhập cùng với hiển thị chức năng;
+:Admin chọn quản lý sơ đồ;
+:Hệ thống hiển thị danh sách chức năng;
+:Chọn thao tác;
+while (Chọn xóa?) is ([Có])
+  :Hiển thị hộp thoại xác nhận;
+  :Xóa và báo thành công;
+  :Chọn thao tác;
+endwhile ([Không])
+if (Chọn sửa?) then ([Có])
+else ([Không])
+  if (Chọn thêm mới?) then ([Có])
+    repeat
+      :Tải lên ảnh mặt bằng mới;
+    backward :Báo lỗi ảnh;
+    repeat while (Ảnh hợp lệ?) is ([Không]) not ([Có])
+  else ([Không])
+    stop
+  endif
+endif
+:Mở giao diện biên tập sơ đồ;
+:Kéo thả sự vật trên sơ đồ;
+repeat
+  :Lưu sơ đồ;
+backward :Báo lỗi không lưu được;
+repeat while (Lưu được?) is ([Không]) not ([Có])
+:Cập nhật thành công;
+stop
+@enduml
+
+' ---------- UC14_usecase ----------
+@startuml UC14_usecase
+left to right direction
+
+actor "Thiết bị định vị" as POSITIONING_DEVICE
+
+rectangle "Hệ thống thuyết minh tự động đa ngôn ngữ" {
+  usecase "Định vị vị trí" as LocationTracking
+}
+
+POSITIONING_DEVICE --> LocationTracking
+@enduml
+
+' ---------- UC14_activity ----------
+@startuml UC14_activity
+title UC14 - Định vị vị trí
+start
+:Nhận diện hiện vật vừa quét;
+repeat
+  :Tải sơ đồ và tọa độ;
+backward :Báo lỗi;
+repeat while (Tải được?) is ([Không]) not ([Có])
+:Thiết bị định vị phát tín hiệu;
+:Hệ thống thu tín hiệu;
+if (Thu được?) then ([Không])
+  :Hệ thống dừng lại;
+  stop
+else ([Có])
+endif
+:Hệ thống tính vị trí hiện tại;
+if (Tín hiệu ổn định?) then ([Không])
+  :Gợi ý quét mã QR thủ công;
+  stop
+else ([Có])
+endif
+:Cập nhật vị trí;
+if (Người dùng mở sơ đồ?) then ([Có])
+  :Hiển thị sơ đồ;
+else ([Không])
+endif
+:Đối chiếu vị trí;
+if (Nhiều hiện vật trong vùng?) then ([Không])
+  :Hệ thống dừng lại;
+  stop
+else ([Có])
+endif
+:Chọn gần nhất;
+if (Đã nghe hoặc đang nghe dở?) then ([Có])
+  :Gợi ý nghe lại;
+else ([Không])
+endif
+:Hệ thống kích hoạt nghe thuyết minh của hiện vật được chọn;
+if (Người dùng dừng theo dõi vị trí?) then ([Có])
+  :Hệ thống dừng định vị;
+  stop
+else ([Không])
+endif
+stop
+@enduml

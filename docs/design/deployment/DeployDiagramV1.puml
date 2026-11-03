@@ -1,0 +1,82 @@
+@startuml
+top to bottom direction
+!pragma layout smetana
+
+skinparam shadowing false
+skinparam packageStyle rectangle
+skinparam defaultTextAlignment center
+
+' ========================================================
+' CLIENT NODES (Instance-level: Specific Node Instances)
+' ========================================================
+together {
+  node "<u>:MobileDevice</u>\n(Visitor Smartphone)" <<device>> as VisitorPhone {
+    node "<u>:MobileOSRuntime</u>\n(Android / iOS)" <<executionEnvironment>> as MobileOs {
+      artifact "<u>VisitorApp.apk / .ipa</u>\n<<React Native + Expo>>" <<artifact>> as VisitorApp
+      artifact "<u>CameraScanner.bundle</u>" <<artifact>> as CameraScanner
+      artifact "<u>AudioStreamingPlayer.bundle</u>" <<artifact>> as AudioPlayer
+
+      VisitorApp -[hidden]right- CameraScanner
+      CameraScanner -[hidden]right- AudioPlayer
+    }
+  }
+
+  node "<u>:AdministratorPC</u>" <<device>> as AdminPc {
+    node "<u>:ModernWebBrowser</u>\n(Chrome / Firefox / Edge)" <<executionEnvironment>> as Browser {
+      artifact "<u>AdminCMS.spa</u>\n<<React.js + Vite>>" <<artifact>> as AdminSpa
+      artifact "<u>AnalyticsDashboard.js</u>" <<artifact>> as AnalyticsDashboard
+      artifact "<u>MapArtifactManager.js</u>" <<artifact>> as MapManager
+
+      AdminSpa -[hidden]right- AnalyticsDashboard
+      AnalyticsDashboard -[hidden]right- MapManager
+    }
+  }
+
+  VisitorPhone -[hidden]right- AdminPc
+}
+
+' ========================================================
+' APPLICATION SERVER INSTANCE
+' ========================================================
+node "<u>:CloudAppServer</u>\n(Linux Host)" <<device>> as AppServer {
+  node "<u>:ContainerEngine</u>\n(Docker / Node.js Runtime)" <<executionEnvironment>> as ContainerEngine {
+    artifact "<u>AuthServer.js / .jar</u>" <<artifact>> as AuthService
+    artifact "<u>ArtifactManager.js / .jar</u>" <<artifact>> as ArtifactService
+    artifact "<u>AudioStreamer.js / .jar</u>" <<artifact>> as AudioStreamingService
+    artifact "<u>AdminCMSService.js</u>" <<artifact>> as AdminCmsService
+
+    AuthService -[hidden]right- ArtifactService
+    ArtifactService -[hidden]right- AudioStreamingService
+    AudioStreamingService -[hidden]right- AdminCmsService
+  }
+}
+
+' ========================================================
+' DATABASE AND MEDIA STORAGE INSTANCES
+' ========================================================
+together {
+  node "<u>:DatabaseServer</u>" <<device>> as DbServer {
+    node "<u>:DbmsEngine</u>\n(PostgreSQL / MySQL)" <<executionEnvironment>> as Dbms {
+      database "<u>:SystemDB</u>\n<<Relational DB>>" as SystemDb
+    }
+  }
+
+  node "<u>:CloudStorageServer</u>" <<device>> as ObjectStorageServer {
+    node "<u>:StorageService</u>\n(S3 / Cloud Storage)" <<executionEnvironment>> as StorageService {
+      artifact "<u>MediaArchive.storage</u>\n(Audio Files & High-res Images)" <<artifact>> as MediaArchive
+    }
+  }
+
+  DbServer -[hidden]right- ObjectStorageServer
+}
+
+' ========================================================
+' COMMUNICATION PATHS
+' ========================================================
+VisitorPhone "*" -- "1" AppServer : HTTPS / REST API & Audio Stream\n(Port 443)
+AdminPc "*" -- "1" AppServer : HTTPS / TLS\n(Port 443)
+
+AppServer "1" -- "1" DbServer : TCP / SQL\n(Port 5432)
+AppServer "1" -- "1" ObjectStorageServer : HTTPS / REST API\n(Port 443)
+
+@enduml
