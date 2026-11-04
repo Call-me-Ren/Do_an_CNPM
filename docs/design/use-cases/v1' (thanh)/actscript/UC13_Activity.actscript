@@ -1,0 +1,35 @@
+ACTIVITY UC13 — Quản lý sơ đồ
+PARTITION actor = {Admin, System*}
+
+START                                          @Admin
+[Chọn chức năng đăng nhập]                     @Admin
+[Chào mừng đăng nhập + hiển thị chức năng]
+[Chọn Quản lý sơ đồ]                           @Admin
+[Hiển thị danh sách chức năng]
+
+
+L1: [Chọn thao tác]                            @Admin
+    IF (Chọn xoá?) THEN
+        [Hộp thoại xác nhận]
+        [Xoá và báo thành công]
+        GOTO L1
+
+    IF !(Chọn sửa?) THEN
+        IF !(Thêm mới?) THEN FINAL
+
+L2:     [Tải lên ảnh mặt bằng mới]             @Admin
+        IF !(File hợp lệ?) THEN
+            [Báo lỗi]
+            GOTO L2
+
+    [Mở giao diện biên tập sơ đồ]
+    [Kéo thả sự vật trên sơ đồ]                @Admin
+
+
+L3: [Lưu sơ đồ]                                @Admin
+    IF !(Lưu được?) THEN
+        [Báo lỗi]
+        GOTO L3
+
+    [Cập nhật thành công]
+    FINAL
