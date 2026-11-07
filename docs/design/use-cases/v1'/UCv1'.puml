@@ -1,0 +1,263 @@
+' ---------- General ----------
+@startuml General
+left to right direction
+' skinparam shadowing false
+' skinparam linetype polyline
+skinparam nodesep 30
+skinparam ranksep 70
+skinparam packageStyle rectangle
+
+actor "Người dùng" as USER
+actor "Admin" as ADMIN
+actor "Hệ thống định vị" as POSITIONING_SYSTEM
+
+rectangle "Hệ thống thuyết minh tự động đa ngôn ngữ" {
+  together {
+    usecase "Tìm kiếm" as Search
+    usecase "Chuyển đổi ngôn ngữ" as SwitchLanguage
+    usecase "Xem hồ sơ bảo tàng" as ViewMuseumProfile
+    usecase "Quét mã QR" as ScanQRCode
+    usecase "Lưu sự vật yêu thích" as SaveFavoriteItem
+    usecase "Nghe thuyết minh" as ListenToNarration
+    usecase "Xem phụ đề" as ViewSubtitles
+  }
+
+  usecase "Đăng nhập" as Login
+
+  together {
+    usecase "Quản lý sự vật" as ManageItems
+    usecase "Quản lý sơ đồ" as ManageFloorPlans
+    usecase "Quản lý phiên" as ManageSessions
+    usecase "Quản lý tệp âm thanh" as ManageAudioFiles
+    usecase "Xem thống kê lượt nghe" as ViewListeningStatistics
+    usecase "Định vị vị trí" as LocationTracking
+  }
+}
+
+' ---- USER
+USER -- Search
+USER -- SwitchLanguage
+USER -- ViewMuseumProfile
+USER -- ScanQRCode
+USER -- SaveFavoriteItem
+USER -- ListenToNarration
+
+' ---- ADMIN
+ADMIN -- ManageItems
+ADMIN -- ManageFloorPlans
+ADMIN -- ManageSessions
+ADMIN -- ManageAudioFiles
+ADMIN -- ViewListeningStatistics
+
+' ---- POSITIONING_SYSTEM
+POSITIONING_SYSTEM -- LocationTracking
+
+' ---- include / extend (all arrows: source → target)
+ManageItems ..> Login : <<include>>
+ManageFloorPlans ..> Login : <<include>>
+ManageSessions ..> Login : <<include>>
+ManageAudioFiles ..> Login : <<include>>
+ViewListeningStatistics ..> Login : <<include>>
+
+ViewSubtitles ..> ListenToNarration : <<extend>>
+@enduml
+
+' ---------- UC01_usecase ----------
+@startuml UC01_usecase
+left to right direction
+
+actor "Admin" as ADMIN
+
+rectangle "Hệ thống thuyết minh tự động đa ngôn ngữ" {
+  usecase "Đăng nhập" as Login
+}
+
+ADMIN --> Login
+@enduml
+
+' ---------- UC02_usecase ----------
+@startuml UC02_usecase
+left to right direction
+
+actor "Người dùng" as USER
+
+rectangle "Hệ thống thuyết minh tự động đa ngôn ngữ" {
+  usecase "Quét mã QR" as ScanQRCode
+}
+
+USER --> ScanQRCode
+@enduml
+
+' ---------- UC03_usecase ----------
+@startuml UC03_usecase
+left to right direction
+
+actor "Người dùng" as USER
+
+rectangle "Hệ thống thuyết minh tự động đa ngôn ngữ" {
+  usecase "Nghe thuyết minh" as ListenToNarration
+}
+
+USER --> ListenToNarration
+@enduml
+
+' ---------- UC04_usecase ----------
+@startuml UC04_usecase
+left to right direction
+
+actor "Người dùng" as USER
+
+rectangle "Hệ thống thuyết minh tự động đa ngôn ngữ" {
+  usecase "Chuyển đổi ngôn ngữ" as SwitchLanguage
+}
+
+USER --> SwitchLanguage
+@enduml
+
+' ---------- UC05_usecase ----------
+@startuml UC05_usecase
+left to right direction
+
+actor "Người dùng" as USER
+
+rectangle "Hệ thống thuyết minh tự động đa ngôn ngữ" {
+  usecase "Lưu sự vật yêu thích" as SaveFavoriteItem
+}
+
+USER --> SaveFavoriteItem
+@enduml
+
+' ---------- UC06_usecase ----------
+@startuml UC06_usecase
+left to right direction
+
+actor "Người dùng" as USER
+
+rectangle "Hệ thống thuyết minh tự động đa ngôn ngữ" {
+  usecase "Xem hồ sơ bảo tàng" as ViewMuseumProfile
+}
+
+USER --> ViewMuseumProfile
+@enduml
+
+' ---------- UC07_usecase ----------
+@startuml UC07_usecase
+left to right direction
+
+actor "Người dùng" as USER
+
+rectangle "Hệ thống thuyết minh tự động đa ngôn ngữ" {
+  usecase "Nghe thuyết minh" as ListenToNarration
+  usecase "Xem phụ đề" as ViewSubtitles
+}
+
+USER --> ListenToNarration
+
+ViewSubtitles ..> ListenToNarration : <<extend>>
+@enduml
+
+' ---------- UC08_usecase ----------
+@startuml UC08_usecase
+left to right direction
+
+actor "Người dùng" as USER
+
+rectangle "Hệ thống thuyết minh tự động đa ngôn ngữ" {
+  usecase "Tìm kiếm" as Search
+}
+
+USER --> Search
+@enduml
+
+' ---------- UC09_usecase ----------
+@startuml UC09_usecase
+left to right direction
+
+actor "Admin" as ADMIN
+
+rectangle "Hệ thống thuyết minh tự động đa ngôn ngữ" {
+  usecase "Quản lý sự vật" as ManageItems
+  usecase "Đăng nhập" as Login
+}
+
+ADMIN --> ManageItems
+
+ManageItems ..> Login : <<include>>
+@enduml
+
+' ---------- UC10_usecase ----------
+@startuml UC10_usecase
+left to right direction
+
+actor "Admin" as ADMIN
+
+rectangle "Hệ thống thuyết minh tự động đa ngôn ngữ" {
+  usecase "Quản lý phiên" as ManageSessions
+  usecase "Đăng nhập" as Login
+}
+
+ADMIN --> ManageSessions
+
+ManageSessions ..> Login : <<include>>
+@enduml
+
+' ---------- UC11_usecase ----------
+@startuml UC11_usecase
+left to right direction
+
+actor "Admin" as ADMIN
+
+rectangle "Hệ thống thuyết minh tự động đa ngôn ngữ" {
+  usecase "Quản lý tệp âm thanh" as ManageAudioFiles
+  usecase "Đăng nhập" as Login
+}
+
+ADMIN --> ManageAudioFiles
+
+ManageAudioFiles ..> Login : <<include>>
+@enduml
+
+' ---------- UC12_usecase ----------
+@startuml UC12_usecase
+left to right direction
+
+actor "Admin" as ADMIN
+
+rectangle "Hệ thống thuyết minh tự động đa ngôn ngữ" {
+  usecase "Xem thống kê lượt nghe" as ViewListeningStatistics
+  usecase "Đăng nhập" as Login
+}
+
+ADMIN --> ViewListeningStatistics
+
+ViewListeningStatistics ..> Login : <<include>>
+@enduml
+
+' ---------- UC13_usecase ----------
+@startuml UC13_usecase
+left to right direction
+
+actor "Admin" as ADMIN
+
+rectangle "Hệ thống thuyết minh tự động đa ngôn ngữ" {
+  usecase "Quản lý sơ đồ" as ManageFloorPlans
+  usecase "Đăng nhập" as Login
+}
+
+ADMIN --> ManageFloorPlans
+
+ManageFloorPlans ..> Login : <<include>>
+@enduml
+
+' ---------- UC14_usecase ----------
+@startuml UC14_usecase
+left to right direction
+
+actor "Thiết bị định vị" as POSITIONING_DEVICE
+
+rectangle "Hệ thống thuyết minh tự động đa ngôn ngữ" {
+  usecase "Định vị vị trí" as LocationTracking
+}
+
+POSITIONING_DEVICE --> LocationTracking
+@enduml
