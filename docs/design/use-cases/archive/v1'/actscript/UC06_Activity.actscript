@@ -1,0 +1,22 @@
+ACTIVITY UC06 — Xem hồ sơ bảo tàng
+PARTITION actor = {User, System*}
+
+START                                          @User
+[Chọn chức năng Xem HS Bảo Tàng]               @User
+
+
+L1: [Truy vấn hồ sơ bảo tàng]
+    IF !(Tải được?) THEN
+        [Báo lỗi và hiện Nút tải lại]
+        GOTO L1
+
+    [Hiển thị hồ sơ]
+
+
+L2: [Xem thông tin]                            @User
+    IF (Xem sơ đồ được không?) THEN
+        [Hiển thị sơ đồ]
+        GOTO L2
+
+    [Đóng chế độ xem]                          @User
+    FINAL

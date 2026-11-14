@@ -27,11 +27,11 @@ CÔNG NGHỆ PHẦN MỀM**
 
 # LỜI CẢM ƠN
 
-Trong suốt quá trình học tập, nghiên cứu và hoàn thành đồ án môn học Công nghệ phần mềm tại Trường Đại học Sài Gòn, chúng tôi đã nhận được sự quan tâm, chỉ dẫn tận tình và động viên quý báu từ quý thầy cô cùng các anh chị khóa trước của khoa Công nghệ thông tin.
+Trong suốt quá trình theo học, nghiên cứu và thực hành đồ án học phần Công nghệ phần mềm tại Trường Đại học Sài Gòn, chúng tôi đã nhận được sự quan tâm tận tình và động viên quý báu từ các giảng viên cùng các bạn đồng niên và các anh chị khóa trên của khoa Công nghệ thông tin.
 
-Chúng tôi xin trân trọng gửi lời cảm ơn sâu sắc nhất đến TS. Nguyễn Quốc Huy - giảng viên trực tiếp hướng dẫn đồ án. Nhờ những nhận xét chuyên môn xác đáng, định hướng kỹ thuật giàu kinh nghiệm cùng những buổi góp ý, chỉnh sửa tỉ mỉ giúp tinh gọn danh mục ca sử dụng từ 20 Use Case ban đầu xuống 14 Use Case trọng tâm, chúng tôi đã hoàn thiện đồ án một cách bài bản từ khâu phân tích, thiết kế kiến trúc cho đến hiện thực mã nguồn.
+Chúng tôi trân trọng gửi lời cảm ơn sâu sắc nhất đến TS. Nguyễn Quốc Huy, thầy là giảng viên của học phần và trực tiếp hướng dẫn đồ án của nhóm. Nhờ những nhận xét chuyên môn của thầy, định hướng giàu thâm niên ở các buổi góp ý, chỉnh sửa đã giúp chúng tôi tinh gọn số lượng danh mục ca sử dụng trọng tâm, nhờ đó mà chúng tôi đã có thể nắm chắc và hoàn thiện đồ án một cách bài bản từ khâu phân tích đề tài, thiết kế kiến trúc cho tới soạn thảo mã nguồn.
 
-Dù đã nỗ lực hết mình trong việc tra cứu tài liệu, thiết kế hệ thống và hoàn thiện sản phẩm, song do giới hạn về thời gian và trải nghiệm thực tế, đồ án khó tránh khỏi những thiếu sót nhất định. Chúng tôi rất mong nhận được những ý kiến đóng góp, chỉ bảo quý báu từ thầy để đề tài ngày càng hoàn thiện hơn, hướng tới khả năng ứng dụng thực tế tại các bảo tàng và di tích lịch sử.
+Dù nhóm thực hiện đã cố gắng hết sức, song do giới hạn về thời gian và kinh nghiệm thực tế, đồ án này khó mà tránh khỏi đâu đó những thiếu sót nhất định mà nhóm chúng tôi chưa thể lường trước. Chúng tôi rất mong nhận được những ý kiến đóng góp quý báu từ thầy để đồ án có thể được hoàn thiện hơn, hướng tới nhu cầu ứng dụng thực tiễn tại thực địa là các địa danh bảo tàng và di tích lịch sử các cấp tại địa phương.
 
 **Trân trọng cảm ơn!**  
 *Sinh viên thực hiện: Nguyễn Trí Cường, Nguyễn Hoài Quân, Đặng Phú Thành*
@@ -167,71 +167,82 @@ Sơ đồ triển khai mô hình hóa cấu trúc triển khai vật lý thực 
 
 ## 2.3. Mô hình dữ liệu quan hệ (ERD)
 
-Mô hình dữ liệu của hệ thống được chuẩn hóa theo dạng chuẩn 3 (3NF), phản ánh trọn vẹn các mối quan hệ nghiệp vụ giữa người dùng, hiện vật, bản dịch đa ngôn ngữ, tệp âm thanh và thống kê tương tác. Mô hình bao gồm **11 thực thể trọng tâm**:
+Mô hình dữ liệu của hệ thống được chuẩn hóa theo dạng chuẩn 3 (3NF), phản ánh trọn vẹn các mối quan hệ nghiệp vụ giữa quản trị viên, hiện vật, bản dịch đa ngôn ngữ, tệp âm thanh, phụ đề karaoke và nhật ký phiên tham quan. Mô hình vật lý được đồng bộ 100% với tệp cấu trúc cơ sở dữ liệu `backend/src/db/schema.sql` gồm **11 thực thể cốt lõi**:
 
-1. **`NGUOI_DUNG` (Người dùng / Tài khoản quản trị):** Quản lý thông tin đăng nhập và quyền hạn.
-   - `user_id` [PK, int]: Mã định danh người dùng.
-   - `email` [string]: Địa chỉ email đăng nhập (duy nhất).
-   - `mat_khau_hash` [string]: Chuỗi băm mật khẩu bảo mật (bcrypt/argon2).
-   - `ho_ten` [string]: Họ tên người dùng.
-   - `vai_tro` [string]: Phân quyền (`ADMIN`, `STAFF`, `USER`).
-   - `ngon_ngu_mac_dinh` [string]: Ngôn ngữ ưa thích (`vi`, `en`, `zh`, `ko`, `ja`).
-   - `trang_thai_khoa` [boolean]: Cờ đánh dấu tài khoản có đang bị khóa hay không.
-2. **`NGON_NGU` (Danh mục Ngôn ngữ hỗ trợ):**
-   - `ma_ngon_ngu` [PK, string]: Mã chuẩn ISO 639-1 (`vi`, `en`, `zh`, `ko`, `ja`).
-   - `ten_ngon_ngu` [string]: Tên hiển thị bản địa (Tiếng Việt, English, 中文, 한국어, 日本語).
-   - `kich_hoat` [boolean]: Trạng thái bật/tắt ngôn ngữ trong hệ thống.
-3. **`SO_DO_KHU_VUC` (Sơ đồ Mặt bằng Tầng / Khu vực):**
-   - `khu_vuc_id` [PK, int]: Mã định danh tầng hoặc khu trưng bày.
-   - `ten_khu_vuc` [string]: Tên khu vực (Khu ngoài trời, Tầng trệt, Lầu 1, Lầu 2).
-   - `so_tang` [int]: Thứ tự tầng phục vụ hiển thị.
-   - `anh_so_do_url` [string]: Đường dẫn tệp ảnh bản đồ mặt bằng.
-4. **`HIEN_VAT` (Hiện vật Trưng bày):**
-   - `hien_vat_id` [PK, int]: Mã định danh hiện vật trong cơ sở dữ liệu.
-   - `ma_dinh_danh` [string]: Mã hiện vật chuẩn hóa phục vụ tra cứu (ví dụ: `ART-001`, `ART-002`).
-   - `ten_hien_vat` [string]: Tên gọi chính thức của hiện vật.
-   - `khu_vuc_id` [FK, int]: Khóa ngoại liên kết tới `SO_DO_KHU_VUC`.
-   - `toa_do_x` [float]: Tọa độ tương đối trục hoành trên ảnh sơ đồ (0.0 – 1.0).
-   - `toa_do_y` [float]: Tọa độ tương đối trục tung trên ảnh sơ đồ (0.0 – 1.0).
-   - *Thuộc tính mở rộng trong thực tế:* `vi_do` (latitude), `kinh_do` (longitude), `ban_kinh_kich_hoat` (trigger_radius - mặc định 12 mét).
-5. **`MA_QR` (Mã QR Định danh Hiện vật):**
-   - `qr_id` [PK, int]: Mã định danh bản ghi QR.
-   - `hien_vat_id` [FK, int]: Khóa ngoại liên kết 1-1 với hiện vật.
-   - `duong_dan_qr` [string]: Chuỗi liên kết định tuyến deep link (ví dụ: `?artifact=ART-001`).
-   - `anh_qr_url` [string]: Đường dẫn tệp ảnh mã QR động để in ấn/xuất bản.
-6. **`NOI_DUNG_DA_NGON_NGU` (Bản dịch Thông tin Hiện vật):**
-   - `noi_dung_id` [PK, int]: Mã định danh bản dịch.
-   - `hien_vat_id` [FK, int]: Khóa ngoại liên kết tới hiện vật.
-   - `ma_ngon_ngu` [FK, string]: Khóa ngoại liên kết tới `NGON_NGU`.
-   - `tieu_de` [string]: Tiêu đề hiện vật theo ngôn ngữ tương ứng.
-   - `van_ban_thuyet_minh` [text]: Toàn văn bài giới thiệu và thuyết minh chi tiết.
-7. **`HINH_ANH` (Kho Ảnh Tư liệu Hiện vật):**
-   - `hinh_anh_id` [PK, int]: Mã định danh ảnh.
-   - `hien_vat_id` [FK, int]: Khóa ngoại liên kết tới hiện vật.
-   - `duong_dan_anh` [string]: Đường dẫn tệp ảnh chất lượng cao.
-   - `thu_tu_hien_thi` [int]: Thứ tự trình diễn trong thư viện ảnh (gallery).
-8. **`TEP_AM_THANH` (Tệp Thuyết minh Âm thanh):**
-   - `tep_am_thanh_id` [PK, int]: Mã định danh tệp audio.
-   - `hien_vat_id` [FK, int]: Khóa ngoại liên kết tới hiện vật.
-   - `ma_ngon_ngu` [FK, string]: Khóa ngoại liên kết tới ngôn ngữ phát âm thanh.
-   - `duong_dan_tep` [string]: Đường dẫn tệp âm thanh (MP3, WAV, AAC).
-   - `thoi_luong_giay` [int]: Tổng thời lượng phát thanh tính bằng giây.
-9. **`PHU_DE` (Tệp Phụ đề Đồng bộ Âm thanh):**
-   - `phu_de_id` [PK, int]: Mã định danh phụ đề.
-   - `tep_am_thanh_id` [FK, int]: Khóa ngoại liên kết tới tệp âm thanh.
-   - `duong_dan_vtt` [string]: Đường dẫn tệp phụ đề định dạng WebVTT hoặc cấu trúc JSON các đoạn mốc thời gian (cues) để chạy chữ karaoke.
-10. **`LUU_YEU_THICH` (Hiện vật Yêu thích):**
-    - `user_id` [PK, FK, int]: Mã người dùng (đối với người dùng có tài khoản hoặc mã định danh phiên).
-    - `hien_vat_id` [PK, FK, int]: Mã hiện vật được lưu.
-    - `ngay_luu` [datetime]: Thời điểm lưu hiện vật.
-    *(Trên môi trường khách vãng lai, bảng này được ánh xạ bền vững trực tiếp vào LocalStorage `museum_fav_ids`)*.
-11. **`THONG_KE_LUOT_NGHE` (Nhật ký Sự kiện Nghe thuyết minh):**
-    - `thong_ke_id` [PK, int]: Mã định danh bản ghi thống kê.
-    - `hien_vat_id` [FK, int]: Mã hiện vật được nghe.
-    - `tep_am_thanh_id` [FK, int]: Mã tệp âm thanh được phát.
-    - `user_id` [FK, int, nullable]: Mã người dùng (cho phép để trống `NULL` đối với khách tham quan vãng lai).
-    - `thoi_gian_nghe` [datetime]: Thời điểm bắt đầu nghe thuyết minh.
-    - `thoi_luong_da_nghe_giay` [int]: Số giây thực tế khách đã nghe trước khi tạm dừng hoặc chuyển bài.
+1. **`AdminUser` (Người dùng quản trị):** Quản lý thông tin xác thực và phân quyền của cán bộ quản trị bảo tàng.
+   - `Id` [PK, int, IDENTITY]: Mã định danh tự tăng của tài khoản quản trị.
+   - `Email` [string, UNIQUE]: Địa chỉ email đăng nhập hệ thống quản trị.
+   - `PasswordHash` [string]: Chuỗi băm mật khẩu bảo mật (bcrypt/argon2).
+   - `DisplayName` [string]: Tên hiển thị của quản trị viên.
+   - `Role` [string]: Phân quyền quản trị (mặc định `'ADMIN'`).
+   - `FailedAttempts` [int]: Bộ đếm số lần đăng nhập sai liên tiếp phục vụ cơ chế chống brute-force (khóa tạm khi đạt ngưỡng $N = 5$).
+   - `LockedUntil` [datetime2, nullable]: Mốc thời gian tài khoản được mở khóa sau 5 phút khóa tạm.
+2. **`Floor` (Sơ đồ mặt bằng / Tầng trưng bày):**
+   - `Id` [PK, int]: Mã định danh tầng hoặc khu trưng bày (ví dụ: `1` - Khu ngoài trời, `2` - Tầng trệt).
+   - `MapImage` [string]: Đường dẫn tệp ảnh bản đồ mặt bằng phục vụ hiển thị.
+   - `Width` [float]: Chiều rộng không gian mặt bằng hiển thị (pixel hoặc đơn vị chuẩn hóa).
+   - `Height` [float]: Chiều cao không gian mặt bằng hiển thị.
+3. **`FloorTranslation` (Bản dịch tên tầng đa ngữ):**
+   - `FloorId` [PK, FK, int]: Khóa ngoại liên kết tới bảng `Floor`, thiết lập `ON DELETE CASCADE`.
+   - `Lang` [PK, char(2)]: Mã chuẩn ngôn ngữ ISO 639-1 (`vi`, `en`, `zh`, `ko`, `ja`).
+   - `Name` [string]: Tên hiển thị bản địa của tầng (ví dụ: "Tầng trệt", "Ground Floor", "一楼").
+4. **`Artifact` (Hiện vật trưng bày & Thông số định vị):**
+   - `Id` [PK, string]: Mã định danh duy nhất của hiện vật trong hệ thống (ví dụ: `WRM-001`, `art-01`).
+   - `Code` [string]: Mã hiện vật chuẩn hóa phục vụ tra cứu nhanh và tạo liên kết quét mã QR (`ART-001`, `ART-002`).
+   - `FloorId` [FK, int]: Khóa ngoại liên kết tới `Floor`.
+   - `MapX` [float]: Tọa độ tương đối trục hoành trên ảnh sơ đồ (tỷ lệ 0.0 – 1.0).
+   - `MapY` [float]: Tọa độ tương đối trục tung trên ảnh sơ đồ (tỷ lệ 0.0 – 1.0).
+   - `Latitude` [float, nullable]: Tọa độ vĩ độ GPS thực tế phục vụ thuật toán khoảng cách Haversine.
+   - `Longitude` [float, nullable]: Tọa độ kinh độ GPS thực tế phục vụ thuật toán khoảng cách Haversine.
+   - `TriggerRadius` [float, nullable]: Bán kính kích hoạt Geofencing cấu hình riêng cho từng hiện vật (mặc định 12 mét theo đặc tả v2).
+   - `CreatedAt` [bigint, nullable]: Thời điểm tạo bản ghi hiện vật (Unix timestamp).
+   - `SortOrder` [int]: Thứ tự ưu tiên sắp xếp hiển thị danh mục hiện vật.
+5. **`ArtifactTranslation` (Bản dịch thông tin hiện vật đa ngữ):**
+   - `ArtifactId` [PK, FK, string]: Khóa ngoại liên kết tới `Artifact`, thiết lập `ON DELETE CASCADE`.
+   - `Lang` [PK, char(2)]: Mã ngôn ngữ ISO 639-1 (`vi`, `en`, `zh`, `ko`, `ja`).
+   - `Title` [string]: Tiêu đề / tên gọi hiện vật theo ngôn ngữ tương ứng.
+   - `Description` [text]: Toàn văn bài giới thiệu và nội dung thuyết minh chi tiết của hiện vật.
+6. **`ArtifactImage` (Kho ảnh tư liệu hiện vật):**
+   - `ArtifactId` [PK, FK, string]: Khóa ngoại liên kết tới `Artifact`, thiết lập `ON DELETE CASCADE`.
+   - `SortOrder` [PK, int]: Thứ tự sắp xếp ảnh trong thư viện trình diễn (gallery).
+   - `Url` [string]: Đường dẫn tệp ảnh chất lượng cao lưu trữ tại CDN.
+7. **`ArtifactAudio` (Tệp thuyết minh âm thanh đa ngữ):**
+   - `ArtifactId` [PK, FK, string]: Khóa ngoại liên kết tới `Artifact`, thiết lập `ON DELETE CASCADE`.
+   - `Lang` [PK, char(2)]: Mã ngôn ngữ tương ứng của tệp âm thanh.
+   - `Url` [string]: Đường dẫn tệp âm thanh chất lượng cao (MP3/WAV/AAC) lưu trữ trên Edge CDN.
+8. **`SubtitleCue` (Tệp phụ đề đồng bộ mốc thời gian karaoke):**
+   - `ArtifactId` [PK, FK, string]: Khóa ngoại liên kết tới `Artifact`, thiết lập `ON DELETE CASCADE`.
+   - `Lang` [PK, char(2)]: Mã ngôn ngữ phụ đề.
+   - `SortOrder` [PK, int]: Thứ tự đoạn phụ đề (cue).
+   - `StartSec` [float]: Mốc thời gian bắt đầu đoạn thoại (tính bằng giây).
+   - `EndSec` [float]: Mốc thời gian kết thúc đoạn thoại (tính bằng giây).
+   - `Text` [text]: Nội dung văn bản phụ đề chạy chữ karaoke bám sát giọng đọc.
+9. **`VisitorSession` (Phiên tham quan trực tuyến của du khách):**
+   - `SessionId` [PK, string]: Mã định danh phiên ẩn danh của khách (UUID v4 sinh ngẫu nhiên khi vào ứng dụng).
+   - `DeviceType` [string]: Loại thiết bị truy cập (`mobile`, `tablet`, `desktop`).
+   - `Browser` [string]: Trình duyệt truy cập (`Safari`, `Chrome`, `Firefox`).
+   - `Lang` [string]: Ngôn ngữ đang được kích hoạt trong phiên tham quan.
+   - `CurrentArtifactId` [string, nullable]: Mã hiện vật du khách đang dừng chân hoặc nghe gần nhất.
+   - `CurrentArtifactTitle` [string, nullable]: Tên hiện vật hiện tại phục vụ hiển thị giám sát trên Dashboard.
+   - `StartedAt` [bigint]: Mốc thời gian bắt đầu phiên tham quan (Unix timestamp).
+   - `LastActive` [bigint]: Mốc thời gian tương tác cuối cùng (heartbeat duy trì tín hiệu trực tuyến).
+10. **`ListenEvent` (Nhật ký sự kiện nghe thuyết minh):**
+    - `Id` [PK, string]: Mã định danh duy nhất của sự kiện nghe.
+    - `SessionId` [FK, string]: Khóa ngoại liên kết tới `VisitorSession`.
+    - `ArtifactId` [FK, string]: Khóa ngoại liên kết tới `Artifact`.
+    - `ArtifactCode` [string]: Mã hiện vật tại thời điểm phát sinh sự kiện (`ART-xxx`).
+    - `ArtifactTitle` [string]: Tên gọi hiện vật tại thời điểm phát sinh sự kiện.
+    - `Lang` [string]: Ngôn ngữ bài thuyết minh được phát.
+    - `Timestamp` [bigint]: Thời điểm chính xác phát sinh sự kiện nghe (Unix timestamp).
+11. **`MuseumTranslation` & `Museum` (Hồ sơ thông tin bảo tàng đa ngữ):**
+    - `MuseumTranslation` lưu trữ bản dịch đa ngữ thông tin bảo tàng (UC06):
+      - `Lang` [PK, char(2)]: Mã ngôn ngữ ISO 639-1.
+      - `Name` [string]: Tên gọi chính thức của bảo tàng theo ngôn ngữ tương ứng.
+      - `Address` [string]: Địa chỉ liên hệ của bảo tàng.
+      - `OpenHours` [string]: Khung giờ mở cửa đón khách tham quan.
+      - `Description` [text]: Toàn văn bài giới thiệu lịch sử và quy mô bảo tàng.
+    - Bảng liên kết `Museum`: Quản lý cấu hình toàn cục duy nhất (`Id = 1`) chứa `Hotline` (đường dây nóng hỗ trợ) và `Banner` (đường dẫn ảnh bìa biểu ngữ chính).
+    *(Lưu ý: Tính năng lưu danh mục hiện vật yêu thích của khách vãng lai được lưu trữ trực tiếp và bền vững tại bộ nhớ trình duyệt `LocalStorage` với khóa `user_favorites`, đảm bảo trải nghiệm tức thì không cần tài khoản)*.
 
 ![](./media/6-erd.png)
 

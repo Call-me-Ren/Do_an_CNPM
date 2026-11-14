@@ -1,0 +1,37 @@
+ACTIVITY UC09 — Quản lý sự vật
+PARTITION actor = {Admin, System*}
+
+START                                          @Admin
+[Chọn chức năng đăng nhập]                     @Admin
+[Chào mừng đăng nhập cùng với hiển thị chức năng]
+[Chọn Quản lý sự vật]                          @Admin
+[Hiển thị danh sách chức năng]
+
+
+L1: [Chọn thao tác]                            @Admin
+    IF (Chọn xoá?) THEN
+        [Hộp thoại xác nhận]
+        [Xoá và báo thành công]
+        GOTO L1
+
+    IF !(Chọn sửa hoặc thêm mới?) THEN FINAL
+
+    [Hiển thị biểu mẫu]
+
+
+L2: [Điền thông tin]                           @Admin
+    IF (Huỷ?) THEN GOTO L1
+
+    IF !(Đủ trường?) THEN
+        [Báo lỗi thiếu trường]
+        GOTO L2
+
+    IF (Mã số trùng?) THEN
+        [Báo lỗi trùng mã]
+        GOTO L2
+
+    IF !(Lưu được?) THEN
+        [Báo lỗi không lưu được]
+        GOTO L2
+
+    FINAL
