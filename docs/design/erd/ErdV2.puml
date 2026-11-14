@@ -1,131 +1,139 @@
 @startuml ErdV2
-title Mô Hình Quan Hệ Thực Thể V2 (ERD 11 Bảng Chuẩn 3NF) - Hệ Thống Thuyết Minh Tự Động Đa Ngôn Ngữ
+title Mô hình quan hệ thực thể v2 (ERD 11 bảng chuẩn 3NF) - Hệ thống thuyết minh tự động đa ngôn ngữ
 hide circle
 skinparam defaultFontName Inter
 skinparam linetype ortho
 
 ' ========================================================
 ' ĐỊNH NGHĨA 11 THỰC THỂ CƠ SỞ DỮ LIỆU CHUẨN HÓA 3NF
+' (Đồng bộ 100% với backend/src/db/schema.sql)
 ' ========================================================
 
-entity "NGUOI_DUNG" as NGUOI_DUNG {
-    * user_id : int <<PK, IDENTITY>>
+entity "AdminUser" as AdminUser {
+    * Id : int <<PK, IDENTITY>>
     --
-    * email : varchar(200) <<UNIQUE>>
-    * mat_khau_hash : varchar(255)
-    * ho_ten : nvarchar(150)
-    * vai_tro : varchar(30) -- 'ADMIN', 'STAFF', 'USER'
-    * ngon_ngu_mac_dinh : char(2) -- 'vi', 'en', 'zh', 'ko', 'ja'
-    * trang_thai_khoa : boolean
-    so_lan_sai : int -- Đếm số lần nhập sai liên tiếp
-    khoa_den_khi : datetime -- Mốc thời gian mở khóa (khóa 5 phút)
+    * Email : nvarchar(200) <<UNIQUE>> -- Email đăng nhập quản trị
+    * PasswordHash : nvarchar(200) -- Mật khẩu băm an toàn
+    * DisplayName : nvarchar(200) -- Tên hiển thị người dùng
+    * Role : nvarchar(30) -- Vai trò quản trị ('ADMIN')
+    * FailedAttempts : int -- Đếm số lần đăng nhập sai liên tiếp (ngưỡng N = 5)
+    LockedUntil : datetime2 -- Mốc thời gian mở khóa (khóa 5 phút khi sai 5 lần)
 }
 
-entity "NGON_NGU" as NGON_NGU {
-    * ma_ngon_ngu : char(2) <<PK>> -- Chuẩn ISO 639-1 ('vi', 'en', 'zh', 'ko', 'ja')
+entity "Floor" as Floor {
+    * Id : int <<PK>> -- Mã định danh tầng / khu vực
     --
-    * ten_ngon_ngu : nvarchar(100) -- Tiếng Việt, English, 中文, 한국어, 日本語
-    * kich_hoat : boolean -- Cờ bật/tắt hiển thị ngôn ngữ
+    * MapImage : nvarchar(500) -- Đường dẫn tệp ảnh sơ đồ mặt bằng
+    * Width : float -- Chiều rộng sơ đồ
+    * Height : float -- Chiều cao sơ đồ
 }
 
-entity "SO_DO_KHU_VUC" as SO_DO_KHU_VUC {
-    * khu_vuc_id : int <<PK, IDENTITY>>
+entity "FloorTranslation" as FloorTranslation {
+    * FloorId : int <<PK, FK>> -- Khóa ngoại liên kết Floor(Id)
+    * Lang : char(2) <<PK>> -- Mã ngôn ngữ ISO 639-1 ('vi', 'en', 'zh', 'ko', 'ja')
     --
-    * ten_khu_vuc : nvarchar(200) -- 'Khu ngoài trời', 'Tầng trệt', 'Lầu 1', 'Lầu 2'
-    * so_tang : int
-    * anh_so_do_url : varchar(500)
+    * Name : nvarchar(200) -- Tên tầng theo ngôn ngữ tương ứng
 }
 
-entity "HIEN_VAT" as HIEN_VAT {
-    * hien_vat_id : int <<PK, IDENTITY>>
+entity "Artifact" as Artifact {
+    * Id : nvarchar(50) <<PK>> -- Mã định danh hệ thống (vd: 'WRM-001')
     --
-    * ma_dinh_danh : varchar(50) <<UNIQUE>> -- Mã hiện vật chuẩn hóa 'ART-xxx'
-    * ten_hien_vat : nvarchar(300)
-      khu_vuc_id : int <<FK>>
-    * toa_do_x : float -- Tỷ lệ tương đối trên ảnh sơ đồ (0.0 - 1.0)
-    * toa_do_y : float -- Tỷ lệ tương đối trên ảnh sơ đồ (0.0 - 1.0)
-      vi_do : float -- Tọa độ vĩ độ GPS thực tế (Latitude)
-      kinh_do : float -- Tọa độ kinh độ GPS thực tế (Longitude)
-      ban_kinh_kich_hoat : float -- Bán kính kích hoạt Geofencing (Mặc định 12 mét)
+    * Code : nvarchar(50) -- Mã tra cứu / QR deep link (vd: 'ART-001')
+    * FloorId : int <<FK>> -- Khóa ngoại liên kết Floor(Id)
+    * MapX : float -- Tọa độ X tương đối trên sơ đồ (0.0 - 1.0)
+    * MapY : float -- Tọa độ Y tương đối trên sơ đồ (0.0 - 1.0)
+    Latitude : float -- Tọa độ vĩ độ GPS thực tế
+    Longitude : float -- Tọa độ kinh độ GPS thực tế
+    TriggerRadius : float -- Bán kính kích hoạt Geofencing (mặc định 12 mét)
+    CreatedAt : bigint -- Thời điểm tạo bản ghi (Unix timestamp)
+    * SortOrder : int -- Thứ tự sắp xếp hiển thị
 }
 
-entity "MA_QR" as MA_QR {
-    * qr_id : int <<PK, IDENTITY>>
+entity "ArtifactTranslation" as ArtifactTranslation {
+    * ArtifactId : nvarchar(50) <<PK, FK>> -- Khóa ngoại liên kết Artifact(Id)
+    * Lang : char(2) <<PK>> -- Mã ngôn ngữ ISO 639-1
     --
-    * hien_vat_id : int <<FK, UNIQUE>>
-    * duong_dan_qr : varchar(500) -- Deep link '?artifact=ART-xxx'
-    * anh_qr_url : varchar(500) -- Đường dẫn tệp ảnh QR sinh sẵn
+    * Title : nvarchar(500) -- Tên gọi hiện vật theo ngôn ngữ
+    * Description : nvarchar(max) -- Bài giới thiệu thuyết minh chi tiết
 }
 
-entity "NOI_DUNG_DA_NGON_NGU" as NOI_DUNG_DA_NGON_NGU {
-    * noi_dung_id : int <<PK, IDENTITY>>
+entity "ArtifactImage" as ArtifactImage {
+    * ArtifactId : nvarchar(50) <<PK, FK>> -- Khóa ngoại liên kết Artifact(Id)
+    * SortOrder : int <<PK>> -- Thứ tự trình chiếu ảnh trong thư viện
     --
-    * hien_vat_id : int <<FK>>
-    * ma_ngon_ngu : char(2) <<FK>>
-    * tieu_de : nvarchar(300)
-    * van_ban_thuyet_minh : nvarchar(max)
+    * Url : nvarchar(1000) -- Đường dẫn tệp ảnh chất lượng cao
 }
 
-entity "HINH_ANH" as HINH_ANH {
-    * hinh_anh_id : int <<PK, IDENTITY>>
+entity "ArtifactAudio" as ArtifactAudio {
+    * ArtifactId : nvarchar(50) <<PK, FK>> -- Khóa ngoại liên kết Artifact(Id)
+    * Lang : char(2) <<PK>> -- Mã ngôn ngữ phát âm thanh
     --
-    * hien_vat_id : int <<FK>>
-    * duong_dan_anh : varchar(500)
-    * thu_tu_hien_thi : int
+    * Url : nvarchar(1000) -- Đường dẫn tệp âm thanh thuyết minh MP3
 }
 
-entity "TEP_AM_THANH" as TEP_AM_THANH {
-    * tep_am_thanh_id : int <<PK, IDENTITY>>
+entity "SubtitleCue" as SubtitleCue {
+    * ArtifactId : nvarchar(50) <<PK, FK>> -- Khóa ngoại liên kết Artifact(Id)
+    * Lang : char(2) <<PK>> -- Ngôn ngữ phụ đề
+    * SortOrder : int <<PK>> -- Thứ tự đoạn phụ đề
     --
-    * hien_vat_id : int <<FK>>
-    * ma_ngon_ngu : char(2) <<FK>>
-    * duong_dan_tep : varchar(500) -- Đường dẫn MP3 (/audio/artifacts/*.mp3)
-    * thoi_luong_giay : int
+    * StartSec : float -- Mốc thời gian bắt đầu (giây)
+    * EndSec : float -- Mốc thời gian kết thúc (giây)
+    * Text : nvarchar(max) -- Nội dung văn bản phụ đề chạy chữ karaoke
 }
 
-entity "PHU_DE" as PHU_DE {
-    * phu_de_id : int <<PK, IDENTITY>>
+entity "VisitorSession" as VisitorSession {
+    * SessionId : nvarchar(100) <<PK>> -- Mã định danh phiên ẩn danh của khách
     --
-    * tep_am_thanh_id : int <<FK>>
-    * duong_dan_vtt : varchar(500) -- Đường dẫn tệp WebVTT / cues JSON karaoke
+    * DeviceType : nvarchar(20) -- Thiết bị ('mobile', 'tablet', 'desktop')
+    * Browser : nvarchar(50) -- Trình duyệt ('Chrome', 'Safari', v.v.)
+    * Lang : nvarchar(10) -- Ngôn ngữ đang kích hoạt của khách
+    CurrentArtifactId : nvarchar(50) -- Mã hiện vật đang tham quan gần nhất
+    CurrentArtifactTitle : nvarchar(500) -- Tên hiện vật đang nghe gần nhất
+    * StartedAt : bigint -- Thời điểm bắt đầu phiên tham quan
+    * LastActive : bigint -- Thời điểm hoạt động cuối (heartbeat tín hiệu)
 }
 
-entity "LUU_YEU_THICH" as LUU_YEU_THICH {
-    * user_id : int <<PK, FK>>
-    * hien_vat_id : int <<PK, FK>>
+entity "ListenEvent" as ListenEvent {
+    * Id : nvarchar(100) <<PK>> -- Mã định danh bản ghi sự kiện nghe
     --
-    * ngay_luu : datetime
+    * SessionId : nvarchar(100) <<FK>> -- Liên kết VisitorSession(SessionId)
+    * ArtifactId : nvarchar(50) <<FK>> -- Liên kết Artifact(Id)
+    * ArtifactCode : nvarchar(50) -- Mã hiện vật ('ART-xxx')
+    * ArtifactTitle : nvarchar(500) -- Tên hiện vật tại thời điểm nghe
+    * Lang : nvarchar(10) -- Ngôn ngữ bài thuyết minh đã phát
+    * Timestamp : bigint -- Thời điểm bắt đầu nghe thuyết minh
 }
 
-entity "THONG_KE_LUOT_NGHE" as THONG_KE_LUOT_NGHE {
-    * thong_ke_id : int <<PK, IDENTITY>>
+entity "MuseumTranslation" as MuseumTranslation {
+    * Lang : char(2) <<PK>> -- Mã ngôn ngữ ('vi', 'en', 'zh', 'ko', 'ja')
     --
-    * hien_vat_id : int <<FK>>
-    * tep_am_thanh_id : int <<FK>>
-      user_id : int <<FK, nullable>> -- NULL đối với du khách vãng lai
-    * thoi_gian_nghe : datetime
-    * thoi_luong_da_nghe_giay : int
+    * Name : nvarchar(300) -- Tên gọi bảo tàng theo ngôn ngữ
+    * Address : nvarchar(500) -- Địa chỉ bảo tàng
+    * OpenHours : nvarchar(300) -- Giờ mở cửa tham quan
+    * Description : nvarchar(max) -- Toàn văn bài giới thiệu tổng quan bảo tàng
+}
+
+entity "Museum" as Museum {
+    * Id : int <<PK, CHECK(Id=1)>> -- Bản ghi cấu hình duy nhất
+    --
+    * Hotline : nvarchar(50) -- Số điện thoại đường dây nóng hỗ trợ
+    * Banner : nvarchar(500) -- Đường dẫn tệp ảnh biểu ngữ chính
 }
 
 ' ========================================================
 ' CÁC MỐI QUAN HỆ TOÀN VẸN THAM CHIẾU (RELATIONSHIPS)
 ' ========================================================
-NGUOI_DUNG ||--o{ LUU_YEU_THICH : "luu"
-NGUOI_DUNG |o--o{ THONG_KE_LUOT_NGHE : "thuc_hien"
+Floor ||--o{ FloorTranslation : "dịch_tên_tầng"
+Floor ||--o{ Artifact : "chứa_hiện_vật"
 
-SO_DO_KHU_VUC ||--o{ HIEN_VAT : "chua"
+Artifact ||--o{ ArtifactTranslation : "dịch_nội_dung"
+Artifact ||--o{ ArtifactImage : "chứa_ảnh"
+Artifact ||--o{ ArtifactAudio : "chứa_audio"
+Artifact ||--o{ SubtitleCue : "đồng_bộ_phụ_đề"
+Artifact ||--o{ ListenEvent : "được_ghi_nhận"
 
-HIEN_VAT ||--|| MA_QR : "gan_voi"
-HIEN_VAT ||--o{ NOI_DUNG_DA_NGON_NGU : "co_ban_dich"
-HIEN_VAT ||--o{ HINH_ANH : "co_anh"
-HIEN_VAT ||--o{ TEP_AM_THANH : "co_am_thanh"
-HIEN_VAT ||--o{ LUU_YEU_THICH : "duoc_luu"
-HIEN_VAT ||--o{ THONG_KE_LUOT_NGHE : "ghi_nhan"
+VisitorSession ||--o{ ListenEvent : "phát_sinh"
 
-NGON_NGU ||--o{ NOI_DUNG_DA_NGON_NGU : "dinh_nghia"
-NGON_NGU ||--o{ TEP_AM_THANH : "dinh_nghia"
-
-TEP_AM_THANH ||--o| PHU_DE : "dong_bo"
-TEP_AM_THANH ||--o{ THONG_KE_LUOT_NGHE : "phat_trong"
+Museum ||--o{ MuseumTranslation : "bản_dịch_hồ_sơ"
 
 @enduml

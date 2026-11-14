@@ -1,0 +1,100 @@
+@startuml DeployDiagramV2
+title Sơ Đồ Triển Khai Vật Lý V2 (Deployment Diagram UML 2.5.1) - Hệ Thống Thuyết Minh Tự Động Đa Ngôn Ngữ
+skinparam componentStyle uml2
+left to right direction
+skinparam packageStyle rectangle
+skinparam defaultFontName Inter
+
+' ========================================================
+' NÚT 1: THIẾT BỊ DI ĐỘNG CỦA KHÁCH THAM QUAN
+' ========================================================
+node "Thiết Bị Khách Tham Quan\n(Visitor Smartphone / Tablet)" <<device>> as VisitorDevice {
+  node "Mobile Browser Runtime\n(iOS Safari / Android Chrome)" <<executionEnvironment>> as VisitorBrowser {
+    artifact "React SPA (Visitor Client Bundle)\n<<HTML5 / JS / CSS>>" <<artifact>> as VisitorBundle
+    artifact "Web Storage (LocalStorage)\n<<favorites, anchorArtifactId>>" <<artifact>> as VisitorStorage
+  }
+
+  node "GPS Hardware Sensor\n(Cảm Biến Định Vị GPS)" <<device>> as GpsSensor
+  node "Camera Hardware Module\n(Mô-đun Camera Quét QR)" <<device>> as CameraSensor
+  node "Audio Output Device\n(Loa Ngoài / Tai Nghe)" <<device>> as AudioOutput
+
+  VisitorBrowser ..> GpsSensor : "truy vấn tọa độ GPS\n(HighAccuracy API)"
+  VisitorBrowser ..> CameraSensor : "thu nhận luồng hình ảnh\n(MediaDevices API)"
+  VisitorBrowser ..> AudioOutput : "truyền phát Web Audio\n(Web Audio API)"
+}
+
+' ========================================================
+' NÚT 2: MÁY TÍNH CỦA QUẢN TRỊ VIÊN
+' ========================================================
+node "Máy Tính Quản Trị Viên\n(Admin Workstation PC / Laptop)" <<device>> as AdminDevice {
+  node "Desktop Web Browser\n(Google Chrome / Edge / Firefox)" <<executionEnvironment>> as AdminBrowser {
+    artifact "React SPA (Admin Dashboard Bundle)\n<<HTML5 / JS / CSS>>" <<artifact>> as AdminBundle
+    artifact "Session Storage\n<<Admin Session JWT Token>>" <<artifact>> as AdminStorage
+  }
+}
+
+' ========================================================
+' NÚT 3: HẠ TẦNG PHÂN PHỐI TĨNH TOÀN CẦU (EDGE CDN)
+' ========================================================
+node "GitHub Pages Global Edge CDN\n(Máy Chủ Phân Phối Tĩnh Biên)" <<device>> as GhPagesEdge {
+  node "HTTPS Static Web Server Runtime" <<executionEnvironment>> as StaticServer {
+    artifact "index.html & assets/*.js, *.css\n(Bản Dựng Giao Diện Web)" <<artifact>> as WebAssets
+    artifact "museum_data.json\n(Danh Mục Hiện Vật, Tọa Độ, Sơ Đồ)" <<artifact>> as CatalogJson
+    artifact "audio/artifacts/*.mp3\n(Kho Tệp Âm Thanh 5 Ngôn Ngữ)" <<artifact>> as AudioFiles
+    artifact "maps/*.png, *.jpg\n(Kho Ảnh Sơ Đồ Mặt Bằng Các Tầng)" <<artifact>> as MapImages
+    artifact "images/artifacts/*\n(Kho Ảnh Tư Liệu Hiện Vật)" <<artifact>> as ArtImages
+  }
+}
+
+' ========================================================
+' NÚT 4: DỊCH VỤ ĐỒNG BỘ THỜI GIAN THỰC (REALTIME BROKER)
+' ========================================================
+node "ntfy.sh Realtime Cloud Service\n(Hạ Tầng Điện Toán Đám Mây)" <<device>> as NtfyCloud {
+  node "WebSocket & SSE Message Broker" <<executionEnvironment>> as BrokerRuntime {
+    artifact "Topic: wrm_museum_presence_cnpm\n(Kênh Sự Kiện Nghe & Phiên Trực Tuyến)" <<artifact>> as PresenceTopic
+  }
+}
+
+' ========================================================
+' NÚT 5: MÁY CHỦ DỊCH VỤ & CƠ SỞ DỮ LIỆU ĐỘC LẬP (DOCKER)
+' ========================================================
+node "Backend Application Host\n(Linux Server / Cloud VM)" <<device>> as BackendHost {
+  node "Docker Engine Runtime" <<executionEnvironment>> as DockerEngine {
+
+    node "Express API Container\n(Node.js 20 LTS Runtime)" <<executionEnvironment>> as ApiContainer {
+      artifact "dist/server.js\n(Express REST API Server)" <<artifact>> as ApiServerArtifact
+    }
+
+    node "MSSQL Database Container\n(MS SQL Server Express / Standard)" <<executionEnvironment>> as DbContainer {
+      artifact "schema.sql\n(11 Bảng Dữ Liệu Chuẩn 3NF)" <<artifact>> as DbSchemaArtifact
+    }
+  }
+}
+
+' ========================================================
+' NÚT 6: HẠ TẦNG TỰ ĐỘNG HÓA CI/CD
+' ========================================================
+node "CI/CD Build Server\n(GitHub Actions Runner - Ubuntu Latest)" <<device>> as CiCdRunner {
+  node "Node.js 20 Build Runtime" <<executionEnvironment>> as NodeBuildRuntime {
+    artifact "Vitest Automated Suite\n(21 Kịch Bản Kiểm Thử Tự Động)" <<artifact>> as TestRunner
+    artifact "Vite 6 & Tailwind CSS Compiler\n(Trình Đóng Gói Ứng Dụng)" <<artifact>> as BuildCompiler
+  }
+}
+
+' ========================================================
+' TUYẾN TRUYỀN THÔNG VẬT LÝ & GIAO THỨC (COMMUNICATION PATHS)
+' ========================================================
+VisitorDevice "*" -- "1" GhPagesEdge : "HTTPS / TLS (Port 443)\n[Tải Web Bundle, JSON, Audio Stream, Sơ Đồ]"
+AdminDevice "*" -- "1" GhPagesEdge : "HTTPS / TLS (Port 443)\n[Tải Dashboard Web Bundle]"
+
+VisitorDevice "*" -- "1" NtfyCloud : "WSS / HTTPS POST (Port 443)\n[Đẩy Heartbeat & Sự Kiện Nghe]"
+AdminDevice "*" -- "1" NtfyCloud : "WSS Subscribe (Port 443)\n[Giám Sát Khách Trực Tuyến Tức Thì]"
+
+VisitorDevice "*" -- "1" BackendHost : "HTTPS / REST API (Port 443)\n[Truy Vấn Dữ Liệu Trực Tiếp Khi Online]"
+AdminDevice "*" -- "1" BackendHost : "HTTPS / REST API (Port 443)\n[Quản Lý CRUD & Tải Lên Media]"
+
+ApiContainer "1" -- "1" DbContainer : "TDS Protocol / TCP (Port 1433)\n[Truy Vấn Dữ Liệu SQL 3NF]"
+
+CiCdRunner "1" -- "1" GhPagesEdge : "GitHub Deployment API (HTTPS:443)\n[Tự Động Xuất Bản Bản Dựng Mới Nhất]"
+
+@enduml

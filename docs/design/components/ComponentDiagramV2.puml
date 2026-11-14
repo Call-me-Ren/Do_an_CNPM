@@ -1,9 +1,10 @@
 @startuml ComponentDiagramV2
-title Sơ Đồ Thành Phần Kiến Trúc V2 (Component Diagram UML 2.5.1) - Hệ Thống Thuyết Minh Tự Động Đa Ngôn Ngữ
+title Sơ đồ thành phần kiến trúc v2 (Component Diagram UML 2.5.1) - Hệ thống thuyết minh tự động đa ngôn ngữ
 skinparam componentStyle uml2
 left to right direction
 skinparam packageStyle rectangle
 skinparam defaultFontName Inter
+' skinparam linetype polyline
 
 <style>
 component {
@@ -12,15 +13,15 @@ component {
 </style>
 
 ' ========================================================
-' SUBSYSTEM 1: GIAO DIỆN KHÁCH THAM QUAN (VISITOR EXPERIENCE)
+' PHÂN HỆ 1: GIAO DIỆN KHÁCH THAM QUAN (VISITOR EXPERIENCE)
 ' ========================================================
-package "Phân Hệ Khách Tham Quan (Visitor Experience Subsystem)" as VisitorSubsystem {
-  component "<b>ExploreView\n(Khám Phá & Tìm Kiếm)" <<component>> as ExploreComp
-  component "<b>FloorMapView\n(Sơ Đồ Tầng & Điểm Neo 'Bạn Đang Ở Đây')" <<component>> as MapComp
-  component "<b>FavoritesView\n(Hiện Vật Yêu Thích Cục Bộ)" <<component>> as FavComp
-  component "<b>QRScannerModal\n(Quét Mã QR Hiện Vật & Cổng)" <<component>> as QrComp
-  component "<b>AudioPlayerBar\n(Trình Phát Âm Thanh & Phụ Đề Karaoke)" <<component>> as PlayerComp
-  component "<b>TrackingPanel\n(Giám Sát Vị Trí & Tự Động Gợi Ý)" <<component>> as TrackComp
+package "Phân hệ khách tham quan (Visitor Experience Subsystem)" as VisitorSubsystem {
+  component "<b>ExploreView\n(Khám phá và tìm kiếm)" <<component>> as ExploreComp
+  component "<b>FloorMapView\n(Sơ đồ tầng và điểm neo 'Bạn đang ở đây')" <<component>> as MapComp
+  component "<b>FavoritesView\n(Hiện vật yêu thích cục bộ)" <<component>> as FavComp
+  component "<b>QRScannerModal\n(Quét mã QR hiện vật và cổng đón tiếp)" <<component>> as QrComp
+  component "<b>AudioPlayerBar\n(Trình phát âm thanh và phụ đề karaoke)" <<component>> as PlayerComp
+  component "<b>TrackingPanel\n(Giám sát vị trí và tự động gợi ý)" <<component>> as TrackComp
 
   portout " " as pVisitorAudio
   portout " " as pVisitorGeo
@@ -29,14 +30,14 @@ package "Phân Hệ Khách Tham Quan (Visitor Experience Subsystem)" as VisitorS
 }
 
 ' ========================================================
-' SUBSYSTEM 2: GIAO DIỆN QUẢN TRỊ (ADMIN EXPERIENCE)
+' PHÂN HỆ 2: GIAO DIỆN QUẢN TRỊ (ADMIN EXPERIENCE)
 ' ========================================================
-package "Phân Hệ Quản Trị (Admin Experience Subsystem)" as AdminSubsystem {
-  component "<b>AdminAuth\n(Xác Thực & Khóa Tạm 5 Phút)" <<component>> as AdminAuthComp
-  component "<b>ArtifactsManageView\n(Quản Lý Hiện Vật & Mã QR)" <<component>> as ArtMgmtComp
-  component "<b>AudioManageView\n(Quản Lý Tệp Audio & Phụ Đề WebVTT)" <<component>> as AudioMgmtComp
-  component "<b>FloorMapEditorView\n(Biên Tập Sơ Đồ & Tọa Độ GPS)" <<component>> as MapEditorComp
-  component "<b>AnalyticsView\n(Báo Cáo Lượt Nghe & Thiết Bị Trực Tuyến)" <<component>> as AnalyticsComp
+package "Phân hệ quản trị (Admin Experience Subsystem)" as AdminSubsystem {
+  component "<b>AdminAuth\n(Xác thực và khóa tạm 5 phút)" <<component>> as AdminAuthComp
+  component "<b>ArtifactsManageView\n(Quản lý hiện vật và mã QR)" <<component>> as ArtMgmtComp
+  component "<b>AudioManageView\n(Quản lý tệp audio và phụ đề WebVTT)" <<component>> as AudioMgmtComp
+  component "<b>FloorMapEditorView\n(Biên tập sơ đồ và tọa độ GPS)" <<component>> as MapEditorComp
+  component "<b>AnalyticsView\n(Báo cáo lượt nghe và thiết bị trực tuyến)" <<component>> as AnalyticsComp
 
   portout " " as pAdminAuth
   portout " " as pAdminCrud
@@ -44,24 +45,24 @@ package "Phân Hệ Quản Trị (Admin Experience Subsystem)" as AdminSubsystem
 }
 
 ' ========================================================
-' SUBSYSTEM 3: TẦNG TRẠNG THÁI & DỊCH VỤ (STORES & SERVICES TIER)
+' PHÂN HỆ 3: TẦNG TRẠNG THÁI & DỊCH VỤ (STORES & SERVICES TIER)
 ' ========================================================
-package "Tầng Trạng Thái & Dịch Vụ (State & Services Tier)" as StateServiceSubsystem {
+package "Tầng trạng thái và dịch vụ (State & Services Tier)" as StateServiceSubsystem {
 
   package "Zustand State Stores" {
-    component "<b>PlayerStore\n(Trạng Thái Phát & Cues Phụ Đề)" <<component>> as PlayerStore
-    component "<b>GeofenceStore\n(Tọa Độ GPS, Điểm Neo Anchor & Khoảng Cách)" <<component>> as GeofenceStore
-    component "<b>LangStore\n(Chuyển Đổi i18n 5 Ngôn Ngữ)" <<component>> as LangStore
-    component "<b>FavStore\n(Quản Lý Danh Sách Yêu Thích)" <<component>> as FavStore
-    component "<b>AdminAuthStore\n(Quản Lý Session Token & Quyền)" <<component>> as AuthStore
+    component "<b>PlayerStore\n(Trạng thái phát và cues phụ đề)" <<component>> as PlayerStore
+    component "<b>GeofenceStore\n(Tọa độ GPS, điểm neo anchor và khoảng cách)" <<component>> as GeofenceStore
+    component "<b>LangStore\n(Chuyển đổi i18n 5 ngôn ngữ)" <<component>> as LangStore
+    component "<b>FavStore\n(Quản lý danh sách yêu thích)" <<component>> as FavStore
+    component "<b>AdminAuthStore\n(Quản lý session token và quyền)" <<component>> as AuthStore
   }
 
   package "Core Services & Business Helpers" {
-    component "<b>MuseumApiService\n(Tải Dữ Liệu Hiện Vật & Cache-Bust)" <<component>> as ApiService
-    component "<b>TTSService / AudioService\n(Truyền Phát Luồng Audio & Web Speech)" <<component>> as AudioService
-    component "<b>AnalyticsService\n(Heartbeat & Theo Dõi Lượt Nghe)" <<component>> as AnalyticsService
-    component "<b>GeofenceHelper\n(Thuật Toán Haversine Khoảng Cách 12m)" <<component>> as GeoHelper
-    component "<b>LoginLockHelper\n(Bộ Đếm Lần Thử & Tự Động Khóa)" <<component>> as LockHelper
+    component "<b>MuseumApiService\n(Tải dữ liệu hiện vật và cache-bust)" <<component>> as ApiService
+    component "<b>TTSService / AudioService\n(Truyền phát luồng audio và Web Speech)" <<component>> as AudioService
+    component "<b>AnalyticsService\n(Heartbeat và theo dõi lượt nghe)" <<component>> as AnalyticsService
+    component "<b>GeofenceHelper\n(Thuật toán Haversine khoảng cách 12m)" <<component>> as GeoHelper
+    component "<b>LoginLockHelper\n(Bộ đếm lần thử và tự động khóa)" <<component>> as LockHelper
   }
 
   portin " " as pServiceInState
@@ -72,19 +73,19 @@ package "Tầng Trạng Thái & Dịch Vụ (State & Services Tier)" as StateSer
 }
 
 ' ========================================================
-' SUBSYSTEM 4: HẠ TẦNG LƯU TRỮ & PHÂN PHỐI (PERSISTENCE & HOSTING TIER)
+' PHÂN HỆ 4: HẠ TẦNG LƯU TRỮ & PHÂN PHỐI (PERSISTENCE & HOSTING TIER)
 ' ========================================================
-package "Hạ Tầng Lưu Trữ & Phân Phối (Persistence & Hosting Tier)" as StorageHostSubsystem {
+package "Hạ tầng lưu trữ và phân phối (Persistence & Hosting Tier)" as StorageHostSubsystem {
 
-  package "Static Distribution & Edge CDN (Phương Án Phân Phối Tĩnh)" {
-    component "<b>GitHub Pages Edge CDN\n(HTML5, JS Bundles, MP3, Maps)" <<component>> as GhPages
-    component "<b>ntfy.sh Cloud Broker\n(Message Broker Đồng Bộ Lượt Nghe)" <<component>> as NtfyBroker
+  package "Static Distribution & Edge CDN (Phương án phân phối tĩnh)" {
+    component "<b>GitHub Pages Edge CDN\n(HTML5, JS bundles, MP3, maps)" <<component>> as GhPages
+    component "<b>ntfy.sh Cloud Broker\n(Message broker đồng bộ lượt nghe)" <<component>> as NtfyBroker
     database "<b>Browser Web Storage\n(LocalStorage / SessionStorage)" as BrowserStorage
   }
 
-  package "Containerized Backend (Phương Án Máy Chủ Độc Lập)" {
+  package "Containerized Backend (Phương án máy chủ độc lập)" {
     component "<b>Express REST API Server\n(Node.js / TypeScript)" <<component>> as ExpressServer
-    database "<b>Microsoft SQL Server\n(11 Bảng Chuẩn Hóa 3NF)" as MssqlDb
+    database "<b>Microsoft SQL Server\n(11 bảng chuẩn hóa 3NF)" as MssqlDb
   }
 
   portin " " as pHostInStatic
@@ -156,9 +157,9 @@ pServiceInAdmin -- ApiService
 pServiceInAdmin -- LockHelper
 
 GeofenceStore ..> GeoHelper : "tính khoảng cách\nHaversine (12m)"
-PlayerStore ..> AudioService : "truyền phát luồng\nâm thanh & WebVTT"
+PlayerStore ..> AudioService : "truyền phát luồng\nâm thanh và WebVTT"
 AnalyticsComp ..> AnalyticsService : "thu thập sự kiện"
-AdminAuthComp ..> LockHelper : "đếm lỗi nhập & khóa"
+AdminAuthComp ..> LockHelper : "đếm lỗi nhập và khóa"
 
 ApiService -- pServiceOutHost
 AudioService -- pServiceOutHost
