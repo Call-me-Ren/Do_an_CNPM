@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
 // Tệp được tạo tự động bởi scripts/sync-assets.cjs để bundle toàn bộ media offline vào APK.
+import { getApiOrigin } from './services/api';
 
 export const LOCAL_ASSET_MAP: Record<string, number> = {
   "/audio/artifacts/WRM001_en.mp3": require('../../assets/museum/audio_wrm001_en_b1a622.mp3'),
@@ -109,5 +110,7 @@ export function resolveBundledAsset(url?: string | null): number | { uri: string
   const normalized = url.startsWith('/') ? url : `/${url}`;
   if (LOCAL_ASSET_MAP[normalized]) return LOCAL_ASSET_MAP[normalized];
   if (/^https?:\/\//i.test(url)) return { uri: url };
+  const origin = getApiOrigin();
+  if (origin) return { uri: `${origin}${normalized}` };
   return null;
 }
