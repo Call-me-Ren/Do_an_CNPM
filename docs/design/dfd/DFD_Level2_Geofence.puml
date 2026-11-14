@@ -1,0 +1,39 @@
+@startuml
+' Sơ đồ Luồng Dữ Liệu (DFD) Mức 2 — Chi tiết tiến trình 2.0 & 3.0 (Quét QR, Geofence & Phát thuyết minh)
+left to right direction
+skinparam shadowing false
+
+rectangle "Khách tham quan" as Visitor
+rectangle "Camera thiết bị" as Camera
+rectangle "Cảm biến GPS" as GPS
+
+usecase "2.1\nGiải mã QR &\nThiết lập mốc neo" as P21
+usecase "2.2\nTính khoảng cách\nHaversine & Lọc sai số" as P22
+usecase "2.3\nQuyết định kích hoạt\nhoặc Gợi ý chuyển bài" as P23
+usecase "3.1\nNạp Audio & Phụ đề\n(Offline/Stream)" as P31
+
+database "D2: Danh mục Hiện vật\n(geoCoordinates, triggerRadius)" as D2
+database "D3: Kho Media & SubtitleCue" as D3
+database "D4: Trạng thái phiên\n(anchor, heardIds, lang)" as D4
+database "D5: ListenEvent" as D5
+
+Camera --> P21 : "Chuỗi QR thô"
+Visitor --> P21 : "Mã nhập tay (dự phòng)"
+D2 --> P21 : "Tra cứu id / code"
+P21 --> D4 : "Ghi hasScannedQr=true, anchorId"
+P21 --> P31 : "Mở thuyết minh hiện vật"
+
+GPS --> P22 : "(lat, lng, accuracy)"
+D2 --> P22 : "Tọa độ hiện vật"
+P22 --> P23 : "Danh sách nearby đã sắp xếp\n(chỉ khi accuracy <= 150m)"
+
+D4 --> P23 : "Trạng thái đã quét QR & heardIds"
+P23 --> Visitor : "Hộp thoại gợi ý (switch / replay)"
+Visitor --> P23 : "Xác nhận chuyển/nghe lại"
+P23 --> P31 : "Tự động kích hoạt (distance <= 15m)"
+
+D3 --> P31 : "Audio URL/Bundled + Cues"
+D4 --> P31 : "Ngôn ngữ hiện tại"
+P31 --> Visitor : "Âm thanh + Phụ đề đồng bộ"
+P31 --> D5 : "Ghi nhận ListenEvent"
+@enduml

@@ -1,0 +1,129 @@
+@startuml
+' Theo quy chuan trinh bay V0 - Doi chieu 100% voi backend/src/db/schema.sql (12 bang)
+hide circle
+skinparam linetype ortho
+
+entity "Museum" as Museum {
+    * Id : int <<PK>>
+    --
+    * Hotline : nvarchar(50)
+    * Banner : nvarchar(500)
+}
+
+entity "MuseumTranslation" as MuseumTranslation {
+    * Lang : char(2) <<PK>>
+    --
+    * Name : nvarchar(300)
+    * Address : nvarchar(500)
+    * OpenHours : nvarchar(300)
+    * Description : nvarchar(max)
+}
+
+entity "Floor" as Floor {
+    * Id : int <<PK>>
+    --
+    * MapImage : nvarchar(500)
+    * Width : float
+    * Height : float
+}
+
+entity "FloorTranslation" as FloorTranslation {
+    * FloorId : int <<PK, FK>>
+    * Lang : char(2) <<PK>>
+    --
+    * Name : nvarchar(200)
+}
+
+entity "Artifact" as Artifact {
+    * Id : nvarchar(50) <<PK>>
+    --
+    * Code : nvarchar(50)
+    * FloorId : int <<FK>>
+    * MapX : float
+    * MapY : float
+      Latitude : float
+      Longitude : float
+      TriggerRadius : float
+      CreatedAt : bigint
+    * SortOrder : int
+}
+
+entity "ArtifactTranslation" as ArtifactTranslation {
+    * ArtifactId : nvarchar(50) <<PK, FK>>
+    * Lang : char(2) <<PK>>
+    --
+    * Title : nvarchar(500)
+    * Description : nvarchar(max)
+}
+
+entity "ArtifactImage" as ArtifactImage {
+    * ArtifactId : nvarchar(50) <<PK, FK>>
+    * SortOrder : int <<PK>>
+    --
+    * Url : nvarchar(1000)
+}
+
+entity "ArtifactAudio" as ArtifactAudio {
+    * ArtifactId : nvarchar(50) <<PK, FK>>
+    * Lang : char(2) <<PK>>
+    --
+    * Url : nvarchar(1000)
+}
+
+entity "SubtitleCue" as SubtitleCue {
+    * ArtifactId : nvarchar(50) <<PK, FK>>
+    * Lang : char(2) <<PK>>
+    * SortOrder : int <<PK>>
+    --
+    * StartSec : float
+    * EndSec : float
+    * Text : nvarchar(max)
+}
+
+entity "AdminUser" as AdminUser {
+    * Id : int <<PK>>
+    --
+    * Email : nvarchar(200) <<UQ>>
+    * PasswordHash : nvarchar(200)
+    * DisplayName : nvarchar(200)
+    * Role : nvarchar(30)
+    * FailedAttempts : int
+      LockedUntil : datetime2
+}
+
+entity "VisitorSession" as VisitorSession {
+    * SessionId : nvarchar(100) <<PK>>
+    --
+    * DeviceType : nvarchar(20)
+    * Browser : nvarchar(50)
+    * Lang : nvarchar(10)
+      CurrentArtifactId : nvarchar(50)
+      CurrentArtifactTitle : nvarchar(500)
+    * StartedAt : bigint
+    * LastActive : bigint
+}
+
+entity "ListenEvent" as ListenEvent {
+    * Id : nvarchar(100) <<PK>>
+    --
+    * SessionId : nvarchar(100)
+    * ArtifactId : nvarchar(50)
+    * ArtifactCode : nvarchar(50)
+    * ArtifactTitle : nvarchar(500)
+    * Lang : nvarchar(10)
+    * Timestamp : bigint
+}
+
+' Quan he khoa ngoai thuc te trong schema.sql
+Floor ||--o{ FloorTranslation : "co_ten_da_ngu"
+Floor ||--o{ Artifact : "chua"
+
+Artifact ||--o{ ArtifactTranslation : "co_ban_dich"
+Artifact ||--o{ ArtifactImage : "co_hinh_anh"
+Artifact ||--o{ ArtifactAudio : "co_am_thanh"
+Artifact ||--o{ SubtitleCue : "co_phu_de"
+
+' Quan he logic theo nghiep vu (khong rang buoc FK cung trong SQL de ho tro offline/sync)
+VisitorSession ||--o{ ListenEvent : "phat_sinh"
+Artifact ||--o{ ListenEvent : "duoc_nghe"
+@enduml

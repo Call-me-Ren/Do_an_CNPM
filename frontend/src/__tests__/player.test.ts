@@ -4,7 +4,7 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { AudioPlayerBar } from '../visitor/components/AudioPlayerBar';
 import { usePlayerStore } from '../shared/stores/playerStore';
-import museumData from '../../public/mock/museum_data.json';
+import museumData from '../data/museum_data.json';
 import '../locales/i18n';
 
 describe('AudioPlayerBar', () => {

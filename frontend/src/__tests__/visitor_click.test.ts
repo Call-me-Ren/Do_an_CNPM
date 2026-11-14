@@ -7,7 +7,7 @@ import '../locales/i18n';
 
 // Mock museumApi
 vi.mock('../shared/services/api', async () => {
-  const data = (await import('../../public/mock/museum_data.json')).default;
+  const data = (await import('../data/museum_data.json')).default;
   return {
     museumApi: {
       getMuseumData: vi.fn().mockResolvedValue(data)

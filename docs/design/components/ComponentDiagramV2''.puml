@@ -1,0 +1,177 @@
+' By Cuong, Quan, Thanh - Version 2.3 (Standard UML 2.5 As-Built)
+@startuml
+title Sơ Đồ Thành Phần (Component Diagram v2) - Hệ Thống Thuyết Minh Tự Động Đa Ngôn Ngữ
+skinparam componentStyle uml2
+left to right direction
+
+' ========================================================
+' 1. CLIENT TIER (BÊN 1: Phân Hệ Ứng Dụng Client SPA / PWA)
+' ========================================================
+component "Client Applications\n(Frontend SPA / PWA)" as ClientApp {
+  
+  package "Phân Hệ Khách Tham Quan (Visitor Subsystem)" as VisitorPkg {
+    component "UI Shell & Router" as VisitorGui
+    component "QR Scanner\n(Camera Web API)" as QrScanner
+    component "Audio Player & Subtitle Sync\n(Web Audio & Cues)" as MediaPlayer
+    component "Geofence Engine\n(Geolocation & Haversine)" as GeofenceEngine
+    component "Interactive Floor Map\n(Halo 'Bạn đang ở đây')" as FloorMapViewer
+    component "Artifact Explorer & Localizer\n(i18n 5 Ngôn Ngữ)" as ArtifactExplorer
+  }
+
+  package "Phân Hệ Quản Trị (Admin CMS Subsystem)" as AdminPkg {
+    component "Admin Auth Guard\n(Brute-force Lock 5 Phút)" as AdminAuth
+    component "Artifact & Coordinate Editor\n(CRUD & Gán Tọa Độ X,Y,GPS)" as ArtifactEditor
+    component "Audio & Subtitle Manager\n(Tải Lên MP3 & Cues Đa Ngữ)" as AudioEditor
+    component "Session & QR Generator\n(Đoàn Tham Quan & Sinh Mã QR)" as SessionEditor
+    component "Analytics Dashboard\n(Biểu Đồ Recharts & Xuất CSV)" as AnalyticsDashboard
+  }
+
+  ' Các cổng xuất ra của Client sang Application Server
+  portout " " as ClientPortAuth
+  portout " " as ClientPortMuseum
+  portout " " as ClientPortAudio
+  portout " " as ClientPortAnalytics
+
+  ' Cổng xuất ra của Client sang Bộ Lưu Trữ Web Cục Bộ
+  portout " " as ClientPortStorage
+}
+
+' ========================================================
+' 2. SERVER TIER (BÊN 2: Máy Chủ Dịch Vụ Node.js Express)
+' ========================================================
+component "Application Server\n(Express & TypeScript REST API)" as AppServer {
+
+  component "Auth & Security Service\n(JWT, Bcrypt & Rate Limiter)" as AuthService
+  component "Museum & Artifact Service\n(Catalog CRUD, Maps & Multer Upload)" as MuseumService
+  component "Audio Streamer & Subtitle Service\n(HTTP Range Requests & VTT Cues)" as AudioService
+  component "Analytics & Session Tracker\n(Heartbeat, Session & Listen Events)" as AnalyticsService
+  component "Auto-Translation Service\n(Google/Libre API Translator)" as TranslateService
+
+  ' Các cổng tiếp nhận từ Client
+  portin " " as ServerPortAuth
+  portin " " as ServerPortMuseum
+  portin " " as ServerPortAudio
+  portin " " as ServerPortAnalytics
+
+  ' Các cổng xuất ra tầng lưu trữ CSDL
+  portout " " as ServerPortDb
+  portout " " as ServerPortStorage
+}
+
+' ========================================================
+' 3. STORAGE TIER (BÊN 3: Toàn Bộ Hạ Tầng Lưu Trữ & CSDL)
+' ========================================================
+component "Storage & Persistence Tier\n(Databases & File Archives)" as StorageTier {
+
+  component "System Database Server\n(Relational DBMS)" as SystemDb {
+    database "Microsoft SQL Server\n(11 Tables 3NF)" as MssqlTables
+  }
+
+  component "Media Storage Server\n(Kho Tệp Âm Thanh & Ảnh)" as MediaArchive {
+    storage "Media Files Volume\n(/uploads: MP3, Maps, Images)" as DiskFiles
+  }
+
+  component "Browser LocalStorage\n(Client Web Storage)" as LocalDb {
+    database "Web Storage Engine\n(Mốc Neo GPS & Yêu Thích)" as LocalTables
+  }
+
+  ' Các cổng tiếp nhận của tầng lưu trữ
+  portin " " as StoragePortDb
+  portin " " as StoragePortStorage
+  portin " " as StoragePortClientStore
+}
+
+' ========================================================
+' 4. INTERFACES (Provided: () & Required: Socket ..( )
+' ========================================================
+() "I_Auth\n(REST / JWT)" as IAuth
+() "I_Museum_Catalog\n(REST / JSON)" as IMuseum
+() "I_Audio_Stream\n(HTTP Range Audio)" as IAudio
+() "I_Analytics\n(REST / Telemetry)" as IAnalytics
+() "I_Database\n(TDS Protocol / Connection Pool)" as IDatabase
+() "I_File_Storage\n(Local Disk / Mount Volume)" as IStorage
+() "I_Client_Storage\n(HTML5 Web Storage API)" as IClientStorage
+
+' ========================================================
+' NỘI BỘ CLIENT (Internal Bindings)
+' ========================================================
+VisitorGui -- QrScanner
+VisitorGui -- MediaPlayer
+VisitorGui -- GeofenceEngine
+VisitorGui -- FloorMapViewer
+VisitorGui -- ArtifactExplorer
+
+' Tương tác từ QR Scanner
+QrScanner --> ArtifactExplorer : "Truy xuất thông tin hiện vật"
+QrScanner --> MediaPlayer : "Kích hoạt thuyết minh"
+QrScanner --> GeofenceEngine : "Đặt mốc neo xuất phát (Anchor)"
+
+' Tương tác từ Geofence Engine với các thành phần giao diện
+GeofenceEngine --> ArtifactExplorer : "Lấy danh mục tọa độ hiện vật"
+GeofenceEngine --> MediaPlayer : "Tự động phát / Gợi ý (Haversine <= 12m)"
+GeofenceEngine --> FloorMapViewer : "Cập nhật vị trí 'Bạn đang ở đây'"
+
+' Nối tới các cổng dịch vụ Client -> Application Server
+AdminAuth -- ClientPortAuth
+ArtifactExplorer -- ClientPortMuseum
+FloorMapViewer -- ClientPortMuseum
+ArtifactEditor -- ClientPortMuseum
+SessionEditor -- ClientPortMuseum
+MediaPlayer -- ClientPortAudio
+AudioEditor -- ClientPortAudio
+AnalyticsDashboard -- ClientPortAnalytics
+
+' Geofence Engine kết nối Application Server: Lấy tọa độ GPS & Gửi sự kiện định vị
+GeofenceEngine -- ClientPortMuseum
+GeofenceEngine -- ClientPortAnalytics
+
+' Client kết nối sang Bộ lưu trữ Web Storage (Lưu mốc neo & Yêu thích)
+ArtifactExplorer -- ClientPortStorage
+GeofenceEngine -- ClientPortStorage
+
+' ========================================================
+' KẾT NỐI CLIENT -> SERVER (Ball & Socket qua Ports)
+' ========================================================
+ClientPortAuth --( IAuth
+ClientPortMuseum ..( IMuseum
+ClientPortAudio --( IAudio
+ClientPortAnalytics ..( IAnalytics
+
+IAuth -- ServerPortAuth
+IMuseum -- ServerPortMuseum
+IAudio -- ServerPortAudio
+IAnalytics -- ServerPortAnalytics
+
+' Nối cổng Server vào các Service xử lý
+ServerPortAuth -- AuthService
+ServerPortMuseum -- MuseumService
+ServerPortAudio -- AudioService
+ServerPortAnalytics -- AnalyticsService
+MuseumService -- TranslateService
+
+' ========================================================
+' KẾT NỐI SERVER -> STORAGE (Ball & Socket qua Ports)
+' ========================================================
+AuthService -- ServerPortDb
+MuseumService -- ServerPortDb
+AnalyticsService -- ServerPortDb
+MuseumService -- ServerPortStorage
+AudioService -- ServerPortStorage
+
+ServerPortDb ..( IDatabase
+ServerPortStorage ..( IStorage
+
+IDatabase -- StoragePortDb
+IStorage -- StoragePortStorage
+
+StoragePortDb -- SystemDb
+StoragePortStorage -- MediaArchive
+
+' ========================================================
+' KẾT NỐI CLIENT -> BROWSER STORAGE (Ball & Socket qua Ports)
+' ========================================================
+ClientPortStorage ..( IClientStorage
+IClientStorage -- StoragePortClientStore
+StoragePortClientStore -- LocalDb
+
+@enduml

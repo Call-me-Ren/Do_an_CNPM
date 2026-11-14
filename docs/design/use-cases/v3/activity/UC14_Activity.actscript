@@ -1,0 +1,26 @@
+ACTIVITY UC14 — Định vị GPS & Tự động thuyết minh (V3)
+PARTITION actor = {Visitor, ClientApp*, GPS}
+
+START                                          @Visitor
+[Bật theo dõi vị trí]
+[Yêu cầu quyền định vị GPS]
+
+IF !(Được cấp quyền / GPS bật?) THEN
+    [Chuyển trạng thái denied/unavailable; dùng gợi ý bản đồ 0.15m/px nếu có anchor]
+    FINAL
+
+L1: [Nhận tọa độ (lat, lng, accuracy)]         @GPS
+    IF (accuracy > 150m?) THEN
+        [Đặt trạng thái low-accuracy, không tự kích hoạt]
+        GOTO L1
+
+    [Tính khoảng cách Haversine tới các hiện vật]
+    [Tìm hiện vật gần nhất <= triggerRadius (mặc định 15m)]
+    IF (Có hiện vật trong vùng & hasScannedQr=true?) THEN
+        IF (Đang phát bài khác?) THEN
+            [Hiển thị gợi ý chuyển bài (switch)]
+        ELSE IF (Đã nghe trong phiên?) THEN
+            [Hiển thị gợi ý nghe lại (replay)]
+        ELSE
+            [Tự động phát thuyết minh (UC03)]
+    GOTO L1

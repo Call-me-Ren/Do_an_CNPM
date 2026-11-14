@@ -1,0 +1,24 @@
+ACTIVITY UC02 — Quét mã QR (Web & Android V3)
+PARTITION actor = {Visitor, ClientApp*}
+
+START                                          @Visitor
+[Chọn chức năng Quét mã QR]                    @Visitor
+[Xin quyền Camera (Android/Web)]
+
+IF !(Được cấp quyền Camera?) THEN
+    [Hiển thị ô nhập mã hiện vật thủ công]
+    [Nhập mã hiện vật hoặc hủy]                @Visitor
+ELSE
+    [Mở Camera quét QR (html5-qrcode / expo-camera)]
+    [Hướng camera vào mã QR]                   @Visitor
+
+[Giải mã chuỗi qua parseQrPayload()]
+IF (Khớp hiện vật ?artifact= hoặc mã thô?) THEN
+    [Đặt anchorArtifactId & bật theo dõi GPS]
+    [Mở chi tiết & phát thuyết minh]
+ELSE IF (Là mã cổng ?entry=gate?) THEN
+    [Bật chế độ tự động thuyết minh theo GPS]
+ELSE
+    [Thông báo mã QR không hợp lệ]
+
+FINAL

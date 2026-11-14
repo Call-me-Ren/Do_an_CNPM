@@ -1,0 +1,68 @@
+@startuml
+' Theo quy chuan trinh bay V0 - Trien khai thuc te V3 (Web + Mobile APK + Docker + CI/CD 3 dich)
+skinparam linetype polyline
+
+' ---------- Clients
+together {
+  node "Visitor / Admin Browser" <<device>> as WebDevice {
+    node "Browser Runtime" <<execution environment>> as BrowserRuntime {
+      artifact "React SPA (index.html + bundle)" <<artifact>> as WebSpa
+    }
+  }
+
+  node "Android Smartphone" <<device>> as AndroidDevice {
+    node "Android OS / Hermes Runtime" <<execution environment>> as AndroidRuntime {
+      artifact "museum-audio-guide.apk\n(Bundled Audio, Maps, Images)" <<artifact>> as MobileApk
+    }
+  }
+}
+
+' ---------- Docker Host / Server
+node "Docker Host (Server / Local)" <<device>> as DockerHost {
+  node "Nginx Container (:8080 -> :80)" <<execution environment>> as NginxEnv {
+    artifact "Static Web + Reverse Proxy (/api, /uploads)" <<artifact>> as NginxArtifact
+  }
+
+  node "Backend Container (:4000)" <<execution environment>> as NodeEnv {
+    artifact "Express API (dist/index.js)" <<artifact>> as BackendApp
+    storage "Docker Volume (museum_uploads)" as UploadVol
+  }
+}
+
+' ---------- Host Database & External
+together {
+  node "Database Server (Host OS)" <<device>> as DbServer {
+    node "Microsoft SQL Server (:1433)" <<execution environment>> as MssqlEnv {
+      database "MuseumGuide DB (12 Tables)" <<database system>> as MuseumDb
+    }
+  }
+
+  node "GitHub Actions CI/CD" <<device>> as CiCdNode {
+    node "Ubuntu Runner" <<execution environment>> as RunnerEnv {
+      artifact "deploy.yml (Web CI + Pages)" <<artifact>> as WfPages
+      artifact "docker.yml (FE+BE Images)" <<artifact>> as WfDocker
+      artifact "mobile.yml (Jest + Gradle APK)" <<artifact>> as WfMobile
+    }
+  }
+
+  node "Distribution Targets" <<device>> as DistTargets {
+    artifact "GitHub Pages (Static Demo)" <<artifact>> as GhPages
+    artifact "GHCR (ghcr.io Docker Images)" <<artifact>> as Ghcr
+    artifact "GitHub Releases (APK)" <<artifact>> as GhRelease
+  }
+}
+
+' ---------- Communication paths
+WebDevice -- NginxEnv : HTTPS / HTTP (:8080)
+AndroidDevice ..> NginxEnv : HTTPS / REST (Optional Sync)
+AndroidDevice ..> GhRelease : Download APK
+WebDevice ..> GhPages : HTTPS (Demo Mode)
+
+NginxEnv -- NodeEnv : HTTP Proxy (:4000)
+NodeEnv -- DbServer : TDS / TCP (:1433)
+BackendApp -- UploadVol : Disk I/O
+
+CiCdNode ..> GhPages : Deploy Static Web
+CiCdNode ..> Ghcr : Push FE & BE Images
+CiCdNode ..> GhRelease : Attach APK
+@enduml
