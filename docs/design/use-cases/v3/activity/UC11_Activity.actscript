@@ -1,0 +1,15 @@
+ACTIVITY UC11 — Quản lý tệp âm thanh (V3)
+PARTITION actor = {Admin, WebCMS*, Backend}
+
+START                                          @Admin
+[Mở trang Quản lý Âm thanh (/admin/audio)]     @Admin
+[Chọn hiện vật & ngôn ngữ cần cập nhật]        @Admin
+[Chọn tệp âm thanh (MP3/WAV <= 30MB)]          @Admin
+[Gửi POST /api/uploads/audio]                  @WebCMS
+IF (Tệp hợp lệ <= 30MB?) THEN
+    [Lưu tệp vào /uploads/audio & trả URL]     @Backend
+    [Nghe thử & biên tập mốc phụ đề SubtitleCue] @Admin
+    [Lưu cập nhật PUT /api/artifacts/:id]      @Backend
+ELSE
+    [Thông báo lỗi định dạng/dung lượng]       @WebCMS
+FINAL

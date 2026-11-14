@@ -9,9 +9,10 @@
 ## 🗂️ Cấu Trúc Repo & Cách Chạy (Front-end + Back-end + SQL Server)
 
 ```
-frontend/   React + Vite + TS (visitor PWA + admin)
-backend/    Node.js + Express + TS, kết nối SQL Server qua `mssql`
-docs/       tài liệu đồ án
+frontend/   React 18 + Vite + TS (Visitor Web + Admin CMS)
+mobile/     Expo + React Native + TS (Visitor Android App, offline-first)
+backend/    Node.js + Express + TS, kết nối SQL Server (12 bảng)
+docs/       Tài liệu đồ án, báo cáo, UML (V0–V3) và DFD
 ```
 
 **1. Back-end** (cần SQL Server đã bật TCP/IP, port 1433):
@@ -29,7 +30,17 @@ cd frontend && npm install && npm run dev   # http://localhost:3000
 ```
 **3. Docker:** `docker-compose up --build` (SQL Server dùng bản cài trên máy host) → http://localhost:8080
 
-> Không có back-end (ví dụ GitHub Pages) thì front-end tự chạy ở **chế độ demo** bằng mock JSON + `localStorage`.
+**4. Mobile App (Android / Expo):**
+```bash
+cd mobile && npm install
+npx expo start                  # Quét QR bằng Expo Go hoặc nhấn 'a' cho Android Emulator
+npm test && npm run typecheck   # Kiểm thử Jest & TypeScript
+```
+
+**5. CI/CD (GitHub Actions — 3 đích triển khai):**
+- `deploy.yml`: Lint, Test, Build Web và deploy bản demo lên **GitHub Pages**.
+- `docker.yml`: Build và đẩy Docker images (`frontend` + `backend`) lên **GitHub Container Registry (GHCR)**.
+- `mobile.yml`: Lint, Typecheck, Jest Test, build **Android APK** qua Gradle và đính kèm vào **GitHub Release** khi gắn tag `v*`.
 
 ---
 
@@ -37,7 +48,7 @@ cd frontend && npm install && npm run dev   # http://localhost:3000
 
 ### 1. Phân Hệ Khách Tham Quan (Visitor PWA Web App - Không Cần Đăng Nhập)
 - **Quét mã QR tại cổng hoặc tủ trưng bày:** Sử dụng camera thiết bị để giải mã tức thì ID hiện vật và mở ngay bài thuyết minh tương ứng.
-- **Định vị & Kích hoạt tự động (Geofence Engine):** Sử dụng `navigator.geolocation.watchPosition` kết hợp thuật toán tính khoảng cách. Khi du khách đến gần hiện vật trong bán kính 30m, hệ thống tự động highlight và mở bài giới thiệu.
+- **Định vị & Kích hoạt tự động (Geofence Engine):** Sử dụng `navigator.geolocation.watchPosition` (Web) / `expo-location` (Android) kết hợp thuật toán tính khoảng cách Haversine. Khi du khách đến gần hiện vật trong bán kính mặc định 15m, hệ thống tự động highlight và mở bài giới thiệu.
 - **Đa ngôn ngữ 5 thứ tiếng (i18n):** Tiếng Việt, English, 中文 (Chinese), 한국어 (Korean), 日本語 (Japanese). Chuyển đổi ngôn ngữ chỉ với một chạm.
 - **Trình phát âm thanh & Phụ đề đồng bộ (Audio & Subtitle Sync):** Thanh phát audio cố định ở đáy màn hình, hỗ trợ đổi tốc độ (1x, 1.25x, 1.5x, 2x), tua thanh thời gian và hiển thị phụ đề chạy song song theo từng mốc giây (VTT Subtitles).
 - **Sơ đồ bảo tàng tương tác (Floor Map):** Hiển thị mặt bằng các tầng, trực quan hóa vị trí hiện vật qua các điểm ghim tọa độ `(X, Y)`.
@@ -52,7 +63,7 @@ cd frontend && npm install && npm run dev   # http://localhost:3000
   - **Biểu đồ lượt nghe:** Thống kê lượt nghe phân bổ theo từng khung giờ trong ngày.
 - **Quản lý hiện vật (CRUD):** Thêm, sửa, xóa thông tin hiện vật kèm tiêu đề và bài mô tả theo 5 ngôn ngữ.
 - **Quản lý mã QR:** Tự động sinh mã đồ họa QR cho cổng bảo tàng và từng hiện vật, cho phép tải ảnh PNG chất lượng cao hoặc in trực tiếp.
-- **Quản lý tệp âm thanh & Phụ đề:** Tải lên tệp âm thanh (MP3, WAV, AAC &le; 50MB), nghe thử trực tiếp trên dashboard và quản lý các mốc phụ đề đồng bộ.
+- **Quản lý tệp âm thanh & Phụ đề:** Tải lên tệp âm thanh (MP3, WAV, AAC &le; 30MB), nghe thử trực tiếp trên dashboard và quản lý các mốc phụ đề đồng bộ.
 - **Biên tập sơ đồ (Floor Map Editor):** Nhấp chuột trực tiếp lên sơ đồ để đặt hoặc dời ghim vị trí `(X, Y)` của hiện vật.
 - **Quản lý phiên tham quan (Session Management):** Tạo và theo dõi các ca mở cửa, đoàn tham quan chuyên biệt (đoàn ngoại giao, học sinh, v.v.).
 - **Báo cáo & Thống kê chuyên sâu (Analytics):**
@@ -90,33 +101,26 @@ Dự án được tổ chức gọn gàng, phân định rành mạch giữa mã
 
 ```
 Do_an_CNPM/
-├── .github/                      # CI/CD Workflows (GitHub Actions)
-│   └── workflows/deploy.yml      # Tự động kiểm thử và deploy lên GitHub Pages
-├── docs/                         # Toàn bộ tài liệu đồ án & báo cáo
-│   ├── report/                   # File báo cáo tổng kết đồ án (Word docx)
-│   ├── requirements/             # Phân tích yêu cầu & đặc tả Use Case (MD, PDF, media)
-│   ├── design/                   # Sơ đồ thiết kế UML (Component, Deploy, ERD, Use Cases)
-│   └── README.md                 # Mục lục và hướng dẫn tra cứu tài liệu
-├── public/                       # Tài nguyên tĩnh được Vite phân phối (audio, images, maps...)
-│   ├── audio/                    # File thuyết minh giọng đọc 5 thứ tiếng
-│   ├── images/                   # Ảnh hiện vật bảo tàng
-│   ├── maps/                     # Bản đồ các tầng
-│   ├── mock/                     # Dữ liệu JSON tĩnh
-│   ├── qr/                       # Mã QR demo
-│   ├── 404.html                  # Trang điều hướng SPA trên GitHub Pages
-│   └── .nojekyll                 # Cấu hình bỏ qua Jekyll engine
-├── scripts/                      # Bộ công cụ & script hỗ trợ (TTS, QR, deploy prep, tests)
-├── src/                          # Mã nguồn chính ứng dụng React + TypeScript
-│   ├── admin/                    # Phân hệ quản trị (Dashboard, Exhibits, Sessions, Floor Map...)
-│   ├── visitor/                  # Phân hệ khách tham quan (Home, Scan, Map, Audio Player...)
-│   ├── shared/                   # Components, stores Zustand, hooks dùng chung
-│   ├── locales/                  # Bản dịch 5 thứ tiếng (i18n)
-│   ├── data/                     # Dữ liệu hiện vật chuẩn
-│   └── __tests__/                # Kiểm thử tự động (Vitest)
-├── index.html                    # Entry point HTML của Vite
-├── vite.config.ts                # Cấu hình Vite & Tailwind
-├── tsconfig.json                 # Cấu hình TypeScript
-└── package.json                  # Khai báo dependencies & npm scripts
+├── .github/workflows/            # CI/CD (deploy.yml, docker.yml, mobile.yml)
+├── frontend/                     # Web SPA (React 18 + Vite 6 + TypeScript)
+│   ├── public/                   # Audio 5 ngôn ngữ, ảnh hiện vật, bản đồ tầng
+│   ├── scripts/                  # Script tạo audio TTS, tọa độ, mã QR, prepare_deploy
+│   └── src/
+│       ├── admin/                # Phân hệ quản trị (/admin)
+│       ├── visitor/              # Phân hệ khách tham quan (/)
+│       ├── shared/               # Stores Zustand, API, utils, types
+│       ├── locales/              # Bản dịch 5 thứ tiếng (i18n)
+│       ├── data/                 # Dữ liệu hiện vật chuẩn (museum_data.json)
+│       └── __tests__/            # Kiểm thử tự động (Vitest)
+├── mobile/                       # Android App (Expo + React Native, offline-first)
+│   ├── app/                      # Màn hình expo-router (tabs, scanner, artifact/[id])
+│   ├── assets/museum/            # Media đóng gói sẵn trong APK
+│   └── src/                      # Components, stores AsyncStorage, shared utils, Jest tests
+├── backend/                      # REST API (Node.js + Express + TypeScript + MSSQL)
+│   └── src/                      # routes, repositories, middleware, db/schema.sql (12 bảng)
+├── docs/                         # Báo cáo, AUDIT_V3, UML (V0–V3) và DFD
+├── AGENTS.md / INSTRUCTIONS.md / RULE.md / YEU_CAU_DO_AN.md
+└── docker-compose.yml            # Container hóa Frontend + Backend
 ```
 
 ---

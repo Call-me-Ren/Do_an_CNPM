@@ -1,0 +1,22 @@
+ACTIVITY UC01 — Đăng nhập quản trị (V3)
+PARTITION actor = {Admin, Frontend*, Backend}
+
+START                                          @Admin
+[Mở trang /admin/login]                        @Admin
+[Kiểm tra trạng thái khóa trong localStorage]  @Frontend
+
+L1: IF (Đang bị khóa 5 phút?) THEN
+        [Hiển thị bộ đếm ngược khóa]           @Frontend
+        FINAL
+
+    [Nhập Email & Mật khẩu]                    @Admin
+    [Gửi POST /api/auth/login]                 @Frontend
+    [Kiểm tra LockedUntil & bcryptjs]          @Backend
+    IF !(Mật khẩu đúng?) THEN
+        [Tăng FailedAttempts (Backend khóa 1p nếu >=5; Frontend khóa 5p nếu >=5)] @Backend
+        [Hiển thị thông báo lỗi]               @Frontend
+        GOTO L1
+
+    [Reset FailedAttempts & cấp JWT Token]     @Backend
+    [Lưu Token & mở Admin Dashboard]           @Frontend
+    FINAL

@@ -1,51 +1,42 @@
 # 📚 Tài Liệu Đồ Án Công Nghệ Phần Mềm (Do_an_CNPM)
 
-Thư mục này lưu trữ toàn bộ tài liệu phục vụ báo cáo, phân tích yêu cầu và thiết kế kiến trúc của đề tài **Hệ thống thuyết minh tự động đa ngôn ngữ tại bảo tàng (Museum Audio Guide)**.
+Thư mục này lưu trữ toàn bộ tài liệu phân tích yêu cầu, kiểm tra đối chiếu mã nguồn (Audit) và thiết kế kiến trúc của đề tài **Hệ thống Thuyết minh Tự động Đa ngôn ngữ (Museum Audio Guide)** trên **Web SPA** và **Android Mobile App**.
 
 ---
 
 ## 🗂️ Cấu Trúc Thư Mục Tài Liệu
 
-```
+```text
 docs/
-├── report/                   # Báo cáo tổng kết đồ án môn học
-│   └── BAO_CAO_DO_AN_CONG_NGHE_PHAN_MEM_SGU.docx
+├── report/
+│   ├── Bao_cao_do_an_CNPM_v2.md          # Báo cáo tổng kết đồ án (đã bổ sung Mobile App, DFD & V3)
+│   ├── media/                            # Hình ảnh sơ đồ cho báo cáo
+│   └── Bao_cao_do_an_CNPM_v0/            # Bản lưu trữ lịch sử v0
 │
-├── requirements/             # Phân tích & Đặc tả yêu cầu phần mềm
-│   ├── Context.md            # Bối cảnh & phạm vi đề tài
-│   ├── DacTaUseCase.md       # Chi tiết đặc tả các Use Case
-│   ├── narrative_and_key_features.md  # Kịch bản sử dụng & tính năng trọng tâm
-│   ├── system_presentation_summary.md # Bản tóm tắt báo cáo & thuyết trình
-│   └── assets/               # File văn bản gốc (PDF, DOCX) và hình ảnh minh họa
+├── requirements/
+│   └── Context.md                        # Bối cảnh, mục tiêu & quy ước kỹ thuật
 │
-└── design/                   # Thiết kế kiến trúc & mô hình hóa UML
-    ├── components/           # Sơ đồ thành phần kiến trúc (Component Diagram)
-    │   ├── ComponentDiagram.puml
-    │   └── archive/
-    ├── deployment/           # Sơ đồ triển khai hệ thống (Deployment Diagram)
-    │   ├── UMLDeployDiagram.puml
-    │   └── archive/
-    ├── erd/                  # Sơ đồ thực thể liên kết (Entity Relationship Diagram)
-    │   └── erd.puml
-    └── use-cases/            # Sơ đồ hoạt động use case chi tiết (UC01 -> UC20)
-        ├── Use_cases_activities.puml
-        ├── DacTaUseCase.pdf
-        └── archive/ (File thiết kế Draw.io & Mermaid chi tiết từng use case)
+└── design/
+    ├── audit/
+    │   └── AUDIT_V3.md                   # Báo cáo kiểm tra sai lệch giữa tài liệu cũ (V0–V2) và mã nguồn
+    ├── components/                       # ComponentDiagramV{0, 1, 1'', 2, 3}.puml
+    ├── deployment/                       # DeployDiagramV{0, 1, 1'', 2, 3}.puml
+    ├── erd/                              # ErdV{0, 1, 3}.puml (V3 khớp 12 bảng schema.sql)
+    ├── dfd/                              # DFD Mức 0, Mức 1, Mức 2 & đặc tả DFD.md
+    └── use-cases/
+        ├── v0/                           # Bản 20 UC gốc (lưu trữ lịch sử)
+        ├── v1 (quan)/                    # Bản nháp v1 (lưu trữ lịch sử)
+        ├── v1'/                          # Bản chốt 14 UC (lưu trữ lịch sử)
+        └── v3/                           # Bản chuẩn hóa khớp 100% code Web + Android (OverviewUCv3.puml, UCv3.md, activity/)
 ```
 
 ---
 
-## 🧭 Hướng Dẫn Tra Cứu Nhanh
+## 🧭 Tra Cứu Nhanh Phiên Bản Chuẩn (V3)
 
-1. **Báo cáo hoàn chỉnh đồ án:**  
-   Xem tại [`report/BAO_CAO_DO_AN_CONG_NGHE_PHAN_MEM_SGU.docx`](./report/BAO_CAO_DO_AN_CONG_NGHE_PHAN_MEM_SGU.docx).
-
-2. **Đặc tả Use Case chi tiết (20 Use Cases):**  
-   - Xem dạng Markdown: [`requirements/DacTaUseCase.md`](./requirements/DacTaUseCase.md)  
-   - Xem dạng PDF: [`requirements/assets/DacTaUseCase.pdf`](./requirements/assets/DacTaUseCase.pdf) hoặc [`design/use-cases/DacTaUseCase.pdf`](./design/use-cases/DacTaUseCase.pdf)
-
-3. **Mô hình hóa UML (PlantUML / Draw.io):**  
-   - **Component Diagram:** [`design/components/ComponentDiagram.puml`](./design/components/ComponentDiagram.puml)
-   - **Deployment Diagram:** [`design/deployment/UMLDeployDiagram.puml`](./design/deployment/UMLDeployDiagram.puml)
-   - **ERD:** [`design/erd/erd.puml`](./design/erd/erd.puml)
-   - **Use Case Activities:** [`design/use-cases/Use_cases_activities.puml`](./design/use-cases/Use_cases_activities.puml)
+1. **Đối chiếu mã nguồn & sơ đồ:** [`design/audit/AUDIT_V3.md`](./design/audit/AUDIT_V3.md)
+2. **Đặc tả 14 Use Cases (Web & Android):** [`design/use-cases/v3/UCv3.md`](./design/use-cases/v3/UCv3.md) & [`OverviewUCv3.puml`](./design/use-cases/v3/OverviewUCv3.puml)
+3. **Sơ đồ Luồng Dữ Liệu (DFD):** [`design/dfd/DFD.md`](./design/dfd/DFD.md) (`DFD_Level0.puml`, `DFD_Level1.puml`, `DFD_Level2_Geofence.puml`)
+4. **Component Diagram V3:** [`design/components/ComponentDiagramV3.puml`](./design/components/ComponentDiagramV3.puml)
+5. **Deployment Diagram V3:** [`design/deployment/DeployDiagramV3.puml`](./design/deployment/DeployDiagramV3.puml)
+6. **ERD V3 (12 bảng MSSQL):** [`design/erd/ErdV3.puml`](./design/erd/ErdV3.puml)

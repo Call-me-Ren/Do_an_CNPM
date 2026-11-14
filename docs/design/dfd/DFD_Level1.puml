@@ -1,0 +1,57 @@
+@startuml
+' Sơ đồ Luồng Dữ Liệu (DFD) Mức 1 — Phân rã các tiến trình nghiệp vụ chính
+left to right direction
+skinparam shadowing false
+
+rectangle "Khách tham quan" as Visitor
+rectangle "Quản trị viên" as Admin
+rectangle "Hệ thống GPS" as GPS
+rectangle "Google / MyMemory API" as TranslateAPI
+
+' Tiến trình (Processes)
+usecase "1.0\nQuản lý xác thực\nQuản trị (UC01)" as P1
+usecase "2.0\nKhám phá, Quét QR &\nĐịnh vị Geofence\n(UC02, UC06, UC08, UC14)" as P2
+usecase "3.0\nPhát thuyết minh,\nPhụ đề & Đa ngôn ngữ\n(UC03, UC04, UC07)" as P3
+usecase "4.0\nQuản lý yêu thích\n(UC05)" as P4
+usecase "5.0\nQuản trị hiện vật, Sơ đồ,\nÂm thanh & Dịch\n(UC09, UC11, UC13)" as P5
+usecase "6.0\nGhi nhận phiên, Sinh QR\n& Thống kê lượt nghe\n(UC10, UC12)" as P6
+
+' Kho dữ liệu (Data Stores)
+database "D1: AdminUser\n(MSSQL + LoginLock)" as D1
+database "D2: Museum, Floor,\nArtifact, Translation\n(MSSQL / Bundled JSON)" as D2
+database "D3: Audio, Image,\nSubtitleCue\n(/uploads & Bundled APK)" as D3
+database "D4: Local / AsyncStorage\n(Favorites, Anchor, Lang)" as D4
+database "D5: VisitorSession &\nListenEvent (MSSQL)" as D5
+
+' Luồng dữ liệu
+Admin --> P1 : "Email, Mật khẩu"
+P1 <--> D1 : "Kiểm tra Hash,\nCập nhật FailedAttempts/LockedUntil"
+P1 --> Admin : "JWT Token / Lỗi khóa"
+
+Visitor --> P2 : "Mã QR, Từ khóa, Chọn tầng"
+GPS --> P2 : "Tọa độ GPS & Accuracy"
+D2 --> P2 : "Danh sách hiện vật, Tọa độ, Sơ đồ"
+P2 --> D4 : "Lưu Anchor & Điểm gần nhất"
+P2 --> Visitor : "Chi tiết hiện vật, Vị trí trên sơ đồ"
+P2 --> P3 : "Yêu cầu phát (ArtifactId)"
+
+Visitor --> P3 : "Chọn ngôn ngữ, Play/Pause/Tua/Tốc độ"
+D3 --> P3 : "Tệp MP3/WAV & SubtitleCues"
+D4 <--> P3 : "Đọc/Lưu ngôn ngữ ưu tiên"
+P3 --> Visitor : "Luồng âm thanh & Phụ đề karaoke"
+P3 --> P6 : "Sự kiện nghe (ListenEvent)"
+
+Visitor --> P4 : "Thêm/Xóa yêu thích"
+P4 <--> D4 : "Đọc/Ghi danh sách ID"
+P4 --> Visitor : "Danh mục yêu thích"
+
+Admin --> P5 : "CRUD hiện vật, Tọa độ, Upload MP3/Ảnh"
+P5 --> D2 : "Cập nhật Museum/Floor/Artifact"
+P5 --> D3 : "Lưu tệp media & SubtitleCue"
+P5 <--> TranslateAPI : "Dịch tự động 5 ngôn ngữ"
+
+Visitor --> P6 : "Heartbeat phiên (10-15s)"
+P6 <--> D5 : "Lưu Session & ListenEvent"
+Admin --> P6 : "Yêu cầu xem thống kê / Xuất CSV"
+P6 --> Admin : "Biểu đồ, Danh sách phiên, Mã QR, File CSV"
+@enduml
