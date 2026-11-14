@@ -378,11 +378,9 @@ const resources = {
   }
 };
 
-const savedLang = localStorage.getItem('preferred_lang') || 'vi';
-
 i18n.use(initReactI18next).init({
   resources,
-  lng: savedLang,
+  lng: 'vi',
   fallbackLng: 'vi',
   interpolation: {
     escapeValue: false
