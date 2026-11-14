@@ -1,0 +1,131 @@
+@startuml ErdV2
+title Mô Hình Quan Hệ Thực Thể V2 (ERD 11 Bảng Chuẩn 3NF) - Hệ Thống Thuyết Minh Tự Động Đa Ngôn Ngữ
+hide circle
+skinparam defaultFontName Inter
+skinparam linetype ortho
+
+' ========================================================
+' ĐỊNH NGHĨA 11 THỰC THỂ CƠ SỞ DỮ LIỆU CHUẨN HÓA 3NF
+' ========================================================
+
+entity "NGUOI_DUNG" as NGUOI_DUNG {
+    * user_id : int <<PK, IDENTITY>>
+    --
+    * email : varchar(200) <<UNIQUE>>
+    * mat_khau_hash : varchar(255)
+    * ho_ten : nvarchar(150)
+    * vai_tro : varchar(30) -- 'ADMIN', 'STAFF', 'USER'
+    * ngon_ngu_mac_dinh : char(2) -- 'vi', 'en', 'zh', 'ko', 'ja'
+    * trang_thai_khoa : boolean
+    so_lan_sai : int -- Đếm số lần nhập sai liên tiếp
+    khoa_den_khi : datetime -- Mốc thời gian mở khóa (khóa 5 phút)
+}
+
+entity "NGON_NGU" as NGON_NGU {
+    * ma_ngon_ngu : char(2) <<PK>> -- Chuẩn ISO 639-1 ('vi', 'en', 'zh', 'ko', 'ja')
+    --
+    * ten_ngon_ngu : nvarchar(100) -- Tiếng Việt, English, 中文, 한국어, 日本語
+    * kich_hoat : boolean -- Cờ bật/tắt hiển thị ngôn ngữ
+}
+
+entity "SO_DO_KHU_VUC" as SO_DO_KHU_VUC {
+    * khu_vuc_id : int <<PK, IDENTITY>>
+    --
+    * ten_khu_vuc : nvarchar(200) -- 'Khu ngoài trời', 'Tầng trệt', 'Lầu 1', 'Lầu 2'
+    * so_tang : int
+    * anh_so_do_url : varchar(500)
+}
+
+entity "HIEN_VAT" as HIEN_VAT {
+    * hien_vat_id : int <<PK, IDENTITY>>
+    --
+    * ma_dinh_danh : varchar(50) <<UNIQUE>> -- Mã hiện vật chuẩn hóa 'ART-xxx'
+    * ten_hien_vat : nvarchar(300)
+      khu_vuc_id : int <<FK>>
+    * toa_do_x : float -- Tỷ lệ tương đối trên ảnh sơ đồ (0.0 - 1.0)
+    * toa_do_y : float -- Tỷ lệ tương đối trên ảnh sơ đồ (0.0 - 1.0)
+      vi_do : float -- Tọa độ vĩ độ GPS thực tế (Latitude)
+      kinh_do : float -- Tọa độ kinh độ GPS thực tế (Longitude)
+      ban_kinh_kich_hoat : float -- Bán kính kích hoạt Geofencing (Mặc định 12 mét)
+}
+
+entity "MA_QR" as MA_QR {
+    * qr_id : int <<PK, IDENTITY>>
+    --
+    * hien_vat_id : int <<FK, UNIQUE>>
+    * duong_dan_qr : varchar(500) -- Deep link '?artifact=ART-xxx'
+    * anh_qr_url : varchar(500) -- Đường dẫn tệp ảnh QR sinh sẵn
+}
+
+entity "NOI_DUNG_DA_NGON_NGU" as NOI_DUNG_DA_NGON_NGU {
+    * noi_dung_id : int <<PK, IDENTITY>>
+    --
+    * hien_vat_id : int <<FK>>
+    * ma_ngon_ngu : char(2) <<FK>>
+    * tieu_de : nvarchar(300)
+    * van_ban_thuyet_minh : nvarchar(max)
+}
+
+entity "HINH_ANH" as HINH_ANH {
+    * hinh_anh_id : int <<PK, IDENTITY>>
+    --
+    * hien_vat_id : int <<FK>>
+    * duong_dan_anh : varchar(500)
+    * thu_tu_hien_thi : int
+}
+
+entity "TEP_AM_THANH" as TEP_AM_THANH {
+    * tep_am_thanh_id : int <<PK, IDENTITY>>
+    --
+    * hien_vat_id : int <<FK>>
+    * ma_ngon_ngu : char(2) <<FK>>
+    * duong_dan_tep : varchar(500) -- Đường dẫn MP3 (/audio/artifacts/*.mp3)
+    * thoi_luong_giay : int
+}
+
+entity "PHU_DE" as PHU_DE {
+    * phu_de_id : int <<PK, IDENTITY>>
+    --
+    * tep_am_thanh_id : int <<FK>>
+    * duong_dan_vtt : varchar(500) -- Đường dẫn tệp WebVTT / cues JSON karaoke
+}
+
+entity "LUU_YEU_THICH" as LUU_YEU_THICH {
+    * user_id : int <<PK, FK>>
+    * hien_vat_id : int <<PK, FK>>
+    --
+    * ngay_luu : datetime
+}
+
+entity "THONG_KE_LUOT_NGHE" as THONG_KE_LUOT_NGHE {
+    * thong_ke_id : int <<PK, IDENTITY>>
+    --
+    * hien_vat_id : int <<FK>>
+    * tep_am_thanh_id : int <<FK>>
+      user_id : int <<FK, nullable>> -- NULL đối với du khách vãng lai
+    * thoi_gian_nghe : datetime
+    * thoi_luong_da_nghe_giay : int
+}
+
+' ========================================================
+' CÁC MỐI QUAN HỆ TOÀN VẸN THAM CHIẾU (RELATIONSHIPS)
+' ========================================================
+NGUOI_DUNG ||--o{ LUU_YEU_THICH : "luu"
+NGUOI_DUNG |o--o{ THONG_KE_LUOT_NGHE : "thuc_hien"
+
+SO_DO_KHU_VUC ||--o{ HIEN_VAT : "chua"
+
+HIEN_VAT ||--|| MA_QR : "gan_voi"
+HIEN_VAT ||--o{ NOI_DUNG_DA_NGON_NGU : "co_ban_dich"
+HIEN_VAT ||--o{ HINH_ANH : "co_anh"
+HIEN_VAT ||--o{ TEP_AM_THANH : "co_am_thanh"
+HIEN_VAT ||--o{ LUU_YEU_THICH : "duoc_luu"
+HIEN_VAT ||--o{ THONG_KE_LUOT_NGHE : "ghi_nhan"
+
+NGON_NGU ||--o{ NOI_DUNG_DA_NGON_NGU : "dinh_nghia"
+NGON_NGU ||--o{ TEP_AM_THANH : "dinh_nghia"
+
+TEP_AM_THANH ||--o| PHU_DE : "dong_bo"
+TEP_AM_THANH ||--o{ THONG_KE_LUOT_NGHE : "phat_trong"
+
+@enduml

@@ -1,0 +1,31 @@
+ACTIVITY UC02 — Quét mã QR
+PARTITION actor = {User, System*}
+
+START                                          @User
+[Chọn chức năng quét mã QR]                    @User
+[Thông báo kích hoạt camera và hiển thị khung quét]
+IF !(Bật camera?) THEN FINAL
+
+
+L1: [Hướng camera về phía mã QR]               @User
+    [Nhận diện và giải mã chuỗi định danh QR]
+    IF !(Nhận diện được?) THEN
+        [Hiển thị thông báo không quét được mã QR]
+        GOTO L1
+
+    [Mở chi tiết hiện vật]
+
+
+L2: [Tự động tracking vị trí]
+    IF (Mất tín hiệu?) THEN
+        [Thông báo mất tracking, gợi ý quét thủ công]
+        FINAL
+
+    IF (Gần hiện vật mới?) THEN
+        [Tự động thuyết minh hiện vật mới]
+        GOTO L2
+
+    IF !(Người dùng dừng?) THEN GOTO L2
+
+    [Kết thúc hệ thống]
+    FINAL
