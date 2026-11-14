@@ -1,0 +1,21 @@
+ACTIVITY UC03 — Nghe thuyết minh (Web & Android V3)
+PARTITION actor = {Visitor, ClientApp*, AudioEngine}
+
+START                                          @Visitor
+[Chọn Nghe thuyết minh hiện vật]               @Visitor
+[Dừng mọi âm thanh đang phát trước đó]
+[Xác định ngôn ngữ đang chọn (vi/en/zh/ko/ja)]
+
+IF (Nền tảng Android App?) THEN
+    [Nạp tệp MP3 đóng gói sẵn (assetMap)]      @AudioEngine
+ELSE
+    [Tải luồng Audio hoặc fallback Web Speech TTS] @AudioEngine
+
+[Phát âm thanh & đồng bộ phụ đề]              @AudioEngine
+[Gửi POST /api/analytics/listen (nếu có mạng)]
+
+L1: [Nghe & điều khiển (Pause/Resume/Seek/Speed 1x-2x)] @Visitor
+    IF (Kết thúc bài hoặc nhấn Đóng?) THEN
+        [Dừng phát]                            @AudioEngine
+        FINAL
+    GOTO L1

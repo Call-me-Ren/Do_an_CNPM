@@ -1,0 +1,150 @@
+@startuml
+' Theo quy chuan trinh bay V0 - Kien truc thuc te V3 (Web SPA + Mobile App + Backend + Storage)
+left to right direction
+
+' ---------- Client 1: Web SPA (Visitor + Admin)
+component "Web Client (React 18 SPA)" as WebClient {
+  package "Visitor Web" {
+    component "Visitor GUI & Map" as WebVisitorGui
+    component "QR Scanner (html5-qrcode)" as WebQr
+    component "Web Audio & TTS Fallback" as WebAudio
+    component "Geofence (Geolocation API)" as WebGeo
+  }
+  package "Admin CMS (/admin)" {
+    component "Admin Auth Guard" as AdminAuth
+    component "Artifact, Map & Audio CRUD" as AdminCrud
+    component "Session, QR & Analytics" as AdminAnalytics
+  }
+  component "Web LocalStorage" as WebLocal
+
+  portout " " as WebPortAuth
+  portout " " as WebPortCatalog
+  portout " " as WebPortAnalytics
+  portout " " as WebPortUpload
+  portout " " as WebPortTranslate
+}
+
+' ---------- Client 2: Mobile App (Visitor Offline-First)
+component "Mobile App (Expo React Native)" as MobileClient {
+  component "Mobile Tabs & Detail UI" as MobileGui
+  component "QR Scanner (expo-camera)" as MobileQr
+  component "Audio Player (expo-audio)" as MobileAudio
+  component "Geofence (expo-location)" as MobileGeo
+  database "Bundled Assets & AsyncStorage" as MobileLocal
+
+  portout " " as MobPortCatalog
+  portout " " as MobPortAnalytics
+}
+
+' ---------- Application Server (Express + TypeScript)
+component "Application Server (Node.js / Express)" as Server {
+  together {
+    component "Auth Service (/api/auth)" as AuthService
+    component "Museum Service (/api/museum, /artifacts, /floors)" as MuseumService
+    component "Analytics Service (/api/sessions, /analytics)" as AnalyticsService
+    component "Upload Service (/api/uploads)" as UploadService
+    component "Translate Service (/api/translate)" as TranslateService
+  }
+
+  portin " " as ServerPortAuth
+  portin " " as ServerPortCatalog
+  portin " " as ServerPortAnalytics
+  portin " " as ServerPortUpload
+  portin " " as ServerPortTranslate
+
+  portout " " as ServerPortDb
+  portout " " as ServerPortStorage
+  portout " " as ServerPortExtTranslate
+}
+
+' ---------- Storage & External Services
+component "Storage & External" as Storage {
+  together {
+    database "Microsoft SQL Server (12 Tables)" as SystemDb
+    storage "Disk Volume (/uploads)" as MediaArchive
+    cloud "Google Translate / MyMemory API" as ExtTranslate
+  }
+
+  portin " " as StoragePortDb
+  portin " " as StoragePortStorage
+  portin " " as StoragePortTranslate
+}
+
+' ---------- Interfaces
+() "I_Auth (JWT)" as IAuth
+() "I_Museum_Catalog" as ICatalog
+() "I_Analytics" as IAnalytics
+() "I_Upload" as IUpload
+() "I_Translate" as ITranslate
+() "I_Database (TDS)" as IDatabase
+() "I_File_Storage" as IStorage
+() "I_External_Translate" as IExtTranslate
+
+' ---- Web Client internals
+WebVisitorGui -- WebQr
+WebVisitorGui -- WebAudio
+WebVisitorGui -- WebGeo
+WebVisitorGui -- WebLocal
+AdminCrud -- AdminAuth
+AdminAnalytics -- AdminAuth
+AdminCrud -- WebLocal
+
+AdminAuth -- WebPortAuth
+WebVisitorGui -- WebPortCatalog
+AdminCrud -- WebPortCatalog
+WebVisitorGui -- WebPortAnalytics
+AdminAnalytics -- WebPortAnalytics
+AdminCrud -- WebPortUpload
+AdminCrud -- WebPortTranslate
+
+' ---- Mobile Client internals
+MobileGui -- MobileQr
+MobileGui -- MobileAudio
+MobileGui -- MobileGeo
+MobileGui -- MobileLocal
+MobileAudio -- MobileLocal
+MobileGui -- MobPortCatalog
+MobileGui -- MobPortAnalytics
+
+' ---- Clients -> Server
+WebPortAuth ..( IAuth
+WebPortCatalog ..( ICatalog
+WebPortAnalytics ..( IAnalytics
+WebPortUpload ..( IUpload
+WebPortTranslate ..( ITranslate
+
+MobPortCatalog ..( ICatalog
+MobPortAnalytics ..( IAnalytics
+
+IAuth -- ServerPortAuth
+ICatalog -- ServerPortCatalog
+IAnalytics -- ServerPortAnalytics
+IUpload -- ServerPortUpload
+ITranslate -- ServerPortTranslate
+
+ServerPortAuth -- AuthService
+ServerPortCatalog -- MuseumService
+ServerPortAnalytics -- AnalyticsService
+ServerPortUpload -- UploadService
+ServerPortTranslate -- TranslateService
+
+' ---- Server -> Storage & External
+AuthService -- ServerPortDb
+MuseumService -- ServerPortDb
+AnalyticsService -- ServerPortDb
+UploadService -- ServerPortStorage
+MuseumService -- ServerPortStorage
+TranslateService -- ServerPortExtTranslate
+
+ServerPortDb ..( IDatabase
+ServerPortStorage ..( IStorage
+ServerPortExtTranslate ..( IExtTranslate
+
+IDatabase -- StoragePortDb
+IStorage -- StoragePortStorage
+IExtTranslate -- StoragePortTranslate
+
+StoragePortDb -- SystemDb
+StoragePortStorage -- MediaArchive
+StoragePortTranslate -- ExtTranslate
+@enduml

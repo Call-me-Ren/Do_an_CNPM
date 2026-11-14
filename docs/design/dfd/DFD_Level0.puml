@@ -1,0 +1,23 @@
+@startuml
+' Sơ đồ Luồng Dữ Liệu (DFD) Mức 0 — Sơ đồ Ngữ cảnh (Context Diagram)
+left to right direction
+skinparam shadowing false
+
+rectangle "Khách tham quan\n(Web & Android App)" as Visitor
+rectangle "Quản trị viên\n(Admin Web CMS)" as Admin
+rectangle "Hệ thống định vị GPS\n(Thiết bị di động)" as GPS
+rectangle "Dịch vụ dịch thuật\n(Google / MyMemory)" as TranslateAPI
+
+usecase "0\nHệ Thống Thuyết Minh\nTự Động Đa Ngôn Ngữ\n(Web, Android, Backend)" as System
+
+Visitor --> System : "Mã QR / Mã hiện vật,\nTừ khóa tìm kiếm,\nChọn ngôn ngữ / Yêu thích,\nTín hiệu thao tác nghe"
+System --> Visitor : "Thông tin bảo tàng & hiện vật,\nSơ đồ tầng, Âm thanh & Phụ đề,\nGợi ý chuyển/nghe lại bài"
+
+GPS --> System : "Tọa độ (Latitude, Longitude),\nĐộ chính xác (Accuracy)"
+
+Admin --> System : "Thông tin đăng nhập,\nDữ liệu hiện vật, Tọa độ (X,Y,GPS),\nTệp âm thanh/ảnh, Bộ lọc thống kê"
+System --> Admin : "Token JWT / Trạng thái khóa,\nMã QR cổng & hiện vật (PNG),\nBáo cáo thống kê & CSV"
+
+System --> TranslateAPI : "Văn bản gốc (tiêu đề, mô tả)"
+TranslateAPI --> System : "Bản dịch 5 ngôn ngữ (vi, en, zh, ko, ja)"
+@enduml

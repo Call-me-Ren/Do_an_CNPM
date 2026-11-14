@@ -1,0 +1,49 @@
+ACTIVITY UC10 — Quản lý phiên
+PARTITION actor = {Admin, System*}
+
+START                                          @Admin
+[Đăng nhập]                                    @Admin
+[Hiển thị chảo mừng + chức năng]
+[Chọn Quản lý phiên]                           @Admin
+
+
+L1: [Tải danh sách phiên]
+    IF !(Tải được) THEN
+        [Báo lỗi tải]
+        GOTO L1
+
+    IF (Đến giờ chuyển?) THEN
+        [Tự đổi trạng thái]
+
+
+L2: [Hiển thị danh sách]
+    [Chọn thao tác]                            @Admin
+    IF (Chọn xoá?) THEN
+        [Hộp thoại xác nhận]
+        IF (Huỷ?) THEN GOTO L2
+        [Xoá phiên]
+        IF (Lỗi xoá?) THEN
+            [Báo lỗi xoá]
+            GOTO L2
+        [Báo xoá thành công]
+        GOTO L2
+
+    IF !(Chọn sửa hoặc thêm mới?) THEN FINAL
+
+    [Hiển thị biểu mẫu]
+
+
+L3: [Điền thông tin]                           @Admin
+    IF (Nhấn huỷ?) THEN GOTO L2
+    [Kiểm tra tính hợp lệ]
+    IF !(Hợp lệ?) THEN
+        [Báo lỗi trường]
+        GOTO L3
+    [Lưu phiên]
+    IF (Lỗi lưu?) THEN
+        [Báo lỗi lưu]
+        GOTO L3
+
+    [Báo thành công]
+    [Cập nhật danh sách phiên]
+    FINAL

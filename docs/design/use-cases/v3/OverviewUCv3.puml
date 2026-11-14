@@ -1,0 +1,65 @@
+@startuml
+' Theo quy chuan trinh bay V0 - Chot 14 Use Cases chuan hoa khop code V3 (Web + Mobile)
+!pragma layout smetana
+left to right direction
+skinparam packageStyle rectangle
+
+actor "Khách tham quan" as Visitor
+actor "Quản trị viên (Admin)" as Admin
+actor "Hệ thống định vị GPS" as GpsSystem
+actor "Thiết bị phát âm thanh" as AudioDevice
+
+rectangle "Hệ Thống Thuyết Minh Tự Động Đa Ngôn Ngữ (Web & Android App)" {
+  together {
+    usecase "UC02: Quét mã QR" as UC02
+    usecase "UC03: Nghe thuyết minh" as UC03
+    usecase "UC04: Chuyển đổi ngôn ngữ" as UC04
+    usecase "UC05: Lưu hiện vật yêu thích" as UC05
+    usecase "UC06: Xem hồ sơ bảo tàng" as UC06
+    usecase "UC07: Xem phụ đề đồng bộ" as UC07
+    usecase "UC08: Tìm kiếm hiện vật" as UC08
+    usecase "UC14: Định vị & Tự động thuyết minh" as UC14
+  }
+
+  usecase "UC01: Đăng nhập quản trị" as UC01
+
+  together {
+    usecase "UC09: Quản lý hiện vật" as UC09
+    usecase "UC10: Quản lý phiên & Mã QR" as UC10
+    usecase "UC11: Quản lý tệp âm thanh" as UC11
+    usecase "UC12: Xem thống kê lượt nghe" as UC12
+    usecase "UC13: Quản lý sơ đồ tầng" as UC13
+  }
+}
+
+' --- Associations: Khách tham quan (không cần đăng nhập)
+Visitor -- UC02
+Visitor -- UC03
+Visitor -- UC04
+Visitor -- UC05
+Visitor -- UC06
+Visitor -- UC08
+Visitor -- UC14
+
+' --- Associations: Admin (chỉ trên Web CMS)
+Admin -- UC01
+Admin -- UC09
+Admin -- UC10
+Admin -- UC11
+Admin -- UC12
+Admin -- UC13
+
+' --- Associations: Tác nhân hệ thống ngoài
+UC14 -- GpsSystem
+UC03 -- AudioDevice
+
+' --- Include / Extend (mũi tên từ source -> target)
+UC07 ..> UC03 : <<extend>>
+UC14 ..> UC03 : <<extend>>
+
+UC09 ..> UC01 : <<include>>
+UC10 ..> UC01 : <<include>>
+UC11 ..> UC01 : <<include>>
+UC12 ..> UC01 : <<include>>
+UC13 ..> UC01 : <<include>>
+@enduml

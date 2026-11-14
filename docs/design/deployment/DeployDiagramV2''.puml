@@ -1,0 +1,98 @@
+' By Cuong, Quan, Thanh - Version 2.0 (Standard UML 2.5 As-Built)
+@startuml
+title Sơ Đồ Triển Khai (Deployment Diagram v2) - Hệ Thống Thuyết Minh Tự Động Đa Ngôn Ngữ
+skinparam linetype ortho
+skinparam packageStyle rectangle
+skinparam defaultTextAlignment center
+
+' ========================================================
+' 1. CLIENT DEVICES (Nút Thiết Bị Đầu Cuối Người Dùng)
+' ========================================================
+node "Thiết Bị Khách Tham Quan\n(Smartphone / Tablet)" <<device>> as VisitorPhone {
+  node "Mobile Web Browser Runtime\n(iOS Safari / Android Chrome)" <<execution environment>> as VisitorBrowser {
+    artifact "VisitorApp.spa\n<<HTML5 / JS / CSS Bundle>>" <<artifact>> as VisitorSpa
+    artifact "HTML5 Geolocation API\n& Camera Scanner" <<artifact>> as VisitorWebApis
+    database "LocalStorage & SessionStorage\n(Điểm neo GPS & Yêu thích)" <<database system>> as VisitorStorage
+  }
+}
+
+node "Máy Tính Quản Trị Viên\n(Admin PC / Laptop)" <<device>> as AdminPC {
+  node "Desktop Web Browser\n(Google Chrome / Edge / Firefox)" <<execution environment>> as AdminBrowser {
+    artifact "AdminCMS.spa\n<<React.js Single Page App>>" <<artifact>> as AdminSpa
+    database "SessionStorage\n(Admin JWT Token & Session)" <<database system>> as AdminStorage
+  }
+}
+
+' ========================================================
+' 2. APPLICATION SERVER (Máy Chủ Ứng Dụng Docker Host)
+' ========================================================
+node "Máy Chủ Ứng Dụng (Application Server)\n<<Linux / Windows Server Host>>" <<device>> as AppServer {
+  node "Docker Engine / Container Runtime" <<execution environment>> as DockerEngine {
+
+    ' Container 1: Frontend Nginx Web Server
+    node "Frontend Container\n<<Nginx Web Server>>" <<execution environment>> as NginxContainer {
+      artifact "Static Web Assets\n(index.html, assets/*.js, assets/*.css)" <<artifact>> as StaticBundle
+      artifact "Reverse Proxy & CORS Config\n(nginx.conf / default.conf)" <<artifact>> as NginxConfig
+    }
+
+    ' Container 2: Backend Node.js Express API
+    node "Backend Container\n<<Node.js 20 Runtime>>" <<execution environment>> as NodeBackend {
+      artifact "backend.dist.js\n<<Express + TypeScript REST API>>" <<artifact>> as ExpressApi
+      artifact "Multer Upload Middleware\n(Xử Lý Tải Lên Audio & Ảnh)" <<artifact>> as MulterUpload
+    }
+  }
+}
+
+' ========================================================
+' 3. DATABASE & STORAGE SERVERS (Máy Chủ Dữ Liệu & Tệp)
+' ========================================================
+together {
+  node "Máy Chủ Cơ Sở Dữ Liệu (Database Server)" <<device>> as DbServer {
+    node "DBMS Engine\n<<Microsoft SQL Server 2019/2022>>" <<execution environment>> as MssqlEngine {
+      database "SystemDB (MuseumGuide)\n<<11 Tables 3NF Relational DB>>" <<database system>> as MuseumDb
+    }
+  }
+
+  node "Hệ Thống Lưu Trữ Tệp (Media Storage Volume)" <<device>> as StorageHost {
+    node "Persistent File System\n<<Docker Mounted Volume /app/uploads>>" <<execution environment>> as StorageFs {
+      artifact "Audio Archive (/uploads/audio/*.mp3)" <<artifact>> as AudioArchive
+      artifact "Maps & Artifact Images (/uploads/maps/*, /images/*)" <<artifact>> as ImageArchive
+    }
+  }
+}
+
+' ========================================================
+' 4. CI/CD & CLOUD HOSTING (Hạ Tầng Tự Động Hóa & Phân Phối)
+' ========================================================
+together {
+  node "GitHub Actions Cloud Runner\n(Ubuntu 22.04 LTS VM)" <<device>> as CiCdRunner {
+    node "Node.js 20 CI Runtime\n(Lint, Vitest & Vite Build)" <<execution environment>> as CiRuntime {
+      artifact "CI/CD Pipeline (.github/workflows/deploy.yml)" <<artifact>> as WorkflowDeploy
+      artifact "Docker Pipeline (.github/workflows/docker.yml)" <<artifact>> as WorkflowDocker
+    }
+  }
+
+  node "Hạ Tầng Phân Phối Tĩnh (Edge CDN)\n(GitHub Pages Edge Servers)" <<device>> as GhPagesEdge {
+    node "HTTPS Static File Host" <<execution environment>> as StaticEdge {
+      artifact "PWA Static Distribution\n(index.html & museum_data.json)" <<artifact>> as EdgeAssets
+    }
+  }
+}
+
+' ========================================================
+' 5. COMMUNICATION PATHS (Tuyến Truyền Thông Vật Lý & Giao Thức)
+' ========================================================
+VisitorPhone -- NginxContainer : HTTPS / TLS\n(Port 443 / 8080)
+AdminPC -- NginxContainer : HTTPS / TLS\n(Port 443 / 8080)
+
+NginxContainer -- NodeBackend : Reverse Proxy / HTTP\n(Port 4000)
+NodeBackend -- DbServer : TDS Protocol / TCP\n(Port 1433)
+NodeBackend -- StorageHost : Local Disk I/O\n(Volume Mount)
+
+' Tuyến CI/CD tự động
+CiCdRunner ..> GhPagesEdge : "Automated Deploy Pages Artifact\n(HTTPS API)"
+CiCdRunner ..> AppServer : "Docker Build & Push Image\n(ghcr.io / Port 443)"
+
+' Fallback cho PWA khách tham quan
+VisitorPhone ..> GhPagesEdge : "HTTPS GET / (Demo & Offline PWA Mode)"
+@enduml

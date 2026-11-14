@@ -1,0 +1,89 @@
+name: Mobile App CI/CD (Android APK)
+
+on:
+  push:
+    branches: ["main", "master"]
+    paths:
+      - "mobile/**"
+      - ".github/workflows/mobile.yml"
+    tags:
+      - "v*.*.*"
+  pull_request:
+    branches: ["main", "master"]
+    paths:
+      - "mobile/**"
+      - ".github/workflows/mobile.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  ci:
+    name: Mobile CI (Lint, Typecheck & Jest)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: mobile
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "npm"
+          cache-dependency-path: mobile/package-lock.json
+
+      - run: npm ci --legacy-peer-deps
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm test
+
+  build-apk:
+    name: Build Android APK
+    needs: ci
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: mobile
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "npm"
+          cache-dependency-path: mobile/package-lock.json
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: "temurin"
+          java-version: "17"
+
+      - uses: android-actions/setup-android@v3
+
+      - run: npm ci --legacy-peer-deps
+
+      - name: Prebuild Android native project
+        run: npx expo prebuild --platform android --no-install
+
+      - name: Build Release APK
+        working-directory: mobile/android
+        run: ./gradlew assembleRelease
+
+      - name: Rename APK
+        run: cp mobile/android/app/build/outputs/apk/release/app-release.apk museum-audio-guide.apk
+        working-directory: .
+
+      - name: Upload APK Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: museum-audio-guide-apk
+          path: museum-audio-guide.apk
+
+      - name: Attach APK to GitHub Release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: museum-audio-guide.apk
