@@ -7,12 +7,14 @@ together {
   node "Visitor / Admin Browser" <<device>> as WebDevice {
     node "Browser Runtime" <<execution environment>> as BrowserRuntime {
       artifact "React SPA (index.html + bundle)" <<artifact>> as WebSpa
+      artifact "Web Storage (Local / SessionStorage)" <<artifact>> as WebStorage
     }
   }
 
   node "Android Smartphone" <<device>> as AndroidDevice {
     node "Android OS / Hermes Runtime" <<execution environment>> as AndroidRuntime {
       artifact "museum-audio-guide.apk\n(Bundled Audio, Maps, Images)" <<artifact>> as MobileApk
+      artifact "AsyncStorage (Offline Cache & Queue)" <<artifact>> as MobileStorage
     }
   }
 }
@@ -23,13 +25,14 @@ node "Docker Host (Server / Local)" <<device>> as DockerHost {
     artifact "Static Web + Reverse Proxy (/api, /uploads)" <<artifact>> as NginxArtifact
   }
 
-  node "Backend Container (:4000)" <<execution environment>> as NodeEnv {
+  node "Node.js 20 Container (:4000)" <<execution environment>> as NodeEnv {
     artifact "Express API (dist/index.js)" <<artifact>> as BackendApp
-    storage "Docker Volume (museum_uploads)" as UploadVol
   }
+
+  storage "Docker Volume (museum_uploads)" as UploadVol
 }
 
-' ---------- Host Database & External
+' ---------- Host Database & External Services
 together {
   node "Database Server (Host OS)" <<device>> as DbServer {
     node "Microsoft SQL Server (:1433)" <<execution environment>> as MssqlEnv {
@@ -37,10 +40,20 @@ together {
     }
   }
 
+  node "External Translation APIs" <<device>> as TranslateCloud {
+    node "Cloud REST Endpoints" <<execution environment>> as TranslateApi {
+      artifact "Google Translate (translate.googleapis.com)" <<artifact>> as GoogleTrans
+      artifact "MyMemory Fallback (api.mymemory.translated.net)" <<artifact>> as MyMemoryTrans
+    }
+  }
+}
+
+' ---------- CI/CD & Distribution
+together {
   node "GitHub Actions CI/CD" <<device>> as CiCdNode {
     node "Ubuntu Runner" <<execution environment>> as RunnerEnv {
-      artifact "deploy.yml (Web CI + Pages)" <<artifact>> as WfPages
-      artifact "docker.yml (FE+BE Images)" <<artifact>> as WfDocker
+      artifact "deploy.yml (Web + Backend CI / Pages)" <<artifact>> as WfPages
+      artifact "docker.yml (FE + BE Images)" <<artifact>> as WfDocker
       artifact "mobile.yml (Jest + Gradle APK)" <<artifact>> as WfMobile
     }
   }
@@ -59,10 +72,12 @@ AndroidDevice ..> GhRelease : Download APK
 WebDevice ..> GhPages : HTTPS (Demo Mode)
 
 NginxEnv -- NodeEnv : HTTP Proxy (:4000)
-NodeEnv -- DbServer : TDS / TCP (:1433)
-BackendApp -- UploadVol : Disk I/O
+NodeEnv -- UploadVol : Volume Mount (/app/uploads)
+NodeEnv -- MssqlEnv : TDS / TCP (:1433)
+NodeEnv ..> TranslateApi : HTTPS / REST (Auto-Translate)
 
 CiCdNode ..> GhPages : Deploy Static Web
 CiCdNode ..> Ghcr : Push FE & BE Images
 CiCdNode ..> GhRelease : Attach APK
+DockerHost ..> Ghcr : Pull Images (Optional)
 @enduml
