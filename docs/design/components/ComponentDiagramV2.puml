@@ -1,0 +1,193 @@
+@startuml ComponentDiagramV2
+title Sơ đồ thành phần kiến trúc v2 (Component Diagram UML 2.5.1) - Hệ thống thuyết minh tự động đa ngôn ngữ
+skinparam componentStyle uml2
+left to right direction
+skinparam packageStyle rectangle
+skinparam defaultFontName Inter
+' skinparam linetype polyline
+
+<style>
+component {
+  HorizontalAlignment center
+}
+</style>
+
+' ========================================================
+' PHÂN HỆ 1: GIAO DIỆN KHÁCH THAM QUAN (VISITOR EXPERIENCE)
+' ========================================================
+package "Phân hệ khách tham quan (Visitor Experience Subsystem)" as VisitorSubsystem {
+  component "<b>ExploreView\n(Khám phá và tìm kiếm)" <<component>> as ExploreComp
+  component "<b>FloorMapView\n(Sơ đồ tầng và điểm neo 'Bạn đang ở đây')" <<component>> as MapComp
+  component "<b>FavoritesView\n(Hiện vật yêu thích cục bộ)" <<component>> as FavComp
+  component "<b>QRScannerModal\n(Quét mã QR hiện vật và cổng đón tiếp)" <<component>> as QrComp
+  component "<b>AudioPlayerBar\n(Trình phát âm thanh và phụ đề karaoke)" <<component>> as PlayerComp
+  component "<b>TrackingPanel\n(Giám sát vị trí và tự động gợi ý)" <<component>> as TrackComp
+
+  portout " " as pVisitorAudio
+  portout " " as pVisitorGeo
+  portout " " as pVisitorScan
+  portout " " as pVisitorState
+}
+
+' ========================================================
+' PHÂN HỆ 2: GIAO DIỆN QUẢN TRỊ (ADMIN EXPERIENCE)
+' ========================================================
+package "Phân hệ quản trị (Admin Experience Subsystem)" as AdminSubsystem {
+  component "<b>AdminAuth\n(Xác thực và khóa tạm 5 phút)" <<component>> as AdminAuthComp
+  component "<b>ArtifactsManageView\n(Quản lý hiện vật và mã QR)" <<component>> as ArtMgmtComp
+  component "<b>AudioManageView\n(Quản lý tệp audio và phụ đề WebVTT)" <<component>> as AudioMgmtComp
+  component "<b>FloorMapEditorView\n(Biên tập sơ đồ và tọa độ GPS)" <<component>> as MapEditorComp
+  component "<b>AnalyticsView\n(Báo cáo lượt nghe và thiết bị trực tuyến)" <<component>> as AnalyticsComp
+
+  portout " " as pAdminAuth
+  portout " " as pAdminCrud
+  portout " " as pAdminAnalytics
+}
+
+' ========================================================
+' PHÂN HỆ 3: TẦNG TRẠNG THÁI & DỊCH VỤ (STORES & SERVICES TIER)
+' ========================================================
+package "Tầng trạng thái và dịch vụ (State & Services Tier)" as StateServiceSubsystem {
+
+  package "Zustand State Stores" {
+    component "<b>PlayerStore\n(Trạng thái phát và cues phụ đề)" <<component>> as PlayerStore
+    component "<b>GeofenceStore\n(Tọa độ GPS, điểm neo anchor và khoảng cách)" <<component>> as GeofenceStore
+    component "<b>LangStore\n(Chuyển đổi i18n 5 ngôn ngữ)" <<component>> as LangStore
+    component "<b>FavStore\n(Quản lý danh sách yêu thích)" <<component>> as FavStore
+    component "<b>AdminAuthStore\n(Quản lý session token và quyền)" <<component>> as AuthStore
+  }
+
+  package "Core Services & Business Helpers" {
+    component "<b>MuseumApiService\n(Tải dữ liệu hiện vật và cache-bust)" <<component>> as ApiService
+    component "<b>TTSService / AudioService\n(Truyền phát luồng audio và Web Speech)" <<component>> as AudioService
+    component "<b>AnalyticsService\n(Heartbeat và theo dõi lượt nghe)" <<component>> as AnalyticsService
+    component "<b>GeofenceHelper\n(Thuật toán Haversine khoảng cách 12m)" <<component>> as GeoHelper
+    component "<b>LoginLockHelper\n(Bộ đếm lần thử và tự động khóa)" <<component>> as LockHelper
+  }
+
+  portin " " as pServiceInState
+  portin " " as pServiceInAdmin
+  portout " " as pServiceOutHost
+  portout " " as pServiceOutRealtime
+  portout " " as pServiceOutStorage
+}
+
+' ========================================================
+' PHÂN HỆ 4: HẠ TẦNG LƯU TRỮ & PHÂN PHỐI (PERSISTENCE & HOSTING TIER)
+' ========================================================
+package "Hạ tầng lưu trữ và phân phối (Persistence & Hosting Tier)" as StorageHostSubsystem {
+
+  package "Static Distribution & Edge CDN (Phương án phân phối tĩnh)" {
+    component "<b>GitHub Pages Edge CDN\n(HTML5, JS bundles, MP3, maps)" <<component>> as GhPages
+    component "<b>ntfy.sh Cloud Broker\n(Message broker đồng bộ lượt nghe)" <<component>> as NtfyBroker
+    database "<b>Browser Web Storage\n(LocalStorage / SessionStorage)" as BrowserStorage
+  }
+
+  package "Containerized Backend (Phương án máy chủ độc lập)" {
+    component "<b>Express REST API Server\n(Node.js / TypeScript)" <<component>> as ExpressServer
+    database "<b>Microsoft SQL Server\n(11 bảng chuẩn hóa 3NF)" as MssqlDb
+  }
+
+  portin " " as pHostInStatic
+  portin " " as pHostInRealtime
+  portin " " as pHostInApi
+  portin " " as pHostInDb
+}
+
+' ========================================================
+' GIAO DIỆN (INTERFACES DEFINITIONS)
+' ========================================================
+() "I_WebAudio\n(HTML5 Web Audio API)" as IAudioApi
+() "I_Geolocation\n(HTML5 Geolocation API)" as IGeoBrowserApi
+() "I_CameraScan\n(html5-qrcode API)" as ICameraApi
+
+() "I_ClientState\n(Zustand Store Hooks)" as IClientState
+() "I_AdminManagement\n(Admin Store Actions)" as IAdminState
+
+() "I_StaticAssets\n(HTTPS Edge CDN / JSON)" as IStaticAssets
+() "I_RealtimeTelemetry\n(WebSocket / HTTPS Post)" as ITelemetryApi
+() "I_LocalStorage\n(DOM Storage API)" as IStorageApi
+() "I_MuseumRestApi\n(Express REST / JSON)" as IRestApi
+() "I_DatabaseConnection\n(TDS Protocol / TCP 1433)" as IDbConn
+
+' ========================================================
+' ĐIỀU PHỐI NỘI BỘ VISITOR SUBSYSTEM SANG CỔNG NGOÀI
+' ========================================================
+PlayerComp -- pVisitorAudio
+TrackComp -- pVisitorGeo
+MapComp -- pVisitorGeo
+QrComp -- pVisitorScan
+
+ExploreComp -- pVisitorState
+FavComp -- pVisitorState
+PlayerComp -- pVisitorState
+MapComp -- pVisitorState
+
+pVisitorAudio --( IAudioApi
+pVisitorGeo --( IGeoBrowserApi
+pVisitorScan --( ICameraApi
+
+' ========================================================
+' KẾT NỐI VISITOR & ADMIN SANG STATE & SERVICES SUBSYSTEM
+' ========================================================
+pVisitorState --( IClientState
+IClientState -- pServiceInState
+
+AdminAuthComp -- pAdminAuth
+ArtMgmtComp -- pAdminCrud
+AudioMgmtComp -- pAdminCrud
+MapEditorComp -- pAdminCrud
+AnalyticsComp -- pAdminAnalytics
+
+pAdminAuth --( IAdminState
+pAdminCrud --( IAdminState
+pAdminAnalytics --( IAdminState
+IAdminState -- pServiceInAdmin
+
+' ========================================================
+' ĐIỀU PHỐI NỘI BỘ STATE & SERVICES SUBSYSTEM
+' ========================================================
+pServiceInState -- PlayerStore
+pServiceInState -- GeofenceStore
+pServiceInState -- LangStore
+pServiceInState -- FavStore
+
+pServiceInAdmin -- AuthStore
+pServiceInAdmin -- ApiService
+pServiceInAdmin -- LockHelper
+
+GeofenceStore ..> GeoHelper : "tính khoảng cách\nHaversine (12m)"
+PlayerStore ..> AudioService : "truyền phát luồng\nâm thanh và WebVTT"
+AnalyticsComp ..> AnalyticsService : "thu thập sự kiện"
+AdminAuthComp ..> LockHelper : "đếm lỗi nhập và khóa"
+
+ApiService -- pServiceOutHost
+AudioService -- pServiceOutHost
+AnalyticsService -- pServiceOutRealtime
+FavStore -- pServiceOutStorage
+LockHelper -- pServiceOutStorage
+AuthStore -- pServiceOutStorage
+
+' ========================================================
+' KẾT NỐI SERVICES SANG STORAGE & HOSTING SUBSYSTEM
+' ========================================================
+pServiceOutHost --( IStaticAssets
+IStaticAssets -- pHostInStatic
+pHostInStatic -- GhPages
+
+pServiceOutHost --( IRestApi
+IRestApi -- pHostInApi
+pHostInApi -- ExpressServer
+
+pServiceOutRealtime --( ITelemetryApi
+ITelemetryApi -- pHostInRealtime
+pHostInRealtime -- NtfyBroker
+
+pServiceOutStorage --( IStorageApi
+IStorageApi -- BrowserStorage
+
+ExpressServer --( IDbConn
+IDbConn -- pHostInDb
+pHostInDb -- MssqlDb
+
+@enduml

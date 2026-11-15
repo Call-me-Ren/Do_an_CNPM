@@ -1,0 +1,21 @@
+ACTIVITY UC07 — Xem phụ đề
+PARTITION actor = {User, System*}
+
+START                                          @User
+[Chọn chức năng xem phụ đề]                    @User
+[Xác định ngôn ngữ]
+[Truy vấn phụ đề]
+IF !(Có phụ đề?) THEN
+    [Báo không có phụ đề]
+    FINAL
+
+[Hiển thị phụ đề]
+
+
+L1: [Cập nhật phụ đề]
+    IF (Đổi ngôn ngữ?) THEN
+        [Hiển thị phụ đề mới]
+        GOTO L1
+
+    [Hiển thị phụ đề đến hết video]
+    FINAL

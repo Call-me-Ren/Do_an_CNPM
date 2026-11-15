@@ -1,0 +1,355 @@
+' ============================================================
+' HỆ THỐNG THUYẾT MINH TỰ ĐỘNG ĐA NGÔN NGỮ (MUSEUM SMART AUDIO GUIDE)
+' SƠ ĐỒ USE CASE V2 CHUẨN HÓA (UML 2.5) — 14 CA SỬ DỤNG TRỌNG TÂM
+' Bao gồm: Sơ đồ tổng quát (General) và 14 sơ đồ phân rã chi tiết (UC01..UC14)
+' ============================================================
+
+' ---------- General Overview ----------
+@startuml General
+title Sơ đồ use case tổng quát v2 (14 use cases) - Hệ thống thuyết minh tự động đa ngôn ngữ
+left to right direction
+skinparam defaultFontName Arial
+skinparam packageStyle rectangle
+skinparam roundCorner 8
+skinparam shadowing false
+skinparam nodesep 28
+skinparam ranksep 60
+
+actor "Khách tham quan" as USER
+actor "Quản trị viên" as ADMIN
+actor "Máy chủ lưu âm thanh" as AUDIO_STORAGE_DEVICE
+actor "Hệ thống định vị (GPS)" as POSITIONING_SYSTEM
+
+rectangle "Hệ thống thuyết minh tự động đa ngôn ngữ (Museum Smart Audio Guide)" {
+  ' --- Nhóm Khách tham quan
+  together {
+    usecase "UC08: Tìm kiếm hiện vật" as Search
+    usecase "UC04: Chuyển đổi ngôn ngữ" as SwitchLanguage
+    usecase "UC06: Xem hồ sơ bảo tàng" as ViewMuseumProfile
+    usecase "UC02: Quét mã QR" as ScanQRCode
+    usecase "UC05: Lưu hiện vật yêu thích" as SaveFavoriteItem
+    usecase "UC03: Nghe thuyết minh" as ListenToNarration
+    usecase "UC07: Xem phụ đề karaoke" as ViewSubtitles
+  }
+
+  ' --- Ca sử dụng định vị kết hợp
+  usecase "UC14: Định vị vị trí và tự động thuyết minh" as LocationTracking
+
+  ' --- Ca xác thực quản trị
+  usecase "UC01: Đăng nhập quản trị" as Login
+
+  ' --- Nhóm Quản trị viên
+  together {
+    usecase "UC09: Quản lý hiện vật" as ManageItems
+    usecase "UC13: Quản lý sơ đồ" as ManageFloorPlans
+    usecase "UC10: Quản lý phiên tham quan và mã QR" as ManageSessions
+    usecase "UC11: Quản lý tệp âm thanh" as ManageAudioFiles
+    usecase "UC12: Xem thống kê lượt nghe" as ViewListeningStatistics
+  }
+}
+
+' ---- Tác nhân: Khách tham quan (Không bắt buộc đăng nhập)
+USER -- Search
+USER -- SwitchLanguage
+USER -- ViewMuseumProfile
+USER -- ScanQRCode
+USER -- SaveFavoriteItem
+USER -- ListenToNarration
+USER -- LocationTracking
+
+' ---- Tác nhân: Quản trị viên (Bắt buộc xác thực)
+ADMIN -- ManageItems
+ADMIN -- ManageFloorPlans
+ADMIN -- ManageSessions
+ADMIN -- ManageAudioFiles
+ADMIN -- ViewListeningStatistics
+
+' ---- Tác nhân hệ thống: Định vị GPS & Dịch vụ âm thanh
+POSITIONING_SYSTEM -- LocationTracking
+AUDIO_STORAGE_DEVICE -- ListenToNarration
+AUDIO_STORAGE_DEVICE -- ManageAudioFiles
+
+' ---- Quan hệ <<include>> (Ràng buộc nghiệp vụ quản trị)
+ManageItems ..> Login : <<include>>
+ManageFloorPlans ..> Login : <<include>>
+ManageSessions ..> Login : <<include>>
+ManageAudioFiles ..> Login : <<include>>
+ViewListeningStatistics ..> Login : <<include>>
+
+' ---- Quan hệ <<extend>> (Tính năng mở rộng khi nghe)
+ViewSubtitles ..> ListenToNarration : <<extend>>
+LocationTracking ..> ListenToNarration : <<extend>>
+
+@enduml
+
+' ---------- UC01_usecase ----------
+@startuml UC01_usecase
+title Phân rã use case UC01 — Đăng nhập quản trị
+left to right direction
+skinparam defaultFontName Arial
+skinparam packageStyle rectangle
+skinparam roundCorner 8
+skinparam shadowing false
+
+actor "Quản trị viên" as ADMIN
+
+rectangle "Phân hệ xác thực quản trị" {
+  usecase "UC01: Đăng nhập quản trị\n(Khóa 5 phút sau 5 lần sai liên tiếp)" as Login
+}
+
+ADMIN --> Login
+@enduml
+
+' ---------- UC02_usecase ----------
+@startuml UC02_usecase
+title Phân rã use case UC02 — Quét mã QR
+left to right direction
+skinparam defaultFontName Arial
+skinparam packageStyle rectangle
+skinparam roundCorner 8
+skinparam shadowing false
+
+actor "Khách tham quan" as USER
+
+rectangle "Phân hệ nhận diện hiện vật" {
+  usecase "UC02: Quét mã QR\n(Camera API và deep link)" as ScanQRCode
+}
+
+USER --> ScanQRCode
+@enduml
+
+' ---------- UC03_usecase ----------
+@startuml UC03_usecase
+title Phân rã use case UC03 — Nghe thuyết minh
+left to right direction
+skinparam defaultFontName Arial
+skinparam packageStyle rectangle
+skinparam roundCorner 8
+skinparam shadowing false
+
+actor "Khách tham quan" as USER
+actor "Máy chủ lưu âm thanh" as AUDIO_STORAGE_DEVICE
+
+rectangle "Phân hệ truyền phát đa phương tiện" {
+  usecase "UC03: Nghe thuyết minh\n(Web Audio streaming MP3)" as ListenToNarration
+}
+
+USER --> ListenToNarration
+AUDIO_STORAGE_DEVICE --> ListenToNarration
+@enduml
+
+' ---------- UC04_usecase ----------
+@startuml UC04_usecase
+title Phân rã use case UC04 — Chuyển đổi ngôn ngữ
+left to right direction
+skinparam defaultFontName Arial
+skinparam packageStyle rectangle
+skinparam roundCorner 8
+skinparam shadowing false
+
+actor "Khách tham quan" as USER
+
+rectangle "Phân hệ bản địa hóa (i18n)" {
+  usecase "UC04: Chuyển đổi ngôn ngữ\n(vi, en, zh, ko, ja - zero reload)" as SwitchLanguage
+}
+
+USER --> SwitchLanguage
+@enduml
+
+' ---------- UC05_usecase ----------
+@startuml UC05_usecase
+title Phân rã use case UC05 — Lưu hiện vật yêu thích
+left to right direction
+skinparam defaultFontName Arial
+skinparam packageStyle rectangle
+skinparam roundCorner 8
+skinparam shadowing false
+
+actor "Khách tham quan" as USER
+
+rectangle "Phân hệ cá nhân hóa cục bộ" {
+  usecase "UC05: Lưu hiện vật yêu thích\n(LocalStorage cục bộ)" as SaveFavoriteItem
+}
+
+USER --> SaveFavoriteItem
+@enduml
+
+' ---------- UC06_usecase ----------
+@startuml UC06_usecase
+title Phân rã use case UC06 — Xem hồ sơ bảo tàng
+left to right direction
+skinparam defaultFontName Arial
+skinparam packageStyle rectangle
+skinparam roundCorner 8
+skinparam shadowing false
+
+actor "Khách tham quan" as USER
+
+rectangle "Phân hệ giới thiệu bảo tàng" {
+  usecase "UC06: Xem hồ sơ bảo tàng\n(Giờ mở cửa, hotline, địa chỉ)" as ViewMuseumProfile
+}
+
+USER --> ViewMuseumProfile
+@enduml
+
+' ---------- UC07_usecase ----------
+@startuml UC07_usecase
+title Phân rã use case UC07 — Xem phụ đề karaoke
+left to right direction
+skinparam defaultFontName Arial
+skinparam packageStyle rectangle
+skinparam roundCorner 8
+skinparam shadowing false
+
+actor "Khách tham quan" as USER
+
+rectangle "Phân hệ phụ đề đồng bộ" {
+  usecase "UC03: Nghe thuyết minh" as ListenToNarration
+  usecase "UC07: Xem phụ đề\n(Chạy chữ karaoke WebVTT)" as ViewSubtitles
+}
+
+USER --> ListenToNarration
+ViewSubtitles ..> ListenToNarration : <<extend>>
+@enduml
+
+' ---------- UC08_usecase ----------
+@startuml UC08_usecase
+title Phân rã use case UC08 — Tìm kiếm hiện vật
+left to right direction
+skinparam defaultFontName Arial
+skinparam packageStyle rectangle
+skinparam roundCorner 8
+skinparam shadowing false
+
+actor "Khách tham quan" as USER
+
+rectangle "Phân hệ tra cứu thông tin" {
+  usecase "UC08: Tìm kiếm hiện vật\n(Tìm theo từ khóa và mã ART-xxx)" as Search
+}
+
+USER --> Search
+@enduml
+
+' ---------- UC09_usecase ----------
+@startuml UC09_usecase
+title Phân rã use case UC09 — Quản lý hiện vật
+left to right direction
+skinparam defaultFontName Arial
+skinparam packageStyle rectangle
+skinparam roundCorner 8
+skinparam shadowing false
+
+actor "Quản trị viên" as ADMIN
+
+rectangle "Phân hệ quản trị danh mục" {
+  usecase "UC09: Quản lý hiện vật\n(CRUD, tọa độ và bán kính GPS)" as ManageItems
+  usecase "UC01: Đăng nhập quản trị" as Login
+}
+
+ADMIN --> ManageItems
+ManageItems ..> Login : <<include>>
+@enduml
+
+' ---------- UC10_usecase ----------
+@startuml UC10_usecase
+title Phân rã use case UC10 — Quản lý phiên tham quan và mã QR
+left to right direction
+skinparam defaultFontName Arial
+skinparam packageStyle rectangle
+skinparam roundCorner 8
+skinparam shadowing false
+
+actor "Quản trị viên" as ADMIN
+
+rectangle "Phân hệ phiên tham quan" {
+  usecase "UC10: Quản lý phiên và mã QR\n(Tạo ca SES-xx, xuất QR in ấn)" as ManageSessions
+  usecase "UC01: Đăng nhập quản trị" as Login
+}
+
+ADMIN --> ManageSessions
+ManageSessions ..> Login : <<include>>
+@enduml
+
+' ---------- UC11_usecase ----------
+@startuml UC11_usecase
+title Phân rã use case UC11 — Quản lý tệp âm thanh
+left to right direction
+skinparam defaultFontName Arial
+skinparam packageStyle rectangle
+skinparam roundCorner 8
+skinparam shadowing false
+
+actor "Quản trị viên" as ADMIN
+actor "Máy chủ lưu âm thanh" as AUDIO_STORAGE_DEVICE
+
+rectangle "Phân hệ quản trị đa phương tiện" {
+  usecase "UC11: Quản lý tệp âm thanh\n(Tải lên MP3 và đồng bộ phụ đề)" as ManageAudioFiles
+  usecase "UC01: Đăng nhập quản trị" as Login
+}
+
+ADMIN --> ManageAudioFiles
+AUDIO_STORAGE_DEVICE --> ManageAudioFiles
+ManageAudioFiles ..> Login : <<include>>
+@enduml
+
+' ---------- UC12_usecase ----------
+@startuml UC12_usecase
+title Phân rã use case UC12 — Xem thống kê lượt nghe
+left to right direction
+skinparam defaultFontName Arial
+skinparam packageStyle rectangle
+skinparam roundCorner 8
+skinparam shadowing false
+
+actor "Quản trị viên" as ADMIN
+
+rectangle "Phân hệ báo cáo thống kê" {
+  usecase "UC12: Xem thống kê lượt nghe\n(Báo cáo tần suất và thiết bị online)" as ViewListeningStatistics
+  usecase "UC01: Đăng nhập quản trị" as Login
+}
+
+ADMIN --> ViewListeningStatistics
+ViewListeningStatistics ..> Login : <<include>>
+@enduml
+
+' ---------- UC13_usecase ----------
+@startuml UC13_usecase
+title Phân rã use case UC13 — Quản lý sơ đồ mặt bằng
+left to right direction
+skinparam defaultFontName Arial
+skinparam packageStyle rectangle
+skinparam roundCorner 8
+skinparam shadowing false
+
+actor "Quản trị viên" as ADMIN
+
+rectangle "Phân hệ biên tập mặt bằng" {
+  usecase "UC13: Quản lý sơ đồ\n(Tải ảnh mặt bằng, kéo thả hiện vật)" as ManageFloorPlans
+  usecase "UC01: Đăng nhập quản trị" as Login
+}
+
+ADMIN --> ManageFloorPlans
+ManageFloorPlans ..> Login : <<include>>
+@enduml
+
+' ---------- UC14_usecase ----------
+@startuml UC14_usecase
+title Phân rã use case UC14 — Định vị vị trí và tự động thuyết minh
+left to right direction
+skinparam defaultFontName Arial
+skinparam packageStyle rectangle
+skinparam roundCorner 8
+skinparam shadowing false
+
+actor "Khách tham quan" as USER
+actor "Hệ thống định vị (GPS)" as POSITIONING_SYSTEM
+
+rectangle "Phân hệ định vị kết hợp (Hybrid Geofencing)" {
+  usecase "UC14: Định vị vị trí và tự động thuyết minh\n(Haversine < 12m tự phát audio)" as LocationTracking
+  usecase "UC03: Nghe thuyết minh" as ListenToNarration
+}
+
+USER --> LocationTracking
+POSITIONING_SYSTEM --> LocationTracking
+LocationTracking ..> ListenToNarration : <<extend>>
+@enduml

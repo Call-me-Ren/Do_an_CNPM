@@ -1,0 +1,28 @@
+ACTIVITY UC12 — Xem thống kê lượt nghe
+PARTITION actor = {Admin, System*}
+
+START                                          @Admin
+[Chọn chức năng đăng nhập]                     @Admin
+[Chào mừng đăng nhập + hiển thị chức năng]
+[Chọn Xem thống kê lượt nghe]                  @Admin
+[Hiển thị bộ lọc tiêu chí báo cáo]
+
+
+L1: [Thiết lập tiêu chí lọc, bấm xem thống kê] @Admin
+    IF !(Tiêu chí hợp lệ?) THEN
+        [Hiển thị cảnh báo tiêu chí]
+        GOTO L1
+
+    IF !(Có dữ liệu?) THEN
+        [Báo không có dữ liệu]
+        GOTO L1
+
+    [Hiển thị biểu đồ bằng số liệu]
+    IF !(Xuất báo cáo?) THEN FINAL
+
+
+L2: [Chọn định dạng tệp]                       @Admin
+    IF !(Tạo tệp được?) THEN GOTO L2
+
+    [Tải tệp về máy]                           @Admin
+    FINAL

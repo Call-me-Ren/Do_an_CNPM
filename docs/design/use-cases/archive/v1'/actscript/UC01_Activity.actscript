@@ -1,0 +1,17 @@
+ACTIVITY UC01 — Đăng nhập
+PARTITION actor = {Admin, System*}
+
+START                                          @Admin
+[Chọn chức năng đăng nhập]                     @Admin
+[Hiển thị biểu mẫu đăng nhập]
+
+
+L1: [Nhập thông tin]                           @Admin
+    [Xác thực đăng nhập]
+    IF !(Mật khẩu đúng?) THEN
+        [Hiển thị thông báo mật khẩu sai]
+        GOTO L1
+
+    [Khởi động phiên làm việc]
+    [Hiển thị Dashboard quản trị]
+    FINAL

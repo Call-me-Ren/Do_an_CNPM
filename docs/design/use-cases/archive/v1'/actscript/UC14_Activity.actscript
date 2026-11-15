@@ -1,0 +1,42 @@
+ACTIVITY UC14 — Định vị vị trí & tự động thuyết minh
+PARTITION actor = {Device, System*}
+
+START                                          @Device
+[Nhận diện hiện vật vừa quét]
+
+
+L1: [Tải sơ đồ và tọa độ]
+    IF !(Tải được?) THEN
+        [Báo lỗi]
+        GOTO L1
+
+    [Phát tín hiệu]                            @Device
+    [Thu tín hiệu]
+    IF !(Thu được?) THEN
+        [Dừng lại]
+        FINAL
+
+    [Tính vị trí hiện tại]
+    IF !(Tín hiệu ổn định?) THEN
+        [Gợi ý quét mã qr thủ công]
+        FINAL
+
+    [Cập nhật vị trí]
+    IF (Người dùng mở sơ đồ?) THEN
+        [Hiển thị sơ đồ]
+
+    [Đối chiếu vị trí]
+    IF !(Nhiều hiện vật trong vùng?) THEN
+        [Dừng lại]
+        FINAL
+
+    [Chọn gần nhất]
+    IF (Đã nghe hoặc đang nghe dở?) THEN
+        [Gợi ý nghe lại]
+
+    [Hê thống kích hoạt nghe thuyết minh của hiện vật được chọn]
+    IF (Người dùng dừng theo dõi vị trí?) THEN
+        [Hệ thống dừng định vị]
+        FINAL
+
+    FINAL

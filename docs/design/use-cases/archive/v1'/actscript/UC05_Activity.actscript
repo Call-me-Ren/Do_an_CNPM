@@ -1,0 +1,14 @@
+ACTIVITY UC05 — Lưu sự vật yêu thích
+PARTITION actor = {User, System*}
+
+START                                          @User
+[Chọn chức năng Lưu SV yêu thích]              @User
+[Kiểm tra trạng thái lưu]
+IF (Đã lưu hay chưa?) THEN
+    [Hiển thị tùy chọn xóa]
+    [Chọn bỏ lưu]                              @User
+    [Cập nhật biểu tượng]
+    FINAL
+
+[Thêm vào danh mục yêu thích]
+FINAL

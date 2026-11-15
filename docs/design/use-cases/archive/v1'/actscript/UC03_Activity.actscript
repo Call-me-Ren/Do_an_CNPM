@@ -1,0 +1,22 @@
+ACTIVITY UC03 — Nghe thuyết minh
+PARTITION actor = {User, System*, AudioStorageDevice}
+
+START                                          @User
+[Chọn chức năng Nghe thuyết minh]              @User
+[Xác định ngôn ngữ người dùng đang chọn]
+[Yêu cầu lấy tập tin từ Thiết bị lưu âm thanh]
+[Thiết bị lưu âm thanh truyền luồng dữ liệu vào hệ thống] @AudioStorageDevice
+IF !(Kết nối được không?) THEN
+    [Nhận thông báo lỗi không thể phát âm thanh và yêu cầu chuyển về đọc văn bản]
+    FINAL
+
+[Khởi tạo trình phát]
+[Nghe và điều khiển]                           @User
+IF (Bật phụ đề?) THEN
+    [Bật phụ đề]
+
+IF (Đổi ngôn ngữ?) THEN
+    [Đổi ngôn ngữ]
+
+[Âm thanh kết thúc. Cập nhật lượt nghe và dừng trình phát]
+FINAL

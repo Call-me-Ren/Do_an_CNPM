@@ -1,0 +1,10 @@
+ACTIVITY UC04 — Chuyển đổi ngôn ngữ
+PARTITION actor = {User, System*}
+
+START                                          @User
+[Chọn chức năng Chuyển đổi ngôn ngữ]           @User
+[Hiển thị danh sách ngôn ngữ được hỗ trợ]
+[Chọn ngôn ngữ mong muốn]                      @User
+[Ghi nhận thiết lập ngôn ngữ mới]
+[Tải lại tài nguyên giao diện, nội dung theo ngôn ngữ mới]
+FINAL
