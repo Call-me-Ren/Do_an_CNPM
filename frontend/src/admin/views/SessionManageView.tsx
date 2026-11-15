@@ -237,7 +237,7 @@ export const SessionManageView: React.FC = () => {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h2 className="text-xl font-bold text-white flex items-center gap-2">
-            <Calendar className="w-5 h-5 text-amber-500" />
+            <Calendar className="w-5 h-5 text-white" />
             Quản Lý Phiên Tham Quan (Tour Sessions)
           </h2>
           <p className="text-xs text-slate-400 mt-0.5">
@@ -247,7 +247,7 @@ export const SessionManageView: React.FC = () => {
 
         <button
           onClick={handleOpenCreate}
-          className="flex items-center gap-2 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-4 py-2 rounded-xl text-sm transition shadow-md shrink-0 cursor-pointer"
+          className="flex items-center gap-2 bg-[#ca8a04] hover:bg-[#a16207] text-stone-950 font-bold px-4 py-2 rounded-xl text-sm transition shadow-md shrink-0 cursor-pointer"
         >
           <Plus className="w-4 h-4" />
           <span>Tạo Phiên Mới</span>
@@ -264,7 +264,7 @@ export const SessionManageView: React.FC = () => {
           </p>
           <button
             onClick={handleOpenCreate}
-            className="mt-2 px-4 py-2 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold rounded-xl text-xs transition cursor-pointer"
+            className="mt-2 px-4 py-2 bg-[#ca8a04] hover:bg-[#a16207] text-stone-950 font-bold rounded-xl text-xs transition cursor-pointer"
           >
             Tạo phiên đầu tiên
           </button>
@@ -280,7 +280,7 @@ export const SessionManageView: React.FC = () => {
               >
                 <div>
                   <div className="flex items-center justify-between mb-2.5">
-                    <span className="font-mono text-xs font-semibold text-amber-500 bg-amber-500/10 px-2 py-0.5 rounded-lg border border-amber-500/20">
+                    <span className="font-mono text-xs font-semibold text-white bg-[#ca8a04]/10 px-2 py-0.5 rounded-lg border border-white/15">
                       {s.id}
                     </span>
 
@@ -289,7 +289,7 @@ export const SessionManageView: React.FC = () => {
                         onClick={() => toggleStatus(s.id, currentStatus)}
                         className={`px-2.5 py-0.5 rounded-full text-[11px] font-bold cursor-pointer transition flex items-center gap-1 select-none ${
                           currentStatus === 'active'
-                            ? 'bg-amber-500/20 text-amber-400 border border-amber-500/40 animate-pulse'
+                            ? 'bg-[#ca8a04]/20 text-[#eab308] border border-white/30 animate-pulse'
                             : currentStatus === 'closed'
                             ? 'bg-slate-700 text-slate-400'
                             : 'bg-blue-500/20 text-blue-400 border border-blue-500/40'
@@ -302,7 +302,7 @@ export const SessionManageView: React.FC = () => {
                       {/* Nút Sửa */}
                       <button
                         onClick={() => handleOpenEdit(s)}
-                        className="p-1.5 rounded-lg bg-slate-700/80 hover:bg-amber-500 hover:text-slate-950 text-slate-300 transition cursor-pointer"
+                        className="p-1.5 rounded-lg bg-slate-700/80 hover:bg-[#ca8a04] hover:text-stone-950 text-slate-300 transition cursor-pointer"
                         title="Chỉnh sửa phiên này"
                       >
                         <Pencil className="w-3.5 h-3.5" />
@@ -322,7 +322,7 @@ export const SessionManageView: React.FC = () => {
                   <h3 className="font-bold text-white text-base leading-snug">{s.name}</h3>
 
                   <div className="flex items-center gap-2 text-xs text-slate-400 mt-2">
-                    <Clock className="w-3.5 h-3.5 text-amber-500/80" />
+                    <Clock className="w-3.5 h-3.5 text-zinc-300" />
                     <span>{s.date} ({s.timeSlot})</span>
                   </div>
 
@@ -338,7 +338,7 @@ export const SessionManageView: React.FC = () => {
                     <Users className="w-4 h-4 text-slate-400" />
                     <span>{s.visitorsCount} khách</span>
                   </div>
-                  <div className="flex items-center gap-1.5 text-amber-400 font-semibold">
+                  <div className="flex items-center gap-1.5 text-white font-semibold">
                     <Headphones className="w-4 h-4" />
                     <span>{s.listenCount} lượt nghe</span>
                   </div>
@@ -357,12 +357,12 @@ export const SessionManageView: React.FC = () => {
               <h3 className="font-bold text-base text-white flex items-center gap-2">
                 {editingSession ? (
                   <>
-                    <Pencil className="w-4 h-4 text-amber-500" />
+                    <Pencil className="w-4 h-4 text-white" />
                     <span>Chỉnh Sửa Phiên ({editingSession.id})</span>
                   </>
                 ) : (
                   <>
-                    <Plus className="w-4 h-4 text-amber-500" />
+                    <Plus className="w-4 h-4 text-white" />
                     <span>Tạo Phiên Tham Quan Mới</span>
                   </>
                 )}
@@ -381,7 +381,7 @@ export const SessionManageView: React.FC = () => {
             <form onSubmit={handleSaveSession} className="flex flex-col gap-3.5">
               <div>
                 <label className="block text-xs font-semibold text-slate-300 mb-1">
-                  Tên phiên / Đoàn tham quan <span className="text-amber-500">*</span>
+                  Tên phiên / Đoàn tham quan <span className="text-white">*</span>
                 </label>
                 <input
                   type="text"
@@ -389,7 +389,7 @@ export const SessionManageView: React.FC = () => {
                   placeholder="Ví dụ: Ca sáng 24/10, Đoàn học sinh trường Quốc Tế..."
                   value={sessionName}
                   onChange={(e) => setSessionName(e.target.value)}
-                  className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:ring-2 focus:ring-amber-500"
+                  className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:ring-2 focus:ring-[#ca8a04]"
                 />
               </div>
 
@@ -401,7 +401,7 @@ export const SessionManageView: React.FC = () => {
                     required
                     value={sessionDate}
                     onChange={(e) => setSessionDate(e.target.value)}
-                    className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:ring-1 focus:ring-amber-500"
+                    className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:ring-1 focus:ring-[#ca8a04]"
                   />
                 </div>
                 <div>
@@ -412,7 +412,7 @@ export const SessionManageView: React.FC = () => {
                     placeholder="08:00 - 11:30"
                     value={sessionTime}
                     onChange={(e) => setSessionTime(e.target.value)}
-                    className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:ring-1 focus:ring-amber-500"
+                    className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:ring-1 focus:ring-[#ca8a04]"
                   />
                 </div>
               </div>
@@ -422,7 +422,7 @@ export const SessionManageView: React.FC = () => {
                 <select
                   value={sessionStatus}
                   onChange={(e) => setSessionStatus(e.target.value as any)}
-                  className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:ring-1 focus:ring-amber-500"
+                  className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:ring-1 focus:ring-[#ca8a04]"
                 >
                   <option value="auto">Tự động (Tính theo giờ thực tế)</option>
                   <option value="active">Đang mở (Active)</option>
@@ -438,7 +438,7 @@ export const SessionManageView: React.FC = () => {
                   placeholder="Yêu cầu riêng, ưu tiên ngôn ngữ, người dẫn đoàn..."
                   value={sessionNotes}
                   onChange={(e) => setSessionNotes(e.target.value)}
-                  className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:ring-1 focus:ring-amber-500"
+                  className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:ring-1 focus:ring-[#ca8a04]"
                 />
               </div>
 
@@ -455,7 +455,7 @@ export const SessionManageView: React.FC = () => {
                 </button>
                 <button
                   type="submit"
-                  className="px-5 py-2.5 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold rounded-xl text-xs transition shadow-md cursor-pointer"
+                  className="px-5 py-2.5 bg-[#ca8a04] hover:bg-[#a16207] text-stone-950 font-bold rounded-xl text-xs transition shadow-md cursor-pointer"
                 >
                   {editingSession ? 'Cập Nhật Phiên' : 'Lưu & Khởi Tạo'}
                 </button>

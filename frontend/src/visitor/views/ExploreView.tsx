@@ -68,7 +68,7 @@ export const ExploreView: React.FC<Props> = ({ artifacts, onSelectArtifact }) =>
   return (
     <div className="flex flex-col gap-8 pb-32 w-full max-w-full min-w-0 overflow-x-hidden">
       {/* Web Hero & Search Section */}
-      <div className="bg-slate-900 text-white rounded-3xl p-6 sm:p-8 lg:p-10 shadow-xl border border-slate-800 relative overflow-hidden">
+      <div className="bg-gradient-to-br from-stone-900 via-stone-900 to-[#422006] text-white rounded-3xl p-6 sm:p-8 lg:p-10 shadow-xl border border-stone-800 relative overflow-hidden">
         {/* Background Hero Image */}
         <img
           src={resolveAssetUrl('/images/museum/Bảo tàng Chứng tích Chiến tranh.jpg')}
@@ -83,11 +83,11 @@ export const ExploreView: React.FC<Props> = ({ artifacts, onSelectArtifact }) =>
         <div className="absolute inset-0 bg-gradient-to-r from-slate-950/85 via-slate-950/45 to-transparent pointer-events-none" />
 
         {/* Subtle decorative circles */}
-        <div className="absolute top-0 right-0 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute -bottom-20 -left-20 w-80 h-80 bg-amber-600/10 rounded-full blur-2xl pointer-events-none" />
+        <div className="absolute top-0 right-0 w-96 h-96 bg-[#ca8a04]/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute -bottom-20 -left-20 w-80 h-80 bg-white/5 rounded-full blur-2xl pointer-events-none" />
 
         <div className="relative z-10 max-w-2xl flex flex-col gap-3">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-950/60 border border-amber-500/40 text-amber-400 text-xs font-bold uppercase tracking-wider w-fit backdrop-blur-md shadow-sm">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-950/60 border border-white/30 text-white text-xs font-bold uppercase tracking-wider w-fit backdrop-blur-md shadow-sm">
             <Compass className="w-3.5 h-3.5" />
             <span>{t('appName')}</span>
           </div>
@@ -108,7 +108,7 @@ export const ExploreView: React.FC<Props> = ({ artifacts, onSelectArtifact }) =>
               value={searchTerm}
               onChange={(e) => handleSearchChange(e.target.value)}
               placeholder={t('searchPlaceholder')}
-              className="w-full pl-12 pr-4 py-3.5 bg-slate-900/80 rounded-2xl border border-slate-700/80 text-white placeholder-slate-400 shadow-xl focus:outline-none focus:ring-2 focus:ring-amber-500/70 text-sm sm:text-base backdrop-blur-md"
+              className="w-full pl-12 pr-4 py-3.5 bg-stone-950/75 rounded-2xl border border-stone-700/80 text-white placeholder-stone-400 shadow-xl focus:outline-none focus:ring-2 focus:ring-[#ca8a04] text-sm sm:text-base backdrop-blur-md"
             />
           </div>
 
@@ -119,8 +119,8 @@ export const ExploreView: React.FC<Props> = ({ artifacts, onSelectArtifact }) =>
               onClick={() => handleFloorChange('all')}
               className={`px-3 py-1.5 rounded-xl font-semibold transition shrink-0 backdrop-blur-md ${
                 selectedFloorFilter === 'all'
-                  ? 'bg-amber-500 text-slate-950 shadow-md font-bold'
-                  : 'bg-slate-900/70 border border-slate-700/60 text-slate-200 hover:bg-slate-800'
+                  ? 'bg-[#ca8a04] text-stone-950 shadow-md font-bold'
+                  : 'bg-stone-900/75 border border-stone-700/70 text-stone-200 hover:bg-stone-800'
               }`}
             >
               {t('allFloors')}
@@ -131,8 +131,8 @@ export const ExploreView: React.FC<Props> = ({ artifacts, onSelectArtifact }) =>
                 onClick={() => handleFloorChange(floorId)}
                 className={`px-3 py-1.5 rounded-xl font-semibold transition shrink-0 backdrop-blur-md ${
                   selectedFloorFilter === floorId
-                    ? 'bg-amber-500 text-slate-950 shadow-md font-bold'
-                    : 'bg-slate-900/70 border border-slate-700/60 text-slate-200 hover:bg-slate-800'
+                    ? 'bg-[#ca8a04] text-stone-950 shadow-md font-bold'
+                    : 'bg-stone-900/75 border border-stone-700/70 text-stone-200 hover:bg-stone-800'
                 }`}
               >
                 {getFloorName(floorId, currentLang)}
@@ -144,20 +144,20 @@ export const ExploreView: React.FC<Props> = ({ artifacts, onSelectArtifact }) =>
 
       {/* Auto-detect GPS Proximity Card */}
       {nearestArtifact && (
-        <div className="bg-gradient-to-r from-amber-500 to-amber-600 rounded-3xl p-5 text-white shadow-xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 animate-bounce-subtle border border-amber-400/40">
+        <div className="bg-gradient-to-r from-stone-950 via-stone-900 to-[#422006] rounded-3xl p-5 text-white shadow-xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border border-white/25 ring-1 ring-white/15">
           <div className="flex items-center gap-3.5">
-            <div className="p-3.5 bg-white/20 rounded-2xl backdrop-blur-md shrink-0">
+            <div className="p-3.5 bg-[#ca8a04]/20 text-[#eab308] rounded-2xl border border-white/25 shrink-0">
               <Radio className="w-6 h-6 animate-pulse" />
             </div>
             <div>
-              <div className="text-xs font-bold uppercase tracking-wider text-amber-100 flex items-center gap-1.5">
+              <div className="text-[11px] font-bold uppercase tracking-wider text-white flex items-center gap-1.5">
                 <Sparkles className="w-3.5 h-3.5" />
                 <span>{t('nearYou')} &bull; GPS</span>
               </div>
-              <h3 className="font-extrabold text-lg sm:text-xl leading-snug mt-0.5">
+              <h3 className="font-extrabold text-lg sm:text-xl leading-snug mt-0.5 text-white">
                 {nearestArtifact.title[currentLang] || nearestArtifact.title['vi']}
               </h3>
-              <p className="text-xs text-amber-100/90 line-clamp-1 mt-0.5">
+              <p className="text-xs text-slate-300 line-clamp-1 mt-0.5">
                 {nearestArtifact.description[currentLang] || nearestArtifact.description['vi']}
               </p>
             </div>
@@ -166,15 +166,15 @@ export const ExploreView: React.FC<Props> = ({ artifacts, onSelectArtifact }) =>
           <div className="flex items-center gap-2 self-end sm:self-auto shrink-0">
             <button
               onClick={() => onSelectArtifact(nearestArtifact)}
-              className="bg-white/20 hover:bg-white/30 text-white font-bold text-xs sm:text-sm px-4 py-2.5 rounded-xl transition backdrop-blur-md"
+              className="bg-white/10 hover:bg-white/20 text-white font-semibold text-xs sm:text-sm px-4 py-2.5 rounded-xl transition border border-white/15 cursor-pointer"
             >
               Chi tiết
             </button>
             <button
               onClick={() => playArtifact(nearestArtifact)}
-              className="bg-white text-slate-950 hover:bg-amber-100 font-bold text-xs sm:text-sm px-4 py-2.5 rounded-xl shadow-lg transition flex items-center gap-1.5"
+              className="bg-[#ca8a04] text-stone-950 hover:bg-[#eab308] font-bold text-xs sm:text-sm px-4 py-2.5 rounded-xl shadow-lg shadow-white/10 transition flex items-center gap-1.5 cursor-pointer"
             >
-              <Volume2 className="w-4 h-4 text-amber-600" />
+              <Volume2 className="w-4 h-4" />
               <span>{t('listenGuide')}</span>
             </button>
           </div>
@@ -210,7 +210,7 @@ export const ExploreView: React.FC<Props> = ({ artifacts, onSelectArtifact }) =>
                 <div
                   key={artifact.id}
                   onClick={() => onSelectArtifact(artifact)}
-                  className="bg-white rounded-3xl overflow-hidden border border-slate-200/80 shadow-xs hover:shadow-xl transition-all duration-300 hover:-translate-y-1 cursor-pointer flex flex-col group"
+                  className="bg-white rounded-3xl overflow-hidden border border-stone-200/90 shadow-[0_2px_12px_rgba(15,23,42,0.04)] hover:shadow-[0_14px_32px_rgba(15,23,42,0.09)] transition-all duration-300 hover:-translate-y-1 cursor-pointer flex flex-col group"
                 >
                   {/* Top Image Showcase */}
                   <div className="aspect-[4/3] bg-slate-100 overflow-hidden relative">
@@ -229,7 +229,7 @@ export const ExploreView: React.FC<Props> = ({ artifacts, onSelectArtifact }) =>
                     />
 
                     {/* Floating Code Badge */}
-                    <div className="absolute top-3 left-3 bg-slate-900/80 backdrop-blur-md text-amber-400 font-mono text-xs font-bold px-2.5 py-1 rounded-lg shadow-sm">
+                    <div className="absolute top-3 left-3 bg-slate-900/80 backdrop-blur-md text-white font-mono text-xs font-bold px-2.5 py-1 rounded-lg shadow-sm">
                       {artifact.code}
                     </div>
 
@@ -253,10 +253,10 @@ export const ExploreView: React.FC<Props> = ({ artifacts, onSelectArtifact }) =>
                   {/* Card Body */}
                   <div className="p-4 flex flex-col flex-1 justify-between gap-3">
                     <div>
-                      <div className="text-[11px] font-semibold text-amber-600 uppercase tracking-wider mb-1">
+                      <div className="text-[11px] font-semibold text-[#a16207] uppercase tracking-wider mb-1">
                         {getFloorName(artifact.floorId, currentLang)}
                       </div>
-                      <h4 className="font-bold text-slate-900 text-base leading-snug line-clamp-1 group-hover:text-amber-600 transition-colors">
+                      <h4 className="font-bold text-slate-900 text-base leading-snug line-clamp-1 group-hover:text-[#a16207] transition-colors">
                         {artifact.title[currentLang] || artifact.title['vi']}
                       </h4>
                       <p className="text-xs text-slate-500 line-clamp-2 mt-1.5 leading-relaxed">
@@ -276,8 +276,8 @@ export const ExploreView: React.FC<Props> = ({ artifacts, onSelectArtifact }) =>
                       }}
                       className={`w-full py-2.5 px-3 rounded-xl font-bold text-xs flex items-center justify-center gap-2 transition shadow-xs ${
                         isPlayingThis
-                          ? 'bg-amber-600 text-white animate-pulse'
-                          : 'bg-amber-50 hover:bg-amber-500 hover:text-white text-amber-700'
+                          ? 'bg-[#a16207] text-white animate-pulse'
+                          : 'bg-[#a16207]/10 hover:bg-[#a16207] hover:text-white text-[#a16207]'
                       }`}
                       title={isPlayingThis ? 'Dừng phát' : t('listenGuide')}
                     >
@@ -324,7 +324,7 @@ export const ExploreView: React.FC<Props> = ({ artifacts, onSelectArtifact }) =>
                     onClick={() => handlePageChange(pageNum)}
                     className={`w-9 h-9 rounded-xl text-xs font-bold transition shadow-xs ${
                       currentPage === pageNum
-                        ? 'bg-amber-500 text-slate-950 shadow-md font-extrabold'
+                        ? 'bg-[#ca8a04] text-stone-950 shadow-md font-extrabold'
                         : 'bg-white text-slate-700 hover:bg-slate-100 border border-slate-200'
                     }`}
                   >

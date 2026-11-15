@@ -48,11 +48,11 @@ export const LiveTranscriptCard: React.FC<Props> = ({
 
   return (
     <div
-      className={`bg-white rounded-2xl border border-slate-200/90 shadow-xs p-3.5 flex flex-col gap-2 ${className}`}
+      className={`bg-white rounded-2xl border border-stone-200/90 shadow-xs p-3.5 flex flex-col gap-2 ${className}`}
     >
       {title && (
-        <div className="flex items-center gap-2 pb-2 border-b border-slate-100 text-xs font-bold text-slate-700">
-          <Headphones className="w-3.5 h-3.5 text-amber-600" />
+        <div className="flex items-center gap-2 pb-2 border-b border-stone-100 text-xs font-bold text-slate-700">
+          <Headphones className="w-3.5 h-3.5 text-[#a16207]" />
           <span>{title}</span>
         </div>
       )}
@@ -74,7 +74,7 @@ export const LiveTranscriptCard: React.FC<Props> = ({
             >
               <span
                 className={`font-mono text-xs shrink-0 pt-0.5 ${
-                  isActive ? 'text-amber-600 font-bold' : 'text-slate-400'
+                  isActive ? 'text-[#a16207] font-bold' : 'text-slate-400'
                 }`}
               >
                 {formatTimestamp(cue.start)}

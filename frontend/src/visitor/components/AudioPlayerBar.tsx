@@ -167,7 +167,7 @@ export const AudioPlayerBar: React.FC<Props> = ({ isDetailSheetOpen = false }) =
         <div className="fixed bottom-[calc(10rem+env(safe-area-inset-bottom,0px))] md:bottom-28 left-4 right-4 z-40 flex justify-center pointer-events-none">
           <div className="bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl border border-slate-200/90 max-w-lg w-full p-3 pointer-events-auto animate-fade-in">
             <div className="flex items-center justify-between px-2 pb-2 mb-1 border-b border-slate-100">
-              <span className="inline-flex items-center gap-1.5 text-amber-600 font-bold text-xs uppercase tracking-wider">
+              <span className="inline-flex items-center gap-1.5 text-[#a16207] font-bold text-xs uppercase tracking-wider">
                 <Sparkles className="w-3.5 h-3.5" />
                 <span>{t('subtitles')} (AI Voice - {currentLang.toUpperCase()})</span>
               </span>
@@ -192,7 +192,7 @@ export const AudioPlayerBar: React.FC<Props> = ({ isDetailSheetOpen = false }) =
 
       {/* Sticky Bottom Audio Player Bar */}
       <div className="fixed bottom-[calc(4.75rem+env(safe-area-inset-bottom,0px))] md:bottom-6 left-0 right-0 max-w-md md:max-w-4xl lg:max-w-5xl mx-auto px-3 sm:px-4 z-50 animate-fade-in">
-        <div className="bg-slate-900/95 text-white backdrop-blur-md rounded-3xl p-3.5 sm:p-4 shadow-2xl border border-slate-700/80 flex flex-col gap-2.5">
+        <div className="bg-slate-950/92 text-white backdrop-blur-xl rounded-3xl p-3.5 sm:p-4 shadow-[0_20px_50px_rgba(2,6,23,0.45)] border border-white/10 flex flex-col gap-2.5">
           {/* Progress Bar */}
           <div className="flex items-center gap-3 text-xs font-mono text-slate-400">
             <span>{formatTime(currentTime)}</span>
@@ -202,7 +202,7 @@ export const AudioPlayerBar: React.FC<Props> = ({ isDetailSheetOpen = false }) =
               max={duration || totalDuration || 100}
               value={Math.min(currentTime, duration || totalDuration)}
               onChange={(e) => handleSeek(Number(e.target.value))}
-              className="w-full accent-amber-500 h-1.5 bg-slate-700 rounded-lg cursor-pointer"
+              className="w-full accent-[#ca8a04] h-1.5 bg-zinc-700 rounded-lg cursor-pointer"
             />
             <span>{formatTime(duration || totalDuration)}</span>
           </div>
@@ -230,7 +230,7 @@ export const AudioPlayerBar: React.FC<Props> = ({ isDetailSheetOpen = false }) =
                     currentArtifact?.code ||
                     ''}
                 </div>
-                <div className="text-[11px] sm:text-xs text-amber-400 font-semibold flex items-center gap-1.5 mt-0.5">
+                <div className="text-[11px] sm:text-xs text-white font-semibold flex items-center gap-1.5 mt-0.5">
                   <Volume2 className="w-3.5 h-3.5 animate-pulse" />
                   <span>{currentArtifact.code}</span>
                   <span className="hidden sm:inline text-slate-500">&bull;</span>
@@ -259,7 +259,7 @@ export const AudioPlayerBar: React.FC<Props> = ({ isDetailSheetOpen = false }) =
                 onClick={toggleSubtitle}
                 className={`p-2 sm:px-2.5 sm:py-2 rounded-xl transition-colors flex items-center gap-1 ${
                   showSubtitle
-                    ? 'text-amber-400 bg-amber-400/20 ring-1 ring-amber-400/40'
+                    ? 'text-white bg-white/20 ring-1 ring-white/40'
                     : 'text-slate-400 hover:bg-slate-800 hover:text-white'
                 }`}
                 title="CC (Phụ đề)"
@@ -272,7 +272,7 @@ export const AudioPlayerBar: React.FC<Props> = ({ isDetailSheetOpen = false }) =
               {isPlaying ? (
                 <button
                   onClick={pause}
-                  className="p-3 rounded-2xl bg-amber-500 text-slate-950 shadow-md hover:bg-amber-400 transition"
+                  className="p-3 rounded-2xl bg-[#ca8a04] text-stone-950 shadow-md hover:bg-[#eab308] transition"
                   title={t('pause')}
                 >
                   <Pause className="w-5 h-5 fill-current" />
@@ -280,7 +280,7 @@ export const AudioPlayerBar: React.FC<Props> = ({ isDetailSheetOpen = false }) =
               ) : (
                 <button
                   onClick={resume}
-                  className="p-3 rounded-2xl bg-amber-500 text-slate-950 shadow-md hover:bg-amber-400 transition"
+                  className="p-3 rounded-2xl bg-[#ca8a04] text-stone-950 shadow-md hover:bg-[#eab308] transition"
                   title={t('resume')}
                 >
                   <Play className="w-5 h-5 fill-current ml-0.5" />

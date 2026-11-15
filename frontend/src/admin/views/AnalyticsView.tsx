@@ -144,7 +144,7 @@ export const AnalyticsView: React.FC = () => {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2 border-b border-slate-800">
         <div>
           <h2 className="text-xl font-bold text-white flex items-center gap-2">
-            <BarChart3 className="w-5 h-5 text-amber-500" />
+            <BarChart3 className="w-5 h-5 text-white" />
             Báo Cáo Thống Kê & Phân Tích Lượt Nghe Thực Tế
           </h2>
           <p className="text-xs text-slate-400 mt-0.5">
@@ -157,7 +157,7 @@ export const AnalyticsView: React.FC = () => {
             <button
               onClick={() => setTimeRange('today')}
               className={`px-3 py-1.5 rounded-lg font-bold transition ${
-                timeRange === 'today' ? 'bg-amber-500 text-slate-950' : 'text-slate-400 hover:text-white'
+                timeRange === 'today' ? 'bg-[#ca8a04] text-stone-950' : 'text-slate-400 hover:text-white'
               }`}
             >
               Hôm nay
@@ -165,7 +165,7 @@ export const AnalyticsView: React.FC = () => {
             <button
               onClick={() => setTimeRange('7days')}
               className={`px-3 py-1.5 rounded-lg font-bold transition ${
-                timeRange === '7days' ? 'bg-amber-500 text-slate-950' : 'text-slate-400 hover:text-white'
+                timeRange === '7days' ? 'bg-[#ca8a04] text-stone-950' : 'text-slate-400 hover:text-white'
               }`}
             >
               7 ngày qua
@@ -173,7 +173,7 @@ export const AnalyticsView: React.FC = () => {
             <button
               onClick={() => setTimeRange('all')}
               className={`px-3 py-1.5 rounded-lg font-bold transition ${
-                timeRange === 'all' ? 'bg-amber-500 text-slate-950' : 'text-slate-400 hover:text-white'
+                timeRange === 'all' ? 'bg-[#ca8a04] text-stone-950' : 'text-slate-400 hover:text-white'
               }`}
             >
               Toàn bộ
@@ -182,7 +182,7 @@ export const AnalyticsView: React.FC = () => {
 
           <button
             onClick={handleExportCSV}
-            className="flex items-center gap-1.5 bg-slate-800 hover:bg-slate-750 text-slate-200 border border-slate-700 px-3 py-2 rounded-xl text-xs font-bold transition"
+            className="flex items-center gap-1.5 bg-slate-800 hover:bg-slate-700/60 text-slate-200 border border-slate-700 px-3 py-2 rounded-xl text-xs font-bold transition cursor-pointer"
           >
             <FileSpreadsheet className="w-4 h-4 text-emerald-400" />
             <span>Xuất CSV</span>
@@ -200,7 +200,7 @@ export const AnalyticsView: React.FC = () => {
 
         <div className="bg-slate-800 border border-slate-700/80 rounded-2xl p-5">
           <span className="text-xs font-semibold text-slate-400 uppercase">Ngôn ngữ thịnh hành nhất</span>
-          <div className="text-2xl font-bold text-amber-400 mt-1">
+          <div className="text-2xl font-bold text-white mt-1">
             {languageData.sort((a, b) => b.value - a.value)[0]?.name || 'Tiếng Việt'}
           </div>
           <div className="text-xs text-slate-400 mt-1">
@@ -213,7 +213,7 @@ export const AnalyticsView: React.FC = () => {
           <div className="text-lg font-bold text-slate-100 mt-1 truncate">
             {topArtifacts[0]?.name || 'Chưa có dữ liệu'}
           </div>
-          <div className="text-xs text-amber-400 mt-1 font-mono font-bold">
+          <div className="text-xs text-white mt-1 font-mono font-bold">
             {topArtifacts[0]?.listens || 0} lượt nghe
           </div>
         </div>
@@ -257,7 +257,7 @@ export const AnalyticsView: React.FC = () => {
         <div className="bg-slate-800 border border-slate-700/80 rounded-2xl p-5 flex flex-col gap-4">
           <div className="pb-3 border-b border-slate-700">
             <h3 className="text-base font-bold text-white flex items-center gap-2">
-              <Globe className="w-4 h-4 text-amber-400" />
+              <Globe className="w-4 h-4 text-white" />
               Tỷ Lệ Lựa Chọn Ngôn Ngữ Thực Tế
             </h3>
             <p className="text-xs text-slate-400 mt-0.5">Tỷ trọng các ngôn ngữ được khách lựa chọn</p>
@@ -320,14 +320,14 @@ export const AnalyticsView: React.FC = () => {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-3 border-b border-slate-700 gap-2">
           <div>
             <h3 className="text-base font-bold text-white flex items-center gap-2">
-              <Headphones className="w-4 h-4 text-amber-400" />
+              <Headphones className="w-4 h-4 text-white" />
               <span>Bảng Thống Kê Số Lượt Nghe Chi Tiết Của Từng Hiện Vật ({allArtifactsWithListens.length} Hiện Vật)</span>
             </h3>
             <p className="text-xs text-slate-400 mt-0.5">
               Số liệu theo dõi trực tiếp từ các tương tác phát thuyết minh của khách tham quan.
             </p>
           </div>
-          <span className="text-xs font-mono font-bold text-amber-400 bg-amber-500/10 border border-amber-500/30 px-3 py-1 rounded-xl self-start sm:self-auto">
+          <span className="text-xs font-mono font-bold text-white bg-[#ca8a04]/10 border border-white/25 px-3 py-1 rounded-xl self-start sm:self-auto">
             Tổng lượt: {totalListens}
           </span>
         </div>
@@ -353,7 +353,7 @@ export const AnalyticsView: React.FC = () => {
                 </tr>
               ) : (
                 allArtifactsWithListens.map((art, idx) => (
-                  <tr key={art.id} className="hover:bg-slate-750/50 transition">
+                  <tr key={art.id} className="hover:bg-slate-700/40 transition">
                     <td className="py-3 px-3 text-center font-mono font-bold text-slate-400">
                       {idx + 1}
                     </td>
@@ -368,7 +368,7 @@ export const AnalyticsView: React.FC = () => {
                           }}
                           className="w-10 h-10 rounded-lg object-cover border border-slate-700 bg-slate-900 shrink-0"
                         />
-                        <span className="font-mono font-bold text-amber-400">{art.code}</span>
+                        <span className="font-mono font-bold text-white">{art.code}</span>
                       </div>
                     </td>
                     <td className="py-3 px-3 font-semibold text-white">
@@ -379,14 +379,14 @@ export const AnalyticsView: React.FC = () => {
                         {getFloorName(art.floorId)}
                       </span>
                     </td>
-                    <td className="py-3 px-3 text-right font-mono font-bold text-amber-400 text-sm">
+                    <td className="py-3 px-3 text-right font-mono font-bold text-white text-sm">
                       {art.count} <span className="text-[11px] text-slate-400 font-normal">lượt</span>
                     </td>
                     <td className="py-3 px-3 text-right">
                       <div className="flex items-center justify-end gap-2">
                         <div className="w-20 bg-slate-700/60 h-2 rounded-full overflow-hidden">
                           <div
-                            className="bg-amber-500 h-full rounded-full transition-all duration-500"
+                            className="bg-[#a16207] h-full rounded-full transition-all duration-500"
                             style={{ width: `${Math.min(100, Math.max(art.count > 0 ? 5 : 0, art.percentage))}%` }}
                           />
                         </div>

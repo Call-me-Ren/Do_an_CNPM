@@ -21,7 +21,14 @@ export const LanguageSwitcher: React.FC = () => {
 
   return (
     <>
-      <TouchableOpacity style={styles.pill} onPress={() => setOpen(true)} activeOpacity={0.8}>
+      <TouchableOpacity
+        style={styles.pill}
+        onPress={() => setOpen(true)}
+        activeOpacity={0.8}
+        hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+        accessibilityRole="button"
+        accessibilityLabel="Chọn ngôn ngữ"
+      >
         <Ionicons name="globe-outline" size={16} color={COLORS.amberLight} />
         <Text style={styles.pillText}>{active.short}</Text>
       </TouchableOpacity>
@@ -79,10 +86,10 @@ const styles = StyleSheet.create({
     padding: 24,
   },
   sheet: {
-    backgroundColor: COLORS.surface,
+    backgroundColor: COLORS.surfaceElevated,
     borderRadius: 20,
     borderWidth: 1,
-    borderColor: COLORS.border,
+    borderColor: COLORS.borderSubtle,
     padding: 18,
     gap: 8,
   },

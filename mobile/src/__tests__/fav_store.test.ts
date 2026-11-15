@@ -4,6 +4,7 @@ jest.mock('@react-native-async-storage/async-storage', () => ({
   removeItem: jest.fn(async () => {}),
 }));
 
+// eslint-disable-next-line import/first
 import { useFavStore } from '../shared/stores/favStore';
 
 describe('favStore (mobile)', () => {

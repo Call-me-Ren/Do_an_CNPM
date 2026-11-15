@@ -28,7 +28,7 @@ export class ErrorBoundary extends Component<Props, State> {
     if (this.state.hasError) {
       return (
         <div className="min-h-screen bg-slate-900 text-white flex flex-col items-center justify-center p-6 text-center">
-          <div className="w-16 h-16 rounded-full bg-amber-500/20 text-amber-500 flex items-center justify-center mb-4">
+          <div className="w-16 h-16 rounded-full bg-[#ca8a04]/20 text-[#eab308] flex items-center justify-center mb-4">
             <AlertTriangle className="w-8 h-8" />
           </div>
           <h2 className="text-xl font-bold mb-2">Đã xảy ra sự cố hiển thị</h2>
@@ -40,7 +40,7 @@ export class ErrorBoundary extends Component<Props, State> {
               this.setState({ hasError: false, error: null });
               window.location.reload();
             }}
-            className="flex items-center gap-2 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-5 py-2.5 rounded-xl text-sm transition shadow-lg shadow-amber-500/20"
+            className="flex items-center gap-2 bg-[#ca8a04] hover:bg-[#a16207] text-stone-950 font-bold px-5 py-2.5 rounded-xl text-sm transition shadow-lg shadow-white/10"
           >
             <RefreshCw className="w-4 h-4" />
             <span>Tải lại trang</span>

@@ -56,7 +56,7 @@ export const FavoritesView: React.FC<Props> = ({ artifacts, onSelectArtifact }) 
               <div
                 key={artifact.id}
                 onClick={() => onSelectArtifact(artifact)}
-                className="bg-white rounded-3xl overflow-hidden border border-slate-200/80 shadow-xs hover:shadow-xl transition-all duration-300 hover:-translate-y-1 cursor-pointer flex flex-col group"
+                className="bg-white rounded-3xl overflow-hidden border border-stone-200/90 shadow-[0_2px_12px_rgba(15,23,42,0.04)] hover:shadow-[0_14px_32px_rgba(15,23,42,0.09)] transition-all duration-300 hover:-translate-y-1 cursor-pointer flex flex-col group"
               >
                 <div className="aspect-[4/3] bg-slate-100 overflow-hidden relative">
                   <img
@@ -72,7 +72,7 @@ export const FavoritesView: React.FC<Props> = ({ artifacts, onSelectArtifact }) 
                     }}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
-                  <div className="absolute top-3 left-3 bg-slate-900/80 backdrop-blur-md text-amber-400 font-mono text-xs font-bold px-2.5 py-1 rounded-lg shadow-sm">
+                  <div className="absolute top-3 left-3 bg-slate-900/80 backdrop-blur-md text-white font-mono text-xs font-bold px-2.5 py-1 rounded-lg shadow-sm">
                     {artifact.code}
                   </div>
                   <button
@@ -89,10 +89,10 @@ export const FavoritesView: React.FC<Props> = ({ artifacts, onSelectArtifact }) 
 
                 <div className="p-4 flex flex-col flex-1 justify-between gap-3">
                   <div>
-                    <div className="text-[11px] font-semibold text-amber-600 uppercase tracking-wider mb-1">
+                    <div className="text-[11px] font-semibold text-[#a16207] uppercase tracking-wider mb-1">
                       {getFloorName(artifact.floorId, currentLang)}
                     </div>
-                    <h4 className="font-bold text-slate-900 text-base leading-snug line-clamp-1 group-hover:text-amber-600 transition-colors">
+                    <h4 className="font-bold text-slate-900 text-base leading-snug line-clamp-1 group-hover:text-[#a16207] transition-colors">
                       {artifact.title[currentLang] || artifact.title['vi']}
                     </h4>
                     <p className="text-xs text-slate-500 line-clamp-2 mt-1 leading-relaxed">
@@ -111,8 +111,8 @@ export const FavoritesView: React.FC<Props> = ({ artifacts, onSelectArtifact }) 
                     }}
                     className={`w-full py-2.5 px-3 rounded-xl font-bold text-xs flex items-center justify-center gap-2 transition shadow-xs ${
                       isPlayingThis
-                        ? 'bg-amber-600 text-white animate-pulse'
-                        : 'bg-amber-50 hover:bg-amber-500 hover:text-white text-amber-700'
+                        ? 'bg-[#a16207] text-white animate-pulse'
+                        : 'bg-[#a16207]/10 hover:bg-[#a16207] hover:text-white text-[#a16207]'
                     }`}
                   >
                     {isPlayingThis ? (

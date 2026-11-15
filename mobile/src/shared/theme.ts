@@ -1,15 +1,26 @@
 export const COLORS = {
-  bg: '#020617',       // slate-950
-  surface: '#0f172a',  // slate-900
-  card: '#1e293b',     // slate-800
-  border: '#334155',   // slate-700
-  amber: '#f59e0b',    // amber-500
-  amberLight: '#fbbf24', // amber-400
-  amberSoft: 'rgba(245, 158, 11, 0.16)',
-  text: '#f8fafc',     // slate-50
-  textMuted: '#94a3b8', // slate-400
-  textDim: '#64748b',  // slate-500
-  emerald: '#10b981',  // emerald-500
-  rose: '#f43f5e',     // rose-500
-  sky: '#38bdf8',      // sky-400
+  bg: '#0c0a09',       // Obsidian Stone (stone-950)
+  surface: '#14110f',  // Deep Warm Obsidian
+  surfaceElevated: '#1c1917', // Primary Obsidian (stone-900)
+  card: '#292524',     // Secondary Stone (stone-800)
+  border: '#292524',   // stone-800
+  borderSubtle: 'rgba(214, 211, 209, 0.16)',
+  amber: '#ca8a04',    // Heritage Gold CTA (high contrast with #0c0a09)
+  amberLight: '#eab308', // Warm Gold highlight on dark
+  amberSoft: 'rgba(202, 138, 4, 0.16)',
+  amberBorder: 'rgba(234, 179, 8, 0.35)',
+  text: '#fafaf9',     // Warm Alabaster (stone-50)
+  textMuted: '#a8a29e', // stone-400
+  textDim: '#78716c',  // stone-500
+  emerald: '#10b981',  // semantic active GPS
+  rose: '#f43f5e',     // semantic favorite
+  sky: '#38bdf8',      // semantic location pin
+};
+
+export const RADIUS = {
+  sm: 10,
+  md: 14,
+  lg: 18,
+  xl: 22,
+  full: 999,
 };

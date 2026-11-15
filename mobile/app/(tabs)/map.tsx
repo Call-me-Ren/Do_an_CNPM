@@ -199,10 +199,10 @@ const styles = StyleSheet.create({
   floorTabText: { color: COLORS.textMuted, fontSize: 12, fontWeight: '700' },
   floorTabTextActive: { color: COLORS.bg },
   mapWrap: {
-    backgroundColor: COLORS.surface,
-    borderRadius: 16,
+    backgroundColor: COLORS.surfaceElevated,
+    borderRadius: 18,
     borderWidth: 1,
-    borderColor: COLORS.border,
+    borderColor: COLORS.borderSubtle,
     overflow: 'hidden',
   },
   legendRow: {
@@ -221,11 +221,11 @@ const styles = StyleSheet.create({
   pinRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: COLORS.surface,
+    backgroundColor: COLORS.surfaceElevated,
     borderWidth: 1,
-    borderColor: COLORS.border,
-    borderRadius: 12,
-    padding: 10,
+    borderColor: COLORS.borderSubtle,
+    borderRadius: 14,
+    padding: 12,
     gap: 10,
   },
   pinNum: {

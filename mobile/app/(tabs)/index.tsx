@@ -188,6 +188,9 @@ export default function ExploreScreen() {
 
                   <TouchableOpacity
                     style={styles.favBtn}
+                    hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+                    accessibilityRole="button"
+                    accessibilityLabel={isFav ? 'Bỏ yêu thích' : 'Thêm yêu thích'}
                     onPress={(e) => {
                       e.stopPropagation();
                       toggleFavorite(item.id);
@@ -265,15 +268,21 @@ const styles = StyleSheet.create({
   },
   card: {
     flexDirection: 'row',
-    backgroundColor: COLORS.surface,
+    backgroundColor: COLORS.surfaceElevated,
     borderWidth: 1,
-    borderColor: COLORS.border,
-    borderRadius: 16,
+    borderColor: COLORS.borderSubtle,
+    borderRadius: 18,
     overflow: 'hidden',
     marginBottom: 12,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.22,
+    shadowRadius: 8,
+    elevation: 4,
   },
   cardActive: {
     borderColor: COLORS.amber,
+    backgroundColor: '#172038',
   },
   thumb: {
     width: 108,

@@ -236,7 +236,7 @@ export const VisitorLayout: React.FC = () => {
   if (loading || !data) {
     return (
       <div className="min-h-screen bg-slate-50 flex flex-col items-center justify-center p-6 text-center">
-        <div className="w-12 h-12 border-4 border-amber-500 border-t-transparent rounded-full animate-spin mb-4"></div>
+        <div className="w-12 h-12 border-4 border-[#a16207] border-t-transparent rounded-full animate-spin mb-4"></div>
         <div className="font-semibold text-slate-700">{t('loading')}</div>
       </div>
     );
@@ -245,20 +245,20 @@ export const VisitorLayout: React.FC = () => {
   const museumName = data.museum.name[currentLang] || data.museum.name['vi'];
 
   return (
-    <div className="min-h-screen bg-slate-50/70 text-slate-900 flex flex-col w-full max-w-full overflow-x-hidden">
+    <div className="min-h-screen bg-[#fafaf9] text-slate-900 flex flex-col w-full max-w-full overflow-x-hidden selection:bg-[#ca8a04]/30 selection:text-stone-950">
       {/* Top Navigation Bar (Full Desktop Header) */}
-      <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200/80 shadow-xs w-full max-w-full">
+      <header className="sticky top-0 z-40 bg-white/85 backdrop-blur-xl border-b border-stone-200/80 shadow-[0_1px_12px_rgba(15,23,42,0.04)] w-full max-w-full">
         <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-2 sm:gap-4 w-full min-w-0">
           {/* Brand Logo & Name */}
           <div
             onClick={() => setActiveTab('explore')}
             className="flex items-center gap-2.5 sm:gap-3 cursor-pointer min-w-0 flex-1 select-none group"
           >
-            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-2xl bg-gradient-to-tr from-amber-600 to-amber-500 text-white flex items-center justify-center shadow-md shadow-amber-500/20 group-hover:scale-105 transition-transform shrink-0">
+            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-2xl bg-[#a16207] text-white flex items-center justify-center shadow-md shadow-zinc-900/20 group-hover:scale-105 transition-transform shrink-0 ring-1 ring-white/15">
               <Building2 className="w-4 h-4 sm:w-5 sm:h-5" />
             </div>
             <div className="min-w-0 flex-1">
-              <span className="text-[10px] md:text-xs uppercase font-extrabold tracking-wider text-amber-600 block truncate">
+              <span className="text-[10px] md:text-[11px] uppercase font-bold tracking-[0.12em] text-[#a16207] block truncate">
                 {t('appName')}
               </span>
               <h1 className="text-xs sm:text-base md:text-lg font-extrabold text-slate-900 truncate tracking-tight">
@@ -268,13 +268,13 @@ export const VisitorLayout: React.FC = () => {
           </div>
 
           {/* Desktop Navigation Tabs */}
-          <nav className="hidden md:flex items-center gap-1.5 bg-slate-100/90 p-1 rounded-2xl border border-slate-200/60 shadow-inner">
+          <nav className="hidden md:flex items-center gap-1 bg-stone-100/90 p-1 rounded-2xl border border-stone-200/70">
             <button
               onClick={() => setActiveTab('explore')}
-              className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all ${
+              className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all cursor-pointer ${
                 activeTab === 'explore'
-                  ? 'bg-white text-amber-600 shadow-sm'
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/50'
+                  ? 'bg-white text-[#a16207] shadow-sm ring-1 ring-stone-200/80'
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-white/50'
               }`}
             >
               <Compass className="w-4 h-4" />
@@ -283,10 +283,10 @@ export const VisitorLayout: React.FC = () => {
 
             <button
               onClick={() => setActiveTab('map')}
-              className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all ${
+              className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all cursor-pointer ${
                 activeTab === 'map'
-                  ? 'bg-white text-amber-600 shadow-sm'
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/50'
+                  ? 'bg-white text-[#a16207] shadow-sm ring-1 ring-stone-200/80'
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-white/50'
               }`}
             >
               <Map className="w-4 h-4" />
@@ -295,16 +295,16 @@ export const VisitorLayout: React.FC = () => {
 
             <button
               onClick={() => setActiveTab('favorites')}
-              className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all relative ${
+              className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all relative cursor-pointer ${
                 activeTab === 'favorites'
-                  ? 'bg-white text-amber-600 shadow-sm'
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/50'
+                  ? 'bg-white text-[#a16207] shadow-sm ring-1 ring-stone-200/80'
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-white/50'
               }`}
             >
               <Heart className="w-4 h-4" />
               <span>{t('favorites')}</span>
               {favorites.length > 0 && (
-                <span className="px-1.5 py-0.2 text-[10px] bg-red-500 text-white rounded-full font-bold ml-0.5">
+                <span className="px-1.5 py-0.2 text-[10px] bg-rose-500 text-white rounded-full font-bold ml-0.5">
                   {favorites.length}
                 </span>
               )}
@@ -312,10 +312,10 @@ export const VisitorLayout: React.FC = () => {
 
             <button
               onClick={() => setActiveTab('info')}
-              className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all ${
+              className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all cursor-pointer ${
                 activeTab === 'info'
-                  ? 'bg-white text-amber-600 shadow-sm'
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/50'
+                  ? 'bg-white text-[#a16207] shadow-sm ring-1 ring-stone-200/80'
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-white/50'
               }`}
             >
               <Info className="w-4 h-4" />
@@ -323,19 +323,17 @@ export const VisitorLayout: React.FC = () => {
             </button>
           </nav>
 
-          {/* Right Action Tools: QR, Admin link & Language Dropdown */}
+          {/* Right Action Tools: QR & Language Dropdown */}
           <div className="flex items-center gap-2.5 shrink-0">
-            {/* Desktop Scan QR Button (Hidden on Mobile because Mobile has floating center scan button) */}
             <button
               onClick={() => setIsQRScannerOpen(true)}
-              className="hidden sm:flex items-center gap-2 px-3 py-2 md:px-3.5 md:py-2 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 text-amber-700 font-semibold text-xs md:text-sm transition border border-amber-500/30"
+              className="hidden sm:flex items-center gap-2 px-3.5 py-2 rounded-xl bg-[#a16207] hover:bg-[#854d0e] text-white font-semibold text-xs md:text-sm transition shadow-sm cursor-pointer"
               title={t('scanQR')}
             >
-              <QrCode className="w-4 h-4 text-amber-600 shrink-0" />
+              <QrCode className="w-4 h-4 shrink-0" />
               <span>{t('scanQR')}</span>
             </button>
 
-            {/* Language Switcher */}
             <LanguageSwitcher />
           </div>
         </div>
@@ -377,13 +375,13 @@ export const VisitorLayout: React.FC = () => {
       <footer className="hidden md:block bg-white border-t border-slate-200 mt-auto py-6">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
           <div className="flex items-center gap-2">
-            <Building2 className="w-4 h-4 text-amber-600" />
+            <Building2 className="w-4 h-4 text-[#a16207]" />
             <span className="font-semibold text-slate-700">{museumName}</span>
             <span>&bull;</span>
             <span>{t('appName')}</span>
           </div>
           <div className="flex items-center gap-4">
-            <Link to="/admin/login" className="hover:text-amber-600 transition">
+            <Link to="/admin/login" className="hover:text-[#a16207] transition">
               {t('adminPortal')}
             </Link>
             <span>&bull;</span>
@@ -426,7 +424,7 @@ export const VisitorLayout: React.FC = () => {
             currentArtifact
               ? 'bottom-[calc(10.5rem+env(safe-area-inset-bottom,0px))] md:bottom-24'
               : 'bottom-24 md:bottom-12'
-          } right-4 md:right-8 z-40 p-3.5 rounded-full bg-gradient-to-tr from-amber-600 via-amber-500 to-amber-400 hover:from-amber-500 hover:to-amber-300 text-white shadow-xl shadow-amber-500/40 ring-4 ring-white/90 hover:scale-110 active:scale-95 transition-all duration-300 flex items-center justify-center cursor-pointer animate-fade-in group`}
+          } right-4 md:right-8 z-40 p-3.5 rounded-full bg-[#a16207] hover:bg-[#854d0e] text-white shadow-xl shadow-zinc-900/25 ring-4 ring-white/90 hover:scale-110 active:scale-95 transition-all duration-300 flex items-center justify-center cursor-pointer animate-fade-in group`}
           title="Quay lại đầu trang"
           aria-label="Quay lại đầu trang"
         >
@@ -440,7 +438,7 @@ export const VisitorLayout: React.FC = () => {
           <button
             onClick={() => setActiveTab('explore')}
             className={`flex flex-col items-center py-1 gap-1 text-xs font-semibold transition ${
-              activeTab === 'explore' ? 'text-amber-600' : 'text-slate-400 hover:text-slate-600'
+              activeTab === 'explore' ? 'text-[#a16207]' : 'text-slate-400 hover:text-slate-600'
             }`}
           >
             <Compass className="w-5 h-5" />
@@ -450,7 +448,7 @@ export const VisitorLayout: React.FC = () => {
           <button
             onClick={() => setActiveTab('map')}
             className={`flex flex-col items-center py-1 gap-1 text-xs font-semibold transition ${
-              activeTab === 'map' ? 'text-amber-600' : 'text-slate-400 hover:text-slate-600'
+              activeTab === 'map' ? 'text-[#a16207]' : 'text-slate-400 hover:text-slate-600'
             }`}
           >
             <Map className="w-5 h-5" />
@@ -461,7 +459,7 @@ export const VisitorLayout: React.FC = () => {
           <div className="relative -top-5">
             <button
               onClick={() => setIsQRScannerOpen(true)}
-              className="w-14 h-14 rounded-full bg-gradient-to-tr from-amber-600 to-amber-500 text-white shadow-xl flex items-center justify-center hover:scale-105 active:scale-95 transition-transform ring-4 ring-white"
+              className="w-14 h-14 rounded-full bg-[#a16207] hover:bg-[#854d0e] text-white shadow-xl flex items-center justify-center hover:scale-105 active:scale-95 transition-transform ring-4 ring-white"
               title={t('scanQR')}
             >
               <QrCode className="w-7 h-7" />
@@ -471,7 +469,7 @@ export const VisitorLayout: React.FC = () => {
           <button
             onClick={() => setActiveTab('favorites')}
             className={`flex flex-col items-center py-1 gap-1 text-xs font-semibold transition ${
-              activeTab === 'favorites' ? 'text-amber-600' : 'text-slate-400 hover:text-slate-600'
+              activeTab === 'favorites' ? 'text-[#a16207]' : 'text-slate-400 hover:text-slate-600'
             }`}
           >
             <Heart className="w-5 h-5" />
@@ -481,7 +479,7 @@ export const VisitorLayout: React.FC = () => {
           <button
             onClick={() => setActiveTab('info')}
             className={`flex flex-col items-center py-1 gap-1 text-xs font-semibold transition ${
-              activeTab === 'info' ? 'text-amber-600' : 'text-slate-400 hover:text-slate-600'
+              activeTab === 'info' ? 'text-[#a16207]' : 'text-slate-400 hover:text-slate-600'
             }`}
           >
             <Info className="w-5 h-5" />

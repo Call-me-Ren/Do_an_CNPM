@@ -86,25 +86,29 @@ export const AdminLoginView: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-900 flex flex-col items-center justify-center p-4 relative">
-      {/* Return to Visitor Website Button - Single Clean Navigation */}
-      <div className="w-full max-w-md mb-4 flex items-center">
+    <div className="min-h-screen bg-slate-950 flex flex-col items-center justify-center p-4 relative overflow-hidden">
+      {/* Subtle Ambient Glow */}
+      <div className="absolute -top-32 -right-32 w-96 h-96 bg-[#ca8a04]/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute -bottom-32 -left-32 w-96 h-96 bg-white/5 rounded-full blur-3xl pointer-events-none" />
+
+      {/* Return to Visitor Website Button */}
+      <div className="w-full max-w-md mb-4 flex items-center relative z-10">
         <Link
           to="/"
-          className="inline-flex items-center gap-2 text-xs font-semibold text-slate-400 hover:text-amber-400 px-3.5 py-2 rounded-xl bg-slate-800/80 hover:bg-slate-800 border border-slate-700/60 transition"
+          className="inline-flex items-center gap-2 text-xs font-semibold text-slate-400 hover:text-white px-3.5 py-2 rounded-xl bg-slate-900/80 hover:bg-slate-900 border border-slate-800 transition"
         >
           <ArrowLeft className="w-4 h-4" />
           <span>Quay lại trang tham quan bảo tàng</span>
         </Link>
       </div>
 
-      <div className="bg-slate-800 border border-slate-700/80 rounded-3xl p-8 max-w-md w-full shadow-2xl flex flex-col gap-6 text-white">
+      <div className="relative z-10 bg-slate-900/90 backdrop-blur-xl border border-slate-800 rounded-3xl p-8 max-w-md w-full shadow-2xl flex flex-col gap-6 text-white">
         <div className="text-center flex flex-col items-center">
-          <div className="p-3 bg-amber-500/20 text-amber-400 rounded-2xl mb-3">
+          <div className="p-3.5 bg-white/10 border border-white/25 text-white rounded-2xl mb-3 shadow-inner">
             <ShieldCheck className="w-8 h-8" />
           </div>
-          <h1 className="text-2xl font-bold text-slate-100">Cổng Quản Trị Hệ Thống</h1>
-          <p className="text-sm text-slate-400 mt-1">Hệ thống Thuyết minh tự động đa ngôn ngữ</p>
+          <h1 className="text-2xl font-extrabold tracking-tight text-white">Cổng Quản Trị Hệ Thống</h1>
+          <p className="text-xs sm:text-sm text-slate-400 mt-1">Hệ thống Thuyết minh tự động đa ngôn ngữ</p>
         </div>
 
         {error && (
@@ -125,7 +129,7 @@ export const AdminLoginView: React.FC = () => {
                 type="text"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                className="w-full bg-slate-900 border border-slate-700 rounded-xl pl-10 pr-4 py-2.5 text-sm text-slate-200 focus:outline-none focus:ring-2 focus:ring-amber-500"
+                className="w-full bg-slate-900 border border-slate-700 rounded-xl pl-10 pr-4 py-2.5 text-sm text-slate-200 focus:outline-none focus:ring-2 focus:ring-[#ca8a04]"
                 required
               />
             </div>
@@ -141,7 +145,7 @@ export const AdminLoginView: React.FC = () => {
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full bg-slate-900 border border-slate-700 rounded-xl pl-10 pr-4 py-2.5 text-sm text-slate-200 focus:outline-none focus:ring-2 focus:ring-amber-500"
+                className="w-full bg-slate-900 border border-slate-700 rounded-xl pl-10 pr-4 py-2.5 text-sm text-slate-200 focus:outline-none focus:ring-2 focus:ring-[#ca8a04]"
                 required
               />
             </div>
@@ -153,7 +157,7 @@ export const AdminLoginView: React.FC = () => {
             className={`w-full font-semibold py-3 rounded-xl transition shadow-lg text-white mt-2 flex items-center justify-center gap-2 ${
               lockRemainingSec > 0
                 ? 'bg-slate-700 text-slate-400 cursor-not-allowed shadow-none'
-                : 'bg-amber-500 hover:bg-amber-600 shadow-amber-500/20 cursor-pointer'
+                : 'bg-[#a16207] hover:bg-[#854d0e] text-stone-950 shadow-white/10 cursor-pointer'
             }`}
           >
             {lockRemainingSec > 0 ? (

@@ -199,13 +199,13 @@ export const AutoTranslateModal: React.FC<AutoTranslateModalProps> = ({
         {/* Header */}
         <div className="p-5 sm:p-6 border-b border-slate-800 flex items-center justify-between shrink-0 bg-slate-900/90">
           <div className="flex items-center gap-3">
-            <div className="p-2.5 bg-amber-500/20 text-amber-400 rounded-2xl border border-amber-500/30 shadow-inner">
+            <div className="p-2.5 bg-[#ca8a04]/20 text-[#eab308] rounded-2xl border border-white/25 shadow-inner">
               <Sparkles className="w-6 h-6 animate-pulse" />
             </div>
             <div>
               <h2 className="text-lg sm:text-xl font-bold text-white flex items-center gap-2">
                 Trạm Dịch Thuật Đa Ngôn Ngữ Tự Động
-                <span className="text-xs px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                <span className="text-xs px-2.5 py-0.5 rounded-full bg-[#ca8a04]/20 text-[#fde047] border border-white/25">
                   5 Thứ Tiếng
                 </span>
               </h2>
@@ -230,7 +230,7 @@ export const AutoTranslateModal: React.FC<AutoTranslateModalProps> = ({
           {/* Top Config: Source Language Selector */}
           <div className="flex flex-wrap items-center justify-between gap-3 bg-slate-950/60 p-3.5 rounded-2xl border border-slate-800">
             <div className="flex items-center gap-2 text-xs font-semibold text-slate-300">
-              <Globe className="w-4 h-4 text-amber-400" />
+              <Globe className="w-4 h-4 text-white" />
               <span>Ngôn ngữ nguồn đầu vào:</span>
             </div>
             <div className="flex flex-wrap items-center gap-1.5">
@@ -239,7 +239,7 @@ export const AutoTranslateModal: React.FC<AutoTranslateModalProps> = ({
                 onClick={() => setSourceLang('auto')}
                 className={`px-3 py-1.5 rounded-xl text-xs font-bold transition ${
                   sourceLang === 'auto'
-                    ? 'bg-amber-500 text-slate-950 shadow-md'
+                    ? 'bg-[#ca8a04] text-stone-950 shadow-md'
                     : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
                 }`}
               >
@@ -252,7 +252,7 @@ export const AutoTranslateModal: React.FC<AutoTranslateModalProps> = ({
                   onClick={() => setSourceLang(l.code)}
                   className={`px-2.5 py-1.5 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition ${
                     sourceLang === l.code
-                      ? 'bg-amber-500 text-slate-950 font-bold shadow-md'
+                      ? 'bg-[#ca8a04] text-stone-950 font-bold shadow-md'
                       : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
                   }`}
                 >
@@ -271,10 +271,10 @@ export const AutoTranslateModal: React.FC<AutoTranslateModalProps> = ({
             onClick={() => fileInputRef.current?.click()}
             className={`border-2 border-dashed rounded-3xl p-6 text-center cursor-pointer transition-all flex flex-col items-center justify-center gap-3 ${
               isDragging
-                ? 'border-amber-400 bg-amber-500/10 scale-[1.01]'
+                ? 'border-[#a16207] bg-[#ca8a04]/10 scale-[1.01]'
                 : selectedFile
                 ? 'border-emerald-500/50 bg-emerald-500/5 hover:border-emerald-400'
-                : 'border-slate-700 hover:border-amber-500/60 bg-slate-950/40 hover:bg-slate-950/70'
+                : 'border-slate-700 hover:border-[#a16207]/60 bg-slate-950/40 hover:bg-slate-950/70'
             }`}
           >
             <input
@@ -309,7 +309,7 @@ export const AutoTranslateModal: React.FC<AutoTranslateModalProps> = ({
               </div>
             ) : (
               <>
-                <div className="p-3 bg-amber-500/10 text-amber-400 rounded-2xl">
+                <div className="p-3 bg-[#ca8a04]/10 text-[#eab308] rounded-2xl">
                   <UploadCloud className="w-8 h-8" />
                 </div>
                 <div>
@@ -317,7 +317,7 @@ export const AutoTranslateModal: React.FC<AutoTranslateModalProps> = ({
                     Kéo thả tệp âm thanh hoặc văn bản vào đây
                   </div>
                   <div className="text-xs text-slate-400 mt-1">
-                    Hỗ trợ tệp <span className="text-amber-400 font-semibold">.txt, .srt, .vtt, .json</span> hoặc tệp âm thanh <span className="text-amber-400 font-semibold">.mp3, .wav, .m4a</span>
+                    Hỗ trợ tệp <span className="text-white font-semibold">.txt, .srt, .vtt, .json</span> hoặc tệp âm thanh <span className="text-white font-semibold">.mp3, .wav, .m4a</span>
                   </div>
                 </div>
               </>
@@ -335,7 +335,7 @@ export const AutoTranslateModal: React.FC<AutoTranslateModalProps> = ({
                 value={inputTitle}
                 onChange={(e) => setInputTitle(e.target.value)}
                 placeholder="VD: Máy bay tiêm kích MiG-21..."
-                className="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-400"
+                className="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-[#a16207]"
               />
             </div>
             <div className="sm:col-span-2 flex flex-col gap-1.5">
@@ -347,7 +347,7 @@ export const AutoTranslateModal: React.FC<AutoTranslateModalProps> = ({
                 value={inputDescription}
                 onChange={(e) => setInputDescription(e.target.value)}
                 placeholder="Dán hoặc gõ đoạn văn bản bất kỳ ngôn ngữ nào vào đây để bắt đầu dịch..."
-                className="w-full bg-slate-950 border border-slate-700 rounded-xl p-3 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-400 resize-none"
+                className="w-full bg-slate-950 border border-slate-700 rounded-xl p-3 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-[#a16207] resize-none"
               />
             </div>
           </div>
@@ -361,7 +361,7 @@ export const AutoTranslateModal: React.FC<AutoTranslateModalProps> = ({
               className={`flex items-center gap-2 px-6 py-3 rounded-2xl text-xs sm:text-sm font-bold transition shadow-lg cursor-pointer ${
                 isTranslating || (!inputDescription.trim() && !inputTitle.trim())
                   ? 'bg-slate-800 text-slate-500 cursor-not-allowed border border-slate-700'
-                  : 'bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 shadow-amber-500/20 active:scale-95'
+                  : 'bg-[#ca8a04] hover:bg-[#a16207] text-stone-950 shadow-white/10 active:scale-95'
               }`}
             >
               {isTranslating ? (
@@ -382,7 +382,7 @@ export const AutoTranslateModal: React.FC<AutoTranslateModalProps> = ({
           {(isTranslating || progressPercent > 0) && (
             <div className="bg-slate-950/80 border border-slate-800 rounded-2xl p-4 flex flex-col gap-3">
               <div className="flex items-center justify-between text-xs">
-                <span className="font-bold text-amber-400 flex items-center gap-1.5">
+                <span className="font-bold text-white flex items-center gap-1.5">
                   <RefreshCw className={`w-3.5 h-3.5 ${isTranslating ? 'animate-spin' : ''}`} />
                   {progressMessage}
                 </span>
@@ -392,7 +392,7 @@ export const AutoTranslateModal: React.FC<AutoTranslateModalProps> = ({
               {/* Progress Line */}
               <div className="w-full bg-slate-800 rounded-full h-2.5 overflow-hidden">
                 <div
-                  className="bg-gradient-to-r from-amber-500 via-amber-400 to-emerald-400 h-2.5 rounded-full transition-all duration-300"
+                  className="bg-gradient-to-r from-white via-zinc-300 to-emerald-400 h-2.5 rounded-full transition-all duration-300"
                   style={{ width: `${progressPercent}%` }}
                 />
               </div>
@@ -442,7 +442,7 @@ export const AutoTranslateModal: React.FC<AutoTranslateModalProps> = ({
                   className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition cursor-pointer ${
                     isPlayingTTS
                       ? 'bg-red-500/20 text-red-400 border border-red-500/40'
-                      : 'bg-amber-500/15 text-amber-300 border border-amber-500/30 hover:bg-amber-500/25'
+                      : 'bg-[#ca8a04]/15 text-[#fde047] border border-white/25 hover:bg-[#ca8a04]/25'
                   }`}
                 >
                   {isPlayingTTS ? (
@@ -472,7 +472,7 @@ export const AutoTranslateModal: React.FC<AutoTranslateModalProps> = ({
                     }}
                     className={`px-3 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition ${
                       activePreviewTab === l.code
-                        ? 'bg-amber-500 text-slate-950 shadow-md'
+                        ? 'bg-[#ca8a04] text-stone-950 shadow-md'
                         : 'bg-slate-800/70 text-slate-400 hover:text-white'
                     }`}
                   >
@@ -494,7 +494,7 @@ export const AutoTranslateModal: React.FC<AutoTranslateModalProps> = ({
                     onChange={(e) =>
                       setTranslatedTitles({ ...translatedTitles, [activePreviewTab]: e.target.value })
                     }
-                    className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-400"
+                    className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-[#a16207]"
                   />
                 </div>
                 <div>
@@ -507,7 +507,7 @@ export const AutoTranslateModal: React.FC<AutoTranslateModalProps> = ({
                     onChange={(e) =>
                       setTranslatedDescriptions({ ...translatedDescriptions, [activePreviewTab]: e.target.value })
                     }
-                    className="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-amber-400 resize-none leading-relaxed"
+                    className="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-[#a16207] resize-none leading-relaxed"
                   />
                 </div>
               </div>

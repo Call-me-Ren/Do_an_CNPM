@@ -33,7 +33,7 @@ export const FloorMapView: React.FC<Props> = ({ floors, artifacts, onSelectArtif
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2 border-b border-slate-200">
         <div>
           <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight flex items-center gap-2.5">
-            <Layers className="w-6 h-6 text-amber-600" />
+            <Layers className="w-6 h-6 text-[#a16207]" />
             <span>{t('floorMapTitle')}</span>
           </h2>
           <p className="text-xs sm:text-sm text-slate-500 mt-0.5">
@@ -47,10 +47,10 @@ export const FloorMapView: React.FC<Props> = ({ floors, artifacts, onSelectArtif
             <button
               key={floor.id}
               onClick={() => setSelectedFloorId(floor.id)}
-              className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition shrink-0 ${
+              className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition shrink-0 cursor-pointer ${
                 selectedFloorId === floor.id
-                  ? 'bg-amber-500 text-slate-950 shadow-md shadow-amber-500/20'
-                  : 'bg-white text-slate-700 hover:bg-slate-100 border border-slate-200'
+                  ? 'bg-[#a16207] text-white shadow-md ring-1 ring-[#ca8a04]/30'
+                  : 'bg-white text-slate-700 hover:bg-stone-100 border border-stone-200'
               }`}
             >
               {floor.name[currentLang] || floor.name['vi']}
@@ -62,7 +62,7 @@ export const FloorMapView: React.FC<Props> = ({ floors, artifacts, onSelectArtif
       {/* Main 2-Column Responsive Web Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
         {/* Left: Interactive Map Canvas (2 Columns on Desktop) */}
-        <div className="lg:col-span-2 bg-slate-900 rounded-3xl overflow-hidden shadow-xl border border-slate-800 relative w-full aspect-[4/3] flex items-center justify-center">
+        <div className="lg:col-span-2 bg-stone-100 rounded-3xl overflow-hidden shadow-md border border-stone-200 relative w-full aspect-[4/3] flex items-center justify-center">
           {currentFloor ? (
             <div className="relative w-full h-full">
               <img
@@ -103,8 +103,8 @@ export const FloorMapView: React.FC<Props> = ({ floors, artifacts, onSelectArtif
                       isAnchorThis
                         ? 'bg-emerald-500 text-white ring-emerald-400/50 scale-125 z-30'
                         : isPlayingThis
-                        ? 'bg-amber-400 text-slate-950 ring-amber-400/50 animate-pulse scale-110 z-20'
-                        : 'bg-amber-500 text-white ring-amber-400/30 group z-10'
+                        ? 'bg-[#ca8a04] text-stone-950 ring-white/40 animate-pulse scale-110 z-20'
+                        : 'bg-[#a16207] text-white ring-white/15 group z-10'
                     }`}
                     title={artifact.title[currentLang] || artifact.title['vi']}
                   >
@@ -134,7 +134,7 @@ export const FloorMapView: React.FC<Props> = ({ floors, artifacts, onSelectArtif
           <div className="flex items-center justify-between pb-2 border-b border-slate-100">
             <h3 className="font-extrabold text-slate-900 text-base">
               {t('artifactsInFloor')}{' '}
-              <span className="text-amber-600">
+              <span className="text-[#a16207]">
                 {currentFloor ? currentFloor.name[currentLang] || currentFloor.name['vi'] : ''}
               </span>
             </h3>
@@ -155,7 +155,7 @@ export const FloorMapView: React.FC<Props> = ({ floors, artifacts, onSelectArtif
                   <div
                     key={artifact.id}
                     onClick={() => onSelectArtifact(artifact)}
-                    className="p-3 rounded-2xl border border-slate-200/80 hover:border-amber-400 hover:shadow-md transition-all cursor-pointer flex items-center justify-between gap-3 group bg-slate-50/50 hover:bg-white"
+                    className="p-3 rounded-2xl border border-slate-200/80 hover:border-[#a16207] hover:shadow-md transition-all cursor-pointer flex items-center justify-between gap-3 group bg-slate-50/50 hover:bg-white"
                   >
                     <div className="flex items-center gap-3 min-w-0">
                       <img
@@ -173,7 +173,7 @@ export const FloorMapView: React.FC<Props> = ({ floors, artifacts, onSelectArtif
                       />
                       <div className="min-w-0">
                         <div className="flex items-center gap-1.5">
-                          <span className="text-[11px] font-mono font-bold text-amber-600">
+                          <span className="text-[11px] font-mono font-bold text-[#a16207]">
                             {artifact.code}
                           </span>
                           {trackingEnabled && anchorArtifactId === artifact.id && (
@@ -182,12 +182,12 @@ export const FloorMapView: React.FC<Props> = ({ floors, artifacts, onSelectArtif
                             </span>
                           )}
                           {nearbyMap.has(artifact.id) && anchorArtifactId !== artifact.id && (
-                            <span className="text-[9px] font-bold px-1.5 py-0.2 rounded-full bg-amber-500/10 text-amber-700 border border-amber-500/30">
+                            <span className="text-[9px] font-bold px-1.5 py-0.2 rounded-full bg-[#a16207]/10 text-[#a16207] border border-white/25">
                               {t('nearYou')} (~{Math.round(nearbyMap.get(artifact.id) || 0)}m)
                             </span>
                           )}
                         </div>
-                        <div className="text-sm font-bold text-slate-800 truncate group-hover:text-amber-600 transition-colors">
+                        <div className="text-sm font-bold text-slate-800 truncate group-hover:text-[#a16207] transition-colors">
                           {artifact.title[currentLang] || artifact.title['vi']}
                         </div>
                       </div>
@@ -204,8 +204,8 @@ export const FloorMapView: React.FC<Props> = ({ floors, artifacts, onSelectArtif
                       }}
                       className={`p-2.5 rounded-xl shrink-0 transition cursor-pointer ${
                         isPlayingThis
-                          ? 'bg-amber-600 text-white animate-pulse shadow-md shadow-amber-600/30'
-                          : 'bg-amber-100/70 text-amber-700 hover:bg-amber-500 hover:text-white'
+                          ? 'bg-[#a16207] text-white animate-pulse shadow-md shadow-zinc-900/25'
+                          : 'bg-[#a16207]/10 text-[#a16207] hover:bg-[#a16207] hover:text-white'
                       }`}
                       title={isPlayingThis ? 'Dừng phát' : t('listenGuide')}
                     >

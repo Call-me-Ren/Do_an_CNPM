@@ -2,7 +2,8 @@ import React, { useEffect, useMemo } from 'react';
 import { Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { setAudioModeAsync, useAudioPlayer, useAudioPlayerStatus } from 'expo-audio';
-import { useRouter } from 'expo-router';
+import { useRouter, useSegments } from 'expo-router';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { usePlayerStore } from '../shared/stores/playerStore';
 import { useLangStore } from '../shared/stores/langStore';
 import { resolveBundledAsset } from '../shared/assetMap';
@@ -13,6 +14,10 @@ const RATES = [1.0, 1.25, 1.5, 2.0];
 
 export const AudioPlayerBar: React.FC = () => {
   const router = useRouter();
+  const segments = useSegments();
+  const insets = useSafeAreaInsets();
+  const inTabs = segments[0] === '(tabs)';
+  const bottomOffset = (inTabs ? 58 + Math.max(insets.bottom, 8) : Math.max(insets.bottom, 8)) + 8;
   const { currentLang } = useLangStore();
   const {
     currentArtifact,
@@ -121,7 +126,7 @@ export const AudioPlayerBar: React.FC = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { bottom: bottomOffset }]}>
       {showSubtitle && !!activeCueText && (
         <View style={styles.subtitleBox}>
           <Text style={styles.subtitleText} numberOfLines={3}>
@@ -163,13 +168,22 @@ export const AudioPlayerBar: React.FC = () => {
           </TouchableOpacity>
 
           <View style={styles.controls}>
-            <TouchableOpacity style={styles.chip} onPress={cycleRate}>
+            <TouchableOpacity
+              style={styles.chip}
+              onPress={cycleRate}
+              hitSlop={{ top: 8, bottom: 8, left: 6, right: 6 }}
+              accessibilityRole="button"
+              accessibilityLabel={`Tốc độ phát ${playbackRate}x`}
+            >
               <Text style={styles.chipText}>{playbackRate}x</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
               style={[styles.chip, showSubtitle && styles.chipActive]}
               onPress={toggleSubtitle}
+              hitSlop={{ top: 8, bottom: 8, left: 6, right: 6 }}
+              accessibilityRole="button"
+              accessibilityLabel="Bật tắt phụ đề"
             >
               <Ionicons
                 name="text"
@@ -181,11 +195,20 @@ export const AudioPlayerBar: React.FC = () => {
             <TouchableOpacity
               style={styles.playBtn}
               onPress={() => (isPlaying ? pause() : resume())}
+              hitSlop={{ top: 6, bottom: 6, left: 6, right: 6 }}
+              accessibilityRole="button"
+              accessibilityLabel={isPlaying ? 'Tạm dừng' : 'Phát'}
             >
               <Ionicons name={isPlaying ? 'pause' : 'play'} size={18} color={COLORS.bg} />
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.closeBtn} onPress={stop}>
+            <TouchableOpacity
+              style={styles.closeBtn}
+              onPress={stop}
+              hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+              accessibilityRole="button"
+              accessibilityLabel="Đóng trình phát"
+            >
               <Ionicons name="close" size={18} color={COLORS.textMuted} />
             </TouchableOpacity>
           </View>
@@ -204,27 +227,31 @@ const styles = StyleSheet.create({
     gap: 6,
   },
   subtitleBox: {
-    backgroundColor: 'rgba(15, 23, 42, 0.95)',
+    backgroundColor: 'rgba(28, 25, 23, 0.96)',
     borderWidth: 1,
-    borderColor: COLORS.amber,
-    borderRadius: 12,
-    paddingHorizontal: 12,
-    paddingVertical: 8,
+    borderColor: COLORS.amberBorder,
+    borderRadius: 14,
+    paddingHorizontal: 14,
+    paddingVertical: 10,
   },
   subtitleText: {
     color: COLORS.text,
     fontSize: 13,
-    lineHeight: 18,
+    lineHeight: 19,
     textAlign: 'center',
     fontWeight: '500',
   },
   bar: {
-    backgroundColor: COLORS.surface,
+    backgroundColor: COLORS.surfaceElevated,
     borderWidth: 1,
-    borderColor: COLORS.border,
-    borderRadius: 16,
+    borderColor: COLORS.borderSubtle,
+    borderRadius: 20,
     overflow: 'hidden',
-    elevation: 8,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.35,
+    shadowRadius: 16,
+    elevation: 10,
   },
   progressTrack: {
     height: 4,

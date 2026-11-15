@@ -69,6 +69,11 @@ export const ArtifactsManageView: React.FC = () => {
     const file = e.target.files?.[0];
     if (!file) return;
 
+    if (file.size > 10 * 1024 * 1024) {
+      setAlertMessage('Tệp hình ảnh vượt quá dung lượng tối đa 10MB!');
+      return;
+    }
+
     const reader = new FileReader();
     reader.onload = (event) => {
       const dataUrl = event.target?.result as string;
@@ -248,26 +253,17 @@ export const ArtifactsManageView: React.FC = () => {
 
         <div className="flex items-center gap-2.5">
           <button
-            onClick={() => setIsAutoTranslateOpen(true)}
-            className="flex items-center gap-2 bg-gradient-to-r from-amber-500/15 to-amber-600/15 hover:from-amber-500/25 hover:to-amber-600/25 text-amber-300 border border-amber-500/40 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold transition shadow-xs cursor-pointer"
-            title="Kéo thả tệp hoặc nhập văn bản để tự động dịch 5 thứ tiếng"
-          >
-            <Sparkles className="w-4 h-4 text-amber-400" />
-            <span>AI Dịch Đa Ngôn Ngữ</span>
-          </button>
-
-          <button
             onClick={() => setSelectedQrTarget('GATE')}
-            className="flex items-center gap-2 bg-slate-800 hover:bg-slate-750 text-amber-400 border border-amber-500/30 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold transition shadow-sm"
+            className="flex items-center gap-2 bg-slate-800 hover:bg-slate-700/60 text-white border border-white/25 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold transition shadow-sm cursor-pointer"
             title="Xem và xuất mã QR cổng chính / trang chủ bảo tàng"
           >
-            <QrCode className="w-4 h-4 text-amber-500" />
+            <QrCode className="w-4 h-4 text-white" />
             <span>Mã QR Cổng Bảo Tàng</span>
           </button>
 
           <button
             onClick={handleOpenAdd}
-            className="flex items-center gap-2 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-4 py-2 rounded-xl text-xs sm:text-sm transition shadow-md"
+            className="flex items-center gap-2 bg-[#ca8a04] hover:bg-[#a16207] text-stone-950 font-bold px-4 py-2 rounded-xl text-xs sm:text-sm transition shadow-md"
           >
             <Plus className="w-4 h-4" />
             <span>Thêm Hiện Vật Mới</span>
@@ -292,12 +288,12 @@ export const ArtifactsManageView: React.FC = () => {
               </thead>
               <tbody className="divide-y divide-slate-700/60">
                 {artifacts.map((item) => (
-                  <tr key={item.id} className="hover:bg-slate-750 transition-colors">
-                    <td className="py-3.5 px-4 font-mono font-semibold text-amber-400">
+                  <tr key={item.id} className="hover:bg-slate-700/40 transition-colors">
+                    <td className="py-3.5 px-4 font-mono font-semibold text-white">
                       <div className="flex items-center gap-1.5">
                         <span>{item.code}</span>
                         {(item.createdAt || (!item.id.startsWith('WRM') && artifacts[0]?.id === item.id)) && (
-                          <span className="text-[10px] font-sans font-bold bg-amber-500 text-slate-950 px-1.5 py-0.5 rounded shadow-sm">
+                          <span className="text-[10px] font-sans font-bold bg-[#ca8a04] text-stone-950 px-1.5 py-0.5 rounded shadow-sm">
                             MỚI
                           </span>
                         )}
@@ -354,14 +350,14 @@ export const ArtifactsManageView: React.FC = () => {
                       <div className="flex items-center justify-end gap-1.5">
                         <button
                           onClick={() => setSelectedQrTarget(item)}
-                          className="p-1.5 text-slate-400 hover:text-amber-400 hover:bg-slate-700/60 rounded-lg transition"
+                          className="p-1.5 text-slate-400 hover:text-white hover:bg-slate-700/60 rounded-lg transition"
                           title="Xem & Xuất mã QR trưng bày"
                         >
                           <QrCode className="w-4 h-4" />
                         </button>
                         <button
                           onClick={() => handleOpenEdit(item)}
-                          className="p-1.5 text-slate-400 hover:text-amber-400 hover:bg-slate-700/60 rounded-lg transition"
+                          className="p-1.5 text-slate-400 hover:text-white hover:bg-slate-700/60 rounded-lg transition"
                           title="Chỉnh sửa"
                         >
                           <Edit className="w-4 h-4" />
@@ -393,7 +389,7 @@ export const ArtifactsManageView: React.FC = () => {
             <div>
               <h3 className="text-lg font-bold text-white">Xác Nhận Xóa Hiện Vật</h3>
               <p className="text-xs text-slate-400 mt-1.5 leading-relaxed">
-                Bạn có chắc chắn muốn xóa hiện vật <span className="text-amber-400 font-mono font-bold">[{deletingArtifact.code}]</span> - <span className="text-slate-200 font-semibold">{deletingArtifact.title}</span>? Hành động này sẽ loại bỏ hiện vật khỏi danh mục tham quan.
+                Bạn có chắc chắn muốn xóa hiện vật <span className="text-white font-mono font-bold">[{deletingArtifact.code}]</span> - <span className="text-slate-200 font-semibold">{deletingArtifact.title}</span>? Hành động này sẽ loại bỏ hiện vật khỏi danh mục tham quan.
               </p>
             </div>
             <div className="grid grid-cols-2 gap-3 mt-1">
@@ -446,7 +442,7 @@ export const ArtifactsManageView: React.FC = () => {
                     required
                     value={formCode}
                     onChange={(e) => setFormCode(e.target.value)}
-                    className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:ring-2 focus:ring-amber-500 font-mono"
+                    className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:ring-2 focus:ring-[#ca8a04] font-mono"
                   />
                 </div>
                 <div>
@@ -454,7 +450,7 @@ export const ArtifactsManageView: React.FC = () => {
                   <select
                     value={formFloorId}
                     onChange={(e) => setFormFloorId(Number(e.target.value))}
-                    className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none"
+                    className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:ring-2 focus:ring-[#ca8a04]"
                   >
                     <option value={1}>Sân Ngoài Trời - Vũ Khí Hạng Nặng & Chuồng Cọp</option>
                     <option value={2}>Tầng Trệt - Chế Độ Lao Tù & Thế Giới Ủng Hộ</option>
@@ -472,7 +468,7 @@ export const ArtifactsManageView: React.FC = () => {
                     required
                     value={formImageUrl}
                     onChange={(e) => setFormImageUrl(e.target.value)}
-                    className="flex-1 bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:ring-1 focus:ring-amber-500"
+                    className="flex-1 bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:ring-1 focus:ring-[#ca8a04]"
                     placeholder="Đường dẫn hoặc link ảnh (/images/... hoặc https://...)"
                   />
 
@@ -489,10 +485,10 @@ export const ArtifactsManageView: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => fileInputRef.current?.click()}
-                    className="flex items-center gap-1.5 px-3 py-2 bg-slate-800 hover:bg-slate-700 text-amber-400 hover:text-amber-300 border border-slate-700 rounded-xl text-xs font-semibold shrink-0 transition cursor-pointer"
+                    className="flex items-center gap-1.5 px-3 py-2 bg-slate-800 hover:bg-slate-700 text-white hover:text-zinc-200 border border-slate-700 rounded-xl text-xs font-semibold shrink-0 transition cursor-pointer"
                     title="Mở thư mục máy tính để chọn hình ảnh"
                   >
-                    <FolderOpen className="w-4 h-4 text-amber-500" />
+                    <FolderOpen className="w-4 h-4 text-white" />
                     <span>Chọn tệp</span>
                   </button>
                 </div>
@@ -510,7 +506,7 @@ export const ArtifactsManageView: React.FC = () => {
                     max={100}
                     value={formTriggerRadius}
                     onChange={(e) => setFormTriggerRadius(Number(e.target.value))}
-                    className="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none focus:ring-1 focus:ring-amber-500"
+                    className="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none focus:ring-1 focus:ring-[#ca8a04]"
                     placeholder="15"
                   />
                 </div>
@@ -522,7 +518,7 @@ export const ArtifactsManageView: React.FC = () => {
                     type="text"
                     value={formLat}
                     onChange={(e) => setFormLat(e.target.value)}
-                    className="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none focus:ring-1 focus:ring-amber-500 font-mono"
+                    className="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none focus:ring-1 focus:ring-[#ca8a04] font-mono"
                     placeholder="10.779520"
                   />
                 </div>
@@ -534,7 +530,7 @@ export const ArtifactsManageView: React.FC = () => {
                     type="text"
                     value={formLon}
                     onChange={(e) => setFormLon(e.target.value)}
-                    className="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none focus:ring-1 focus:ring-amber-500 font-mono"
+                    className="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none focus:ring-1 focus:ring-[#ca8a04] font-mono"
                     placeholder="106.692180"
                   />
                 </div>
@@ -545,7 +541,7 @@ export const ArtifactsManageView: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setIsAutoTranslateOpen(true)}
-                  className="flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-amber-500/20 to-amber-600/20 hover:from-amber-500/30 text-amber-300 border border-amber-500/40 rounded-xl text-xs font-bold transition shadow-xs cursor-pointer"
+                  className="flex items-center gap-1.5 px-3 py-1.5 bg-white/15 hover:bg-white/25 text-white border border-white/30 rounded-xl text-xs font-bold transition shadow-xs cursor-pointer"
                 >
                   <Sparkles className="w-3.5 h-3.5" />
                   <span>🪄 Kéo thả tệp / Dịch tự động 5 ngôn ngữ</span>
@@ -562,7 +558,7 @@ export const ArtifactsManageView: React.FC = () => {
                       onClick={() => setActiveLangTab(l.code)}
                       className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition shrink-0 ${
                         activeLangTab === l.code
-                          ? 'bg-amber-500 text-slate-950 font-bold'
+                          ? 'bg-[#ca8a04] text-stone-950 font-bold'
                           : 'text-slate-400 hover:text-white'
                       }`}
                     >
@@ -582,7 +578,7 @@ export const ArtifactsManageView: React.FC = () => {
                       setFormTitles({ ...formTitles, [activeLangTab]: e.target.value })
                     }
                     placeholder={`Tên hiện vật bằng ${activeLangTab}...`}
-                    className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none"
+                    className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:ring-2 focus:ring-[#ca8a04]"
                   />
                 </div>
 
@@ -597,7 +593,7 @@ export const ArtifactsManageView: React.FC = () => {
                       setFormDescriptions({ ...formDescriptions, [activeLangTab]: e.target.value })
                     }
                     placeholder={`Bài viết giới thiệu bằng ${activeLangTab}...`}
-                    className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none"
+                    className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:ring-2 focus:ring-[#ca8a04]"
                   />
                 </div>
               </div>
@@ -612,7 +608,7 @@ export const ArtifactsManageView: React.FC = () => {
                 </button>
                 <button
                   type="submit"
-                  className="px-6 py-2.5 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold rounded-xl text-xs transition shadow-md"
+                  className="px-6 py-2.5 bg-[#ca8a04] hover:bg-[#a16207] text-stone-950 font-bold rounded-xl text-xs transition shadow-md"
                 >
                   {editingArtifact ? 'Lưu Thay Đổi' : 'Thêm Mới Hiện Vật'}
                 </button>
@@ -628,7 +624,7 @@ export const ArtifactsManageView: React.FC = () => {
           <div className="bg-slate-800 border border-slate-700 rounded-3xl p-6 w-full max-w-lg shadow-2xl flex flex-col gap-5 text-white">
             <div className="flex items-center justify-between pb-3 border-b border-slate-700">
               <h3 className="font-bold text-base text-white flex items-center gap-2">
-                <QrCode className="w-5 h-5 text-amber-500" />
+                <QrCode className="w-5 h-5 text-white" />
                 <span>
                   {selectedQrTarget === 'GATE'
                     ? 'Mã QR Cổng Chính Bảo Tàng'
@@ -645,7 +641,7 @@ export const ArtifactsManageView: React.FC = () => {
             </div>
 
             <div className="flex flex-col items-center gap-4">
-              <div className="bg-white p-4 rounded-2xl shadow-xl flex flex-col items-center gap-2 border-4 border-amber-500/40">
+              <div className="bg-white p-4 rounded-2xl shadow-xl flex flex-col items-center gap-2 border-4 border-white/30">
                 <canvas ref={qrCanvasRef} className="rounded-lg"></canvas>
                 <div className="text-center">
                   <div className="font-bold text-slate-900 text-sm">
@@ -653,7 +649,7 @@ export const ArtifactsManageView: React.FC = () => {
                       ? 'Bảo Tàng Lịch Sử'
                       : selectedQrTarget.title['vi']}
                   </div>
-                  <div className="text-xs text-amber-600 font-mono font-semibold">
+                  <div className="text-xs text-[#a16207] font-mono font-semibold">
                     {selectedQrTarget === 'GATE'
                       ? 'CỔNG CHÍNH BẢO TÀNG'
                       : `MÃ: ${selectedQrTarget.code} • ${getFloorName(selectedQrTarget.floorId).toUpperCase()}`}
@@ -691,7 +687,7 @@ export const ArtifactsManageView: React.FC = () => {
                 <button
                   type="button"
                   onClick={handleDownloadQr}
-                  className="flex-1 flex items-center justify-center gap-2 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-4 py-2.5 rounded-xl text-xs transition shadow-md"
+                  className="flex-1 flex items-center justify-center gap-2 bg-[#ca8a04] hover:bg-[#a16207] text-stone-950 font-bold px-4 py-2.5 rounded-xl text-xs transition shadow-md"
                 >
                   <Download className="w-4 h-4" />
                   <span>Tải ảnh PNG</span>

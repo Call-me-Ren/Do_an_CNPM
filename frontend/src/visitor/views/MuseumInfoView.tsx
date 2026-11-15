@@ -28,7 +28,7 @@ export const MuseumInfoView: React.FC<Props> = ({ museum }) => {
         />
         <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/40 to-transparent flex items-end p-6 sm:p-10">
           <div className="text-white max-w-3xl">
-            <span className="text-xs uppercase tracking-widest text-amber-400 font-bold flex items-center gap-2 mb-2 bg-slate-900/50 backdrop-blur-md px-3 py-1 rounded-full w-fit">
+            <span className="text-xs uppercase tracking-widest text-white font-bold flex items-center gap-2 mb-2 bg-[#a16207]/90 backdrop-blur-md px-3 py-1 rounded-full w-fit shadow-sm">
               <Building2 className="w-4 h-4" />
               {t('historyMuseumTag')}
             </span>
@@ -41,8 +41,8 @@ export const MuseumInfoView: React.FC<Props> = ({ museum }) => {
 
       {/* 3-Column Info Cards on Desktop */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-        <div className="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-xs flex items-start gap-4 hover:shadow-md transition">
-          <div className="p-3 bg-amber-50 rounded-2xl text-amber-600 shrink-0">
+        <div className="bg-white p-6 rounded-3xl border border-stone-200/90 shadow-[0_2px_12px_rgba(15,23,42,0.04)] flex items-start gap-4 hover:shadow-md transition">
+          <div className="p-3 bg-stone-100 border border-stone-200 rounded-2xl text-[#a16207] shrink-0">
             <Clock className="w-6 h-6" />
           </div>
           <div>
@@ -53,8 +53,8 @@ export const MuseumInfoView: React.FC<Props> = ({ museum }) => {
           </div>
         </div>
 
-        <div className="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-xs flex items-start gap-4 hover:shadow-md transition">
-          <div className="p-3 bg-amber-50 rounded-2xl text-amber-600 shrink-0">
+        <div className="bg-white p-6 rounded-3xl border border-stone-200/90 shadow-[0_2px_12px_rgba(15,23,42,0.04)] flex items-start gap-4 hover:shadow-md transition">
+          <div className="p-3 bg-stone-100 border border-stone-200 rounded-2xl text-[#a16207] shrink-0">
             <Phone className="w-6 h-6" />
           </div>
           <div>
@@ -63,8 +63,8 @@ export const MuseumInfoView: React.FC<Props> = ({ museum }) => {
           </div>
         </div>
 
-        <div className="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-xs flex items-start gap-4 hover:shadow-md transition">
-          <div className="p-3 bg-amber-50 rounded-2xl text-amber-600 shrink-0">
+        <div className="bg-white p-6 rounded-3xl border border-stone-200/90 shadow-[0_2px_12px_rgba(15,23,42,0.04)] flex items-start gap-4 hover:shadow-md transition">
+          <div className="p-3 bg-stone-100 border border-stone-200 rounded-2xl text-[#a16207] shrink-0">
             <MapPin className="w-6 h-6" />
           </div>
           <div>
@@ -77,7 +77,7 @@ export const MuseumInfoView: React.FC<Props> = ({ museum }) => {
       </div>
 
       {/* About Description Card */}
-      <div className="bg-white p-6 sm:p-10 rounded-3xl border border-slate-200/80 shadow-xs flex flex-col gap-4">
+      <div className="bg-white p-6 sm:p-10 rounded-3xl border border-stone-200/90 shadow-[0_2px_12px_rgba(15,23,42,0.04)] flex flex-col gap-4">
         <h3 className="font-extrabold text-slate-900 text-lg sm:text-xl tracking-tight">
           {t('aboutMuseum')}
         </h3>

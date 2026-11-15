@@ -33,7 +33,7 @@ export const AlertModal: React.FC<Props> = ({
             type === 'error'
               ? 'bg-red-50 text-red-600'
               : type === 'warning'
-              ? 'bg-amber-50 text-amber-600'
+              ? 'bg-[#a16207]/10 text-[#a16207]'
               : type === 'success'
               ? 'bg-emerald-50 text-emerald-600'
               : 'bg-blue-50 text-blue-600'

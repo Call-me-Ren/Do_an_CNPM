@@ -31,9 +31,9 @@ export const TrackingPanel: React.FC<Props> = ({ artifacts }) => {
 
   return (
     <div className="mb-5" data-testid="tracking-panel">
-      <div className="flex items-center justify-between gap-3 flex-wrap bg-amber-500/10 border border-amber-400/50 rounded-2xl px-4 py-3">
+      <div className="flex items-center justify-between gap-3 flex-wrap bg-[#a16207]/10 border border-[#a16207]/40 rounded-2xl px-4 py-3">
         <div className="flex items-center gap-2.5 text-xs sm:text-sm font-semibold text-slate-800 min-w-0">
-          <Volume2 className="w-4 h-4 text-amber-600 shrink-0" />
+          <Volume2 className="w-4 h-4 text-[#a16207] shrink-0" />
           <span>
             {suggestion.kind === 'switch'
               ? t('suggestSwitch', { name: suggestedName })
@@ -48,7 +48,7 @@ export const TrackingPanel: React.FC<Props> = ({ artifacts }) => {
               playArtifact(suggestedArtifact);
               setSuggestion(null);
             }}
-            className="px-3 py-1.5 rounded-xl text-xs font-bold bg-amber-500 hover:bg-amber-600 text-slate-950 transition cursor-pointer"
+            className="px-3 py-1.5 rounded-xl text-xs font-bold bg-[#ca8a04] hover:bg-[#a16207] text-stone-950 transition cursor-pointer"
           >
             {suggestion.kind === 'switch' ? t('switchNow') : t('replayNow')}
           </button>

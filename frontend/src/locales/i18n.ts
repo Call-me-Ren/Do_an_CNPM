@@ -93,6 +93,9 @@ const resources = {
       trackStart: "Enable location tracking",
       trackStop: "Stop tracking",
       trackSearching: "Locating you...",
+      trackReadyNeedQr: "Locating • Scan the entrance or exhibit QR code to start auto audio guide",
+      trackAutoTourActive: "Auto audio guide is active as you approach exhibits",
+      scanQrNow: "Scan QR now",
       trackActive: "Tracking your location",
       trackDenied: "Unable to track your location. Please allow location access or scan the nearest QR code.",
       trackUnavailable: "Location is not supported on this device. Please scan a QR code or use Search.",
@@ -227,7 +230,13 @@ const resources = {
       removeFromFavorites: "取消收藏",
       museumArtifactTag: "馆藏文物",
       briefOverview: "概述",
-      detailedNarration: "详细讲解词与字幕"
+      detailedNarration: "详细讲解词与字幕",
+      page: "第",
+      prevPage: "上一页",
+      nextPage: "下一页",
+      showingItems: "显示",
+      ofItems: "共",
+      items: "件展品"
     }
   },
   ko: {
@@ -300,7 +309,13 @@ const resources = {
       removeFromFavorites: "즐겨찾기에서 제거",
       museumArtifactTag: "박물관 소장 유물",
       briefOverview: "개요",
-      detailedNarration: "상세 해설 및 자막"
+      detailedNarration: "상세 해설 및 자막",
+      page: "페이지",
+      prevPage: "이전",
+      nextPage: "다음",
+      showingItems: "표시 중",
+      ofItems: "/",
+      items: "개 유물"
     }
   },
   ja: {
@@ -373,7 +388,13 @@ const resources = {
       removeFromFavorites: "お気に入りから削除",
       museumArtifactTag: "博物館所蔵の遺物",
       briefOverview: "概要",
-      detailedNarration: "詳細解説と字幕"
+      detailedNarration: "詳細解説と字幕",
+      page: "ページ",
+      prevPage: "前へ",
+      nextPage: "次へ",
+      showingItems: "表示中",
+      ofItems: "/",
+      items: "点"
     }
   }
 };

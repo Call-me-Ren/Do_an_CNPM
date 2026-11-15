@@ -62,8 +62,8 @@ walk(path.join(frontendPublic, 'maps'), 'maps');
 entries.sort((a, b) => a.webPath.localeCompare(b.webPath));
 
 const lines = [
-  '/* eslint-disable @typescript-eslint/no-require-imports */',
   '// Tệp được tạo tự động bởi scripts/sync-assets.cjs để bundle toàn bộ media offline vào APK.',
+  "import { getApiOrigin } from './services/api';",
   '',
   'export const LOCAL_ASSET_MAP: Record<string, number> = {',
 ];
@@ -79,6 +79,8 @@ lines.push('  if (!url) return null;');
 lines.push('  const normalized = url.startsWith(\'/\') ? url : `/${url}`;');
 lines.push('  if (LOCAL_ASSET_MAP[normalized]) return LOCAL_ASSET_MAP[normalized];');
 lines.push('  if (/^https?:\\/\\//i.test(url)) return { uri: url };');
+lines.push('  const origin = getApiOrigin();');
+lines.push('  if (origin) return { uri: `${origin}${normalized}` };');
 lines.push('  return null;');
 lines.push('}', '');
 

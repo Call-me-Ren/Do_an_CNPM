@@ -104,7 +104,7 @@ export const TrackingBanner: React.FC<TrackingBannerProps> = ({ artifacts }) => 
               }}
             >
               <Text style={styles.acceptText}>
-                {suggestion.kind === 'switch' ? t('switchNow') : t('replay')}
+                {suggestion.kind === 'switch' ? t('switchNow') : t('replayNow')}
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -122,10 +122,10 @@ export const TrackingBanner: React.FC<TrackingBannerProps> = ({ artifacts }) => 
 
 const styles = StyleSheet.create({
   wrap: {
-    backgroundColor: COLORS.surface,
+    backgroundColor: COLORS.surfaceElevated,
     borderWidth: 1,
-    borderColor: COLORS.border,
-    borderRadius: 16,
+    borderColor: COLORS.borderSubtle,
+    borderRadius: 18,
     padding: 12,
     marginBottom: 12,
     gap: 10,

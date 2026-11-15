@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-require-imports */
 // Tệp được tạo tự động bởi scripts/sync-assets.cjs để bundle toàn bộ media offline vào APK.
 import { getApiOrigin } from './services/api';
 

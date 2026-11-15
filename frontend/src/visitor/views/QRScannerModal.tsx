@@ -111,13 +111,13 @@ export const QRScannerModal: React.FC<Props> = ({ isOpen, onClose, onScanSuccess
           <X className="w-5 h-5" />
         </button>
 
-        <div className="flex items-center gap-2 mb-4 text-amber-400 font-semibold text-sm">
+        <div className="flex items-center gap-2 mb-4 text-white font-semibold text-sm">
           <Camera className="w-4 h-4" />
           <span>{t('scanQR')}</span>
         </div>
 
         {/* QR Scanner Container */}
-        <div className="w-full aspect-square bg-black rounded-2xl overflow-hidden relative border-2 border-dashed border-amber-500/50 flex items-center justify-center">
+        <div className="w-full aspect-square bg-black rounded-2xl overflow-hidden relative border-2 border-dashed border-white/40 flex items-center justify-center">
           <div id={scannerRegionId} className="w-full h-full"></div>
           {errorMessage && (
             <div className="p-4 text-center text-red-400 text-xs flex flex-col items-center gap-2">

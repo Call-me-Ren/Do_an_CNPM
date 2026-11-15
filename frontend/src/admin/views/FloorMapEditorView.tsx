@@ -114,7 +114,7 @@ export const FloorMapEditorView: React.FC = () => {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2 border-b border-slate-800">
         <div>
           <h2 className="text-xl font-bold text-white flex items-center gap-2">
-            <Map className="w-5 h-5 text-amber-500" />
+            <Map className="w-5 h-5 text-white" />
             Biên Tập Sơ Đồ Khu Vực & Tọa Độ Hiện Vật
           </h2>
           <p className="text-xs text-slate-400 mt-0.5">
@@ -125,7 +125,7 @@ export const FloorMapEditorView: React.FC = () => {
         <div className="flex items-center gap-2">
           <button
             onClick={handleResetDefaults}
-            className="flex items-center gap-1.5 bg-slate-800 hover:bg-slate-750 text-slate-300 border border-slate-700 px-3 py-2 rounded-xl text-xs font-bold transition"
+            className="flex items-center gap-1.5 bg-slate-800 hover:bg-slate-700/60 text-slate-300 border border-slate-700 px-3 py-2 rounded-xl text-xs font-bold transition cursor-pointer"
             title="Khôi phục ảnh nền sơ đồ mặc định"
           >
             <RotateCcw className="w-4 h-4" />
@@ -134,7 +134,7 @@ export const FloorMapEditorView: React.FC = () => {
 
           <button
             onClick={handleSave}
-            className="flex items-center gap-2 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-4 py-2 rounded-xl text-sm transition shadow-lg shadow-amber-500/20"
+            className="flex items-center gap-2 bg-[#ca8a04] hover:bg-[#a16207] text-stone-950 font-bold px-4 py-2 rounded-xl text-sm transition shadow-lg shadow-white/10"
           >
             <Save className="w-4 h-4" />
             <span>Lưu Thay Đổi Sơ Đồ</span>
@@ -152,7 +152,7 @@ export const FloorMapEditorView: React.FC = () => {
       {/* Floor Selection Tabs */}
       <div className="flex items-center gap-2 overflow-x-auto pb-1 text-xs">
         <span className="text-slate-400 font-semibold uppercase shrink-0 flex items-center gap-1.5">
-          <Layers className="w-4 h-4 text-amber-500" /> Chọn Khu Vực:
+          <Layers className="w-4 h-4 text-white" /> Chọn Khu Vực:
         </span>
         {floors.map((f) => (
           <button
@@ -168,7 +168,7 @@ export const FloorMapEditorView: React.FC = () => {
             }}
             className={`px-4 py-2 rounded-xl font-bold transition shrink-0 ${
               selectedFloorId === f.id
-                ? 'bg-amber-500 text-slate-950 shadow-md'
+                ? 'bg-[#ca8a04] text-stone-950 shadow-md'
                 : 'bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white border border-slate-700/80'
             }`}
           >
@@ -180,7 +180,7 @@ export const FloorMapEditorView: React.FC = () => {
       {/* Background Map Image Editor Panel */}
       <div className="bg-slate-800 border border-slate-700/80 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div className="flex items-center gap-3">
-          <div className="p-2.5 bg-amber-500/10 text-amber-400 rounded-xl shrink-0">
+          <div className="p-2.5 bg-[#ca8a04]/10 text-[#eab308] rounded-xl shrink-0">
             <ImageIcon className="w-5 h-5" />
           </div>
           <div>
@@ -199,11 +199,11 @@ export const FloorMapEditorView: React.FC = () => {
             value={currentFloor?.mapImage || ''}
             onChange={(e) => handleBackgroundChange(e.target.value)}
             placeholder="Nhập đường dẫn ảnh sơ đồ (URL)..."
-            className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-slate-200 focus:outline-none focus:ring-2 focus:ring-amber-500"
+            className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-slate-200 focus:outline-none focus:ring-2 focus:ring-[#ca8a04]"
           />
 
           <label className="flex items-center gap-1.5 px-3 py-2 bg-slate-700 hover:bg-slate-650 text-slate-200 rounded-xl text-xs font-semibold cursor-pointer shrink-0 transition border border-slate-600">
-            <Upload className="w-4 h-4 text-amber-400" />
+            <Upload className="w-4 h-4 text-white" />
             <span>{isUploading ? 'Đang tải...' : 'Tải ảnh lên'}</span>
             <input
               type="file"
@@ -218,7 +218,7 @@ export const FloorMapEditorView: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left: Exhibit Pin Selector List */}
         <div className="bg-slate-800 border border-slate-700/80 rounded-2xl p-5 flex flex-col gap-4">
-          <div className="flex items-center gap-1.5 text-xs text-amber-400 bg-amber-500/10 p-2.5 rounded-xl border border-amber-500/20">
+          <div className="flex items-center gap-1.5 text-xs text-white bg-[#ca8a04]/10 p-2.5 rounded-xl border border-white/15">
             <Info className="w-4 h-4 shrink-0" />
             <span>Chọn hiện vật bên dưới, sau đó nhấp vào sơ đồ bên phải để đặt lại vị trí.</span>
           </div>
@@ -237,23 +237,23 @@ export const FloorMapEditorView: React.FC = () => {
                     onClick={() => setSelectedArtifactId(art.id)}
                     className={`p-3 rounded-xl border text-left transition flex items-center justify-between ${
                       isSelected
-                        ? 'bg-amber-500/15 border-amber-500 text-amber-400 shadow-md'
-                        : 'bg-slate-900 border-slate-700/60 text-slate-300 hover:bg-slate-750'
+                        ? 'bg-[#ca8a04]/15 border-[#a16207] text-white shadow-md'
+                        : 'bg-slate-900 border-slate-700/60 text-slate-300 hover:bg-slate-700/50'
                     }`}
                   >
                     <div className="flex items-center gap-3">
                       <MapPin
                         className={`w-4 h-4 shrink-0 ${
-                          isSelected ? 'text-amber-400' : 'text-slate-500'
+                          isSelected ? 'text-white' : 'text-slate-500'
                         }`}
                       />
                       <div className="min-w-0 flex-1">
                         <div className="flex items-center gap-1.5">
-                          <span className="text-[10px] font-mono font-bold text-amber-400/90">
+                          <span className="text-[10px] font-mono font-bold text-zinc-200">
                             {art.code}
                           </span>
                           {(art.createdAt || (!art.id.startsWith('WRM') && artifacts[0]?.id === art.id)) && (
-                            <span className="text-[9px] font-sans font-bold bg-amber-500 text-slate-950 px-1 py-0.2 rounded shadow-sm">
+                            <span className="text-[9px] font-sans font-bold bg-[#ca8a04] text-stone-950 px-1 py-0.2 rounded shadow-sm">
                               MỚI
                             </span>
                           )}
@@ -279,7 +279,7 @@ export const FloorMapEditorView: React.FC = () => {
             <span className="font-semibold text-slate-300">
               Sơ đồ hiển thị: {currentFloor?.name.vi}
             </span>
-            <span className="font-mono text-[11px] text-amber-400">
+            <span className="font-mono text-[11px] text-white">
               {floorArtifacts.length} hiện vật trên sơ đồ
             </span>
           </div>
@@ -324,9 +324,9 @@ export const FloorMapEditorView: React.FC = () => {
                       style={{ left: `${leftPercent}%`, top: `${topPercent}%` }}
                       className={`absolute -translate-x-1/2 -translate-y-1/2 flex items-center justify-center p-2 rounded-full shadow-2xl transition-all ${
                         isSelected
-                          ? 'bg-amber-400 text-slate-950 scale-125 ring-4 ring-amber-400/50 z-30 animate-pulse'
+                          ? 'bg-[#ca8a04] text-stone-950 scale-125 ring-4 ring-white/40 z-30 animate-pulse'
                           : isNewest
-                          ? 'bg-amber-500 text-slate-950 ring-2 ring-amber-400/80 hover:scale-110 z-20 shadow-amber-500/30'
+                          ? 'bg-[#ca8a04] text-stone-950 ring-2 ring-white/80 hover:scale-110 z-20 shadow-white/25'
                           : 'bg-slate-900/90 text-white border border-slate-600 hover:scale-110 z-10'
                       }`}
                       title={`${art.code} - ${art.title['vi']}`}

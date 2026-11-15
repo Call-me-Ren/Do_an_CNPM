@@ -71,7 +71,7 @@ export const QRManageView: React.FC = () => {
     <div className="flex flex-col gap-6">
       <div>
         <h2 className="text-xl font-bold text-white flex items-center gap-2">
-          <QrCode className="w-5 h-5 text-amber-500" />
+          <QrCode className="w-5 h-5 text-white" />
           Quản Lý & Xuất Mã QR Trưng Bày
         </h2>
         <p className="text-xs text-slate-400 mt-0.5">
@@ -95,8 +95,8 @@ export const QRManageView: React.FC = () => {
             }}
             className={`p-3 rounded-xl border text-left transition flex items-center justify-between ${
               !selectedArtifact
-                ? 'bg-amber-500/10 border-amber-500 text-amber-400'
-                : 'bg-slate-900 border-slate-700/60 text-slate-300 hover:bg-slate-750'
+                ? 'bg-[#ca8a04]/10 border-[#a16207] text-white'
+                : 'bg-slate-900 border-slate-700/60 text-slate-300 hover:bg-slate-700/50'
             }`}
           >
             <div>
@@ -117,8 +117,8 @@ export const QRManageView: React.FC = () => {
                 }}
                 className={`p-3 rounded-xl border text-left transition flex items-center gap-3 ${
                   selectedArtifact?.id === art.id
-                    ? 'bg-amber-500/10 border-amber-500 text-amber-400'
-                    : 'bg-slate-900 border-slate-700/60 text-slate-300 hover:bg-slate-750'
+                    ? 'bg-[#ca8a04]/10 border-[#a16207] text-white'
+                    : 'bg-slate-900 border-slate-700/60 text-slate-300 hover:bg-slate-700/50'
                 }`}
               >
                 <img
@@ -131,7 +131,7 @@ export const QRManageView: React.FC = () => {
                   className="w-10 h-10 rounded-lg object-cover shrink-0"
                 />
                 <div className="min-w-0 flex-1">
-                  <div className="text-xs font-mono font-bold text-amber-500">{art.code}</div>
+                  <div className="text-xs font-mono font-bold text-white">{art.code}</div>
                   <div className="font-medium text-sm text-slate-200 truncate">
                     {art.title['vi']}
                   </div>
@@ -143,13 +143,13 @@ export const QRManageView: React.FC = () => {
 
         {/* Right: QR Code Live Preview & Action Card */}
         <div className="lg:col-span-2 bg-slate-800 border border-slate-700/80 rounded-2xl p-6 flex flex-col items-center justify-center gap-6">
-          <div className="bg-white p-5 rounded-3xl shadow-2xl flex flex-col items-center gap-3 border-4 border-amber-500/40">
+          <div className="bg-white p-5 rounded-3xl shadow-2xl flex flex-col items-center gap-3 border-4 border-white/30">
             <canvas ref={canvasRef} className="rounded-xl"></canvas>
             <div className="text-center">
               <div className="font-bold text-slate-900 text-base">
                 {selectedArtifact ? selectedArtifact.title['vi'] : 'Bảo Tàng Lịch Sử'}
               </div>
-              <div className="text-xs text-amber-600 font-mono font-semibold">
+              <div className="text-xs text-[#a16207] font-mono font-semibold">
                 {selectedArtifact ? `MÃ: ${selectedArtifact.code}` : 'CỔNG CHÍNH BẢO TÀNG'}
               </div>
             </div>
@@ -179,7 +179,7 @@ export const QRManageView: React.FC = () => {
           <div className="flex items-center gap-3">
             <button
               onClick={handleDownload}
-              className="flex items-center gap-2 bg-amber-500 hover:bg-amber-600 text-white px-5 py-2.5 rounded-xl font-semibold text-sm transition shadow-lg shadow-amber-500/20"
+              className="flex items-center gap-2 bg-[#a16207] hover:bg-[#a16207] text-white px-5 py-2.5 rounded-xl font-semibold text-sm transition shadow-lg shadow-white/10"
             >
               <Download className="w-4 h-4" />
               <span>Tải Ảnh QR (PNG)</span>

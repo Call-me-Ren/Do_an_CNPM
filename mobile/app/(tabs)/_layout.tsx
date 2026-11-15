@@ -3,12 +3,16 @@ import { Tabs, useRouter } from 'expo-router';
 import { TouchableOpacity, View, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { LanguageSwitcher } from '../../src/components/LanguageSwitcher';
 import { COLORS } from '../../src/shared/theme';
 
 export default function TabsLayout() {
   const { t } = useTranslation();
   const router = useRouter();
+  const insets = useSafeAreaInsets();
+  const bottomPad = Math.max(insets.bottom, 8);
+  const tabBarHeight = 58 + bottomPad;
 
   const headerRight = () => (
     <View style={styles.headerRight}>
@@ -32,10 +36,11 @@ export default function TabsLayout() {
         headerRight,
         tabBarStyle: {
           backgroundColor: COLORS.surface,
-          borderTopColor: COLORS.border,
-          height: 60,
-          paddingBottom: 6,
-          paddingTop: 4,
+          borderTopColor: COLORS.borderSubtle,
+          borderTopWidth: 1,
+          height: tabBarHeight,
+          paddingBottom: bottomPad,
+          paddingTop: 6,
         },
         tabBarActiveTintColor: COLORS.amberLight,
         tabBarInactiveTintColor: COLORS.textMuted,
