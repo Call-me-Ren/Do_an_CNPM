@@ -1,9 +1,18 @@
 @startuml
 ' Theo quy chuan trinh bay V0 - Kien truc thuc te V3 (Web SPA + Mobile App + Backend + Storage)
 left to right direction
+skinparam linetype ortho
+skinparam nodesep 28
+skinparam ranksep 65
 
 ' ---------- Client 1: Web SPA (Visitor + Admin)
 component "Web Client (React 18 SPA)" as WebClient {
+  package "Admin CMS (/admin)" {
+    component "Admin Auth Guard" as AdminAuth
+    database "LocalStorage (JWT, Login Lock)" as AdminLocal
+    component "Artifact, Map & Audio CRUD" as AdminCrud
+    component "Session, QR & Analytics" as AdminAnalytics
+  }
   package "Visitor Web" {
     component "Visitor GUI & Map" as WebVisitorGui
     component "QR Scanner (html5-qrcode)" as WebQr
@@ -11,18 +20,12 @@ component "Web Client (React 18 SPA)" as WebClient {
     component "Geofence (Geolocation API)" as WebGeo
     database "LocalStorage (Lang, Favorites, Cache)" as VisitorLocal
   }
-  package "Admin CMS (/admin)" {
-    component "Admin Auth Guard" as AdminAuth
-    component "Artifact, Map & Audio CRUD" as AdminCrud
-    component "Session, QR & Analytics" as AdminAnalytics
-    database "LocalStorage (JWT, Login Lock)" as AdminLocal
-  }
 
   portout " " as WebPortAuth
-  portout " " as WebPortCatalog
-  portout " " as WebPortAnalytics
   portout " " as WebPortUpload
   portout " " as WebPortTranslate
+  portout " " as WebPortCatalog
+  portout " " as WebPortAnalytics
 }
 
 ' ---------- Client 2: Mobile App (Visitor Offline-First)
@@ -37,66 +40,65 @@ component "Mobile App (Expo React Native)" as MobileClient {
   portout " " as MobPortAnalytics
 }
 
+' ---------- Interfaces (xep theo thu tu tu tren xuong de tranh cat nhau)
+() "I_Auth (JWT)" as IAuth
+() "I_Upload" as IUpload
+() "I_Translate" as ITranslate
+() "I_Museum_Catalog" as ICatalog
+() "I_Analytics" as IAnalytics
+
 ' ---------- Application Server (Express + TypeScript)
 component "Application Server (Node.js / Express)" as Server {
-  together {
-    component "Auth Service (/api/auth)" as AuthService
-    component "Museum Service (/api/museum, /artifacts, /floors)" as MuseumService
-    component "Analytics Service (/api/sessions, /analytics)" as AnalyticsService
-    component "Upload Service (/api/uploads)" as UploadService
-    component "Translate Service (/api/translate)" as TranslateService
-  }
-
   portin " " as ServerPortAuth
-  portin " " as ServerPortCatalog
-  portin " " as ServerPortAnalytics
   portin " " as ServerPortUpload
   portin " " as ServerPortTranslate
+  portin " " as ServerPortCatalog
+  portin " " as ServerPortAnalytics
+
+  component "Auth Service (/api/auth)" as AuthService
+  component "Upload Service (/api/uploads)" as UploadService
+  component "Translate Service (/api/translate)" as TranslateService
+  component "Museum Service (/api/museum, /artifacts, /floors)" as MuseumService
+  component "Analytics Service (/api/sessions, /analytics)" as AnalyticsService
 
   portout " " as ServerPortDb
   portout " " as ServerPortStorage
   portout " " as ServerPortExtTranslate
 }
 
-' ---------- Storage & External Services
-component "Storage & External" as Storage {
-  together {
-    database "Microsoft SQL Server (12 Tables)" as SystemDb
-    storage "Disk Volume (/uploads)" as MediaArchive
-    cloud "Google Translate / MyMemory API" as ExtTranslate
-  }
-
-  portin " " as StoragePortDb
-  portin " " as StoragePortStorage
-  portin " " as StoragePortTranslate
-}
-
-' ---------- Interfaces
-() "I_Auth (JWT)" as IAuth
-() "I_Museum_Catalog" as ICatalog
-() "I_Analytics" as IAnalytics
-() "I_Upload" as IUpload
-() "I_Translate" as ITranslate
+' ---------- Server -> Storage Interfaces
 () "I_Database (TDS)" as IDatabase
 () "I_File_Storage" as IStorage
 () "I_External_Translate" as IExtTranslate
 
+' ---------- Storage & External Services
+component "Storage & External" as Storage {
+  portin " " as StoragePortDb
+  portin " " as StoragePortStorage
+  portin " " as StoragePortTranslate
+
+  database "Microsoft SQL Server (12 Tables)" as SystemDb
+  storage "Disk Volume (/uploads)" as MediaArchive
+  cloud "Google Translate / MyMemory API" as ExtTranslate
+}
+
 ' ---- Web Client internals
+AdminAuth -- AdminLocal
+AdminCrud -- AdminAuth
+AdminAnalytics -- AdminAuth
+
 WebVisitorGui -- WebQr
 WebVisitorGui -- WebAudio
 WebVisitorGui -- WebGeo
 WebVisitorGui -- VisitorLocal
-AdminCrud -- AdminAuth
-AdminAnalytics -- AdminAuth
-AdminAuth -- AdminLocal
 
 AdminAuth -- WebPortAuth
-WebVisitorGui -- WebPortCatalog
-AdminCrud -- WebPortCatalog
-WebVisitorGui -- WebPortAnalytics
-AdminAnalytics -- WebPortAnalytics
 AdminCrud -- WebPortUpload
 AdminCrud -- WebPortTranslate
+AdminCrud -- WebPortCatalog
+WebVisitorGui -- WebPortCatalog
+AdminAnalytics -- WebPortAnalytics
+WebVisitorGui -- WebPortAnalytics
 
 ' ---- Mobile Client internals
 MobileGui -- MobileQr
@@ -107,27 +109,27 @@ MobileAudio -- MobileLocal
 MobileGui -- MobPortCatalog
 MobileGui -- MobPortAnalytics
 
-' ---- Clients -> Server
+' ---- Clients -> Interfaces -> Server (song song tu tren xuong)
 WebPortAuth ..( IAuth
-WebPortCatalog ..( ICatalog
-WebPortAnalytics ..( IAnalytics
 WebPortUpload ..( IUpload
 WebPortTranslate ..( ITranslate
+WebPortCatalog ..( ICatalog
+WebPortAnalytics ..( IAnalytics
 
 MobPortCatalog ..( ICatalog
 MobPortAnalytics ..( IAnalytics
 
 IAuth -- ServerPortAuth
-ICatalog -- ServerPortCatalog
-IAnalytics -- ServerPortAnalytics
 IUpload -- ServerPortUpload
 ITranslate -- ServerPortTranslate
+ICatalog -- ServerPortCatalog
+IAnalytics -- ServerPortAnalytics
 
 ServerPortAuth -- AuthService
-ServerPortCatalog -- MuseumService
-ServerPortAnalytics -- AnalyticsService
 ServerPortUpload -- UploadService
 ServerPortTranslate -- TranslateService
+ServerPortCatalog -- MuseumService
+ServerPortAnalytics -- AnalyticsService
 
 ' ---- Server -> Storage & External
 AuthService -- ServerPortDb
