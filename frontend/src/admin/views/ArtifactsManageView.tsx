@@ -19,9 +19,11 @@ import {
   Copy,
   Check,
   ExternalLink,
-  Sparkles
+  Sparkles,
+  MapPin
 } from 'lucide-react';
 import { AutoTranslateModal, AutoTranslateResult } from '../components/AutoTranslateModal';
+import { GpsMapPickerModal } from '../components/GpsMapPickerModal';
 
 export const ArtifactsManageView: React.FC = () => {
   const [artifacts, setArtifacts] = useState<Artifact[]>([]);
@@ -37,6 +39,7 @@ export const ArtifactsManageView: React.FC = () => {
   // Modal State
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isAutoTranslateOpen, setIsAutoTranslateOpen] = useState(false);
+  const [isGpsPickerOpen, setIsGpsPickerOpen] = useState(false);
   const [editingArtifact, setEditingArtifact] = useState<Artifact | null>(null);
   const [deletingArtifact, setDeletingArtifact] = useState<{ id: string; code: string; title: string } | null>(null);
   const [activeLangTab, setActiveLangTab] = useState<SupportedLanguage>('vi');
@@ -495,44 +498,69 @@ export const ArtifactsManageView: React.FC = () => {
               </div>
 
               {/* Geofence & GPS Trigger Config (USC14) */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 p-3 bg-slate-900/60 border border-slate-700/60 rounded-xl">
-                <div>
-                  <label className="block text-[11px] font-semibold text-slate-400 mb-1">
-                    Bán Kính Tự Bật (m)
-                  </label>
-                  <input
-                    type="number"
-                    min={3}
-                    max={100}
-                    value={formTriggerRadius}
-                    onChange={(e) => setFormTriggerRadius(Number(e.target.value))}
-                    className="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none focus:ring-1 focus:ring-[#ca8a04]"
-                    placeholder="15"
-                  />
+              <div className="p-3 bg-slate-900/60 border border-slate-700/60 rounded-xl flex flex-col gap-3">
+                <div className="flex items-center justify-between gap-2 flex-wrap">
+                  <span className="text-[11px] font-bold text-slate-300">
+                    Định vị GPS (Nhập tay hoặc ghim bản đồ)
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => setIsGpsPickerOpen(true)}
+                    className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-[#ca8a04]/15 hover:bg-[#ca8a04]/25 text-[#eab308] border border-white/20 text-[11px] font-bold transition cursor-pointer"
+                  >
+                    <MapPin className="w-3.5 h-3.5" />
+                    <span>Ghim trên bản đồ</span>
+                  </button>
                 </div>
-                <div>
-                  <label className="block text-[11px] font-semibold text-slate-400 mb-1">
-                    Vĩ Độ GPS (Lat)
-                  </label>
-                  <input
-                    type="text"
-                    value={formLat}
-                    onChange={(e) => setFormLat(e.target.value)}
-                    className="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none focus:ring-1 focus:ring-[#ca8a04] font-mono"
-                    placeholder="10.779520"
-                  />
-                </div>
-                <div>
-                  <label className="block text-[11px] font-semibold text-slate-400 mb-1">
-                    Kinh Độ GPS (Lon)
-                  </label>
-                  <input
-                    type="text"
-                    value={formLon}
-                    onChange={(e) => setFormLon(e.target.value)}
-                    className="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none focus:ring-1 focus:ring-[#ca8a04] font-mono"
-                    placeholder="106.692180"
-                  />
+
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  <div>
+                    <label className="block text-[11px] font-semibold text-slate-400 mb-1">
+                      Bán Kính Tự Bật (m)
+                    </label>
+                    <input
+                      type="number"
+                      min={3}
+                      max={100}
+                      value={formTriggerRadius}
+                      onChange={(e) => setFormTriggerRadius(Number(e.target.value))}
+                      className="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none focus:ring-1 focus:ring-[#ca8a04]"
+                      placeholder="15"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[11px] font-semibold text-slate-400 mb-1">
+                      Vĩ Độ GPS (Lat)
+                    </label>
+                    <input
+                      type="text"
+                      value={formLat}
+                      onChange={(e) => {
+                        const raw = e.target.value;
+                        const pair = raw.match(/^\s*(-?\d+(?:\.\d+)?)\s*,\s*(-?\d+(?:\.\d+)?)\s*$/);
+                        if (pair) {
+                          setFormLat(pair[1]);
+                          setFormLon(pair[2]);
+                        } else {
+                          setFormLat(raw);
+                        }
+                      }}
+                      className="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none focus:ring-1 focus:ring-[#ca8a04] font-mono"
+                      placeholder="10.779520"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[11px] font-semibold text-slate-400 mb-1">
+                      Kinh Độ GPS (Lon)
+                    </label>
+                    <input
+                      type="text"
+                      value={formLon}
+                      onChange={(e) => setFormLon(e.target.value)}
+                      className="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none focus:ring-1 focus:ring-[#ca8a04] font-mono"
+                      placeholder="106.692180"
+                    />
+                  </div>
                 </div>
               </div>
 
@@ -726,6 +754,19 @@ export const ArtifactsManageView: React.FC = () => {
         onApply={handleApplyAutoTranslate}
         defaultTitle={formTitles[activeLangTab]}
         defaultDescription={formDescriptions[activeLangTab]}
+      />
+
+      {/* GPS Map Picker Modal */}
+      <GpsMapPickerModal
+        isOpen={isGpsPickerOpen}
+        initialLat={formLat}
+        initialLon={formLon}
+        triggerRadius={formTriggerRadius}
+        onClose={() => setIsGpsPickerOpen(false)}
+        onConfirm={(nextLat, nextLon) => {
+          setFormLat(nextLat);
+          setFormLon(nextLon);
+        }}
       />
 
       {/* In-App Alert Popup Modal */}

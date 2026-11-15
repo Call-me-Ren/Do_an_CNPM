@@ -182,7 +182,7 @@ export default function ExploreScreen() {
                     <Text style={styles.playSmallText}>
                       {isCurrent && isPlaying
                         ? t('pause') || 'Tạm dừng'
-                        : t('listenNow') || 'Nghe thuyết minh'}
+                        : t('listenGuide')}
                     </Text>
                   </TouchableOpacity>
 

@@ -62,7 +62,7 @@ export default function FavoritesScreen() {
                     }}
                   >
                     <Ionicons name="play" size={14} color={COLORS.bg} />
-                    <Text style={styles.playText}>{t('listenNow') || 'Nghe'}</Text>
+                    <Text style={styles.playText}>{t('listenGuide')}</Text>
                   </TouchableOpacity>
                   <TouchableOpacity
                     onPress={(e) => {

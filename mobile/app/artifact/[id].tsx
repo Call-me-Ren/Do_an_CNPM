@@ -5,6 +5,7 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
+  useWindowDimensions,
   View,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
@@ -20,6 +21,7 @@ import { COLORS } from '../../src/shared/theme';
 
 export default function ArtifactDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
+  const { width: windowWidth } = useWindowDimensions();
   const { t } = useTranslation();
   const { data } = useMuseumData();
   const { currentLang } = useLangStore();
@@ -74,7 +76,14 @@ export default function ArtifactDetailScreen() {
         {artifact.images.map((img, i) => {
           const src = resolveBundledAsset(img);
           if (!src) return null;
-          return <Image key={i} source={src} style={styles.heroImg} resizeMode="cover" />;
+          return (
+            <Image
+              key={i}
+              source={src}
+              style={[styles.heroImg, { width: windowWidth }]}
+              resizeMode="cover"
+            />
+          );
         })}
       </ScrollView>
 
@@ -114,7 +123,7 @@ export default function ArtifactDetailScreen() {
           <Text style={styles.playButtonText}>
             {isCurrent && isPlaying
               ? t('pause') || 'Tạm dừng thuyết minh'
-              : t('listenNow') || 'Nghe thuyết minh'}
+              : t('listenGuide')}
           </Text>
         </TouchableOpacity>
       </View>
@@ -162,7 +171,7 @@ const styles = StyleSheet.create({
   gallery: { height: 240, backgroundColor: COLORS.card },
   heroImg: { width: 380, height: 240 },
   header: { paddingHorizontal: 16, gap: 10 },
-  badges: { flexDirection: 'row', gap: 8, alignItems: 'center' },
+  badges: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, alignItems: 'center' },
   codeBadge: {
     color: COLORS.amberLight,
     backgroundColor: COLORS.amberSoft,
@@ -172,7 +181,7 @@ const styles = StyleSheet.create({
     fontSize: 11,
     fontWeight: '800',
   },
-  floorBadge: { color: COLORS.textMuted, fontSize: 12, fontWeight: '600' },
+  floorBadge: { color: COLORS.textMuted, fontSize: 12, fontWeight: '600', flexShrink: 1 },
   titleRow: { flexDirection: 'row', alignItems: 'flex-start', gap: 12 },
   title: { flex: 1, color: COLORS.text, fontSize: 20, fontWeight: '800' },
   favBtn: { padding: 4 },
