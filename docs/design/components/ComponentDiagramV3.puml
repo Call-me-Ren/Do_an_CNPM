@@ -9,13 +9,14 @@ component "Web Client (React 18 SPA)" as WebClient {
     component "QR Scanner (html5-qrcode)" as WebQr
     component "Web Audio & TTS Fallback" as WebAudio
     component "Geofence (Geolocation API)" as WebGeo
+    database "LocalStorage (Lang, Favorites, Cache)" as VisitorLocal
   }
   package "Admin CMS (/admin)" {
     component "Admin Auth Guard" as AdminAuth
     component "Artifact, Map & Audio CRUD" as AdminCrud
     component "Session, QR & Analytics" as AdminAnalytics
+    database "LocalStorage (JWT, Login Lock)" as AdminLocal
   }
-  component "Web LocalStorage" as WebLocal
 
   portout " " as WebPortAuth
   portout " " as WebPortCatalog
@@ -84,10 +85,10 @@ component "Storage & External" as Storage {
 WebVisitorGui -- WebQr
 WebVisitorGui -- WebAudio
 WebVisitorGui -- WebGeo
-WebVisitorGui -- WebLocal
+WebVisitorGui -- VisitorLocal
 AdminCrud -- AdminAuth
 AdminAnalytics -- AdminAuth
-AdminCrud -- WebLocal
+AdminAuth -- AdminLocal
 
 AdminAuth -- WebPortAuth
 WebVisitorGui -- WebPortCatalog
