@@ -1,0 +1,470 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="pele pele-er" viewBox="0 0 2889 1370" width="2889" height="1370" style="max-width:100%;height:auto;--_bg:var(--pele-bg,#fff);--_fg:var(--pele-fg,#1f1f1f);--_m:var(--pele-muted,#6e6e6e);--_l:var(--pele-line,#1f1f1f);--_s:var(--pele-surface,#f3f3f3);--_a:var(--pele-surface-alt,#e6e6e6);--_b:var(--pele-border,#8a8a8a);--_c:var(--pele-accent,#5b7bd5);color:var(--_fg);--_r:var(--pele-radius,4px);--_tw:var(--pele-title-weight,bold);--_fm:var(--pele-font-mono,ui-monospace, SFMono-Regular, &quot;Cascadia Code&quot;, &quot;IBM Plex Mono&quot;, &quot;Roboto Mono&quot;, &quot;DejaVu Sans Mono&quot;, &quot;Liberation Mono&quot;, Menlo, Monaco, &quot;Consolas&quot;, &quot;Source Code Pro&quot;, monospace);font:16px sans-serif;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;font-family:var(--pele-font,-apple-system, BlinkMacSystemFont, &quot;Inter Variable&quot;, Inter, &quot;Segoe UI&quot;, Helvetica, Arial, sans-serif)" fill="var(--_fg)" role="graphics-document document" aria-roledescription="er">
+  <text class="pele-title" font-weight="var(--_tw)" text-anchor="middle" xml:space="preserve"><tspan x="1444.5" y="25.6">ERD Chi tiết - Hệ thống thuyết minh (12 bảng, đối chiếu backend/src/db/schema.sql)</tspan></text>
+  <g class="pele-edges" fill="none" stroke="var(--_l)" stroke-linecap="round">
+    <g class="pele-edge pele-er-identifying" data-id="id_entity-Floor-2_entity-FloorTranslation-3_0">
+      <path d="M1100.97,266L1100.97,284L1100.97,290C1100.97,326.37 830.74,326.37 830.74,362.74L830.74,559.24L830.74,577.24"/>
+      <path class="pele-marker" d="M1095.97,272L1105.97,272M1095.97,276L1105.97,276"/>
+      <path class="pele-marker" d="M836.74,577.24L830.74,567.24L824.74,577.24"/>
+      <circle class="pele-marker" cx="830.74" cy="563.24" r="3.5" fill="var(--_bg)"/>
+    </g>
+    <g class="pele-edge pele-er-identifying" data-id="id_entity-Floor-2_entity-Artifact-4_1">
+      <path d="M1118.97,266L1118.97,284L1118.97,290C1118.97,326.37 1403.91,326.37 1403.91,362.74L1403.91,401.74L1403.91,419.74"/>
+      <path class="pele-marker" d="M1113.97,272L1123.97,272M1113.97,276L1123.97,276"/>
+      <path class="pele-marker" d="M1409.91,419.74L1403.91,409.74L1397.91,419.74"/>
+      <circle class="pele-marker" cx="1403.91" cy="405.74" r="3.5" fill="var(--_bg)"/>
+    </g>
+    <g class="pele-edge pele-er-identifying" data-id="id_entity-Artifact-4_entity-ArtifactTranslation-5_2">
+      <path d="M1367.91,896.74L1367.91,914.74L1367.91,920.74C1367.91,939.49 261.86,973.99 261.86,992.74L261.86,1099.24L261.86,1117.24"/>
+      <path class="pele-marker" d="M1362.91,902.74L1372.91,902.74M1362.91,906.74L1372.91,906.74"/>
+      <path class="pele-marker" d="M267.86,1117.24L261.86,1107.24L255.86,1117.24"/>
+      <circle class="pele-marker" cx="261.86" cy="1103.24" r="3.5" fill="var(--_bg)"/>
+    </g>
+    <g class="pele-edge pele-er-identifying" data-id="id_entity-Artifact-4_entity-ArtifactImage-6_3">
+      <path d="M1385.91,896.74L1385.91,914.74L1385.91,920.74C1385.91,956.74 830.73,956.74 830.73,992.74L830.73,1099.24L830.73,1117.24"/>
+      <path class="pele-marker" d="M1380.91,902.74L1390.91,902.74M1380.91,906.74L1390.91,906.74"/>
+      <path class="pele-marker" d="M836.73,1117.24L830.73,1107.24L824.73,1117.24"/>
+      <circle class="pele-marker" cx="830.73" cy="1103.24" r="3.5" fill="var(--_bg)"/>
+    </g>
+    <g class="pele-edge pele-er-identifying" data-id="id_entity-Artifact-4_entity-ArtifactAudio-7_4">
+      <path d="M1403.91,896.74L1403.91,1124.74"/>
+      <path class="pele-marker" d="M1398.91,902.74L1408.91,902.74M1398.91,906.74L1408.91,906.74"/>
+      <path class="pele-marker" d="M1409.91,1124.74L1403.91,1114.74L1397.91,1124.74"/>
+      <circle class="pele-marker" cx="1403.91" cy="1110.74" r="3.5" fill="var(--_bg)"/>
+    </g>
+    <g class="pele-edge pele-er-identifying" data-id="id_entity-Artifact-4_entity-SubtitleCue-8_5">
+      <path d="M1421.91,896.74L1421.91,914.74L1421.91,920.74C1421.91,956.74 1974.68,956.74 1974.68,992.74L1974.68,1054.24L1974.68,1072.24"/>
+      <path class="pele-marker" d="M1416.91,902.74L1426.91,902.74M1416.91,906.74L1426.91,906.74"/>
+      <path class="pele-marker" d="M1980.68,1072.24L1974.68,1062.24L1968.68,1072.24"/>
+      <circle class="pele-marker" cx="1974.68" cy="1058.24" r="3.5" fill="var(--_bg)"/>
+    </g>
+    <g class="pele-edge pele-er-non-identifying" data-id="id_entity-VisitorSession-10_entity-ListenEvent-11_6">
+      <path d="M2596.46,836.74L2596.46,854.74L2596.46,1017.74C2596.46,1022.99 2555.36,1022.99 2555.36,1028.24L2555.36,1031.74L2555.36,1049.74" stroke-dasharray="4 3"/>
+      <path class="pele-marker" d="M2591.46,842.74L2601.46,842.74M2591.46,846.74L2601.46,846.74"/>
+      <path class="pele-marker" d="M2561.36,1049.74L2555.36,1039.74L2549.36,1049.74"/>
+      <circle class="pele-marker" cx="2555.36" cy="1035.74" r="3.5" fill="var(--_bg)"/>
+    </g>
+    <g class="pele-edge pele-er-non-identifying" data-id="id_entity-Artifact-4_entity-ListenEvent-11_7">
+      <path d="M1439.91,896.74L1439.91,914.74L1439.91,920.74C1439.91,944.5 2312.62,968.98 2312.62,992.74L2312.62,1017.74C2312.62,1020.37 2537.36,1025.62 2537.36,1028.24L2537.36,1031.74L2537.36,1049.74" stroke-dasharray="4 3"/>
+      <path class="pele-marker" d="M1434.91,902.74L1444.91,902.74M1434.91,906.74L1444.91,906.74"/>
+      <path class="pele-marker" d="M2543.36,1049.74L2537.36,1039.74L2531.36,1049.74"/>
+      <circle class="pele-marker" cx="2537.36" cy="1035.74" r="3.5" fill="var(--_bg)"/>
+    </g>
+    <g class="pele-edge pele-er-non-identifying" data-id="id_entity-Museum-0_entity-MuseumTranslation-1_8">
+      <path d="M276.56,273.5L276.56,532.24" stroke-dasharray="4 3"/>
+      <path class="pele-marker" d="M271.56,279.5L281.56,279.5M271.56,283.5L281.56,283.5"/>
+      <path class="pele-marker" d="M282.56,532.24L276.56,522.24L270.56,532.24"/>
+      <circle class="pele-marker" cx="276.56" cy="518.24" r="3.5" fill="var(--_bg)"/>
+    </g>
+  </g>
+  <g class="pele-edge-labels" font-size="14">
+    <g class="pele-edge-label" data-id="id_entity-Floor-2_entity-FloorTranslation-3_0">
+      <rect x="777.51" y="364.74" width="106.47" height="21" rx="3" fill="var(--_bg)"/>
+      <text x="830.74" y="380.14" text-anchor="middle">co_ten_da_ngu</text>
+    </g>
+    <g class="pele-edge-label" data-id="id_entity-Floor-2_entity-Artifact-4_1">
+      <rect x="1383.69" y="364.74" width="40.43" height="21" rx="3" fill="var(--_bg)"/>
+      <text x="1403.91" y="380.14" text-anchor="middle">chua</text>
+    </g>
+    <g class="pele-edge-label" data-id="id_entity-Artifact-4_entity-ArtifactTranslation-5_2">
+      <rect x="216.5" y="994.74" width="90.72" height="21" rx="3" fill="var(--_bg)"/>
+      <text x="261.86" y="1010.14" text-anchor="middle">co_ban_dich</text>
+    </g>
+    <g class="pele-edge-label" data-id="id_entity-Artifact-4_entity-ArtifactImage-6_3">
+      <rect x="785.6" y="994.74" width="90.27" height="21" rx="3" fill="var(--_bg)"/>
+      <text x="830.73" y="1010.14" text-anchor="middle">co_hinh_anh</text>
+    </g>
+    <g class="pele-edge-label" data-id="id_entity-Artifact-4_entity-ArtifactAudio-7_4">
+      <rect x="1356.62" y="994.74" width="94.58" height="21" rx="3" fill="var(--_bg)"/>
+      <text x="1403.91" y="1010.14" text-anchor="middle">co_am_thanh</text>
+    </g>
+    <g class="pele-edge-label" data-id="id_entity-Artifact-4_entity-SubtitleCue-8_5">
+      <rect x="1935.17" y="994.74" width="79.02" height="21" rx="3" fill="var(--_bg)"/>
+      <text x="1974.68" y="1010.14" text-anchor="middle">co_phu_de</text>
+    </g>
+    <g class="pele-edge-label" data-id="id_entity-VisitorSession-10_entity-ListenEvent-11_6">
+      <rect x="2560.96" y="994.74" width="71" height="21" rx="3" fill="var(--_bg)"/>
+      <text x="2596.46" y="1010.14" text-anchor="middle">phat_sinh</text>
+    </g>
+    <g class="pele-edge-label" data-id="id_entity-Artifact-4_entity-ListenEvent-11_7">
+      <rect x="2271.92" y="994.74" width="81.4" height="21" rx="3" fill="var(--_bg)"/>
+      <text x="2312.62" y="1010.14" text-anchor="middle">duoc_nghe</text>
+    </g>
+    <g class="pele-edge-label" data-id="id_entity-Museum-0_entity-MuseumTranslation-1_8">
+      <rect x="231.2" y="364.74" width="90.72" height="21" rx="3" fill="var(--_bg)"/>
+      <text x="276.56" y="380.14" text-anchor="middle">co_ban_dich</text>
+    </g>
+  </g>
+  <g class="pele-nodes">
+    <g class="pele-node pele-entity" data-id="Museum" transform="translate(276.56,185)">
+      <rect x="-234.91" y="-88.5" width="469.82" height="177" fill="var(--_s)" stroke="var(--_b)" style="rx:var(--_r)"/>
+      <g class="pele-er-stripes" fill="var(--_bg)">
+        <rect x="-234.91" width="469.82" y="-46.5" height="45"/>
+        <rect x="-234.91" width="469.82" y="43.5" height="45" style="rx:var(--_r)"/>
+        <rect x="-234.91" width="469.82" y="43.5" height="22.5"/>
+      </g>
+      <path class="pele-er-divider" d="M-234.91,-46.5H234.91" stroke="var(--_b)"/>
+      <rect x="-234.91" y="-88.5" width="469.82" height="177" fill="none" stroke="var(--_b)" style="rx:var(--_r)"/>
+      <text class="pele-label" x="0" y="-61.9" text-anchor="middle">Museum</text>
+      <g class="pele-er-attributes" font-size="14">
+        <text class="pele-er-type" fill="var(--_m)" x="-222.91" y="-26.6">int</text>
+        <text class="pele-er-name" x="-112.56" y="-26.6">Id</text>
+        <text class="pele-er-keys" font-size="12" fill="var(--_m)" x="-49.56" y="-26.6">PK</text>
+        <text class="pele-er-comment" fill="var(--_m)" xml:space="preserve"><tspan x="-17.83" y="-26.6">CHECK(Id=1) - Bảng cấu hình đơn</tspan><tspan x="-17.83" y="-8.6">nguyên duy nhất (singleton)</tspan></text>
+        <text class="pele-er-type" fill="var(--_m)" x="-222.91" y="18.4">nvarchar(50)</text>
+        <text class="pele-er-name" x="-112.56" y="18.4">Hotline</text>
+        <text class="pele-er-comment" fill="var(--_m)" xml:space="preserve"><tspan x="-17.83" y="18.4">Số điện thoại đường dây nóng hỗ trợ</tspan><tspan x="-17.83" y="36.4">du khách</tspan></text>
+        <text class="pele-er-type" fill="var(--_m)" x="-222.91" y="63.4">nvarchar(500)</text>
+        <text class="pele-er-name" x="-112.56" y="63.4">Banner</text>
+        <text class="pele-er-comment" fill="var(--_m)" xml:space="preserve"><tspan x="-17.83" y="63.4">Đường dẫn tệp ảnh biểu ngữ chính</tspan><tspan x="-17.83" y="81.4">hiển thị trên trang chủ</tspan></text>
+      </g>
+    </g>
+    <g class="pele-node pele-entity" data-id="MuseumTranslation" transform="translate(276.56,658.24)">
+      <rect x="-255.33" y="-126" width="510.67" height="252" fill="var(--_s)" stroke="var(--_b)" style="rx:var(--_r)"/>
+      <g class="pele-er-stripes" fill="var(--_bg)">
+        <rect x="-255.33" width="510.67" y="-84" height="45"/>
+        <rect x="-255.33" width="510.67" y="6" height="30"/>
+        <rect x="-255.33" width="510.67" y="81" height="45" style="rx:var(--_r)"/>
+        <rect x="-255.33" width="510.67" y="81" height="22.5"/>
+      </g>
+      <path class="pele-er-divider" d="M-255.33,-84H255.33" stroke="var(--_b)"/>
+      <rect x="-255.33" y="-126" width="510.67" height="252" fill="none" stroke="var(--_b)" style="rx:var(--_r)"/>
+      <text class="pele-label" x="0" y="-99.4" text-anchor="middle">MuseumTranslation</text>
+      <g class="pele-er-attributes" font-size="14">
+        <text class="pele-er-type" fill="var(--_m)" x="-243.33" y="-64.1">char(2)</text>
+        <text class="pele-er-name" x="-131.17" y="-64.1">Lang</text>
+        <text class="pele-er-keys" font-size="12" fill="var(--_m)" x="-39.53" y="-64.1">PK</text>
+        <text class="pele-er-comment" fill="var(--_m)" xml:space="preserve"><tspan x="-7.8" y="-64.1">Mã ngôn ngữ ISO 639-1 ('vi', 'en', 'zh',</tspan><tspan x="-7.8" y="-46.1">'ko', 'ja')</tspan></text>
+        <text class="pele-er-type" fill="var(--_m)" x="-243.33" y="-19.1">nvarchar(300)</text>
+        <text class="pele-er-name" x="-131.17" y="-19.1">Name</text>
+        <text class="pele-er-comment" fill="var(--_m)" xml:space="preserve"><tspan x="-7.8" y="-19.1">Tên gọi chính thức của bảo tàng theo</tspan><tspan x="-7.8" y="-1.1">ngôn ngữ</tspan></text>
+        <text class="pele-er-type" fill="var(--_m)" x="-243.33" y="25.9">nvarchar(500)</text>
+        <text class="pele-er-name" x="-131.17" y="25.9">Address</text>
+        <text class="pele-er-comment" fill="var(--_m)" x="-7.8" y="25.9">Địa chỉ liên hệ của bảo tàng</text>
+        <text class="pele-er-type" fill="var(--_m)" x="-243.33" y="55.9">nvarchar(300)</text>
+        <text class="pele-er-name" x="-131.17" y="55.9">OpenHours</text>
+        <text class="pele-er-comment" fill="var(--_m)" xml:space="preserve"><tspan x="-7.8" y="55.9">Khung giờ mở cửa đón khách tham</tspan><tspan x="-7.8" y="73.9">quan</tspan></text>
+        <text class="pele-er-type" fill="var(--_m)" x="-243.33" y="100.9">nvarchar(max)</text>
+        <text class="pele-er-name" x="-131.17" y="100.9">Description</text>
+        <text class="pele-er-comment" fill="var(--_m)" xml:space="preserve"><tspan x="-7.8" y="100.9">Toàn văn bài giới thiệu tổng quan bảo</tspan><tspan x="-7.8" y="118.9">tàng (UC06)</tspan></text>
+      </g>
+    </g>
+    <g class="pele-node pele-entity" data-id="Floor" transform="translate(1109.97,185)">
+      <rect x="-254.01" y="-81" width="508.02" height="162" fill="var(--_s)" stroke="var(--_b)" style="rx:var(--_r)"/>
+      <g class="pele-er-stripes" fill="var(--_bg)">
+        <rect x="-254.01" width="508.02" y="-39" height="30"/>
+        <rect x="-254.01" width="508.02" y="21" height="30"/>
+      </g>
+      <path class="pele-er-divider" d="M-254.01,-39H254.01" stroke="var(--_b)"/>
+      <rect x="-254.01" y="-81" width="508.02" height="162" fill="none" stroke="var(--_b)" style="rx:var(--_r)"/>
+      <text class="pele-label" x="0" y="-54.4" text-anchor="middle">Floor</text>
+      <g class="pele-er-attributes" font-size="14">
+        <text class="pele-er-type" fill="var(--_m)" x="-242.01" y="-19.1">int</text>
+        <text class="pele-er-name" x="-131.66" y="-19.1">Id</text>
+        <text class="pele-er-keys" font-size="12" fill="var(--_m)" x="-45.93" y="-19.1">PK</text>
+        <text class="pele-er-comment" fill="var(--_m)" x="-14.19" y="-19.1">Mã định danh tầng / khu vực trưng bày</text>
+        <text class="pele-er-type" fill="var(--_m)" x="-242.01" y="10.9">nvarchar(500)</text>
+        <text class="pele-er-name" x="-131.66" y="10.9">MapImage</text>
+        <text class="pele-er-comment" fill="var(--_m)" x="-14.19" y="10.9">Đường dẫn tệp ảnh sơ đồ mặt bằng</text>
+        <text class="pele-er-type" fill="var(--_m)" x="-242.01" y="40.9">float</text>
+        <text class="pele-er-name" x="-131.66" y="40.9">Width</text>
+        <text class="pele-er-comment" fill="var(--_m)" x="-14.19" y="40.9">Chiều rộng không gian sơ đồ</text>
+        <text class="pele-er-type" fill="var(--_m)" x="-242.01" y="70.9">float</text>
+        <text class="pele-er-name" x="-131.66" y="70.9">Height</text>
+        <text class="pele-er-comment" fill="var(--_m)" x="-14.19" y="70.9">Chiều cao không gian sơ đồ</text>
+      </g>
+    </g>
+    <g class="pele-node pele-entity" data-id="FloorTranslation" transform="translate(830.74,658.24)">
+      <rect x="-250.85" y="-81" width="501.7" height="162" fill="var(--_s)" stroke="var(--_b)" style="rx:var(--_r)"/>
+      <g class="pele-er-stripes" fill="var(--_bg)">
+        <rect x="-250.85" width="501.7" y="-39" height="45"/>
+        <rect x="-250.85" width="501.7" y="51" height="30" style="rx:var(--_r)"/>
+        <rect x="-250.85" width="501.7" y="51" height="15"/>
+      </g>
+      <path class="pele-er-divider" d="M-250.85,-39H250.85" stroke="var(--_b)"/>
+      <rect x="-250.85" y="-81" width="501.7" height="162" fill="none" stroke="var(--_b)" style="rx:var(--_r)"/>
+      <text class="pele-label" x="0" y="-54.4" text-anchor="middle">FloorTranslation</text>
+      <g class="pele-er-attributes" font-size="14">
+        <text class="pele-er-type" fill="var(--_m)" x="-238.85" y="-19.1">int</text>
+        <text class="pele-er-name" x="-128.27" y="-19.1">FloorId</text>
+        <text class="pele-er-keys" font-size="12" fill="var(--_m)" x="-66" y="-19.1">PK, FK</text>
+        <text class="pele-er-comment" fill="var(--_m)" xml:space="preserve"><tspan x="-12.28" y="-19.1">Khóa ngoại liên kết Floor(Id) ON</tspan><tspan x="-12.28" y="-1.1">DELETE CASCADE</tspan></text>
+        <text class="pele-er-type" fill="var(--_m)" x="-238.85" y="25.9">char(2)</text>
+        <text class="pele-er-name" x="-128.27" y="25.9">Lang</text>
+        <text class="pele-er-keys" font-size="12" fill="var(--_m)" x="-66" y="25.9">PK</text>
+        <text class="pele-er-comment" fill="var(--_m)" xml:space="preserve"><tspan x="-12.28" y="25.9">Mã ngôn ngữ ISO 639-1 ('vi', 'en', 'zh',</tspan><tspan x="-12.28" y="43.9">'ko', 'ja')</tspan></text>
+        <text class="pele-er-type" fill="var(--_m)" x="-238.85" y="70.9">nvarchar(200)</text>
+        <text class="pele-er-name" x="-128.27" y="70.9">Name</text>
+        <text class="pele-er-comment" fill="var(--_m)" x="-12.28" y="70.9">Tên tầng theo ngôn ngữ tương ứng</text>
+      </g>
+    </g>
+    <g class="pele-node pele-entity" data-id="Artifact" transform="translate(1403.91,658.24)">
+      <rect x="-259.62" y="-238.5" width="519.23" height="477" fill="var(--_s)" stroke="var(--_b)" style="rx:var(--_r)"/>
+      <g class="pele-er-stripes" fill="var(--_bg)">
+        <rect x="-259.62" width="519.23" y="-196.5" height="45"/>
+        <rect x="-259.62" width="519.23" y="-106.5" height="30"/>
+        <rect x="-259.62" width="519.23" y="-31.5" height="45"/>
+        <rect x="-259.62" width="519.23" y="58.5" height="45"/>
+        <rect x="-259.62" width="519.23" y="148.5" height="45"/>
+      </g>
+      <path class="pele-er-divider" d="M-259.62,-196.5H259.62" stroke="var(--_b)"/>
+      <rect x="-259.62" y="-238.5" width="519.23" height="477" fill="none" stroke="var(--_b)" style="rx:var(--_r)"/>
+      <text class="pele-label" x="0" y="-211.9" text-anchor="middle">Artifact</text>
+      <g class="pele-er-attributes" font-size="14">
+        <text class="pele-er-type" fill="var(--_m)" x="-247.62" y="-176.6">nvarchar(50)</text>
+        <text class="pele-er-name" x="-146.1" y="-176.6">Id</text>
+        <text class="pele-er-keys" font-size="12" fill="var(--_m)" x="-37.83" y="-176.6">PK</text>
+        <text class="pele-er-comment" fill="var(--_m)" xml:space="preserve"><tspan x="-6.1" y="-176.6">Mã định danh hệ thống (vd:</tspan><tspan x="-6.1" y="-158.6">'WRM-001', 'art-01')</tspan></text>
+        <text class="pele-er-type" fill="var(--_m)" x="-247.62" y="-131.6">nvarchar(50)</text>
+        <text class="pele-er-name" x="-146.1" y="-131.6">Code</text>
+        <text class="pele-er-comment" fill="var(--_m)" xml:space="preserve"><tspan x="-6.1" y="-131.6">Mã hiện vật chuẩn hóa tra cứu và quét</tspan><tspan x="-6.1" y="-113.6">mã QR ('ART-001')</tspan></text>
+        <text class="pele-er-type" fill="var(--_m)" x="-247.62" y="-86.6">int</text>
+        <text class="pele-er-name" x="-146.1" y="-86.6">FloorId</text>
+        <text class="pele-er-keys" font-size="12" fill="var(--_m)" x="-37.83" y="-86.6">FK</text>
+        <text class="pele-er-comment" fill="var(--_m)" x="-6.1" y="-86.6">Khóa ngoại liên kết Floor(Id)</text>
+        <text class="pele-er-type" fill="var(--_m)" x="-247.62" y="-56.6">float</text>
+        <text class="pele-er-name" x="-146.1" y="-56.6">MapX</text>
+        <text class="pele-er-comment" fill="var(--_m)" xml:space="preserve"><tspan x="-6.1" y="-56.6">Tọa độ X tương đối trên sơ đồ (0.0 -</tspan><tspan x="-6.1" y="-38.6">1.0)</tspan></text>
+        <text class="pele-er-type" fill="var(--_m)" x="-247.62" y="-11.6">float</text>
+        <text class="pele-er-name" x="-146.1" y="-11.6">MapY</text>
+        <text class="pele-er-comment" fill="var(--_m)" xml:space="preserve"><tspan x="-6.1" y="-11.6">Tọa độ Y tương đối trên sơ đồ (0.0 -</tspan><tspan x="-6.1" y="6.4">1.0)</tspan></text>
+        <text class="pele-er-type" fill="var(--_m)" x="-247.62" y="33.4">float</text>
+        <text class="pele-er-name" x="-146.1" y="33.4">Latitude</text>
+        <text class="pele-er-comment" fill="var(--_m)" xml:space="preserve"><tspan x="-6.1" y="33.4">[NULL] Vĩ độ GPS thực tế phục vụ giải</tspan><tspan x="-6.1" y="51.4">thuật Haversine</tspan></text>
+        <text class="pele-er-type" fill="var(--_m)" x="-247.62" y="78.4">float</text>
+        <text class="pele-er-name" x="-146.1" y="78.4">Longitude</text>
+        <text class="pele-er-comment" fill="var(--_m)" xml:space="preserve"><tspan x="-6.1" y="78.4">[NULL] Kinh độ GPS thực tế phục vụ</tspan><tspan x="-6.1" y="96.4">giải thuật Haversine</tspan></text>
+        <text class="pele-er-type" fill="var(--_m)" x="-247.62" y="123.4">float</text>
+        <text class="pele-er-name" x="-146.1" y="123.4">TriggerRadius</text>
+        <text class="pele-er-comment" fill="var(--_m)" xml:space="preserve"><tspan x="-6.1" y="123.4">[NULL] Bán kính kích hoạt Geofencing</tspan><tspan x="-6.1" y="141.4">(mặc định 12 mét theo đặc tả v2)</tspan></text>
+        <text class="pele-er-type" fill="var(--_m)" x="-247.62" y="168.4">bigint</text>
+        <text class="pele-er-name" x="-146.1" y="168.4">CreatedAt</text>
+        <text class="pele-er-comment" fill="var(--_m)" xml:space="preserve"><tspan x="-6.1" y="168.4">[NULL] Thời điểm tạo bản ghi hiện vật</tspan><tspan x="-6.1" y="186.4">(Unix timestamp)</tspan></text>
+        <text class="pele-er-type" fill="var(--_m)" x="-247.62" y="213.4">int</text>
+        <text class="pele-er-name" x="-146.1" y="213.4">SortOrder</text>
+        <text class="pele-er-comment" fill="var(--_m)" xml:space="preserve"><tspan x="-6.1" y="213.4">Thứ tự ưu tiên sắp xếp hiển thị danh</tspan><tspan x="-6.1" y="231.4">mục</tspan></text>
+      </g>
+    </g>
+    <g class="pele-node pele-entity" data-id="ArtifactTranslation" transform="translate(261.86,1205.74)">
+      <rect x="-253.86" y="-88.5" width="507.72" height="177" fill="var(--_s)" stroke="var(--_b)" style="rx:var(--_r)"/>
+      <g class="pele-er-stripes" fill="var(--_bg)">
+        <rect x="-253.86" width="507.72" y="-46.5" height="45"/>
+        <rect x="-253.86" width="507.72" y="28.5" height="30"/>
+      </g>
+      <path class="pele-er-divider" d="M-253.86,-46.5H253.86" stroke="var(--_b)"/>
+      <rect x="-253.86" y="-88.5" width="507.72" height="177" fill="none" stroke="var(--_b)" style="rx:var(--_r)"/>
+      <text class="pele-label" x="0" y="-61.9" text-anchor="middle">ArtifactTranslation</text>
+      <g class="pele-er-attributes" font-size="14">
+        <text class="pele-er-type" fill="var(--_m)" x="-241.86" y="-26.6">nvarchar(50)</text>
+        <text class="pele-er-name" x="-129.69" y="-26.6">ArtifactId</text>
+        <text class="pele-er-keys" font-size="12" fill="var(--_m)" x="-38.06" y="-26.6">PK, FK</text>
+        <text class="pele-er-comment" fill="var(--_m)" xml:space="preserve"><tspan x="15.66" y="-26.6">Khóa ngoại liên kết Artifact(Id) ON</tspan><tspan x="15.66" y="-8.6">DELETE CASCADE</tspan></text>
+        <text class="pele-er-type" fill="var(--_m)" x="-241.86" y="18.4">char(2)</text>
+        <text class="pele-er-name" x="-129.69" y="18.4">Lang</text>
+        <text class="pele-er-keys" font-size="12" fill="var(--_m)" x="-38.06" y="18.4">PK</text>
+        <text class="pele-er-comment" fill="var(--_m)" x="15.66" y="18.4">Mã ngôn ngữ ISO 639-1</text>
+        <text class="pele-er-type" fill="var(--_m)" x="-241.86" y="48.4">nvarchar(500)</text>
+        <text class="pele-er-name" x="-129.69" y="48.4">Title</text>
+        <text class="pele-er-comment" fill="var(--_m)" x="15.66" y="48.4">Tên gọi hiện vật theo ngôn ngữ</text>
+        <text class="pele-er-type" fill="var(--_m)" x="-241.86" y="78.4">nvarchar(max)</text>
+        <text class="pele-er-name" x="-129.69" y="78.4">Description</text>
+        <text class="pele-er-comment" fill="var(--_m)" x="15.66" y="78.4">Bài giới thiệu thuyết minh chi tiết</text>
+      </g>
+    </g>
+    <g class="pele-node pele-entity" data-id="ArtifactImage" transform="translate(830.73,1205.74)">
+      <rect x="-267.02" y="-88.5" width="534.03" height="177" fill="var(--_s)" stroke="var(--_b)" style="rx:var(--_r)"/>
+      <g class="pele-er-stripes" fill="var(--_bg)">
+        <rect x="-267.02" width="534.03" y="-46.5" height="45"/>
+        <rect x="-267.02" width="534.03" y="43.5" height="45" style="rx:var(--_r)"/>
+        <rect x="-267.02" width="534.03" y="43.5" height="22.5"/>
+      </g>
+      <path class="pele-er-divider" d="M-267.02,-46.5H267.02" stroke="var(--_b)"/>
+      <rect x="-267.02" y="-88.5" width="534.03" height="177" fill="none" stroke="var(--_b)" style="rx:var(--_r)"/>
+      <text class="pele-label" x="0" y="-61.9" text-anchor="middle">ArtifactImage</text>
+      <g class="pele-er-attributes" font-size="14">
+        <text class="pele-er-type" fill="var(--_m)" x="-255.02" y="-26.6">nvarchar(50)</text>
+        <text class="pele-er-name" x="-138.43" y="-26.6">ArtifactId</text>
+        <text class="pele-er-keys" font-size="12" fill="var(--_m)" x="-57.25" y="-26.6">PK, FK</text>
+        <text class="pele-er-comment" fill="var(--_m)" xml:space="preserve"><tspan x="-3.53" y="-26.6">Khóa ngoại liên kết Artifact(Id) ON</tspan><tspan x="-3.53" y="-8.6">DELETE CASCADE</tspan></text>
+        <text class="pele-er-type" fill="var(--_m)" x="-255.02" y="18.4">int</text>
+        <text class="pele-er-name" x="-138.43" y="18.4">SortOrder</text>
+        <text class="pele-er-keys" font-size="12" fill="var(--_m)" x="-57.25" y="18.4">PK</text>
+        <text class="pele-er-comment" fill="var(--_m)" xml:space="preserve"><tspan x="-3.53" y="18.4">Thứ tự trình chiếu ảnh trong thư viện</tspan><tspan x="-3.53" y="36.4">ảnh (gallery)</tspan></text>
+        <text class="pele-er-type" fill="var(--_m)" x="-255.02" y="63.4">nvarchar(1000)</text>
+        <text class="pele-er-name" x="-138.43" y="63.4">Url</text>
+        <text class="pele-er-comment" fill="var(--_m)" xml:space="preserve"><tspan x="-3.53" y="63.4">Đường dẫn tệp ảnh chất lượng cao trên</tspan><tspan x="-3.53" y="81.4">CDN</tspan></text>
+      </g>
+    </g>
+    <g class="pele-node pele-entity" data-id="ArtifactAudio" transform="translate(1403.91,1205.74)">
+      <rect x="-258.16" y="-81" width="516.32" height="162" fill="var(--_s)" stroke="var(--_b)" style="rx:var(--_r)"/>
+      <g class="pele-er-stripes" fill="var(--_bg)">
+        <rect x="-258.16" width="516.32" y="-39" height="45"/>
+        <rect x="-258.16" width="516.32" y="36" height="45" style="rx:var(--_r)"/>
+        <rect x="-258.16" width="516.32" y="36" height="22.5"/>
+      </g>
+      <path class="pele-er-divider" d="M-258.16,-39H258.16" stroke="var(--_b)"/>
+      <rect x="-258.16" y="-81" width="516.32" height="162" fill="none" stroke="var(--_b)" style="rx:var(--_r)"/>
+      <text class="pele-label" x="0" y="-54.4" text-anchor="middle">ArtifactAudio</text>
+      <g class="pele-er-attributes" font-size="14">
+        <text class="pele-er-type" fill="var(--_m)" x="-246.16" y="-19.1">nvarchar(50)</text>
+        <text class="pele-er-name" x="-129.57" y="-19.1">ArtifactId</text>
+        <text class="pele-er-keys" font-size="12" fill="var(--_m)" x="-52.71" y="-19.1">PK, FK</text>
+        <text class="pele-er-comment" fill="var(--_m)" xml:space="preserve"><tspan x="1.01" y="-19.1">Khóa ngoại liên kết Artifact(Id) ON</tspan><tspan x="1.01" y="-1.1">DELETE CASCADE</tspan></text>
+        <text class="pele-er-type" fill="var(--_m)" x="-246.16" y="25.9">char(2)</text>
+        <text class="pele-er-name" x="-129.57" y="25.9">Lang</text>
+        <text class="pele-er-keys" font-size="12" fill="var(--_m)" x="-52.71" y="25.9">PK</text>
+        <text class="pele-er-comment" fill="var(--_m)" x="1.01" y="25.9">Mã ngôn ngữ phát âm thanh</text>
+        <text class="pele-er-type" fill="var(--_m)" x="-246.16" y="55.9">nvarchar(1000)</text>
+        <text class="pele-er-name" x="-129.57" y="55.9">Url</text>
+        <text class="pele-er-comment" fill="var(--_m)" xml:space="preserve"><tspan x="1.01" y="55.9">Đường dẫn tệp âm thanh thuyết minh</tspan><tspan x="1.01" y="73.9">MP3/WAV/AAC trên CDN</tspan></text>
+      </g>
+    </g>
+    <g class="pele-node pele-entity" data-id="SubtitleCue" transform="translate(1974.68,1205.74)">
+      <rect x="-264.62" y="-133.5" width="529.23" height="267" fill="var(--_s)" stroke="var(--_b)" style="rx:var(--_r)"/>
+      <g class="pele-er-stripes" fill="var(--_bg)">
+        <rect x="-264.62" width="529.23" y="-91.5" height="45"/>
+        <rect x="-264.62" width="529.23" y="-16.5" height="30"/>
+        <rect x="-264.62" width="529.23" y="43.5" height="45"/>
+      </g>
+      <path class="pele-er-divider" d="M-264.62,-91.5H264.62" stroke="var(--_b)"/>
+      <rect x="-264.62" y="-133.5" width="529.23" height="267" fill="none" stroke="var(--_b)" style="rx:var(--_r)"/>
+      <text class="pele-label" x="0" y="-106.9" text-anchor="middle">SubtitleCue</text>
+      <g class="pele-er-attributes" font-size="14">
+        <text class="pele-er-type" fill="var(--_m)" x="-252.62" y="-71.6">nvarchar(50)</text>
+        <text class="pele-er-name" x="-140.45" y="-71.6">ArtifactId</text>
+        <text class="pele-er-keys" font-size="12" fill="var(--_m)" x="-59.27" y="-71.6">PK, FK</text>
+        <text class="pele-er-comment" fill="var(--_m)" xml:space="preserve"><tspan x="-5.55" y="-71.6">Khóa ngoại liên kết Artifact(Id) ON</tspan><tspan x="-5.55" y="-53.6">DELETE CASCADE</tspan></text>
+        <text class="pele-er-type" fill="var(--_m)" x="-252.62" y="-26.6">char(2)</text>
+        <text class="pele-er-name" x="-140.45" y="-26.6">Lang</text>
+        <text class="pele-er-keys" font-size="12" fill="var(--_m)" x="-59.27" y="-26.6">PK</text>
+        <text class="pele-er-comment" fill="var(--_m)" x="-5.55" y="-26.6">Ngôn ngữ phụ đề</text>
+        <text class="pele-er-type" fill="var(--_m)" x="-252.62" y="3.4">int</text>
+        <text class="pele-er-name" x="-140.45" y="3.4">SortOrder</text>
+        <text class="pele-er-keys" font-size="12" fill="var(--_m)" x="-59.27" y="3.4">PK</text>
+        <text class="pele-er-comment" fill="var(--_m)" x="-5.55" y="3.4">Thứ tự đoạn phụ đề (cue)</text>
+        <text class="pele-er-type" fill="var(--_m)" x="-252.62" y="33.4">float</text>
+        <text class="pele-er-name" x="-140.45" y="33.4">StartSec</text>
+        <text class="pele-er-comment" fill="var(--_m)" x="-5.55" y="33.4">Mốc thời gian bắt đầu đoạn thoại (giây)</text>
+        <text class="pele-er-type" fill="var(--_m)" x="-252.62" y="63.4">float</text>
+        <text class="pele-er-name" x="-140.45" y="63.4">EndSec</text>
+        <text class="pele-er-comment" fill="var(--_m)" xml:space="preserve"><tspan x="-5.55" y="63.4">Mốc thời gian kết thúc đoạn thoại</tspan><tspan x="-5.55" y="81.4">(giây)</tspan></text>
+        <text class="pele-er-type" fill="var(--_m)" x="-252.62" y="108.4">nvarchar(max)</text>
+        <text class="pele-er-name" x="-140.45" y="108.4">Text</text>
+        <text class="pele-er-comment" fill="var(--_m)" xml:space="preserve"><tspan x="-5.55" y="108.4">Nội dung văn bản phụ đề chạy chữ</tspan><tspan x="-5.55" y="126.4">karaoke</tspan></text>
+      </g>
+    </g>
+    <g class="pele-node pele-entity" data-id="AdminUser" transform="translate(1681.04,185)">
+      <rect x="-269.06" y="-141" width="538.12" height="282" fill="var(--_s)" stroke="var(--_b)" style="rx:var(--_r)"/>
+      <g class="pele-er-stripes" fill="var(--_bg)">
+        <rect x="-269.06" width="538.12" y="-99" height="30"/>
+        <rect x="-269.06" width="538.12" y="-39" height="30"/>
+        <rect x="-269.06" width="538.12" y="21" height="30"/>
+        <rect x="-269.06" width="538.12" y="96" height="45" style="rx:var(--_r)"/>
+        <rect x="-269.06" width="538.12" y="96" height="22.5"/>
+      </g>
+      <path class="pele-er-divider" d="M-269.06,-99H269.06" stroke="var(--_b)"/>
+      <rect x="-269.06" y="-141" width="538.12" height="282" fill="none" stroke="var(--_b)" style="rx:var(--_r)"/>
+      <text class="pele-label" x="0" y="-114.4" text-anchor="middle">AdminUser</text>
+      <g class="pele-er-attributes" font-size="14">
+        <text class="pele-er-type" fill="var(--_m)" x="-257.06" y="-79.1">int</text>
+        <text class="pele-er-name" x="-146.47" y="-79.1">Id</text>
+        <text class="pele-er-keys" font-size="12" fill="var(--_m)" x="-31.77" y="-79.1">PK</text>
+        <text class="pele-er-comment" fill="var(--_m)" x="1.23" y="-79.1">IDENTITY(1,1) - Mã định danh tự tăng</text>
+        <text class="pele-er-type" fill="var(--_m)" x="-257.06" y="-49.1">nvarchar(200)</text>
+        <text class="pele-er-name" x="-146.47" y="-49.1">Email</text>
+        <text class="pele-er-keys" font-size="12" fill="var(--_m)" x="-31.77" y="-49.1">UK</text>
+        <text class="pele-er-comment" fill="var(--_m)" x="1.23" y="-49.1">Email đăng nhập quản trị (UNIQUE)</text>
+        <text class="pele-er-type" fill="var(--_m)" x="-257.06" y="-19.1">nvarchar(200)</text>
+        <text class="pele-er-name" x="-146.47" y="-19.1">PasswordHash</text>
+        <text class="pele-er-comment" fill="var(--_m)" x="1.23" y="-19.1">Mật khẩu băm an toàn (bcrypt/argon2)</text>
+        <text class="pele-er-type" fill="var(--_m)" x="-257.06" y="10.9">nvarchar(200)</text>
+        <text class="pele-er-name" x="-146.47" y="10.9">DisplayName</text>
+        <text class="pele-er-comment" fill="var(--_m)" x="1.23" y="10.9">Tên hiển thị người dùng</text>
+        <text class="pele-er-type" fill="var(--_m)" x="-257.06" y="40.9">nvarchar(30)</text>
+        <text class="pele-er-name" x="-146.47" y="40.9">Role</text>
+        <text class="pele-er-comment" fill="var(--_m)" x="1.23" y="40.9">Vai trò quản trị ('ADMIN')</text>
+        <text class="pele-er-type" fill="var(--_m)" x="-257.06" y="70.9">int</text>
+        <text class="pele-er-name" x="-146.47" y="70.9">FailedAttempts</text>
+        <text class="pele-er-comment" fill="var(--_m)" xml:space="preserve"><tspan x="1.23" y="70.9">Bộ đếm số lần đăng nhập sai liên tiếp</tspan><tspan x="1.23" y="88.9">(ngưỡng N = 5)</tspan></text>
+        <text class="pele-er-type" fill="var(--_m)" x="-257.06" y="115.9">datetime2</text>
+        <text class="pele-er-name" x="-146.47" y="115.9">LockedUntil</text>
+        <text class="pele-er-comment" fill="var(--_m)" xml:space="preserve"><tspan x="1.23" y="115.9">[NULL] Mốc mở khóa (khóa 5 phút khi</tspan><tspan x="1.23" y="133.9">sai 5 lần liên tiếp)</tspan></text>
+      </g>
+    </g>
+    <g class="pele-node pele-entity" data-id="VisitorSession" transform="translate(2596.46,658.24)">
+      <rect x="-284.17" y="-178.5" width="568.33" height="357" fill="var(--_s)" stroke="var(--_b)" style="rx:var(--_r)"/>
+      <g class="pele-er-stripes" fill="var(--_bg)">
+        <rect x="-284.17" width="568.33" y="-136.5" height="45"/>
+        <rect x="-284.17" width="568.33" y="-61.5" height="30"/>
+        <rect x="-284.17" width="568.33" y="-1.5" height="45"/>
+        <rect x="-284.17" width="568.33" y="88.5" height="45"/>
+      </g>
+      <path class="pele-er-divider" d="M-284.17,-136.5H284.17" stroke="var(--_b)"/>
+      <rect x="-284.17" y="-178.5" width="568.33" height="357" fill="none" stroke="var(--_b)" style="rx:var(--_r)"/>
+      <text class="pele-label" x="0" y="-151.9" text-anchor="middle">VisitorSession</text>
+      <g class="pele-er-attributes" font-size="14">
+        <text class="pele-er-type" fill="var(--_m)" x="-272.17" y="-116.6">nvarchar(100)</text>
+        <text class="pele-er-name" x="-161.82" y="-116.6">SessionId</text>
+        <text class="pele-er-keys" font-size="12" fill="var(--_m)" x="-19.15" y="-116.6">PK</text>
+        <text class="pele-er-comment" fill="var(--_m)" xml:space="preserve"><tspan x="12.58" y="-116.6">Mã định danh phiên ẩn danh của khách</tspan><tspan x="12.58" y="-98.6">(UUID v4)</tspan></text>
+        <text class="pele-er-type" fill="var(--_m)" x="-272.17" y="-71.6">nvarchar(20)</text>
+        <text class="pele-er-name" x="-161.82" y="-71.6">DeviceType</text>
+        <text class="pele-er-comment" fill="var(--_m)" x="12.58" y="-71.6">Thiết bị ('mobile', 'tablet', 'desktop')</text>
+        <text class="pele-er-type" fill="var(--_m)" x="-272.17" y="-41.6">nvarchar(50)</text>
+        <text class="pele-er-name" x="-161.82" y="-41.6">Browser</text>
+        <text class="pele-er-comment" fill="var(--_m)" x="12.58" y="-41.6">Trình duyệt ('Chrome', 'Safari', v.v.)</text>
+        <text class="pele-er-type" fill="var(--_m)" x="-272.17" y="-11.6">nvarchar(10)</text>
+        <text class="pele-er-name" x="-161.82" y="-11.6">Lang</text>
+        <text class="pele-er-comment" fill="var(--_m)" x="12.58" y="-11.6">Ngôn ngữ đang kích hoạt của khách</text>
+        <text class="pele-er-type" fill="var(--_m)" x="-272.17" y="18.4">nvarchar(50)</text>
+        <text class="pele-er-name" x="-161.82" y="18.4">CurrentArtifactId</text>
+        <text class="pele-er-comment" fill="var(--_m)" xml:space="preserve"><tspan x="12.58" y="18.4">[NULL] Mã hiện vật đang tham quan</tspan><tspan x="12.58" y="36.4">gần nhất</tspan></text>
+        <text class="pele-er-type" fill="var(--_m)" x="-272.17" y="63.4">nvarchar(500)</text>
+        <text class="pele-er-name" x="-161.82" y="63.4">CurrentArtifactTitle</text>
+        <text class="pele-er-comment" fill="var(--_m)" xml:space="preserve"><tspan x="12.58" y="63.4">[NULL] Tên hiện vật đang nghe gần</tspan><tspan x="12.58" y="81.4">nhất</tspan></text>
+        <text class="pele-er-type" fill="var(--_m)" x="-272.17" y="108.4">bigint</text>
+        <text class="pele-er-name" x="-161.82" y="108.4">StartedAt</text>
+        <text class="pele-er-comment" fill="var(--_m)" xml:space="preserve"><tspan x="12.58" y="108.4">Thời điểm bắt đầu phiên tham quan</tspan><tspan x="12.58" y="126.4">(Unix timestamp)</tspan></text>
+        <text class="pele-er-type" fill="var(--_m)" x="-272.17" y="153.4">bigint</text>
+        <text class="pele-er-name" x="-161.82" y="153.4">LastActive</text>
+        <text class="pele-er-comment" fill="var(--_m)" xml:space="preserve"><tspan x="12.58" y="153.4">Thời điểm hoạt động cuối (heartbeat</tspan><tspan x="12.58" y="171.4">duy trì phiên)</tspan></text>
+      </g>
+    </g>
+    <g class="pele-node pele-entity" data-id="ListenEvent" transform="translate(2546.36,1205.74)">
+      <rect x="-259.06" y="-156" width="518.12" height="312" fill="var(--_s)" stroke="var(--_b)" style="rx:var(--_r)"/>
+      <g class="pele-er-stripes" fill="var(--_bg)">
+        <rect x="-259.06" width="518.12" y="-114" height="45"/>
+        <rect x="-259.06" width="518.12" y="-24" height="30"/>
+        <rect x="-259.06" width="518.12" y="51" height="30"/>
+        <rect x="-259.06" width="518.12" y="111" height="45" style="rx:var(--_r)"/>
+        <rect x="-259.06" width="518.12" y="111" height="22.5"/>
+      </g>
+      <path class="pele-er-divider" d="M-259.06,-114H259.06" stroke="var(--_b)"/>
+      <rect x="-259.06" y="-156" width="518.12" height="312" fill="none" stroke="var(--_b)" style="rx:var(--_r)"/>
+      <text class="pele-label" x="0" y="-129.4" text-anchor="middle">ListenEvent</text>
+      <g class="pele-er-attributes" font-size="14">
+        <text class="pele-er-type" fill="var(--_m)" x="-247.06" y="-94.1">nvarchar(100)</text>
+        <text class="pele-er-name" x="-136.71" y="-94.1">Id</text>
+        <text class="pele-er-keys" font-size="12" fill="var(--_m)" x="-36.81" y="-94.1">PK</text>
+        <text class="pele-er-comment" fill="var(--_m)" xml:space="preserve"><tspan x="-5.07" y="-94.1">Mã định danh duy nhất của sự kiện</tspan><tspan x="-5.07" y="-76.1">nghe</tspan></text>
+        <text class="pele-er-type" fill="var(--_m)" x="-247.06" y="-49.1">nvarchar(100)</text>
+        <text class="pele-er-name" x="-136.71" y="-49.1">SessionId</text>
+        <text class="pele-er-comment" fill="var(--_m)" xml:space="preserve"><tspan x="-5.07" y="-49.1">Mã phiên (tham chiếu logic</tspan><tspan x="-5.07" y="-31.1">VisitorSession)</tspan></text>
+        <text class="pele-er-type" fill="var(--_m)" x="-247.06" y="-4.1">nvarchar(50)</text>
+        <text class="pele-er-name" x="-136.71" y="-4.1">ArtifactId</text>
+        <text class="pele-er-comment" fill="var(--_m)" x="-5.07" y="-4.1">Mã hiện vật (tham chiếu logic Artifact)</text>
+        <text class="pele-er-type" fill="var(--_m)" x="-247.06" y="25.9">nvarchar(50)</text>
+        <text class="pele-er-name" x="-136.71" y="25.9">ArtifactCode</text>
+        <text class="pele-er-comment" fill="var(--_m)" xml:space="preserve"><tspan x="-5.07" y="25.9">Mã hiện vật tại thời điểm nghe</tspan><tspan x="-5.07" y="43.9">('ART-xxx')</tspan></text>
+        <text class="pele-er-type" fill="var(--_m)" x="-247.06" y="70.9">nvarchar(500)</text>
+        <text class="pele-er-name" x="-136.71" y="70.9">ArtifactTitle</text>
+        <text class="pele-er-comment" fill="var(--_m)" x="-5.07" y="70.9">Tên hiện vật tại thời điểm nghe</text>
+        <text class="pele-er-type" fill="var(--_m)" x="-247.06" y="100.9">nvarchar(10)</text>
+        <text class="pele-er-name" x="-136.71" y="100.9">Lang</text>
+        <text class="pele-er-comment" fill="var(--_m)" x="-5.07" y="100.9">Ngôn ngữ bài thuyết minh đã phát</text>
+        <text class="pele-er-type" fill="var(--_m)" x="-247.06" y="130.9">bigint</text>
+        <text class="pele-er-name" x="-136.71" y="130.9">Timestamp</text>
+        <text class="pele-er-comment" fill="var(--_m)" xml:space="preserve"><tspan x="-5.07" y="130.9">Thời điểm chính xác phát sinh sự kiện</tspan><tspan x="-5.07" y="148.9">nghe (Unix timestamp)</tspan></text>
+      </g>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,418 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="pele pele-er" viewBox="0 0 1663 1124" width="1663" height="1124" style="max-width:100%;height:auto;--_bg:var(--pele-bg,#fff);--_fg:var(--pele-fg,#1f1f1f);--_m:var(--pele-muted,#6e6e6e);--_l:var(--pele-line,#1f1f1f);--_s:var(--pele-surface,#f3f3f3);--_a:var(--pele-surface-alt,#e6e6e6);--_b:var(--pele-border,#8a8a8a);--_c:var(--pele-accent,#5b7bd5);color:var(--_fg);--_r:var(--pele-radius,4px);--_tw:var(--pele-title-weight,bold);--_fm:var(--pele-font-mono,ui-monospace, SFMono-Regular, &quot;Cascadia Code&quot;, &quot;IBM Plex Mono&quot;, &quot;Roboto Mono&quot;, &quot;DejaVu Sans Mono&quot;, &quot;Liberation Mono&quot;, Menlo, Monaco, &quot;Consolas&quot;, &quot;Source Code Pro&quot;, monospace);font:16px sans-serif;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;font-family:var(--pele-font,-apple-system, BlinkMacSystemFont, &quot;Inter Variable&quot;, Inter, &quot;Segoe UI&quot;, Helvetica, Arial, sans-serif)" fill="var(--_fg)" role="graphics-document document" aria-roledescription="er">
+  <text class="pele-title" font-weight="var(--_tw)" text-anchor="middle" xml:space="preserve"><tspan x="831.5" y="25.6">ERD - Hệ thống thuyết minh (12 bảng, đối chiếu backend/src/db/schema.sql)</tspan></text>
+  <g class="pele-edges" fill="none" stroke="var(--_l)" stroke-linecap="round">
+    <g class="pele-edge pele-er-identifying" data-id="id_entity-Floor-2_entity-FloorTranslation-3_0">
+      <path d="M620.15,251L620.15,269L620.15,275C620.15,301.5 489.17,301.5 489.17,328L489.17,472L489.17,490"/>
+      <path class="pele-marker" d="M615.15,257L625.15,257M615.15,261L625.15,261"/>
+      <path class="pele-marker" d="M495.17,490L489.17,480L483.17,490"/>
+      <circle class="pele-marker" cx="489.17" cy="476" r="3.5" fill="var(--_bg)"/>
+    </g>
+    <g class="pele-edge pele-er-identifying" data-id="id_entity-Floor-2_entity-Artifact-4_1">
+      <path d="M638.15,251L638.15,269L638.15,275C638.15,301.5 805.62,301.5 805.62,328L805.62,367L805.62,385"/>
+      <path class="pele-marker" d="M633.15,257L643.15,257M633.15,261L643.15,261"/>
+      <path class="pele-marker" d="M811.62,385L805.62,375L799.62,385"/>
+      <circle class="pele-marker" cx="805.62" cy="371" r="3.5" fill="var(--_bg)"/>
+    </g>
+    <g class="pele-edge pele-er-identifying" data-id="id_entity-Artifact-4_entity-ArtifactTranslation-5_2">
+      <path d="M769.62,727L769.62,745L769.62,751C769.62,771.42 171.55,785.84 171.55,806.26L171.55,890.26L171.55,908.26"/>
+      <path class="pele-marker" d="M764.62,733L774.62,733M764.62,737L774.62,737"/>
+      <path class="pele-marker" d="M177.55,908.26L171.55,898.26L165.55,908.26"/>
+      <circle class="pele-marker" cx="171.55" cy="894.26" r="3.5" fill="var(--_bg)"/>
+    </g>
+    <g class="pele-edge pele-er-identifying" data-id="id_entity-Artifact-4_entity-ArtifactImage-6_3">
+      <path d="M787.62,727L787.62,745L787.62,751C787.62,778.63 482.05,778.63 482.05,806.26L482.05,905.26L482.05,923.26"/>
+      <path class="pele-marker" d="M782.62,733L792.62,733M782.62,737L792.62,737"/>
+      <path class="pele-marker" d="M488.05,923.26L482.05,913.26L476.05,923.26"/>
+      <circle class="pele-marker" cx="482.05" cy="909.26" r="3.5" fill="var(--_bg)"/>
+    </g>
+    <g class="pele-edge pele-er-identifying" data-id="id_entity-Artifact-4_entity-ArtifactAudio-7_4">
+      <path d="M805.62,727L805.62,745L805.62,751C805.62,778.63 787.37,778.63 787.37,806.26L787.37,905.26L787.37,923.26"/>
+      <path class="pele-marker" d="M800.62,733L810.62,733M800.62,737L810.62,737"/>
+      <path class="pele-marker" d="M793.37,923.26L787.37,913.26L781.37,923.26"/>
+      <circle class="pele-marker" cx="787.37" cy="909.26" r="3.5" fill="var(--_bg)"/>
+    </g>
+    <g class="pele-edge pele-er-identifying" data-id="id_entity-Artifact-4_entity-SubtitleCue-8_5">
+      <path d="M823.62,727L823.62,745L823.62,751C823.62,778.63 1090.49,778.63 1090.49,806.26L1090.49,860.26L1090.49,878.26"/>
+      <path class="pele-marker" d="M818.62,733L828.62,733M818.62,737L828.62,737"/>
+      <path class="pele-marker" d="M1096.49,878.26L1090.49,868.26L1084.49,878.26"/>
+      <circle class="pele-marker" cx="1090.49" cy="864.26" r="3.5" fill="var(--_bg)"/>
+    </g>
+    <g class="pele-edge pele-er-non-identifying" data-id="id_entity-VisitorSession-10_entity-ListenEvent-11_6">
+      <path d="M1481.84,697L1481.84,715L1481.84,831.26C1481.84,836.51 1440.74,836.51 1440.74,841.76L1440.74,845.26L1440.74,863.26" stroke-dasharray="4 3"/>
+      <path class="pele-marker" d="M1476.84,703L1486.84,703M1476.84,707L1486.84,707"/>
+      <path class="pele-marker" d="M1446.74,863.26L1440.74,853.26L1434.74,863.26"/>
+      <circle class="pele-marker" cx="1440.74" cy="849.26" r="3.5" fill="var(--_bg)"/>
+    </g>
+    <g class="pele-edge pele-er-non-identifying" data-id="id_entity-Artifact-4_entity-ListenEvent-11_7">
+      <path d="M841.62,727L841.62,745L841.62,751C841.62,776.9 1313.22,780.36 1313.22,806.26L1313.22,831.26C1313.22,835.29 1422.74,837.73 1422.74,841.76L1422.74,845.26L1422.74,863.26" stroke-dasharray="4 3"/>
+      <path class="pele-marker" d="M836.62,733L846.62,733M836.62,737L846.62,737"/>
+      <path class="pele-marker" d="M1428.74,863.26L1422.74,853.26L1416.74,863.26"/>
+      <circle class="pele-marker" cx="1422.74" cy="849.26" r="3.5" fill="var(--_bg)"/>
+    </g>
+    <g class="pele-edge pele-er-non-identifying" data-id="id_entity-Museum-0_entity-MuseumTranslation-1_8">
+      <path d="M165.63,236L165.63,460" stroke-dasharray="4 3"/>
+      <path class="pele-marker" d="M160.63,242L170.63,242M160.63,246L170.63,246"/>
+      <path class="pele-marker" d="M171.63,460L165.63,450L159.63,460"/>
+      <circle class="pele-marker" cx="165.63" cy="446" r="3.5" fill="var(--_bg)"/>
+    </g>
+  </g>
+  <g class="pele-edge-labels" font-size="14">
+    <g class="pele-edge-label" data-id="id_entity-Floor-2_entity-FloorTranslation-3_0">
+      <rect x="435.94" y="330" width="106.47" height="21" rx="3" fill="var(--_bg)"/>
+      <text x="489.17" y="345.4" text-anchor="middle">co_ten_da_ngu</text>
+    </g>
+    <g class="pele-edge-label" data-id="id_entity-Floor-2_entity-Artifact-4_1">
+      <rect x="785.4" y="330" width="40.43" height="21" rx="3" fill="var(--_bg)"/>
+      <text x="805.62" y="345.4" text-anchor="middle">chua</text>
+    </g>
+    <g class="pele-edge-label" data-id="id_entity-Artifact-4_entity-ArtifactTranslation-5_2">
+      <rect x="126.19" y="808.26" width="90.72" height="21" rx="3" fill="var(--_bg)"/>
+      <text x="171.55" y="823.66" text-anchor="middle">co_ban_dich</text>
+    </g>
+    <g class="pele-edge-label" data-id="id_entity-Artifact-4_entity-ArtifactImage-6_3">
+      <rect x="436.91" y="808.26" width="90.27" height="21" rx="3" fill="var(--_bg)"/>
+      <text x="482.05" y="823.66" text-anchor="middle">co_hinh_anh</text>
+    </g>
+    <g class="pele-edge-label" data-id="id_entity-Artifact-4_entity-ArtifactAudio-7_4">
+      <rect x="740.08" y="808.26" width="94.58" height="21" rx="3" fill="var(--_bg)"/>
+      <text x="787.37" y="823.66" text-anchor="middle">co_am_thanh</text>
+    </g>
+    <g class="pele-edge-label" data-id="id_entity-Artifact-4_entity-SubtitleCue-8_5">
+      <rect x="1050.98" y="808.26" width="79.02" height="21" rx="3" fill="var(--_bg)"/>
+      <text x="1090.49" y="823.66" text-anchor="middle">co_phu_de</text>
+    </g>
+    <g class="pele-edge-label" data-id="id_entity-VisitorSession-10_entity-ListenEvent-11_6">
+      <rect x="1446.34" y="808.26" width="71" height="21" rx="3" fill="var(--_bg)"/>
+      <text x="1481.84" y="823.66" text-anchor="middle">phat_sinh</text>
+    </g>
+    <g class="pele-edge-label" data-id="id_entity-Artifact-4_entity-ListenEvent-11_7">
+      <rect x="1272.52" y="808.26" width="81.4" height="21" rx="3" fill="var(--_bg)"/>
+      <text x="1313.22" y="823.66" text-anchor="middle">duoc_nghe</text>
+    </g>
+    <g class="pele-edge-label" data-id="id_entity-Museum-0_entity-MuseumTranslation-1_8">
+      <rect x="120.27" y="330" width="90.72" height="21" rx="3" fill="var(--_bg)"/>
+      <text x="165.63" y="345.4" text-anchor="middle">co_ban_dich</text>
+    </g>
+  </g>
+  <g class="pele-nodes">
+    <g class="pele-node pele-entity" data-id="Museum" transform="translate(165.63,170)">
+      <rect x="-157.63" y="-66" width="315.27" height="132" fill="var(--_s)" stroke="var(--_b)" style="rx:var(--_r)"/>
+      <g class="pele-er-stripes" fill="var(--_bg)">
+        <rect x="-157.63" width="315.27" y="-24" height="30"/>
+        <rect x="-157.63" width="315.27" y="36" height="30" style="rx:var(--_r)"/>
+        <rect x="-157.63" width="315.27" y="36" height="15"/>
+      </g>
+      <path class="pele-er-divider" d="M-157.63,-24H157.63" stroke="var(--_b)"/>
+      <rect x="-157.63" y="-66" width="315.27" height="132" fill="none" stroke="var(--_b)" style="rx:var(--_r)"/>
+      <text class="pele-label" x="0" y="-39.4" text-anchor="middle">Museum</text>
+      <g class="pele-er-attributes" font-size="14">
+        <text class="pele-er-type" fill="var(--_m)" x="-145.63" y="-4.1">int</text>
+        <text class="pele-er-name" x="-35.28" y="-4.1">Id</text>
+        <text class="pele-er-keys" font-size="12" fill="var(--_m)" x="27.72" y="-4.1">PK</text>
+        <text class="pele-er-comment" fill="var(--_m)" x="59.45" y="-4.1">CHECK(Id=1)</text>
+        <text class="pele-er-type" fill="var(--_m)" x="-145.63" y="25.9">nvarchar(50)</text>
+        <text class="pele-er-name" x="-35.28" y="25.9">Hotline</text>
+        <text class="pele-er-type" fill="var(--_m)" x="-145.63" y="55.9">nvarchar(500)</text>
+        <text class="pele-er-name" x="-35.28" y="55.9">Banner</text>
+      </g>
+    </g>
+    <g class="pele-node pele-entity" data-id="MuseumTranslation" transform="translate(165.63,556)">
+      <rect x="-121.77" y="-96" width="243.53" height="192" fill="var(--_s)" stroke="var(--_b)" style="rx:var(--_r)"/>
+      <g class="pele-er-stripes" fill="var(--_bg)">
+        <rect x="-121.77" width="243.53" y="-54" height="30"/>
+        <rect x="-121.77" width="243.53" y="6" height="30"/>
+        <rect x="-121.77" width="243.53" y="66" height="30" style="rx:var(--_r)"/>
+        <rect x="-121.77" width="243.53" y="66" height="15"/>
+      </g>
+      <path class="pele-er-divider" d="M-121.77,-54H121.77" stroke="var(--_b)"/>
+      <rect x="-121.77" y="-96" width="243.53" height="192" fill="none" stroke="var(--_b)" style="rx:var(--_r)"/>
+      <text class="pele-label" x="0" y="-69.4" text-anchor="middle">MuseumTranslation</text>
+      <g class="pele-er-attributes" font-size="14">
+        <text class="pele-er-type" fill="var(--_m)" x="-109.77" y="-34.1">char(2)</text>
+        <text class="pele-er-name" x="2.4" y="-34.1">Lang</text>
+        <text class="pele-er-keys" font-size="12" fill="var(--_m)" x="94.03" y="-34.1">PK</text>
+        <text class="pele-er-type" fill="var(--_m)" x="-109.77" y="-4.1">nvarchar(300)</text>
+        <text class="pele-er-name" x="2.4" y="-4.1">Name</text>
+        <text class="pele-er-type" fill="var(--_m)" x="-109.77" y="25.9">nvarchar(500)</text>
+        <text class="pele-er-name" x="2.4" y="25.9">Address</text>
+        <text class="pele-er-type" fill="var(--_m)" x="-109.77" y="55.9">nvarchar(300)</text>
+        <text class="pele-er-name" x="2.4" y="55.9">OpenHours</text>
+        <text class="pele-er-type" fill="var(--_m)" x="-109.77" y="85.9">nvarchar(max)</text>
+        <text class="pele-er-name" x="2.4" y="85.9">Description</text>
+      </g>
+    </g>
+    <g class="pele-node pele-entity" data-id="Floor" transform="translate(629.15,170)">
+      <rect x="-117.91" y="-81" width="235.82" height="162" fill="var(--_s)" stroke="var(--_b)" style="rx:var(--_r)"/>
+      <g class="pele-er-stripes" fill="var(--_bg)">
+        <rect x="-117.91" width="235.82" y="-39" height="30"/>
+        <rect x="-117.91" width="235.82" y="21" height="30"/>
+      </g>
+      <path class="pele-er-divider" d="M-117.91,-39H117.91" stroke="var(--_b)"/>
+      <rect x="-117.91" y="-81" width="235.82" height="162" fill="none" stroke="var(--_b)" style="rx:var(--_r)"/>
+      <text class="pele-label" x="0" y="-54.4" text-anchor="middle">Floor</text>
+      <g class="pele-er-attributes" font-size="14">
+        <text class="pele-er-type" fill="var(--_m)" x="-105.91" y="-19.1">int</text>
+        <text class="pele-er-name" x="4.44" y="-19.1">Id</text>
+        <text class="pele-er-keys" font-size="12" fill="var(--_m)" x="90.17" y="-19.1">PK</text>
+        <text class="pele-er-type" fill="var(--_m)" x="-105.91" y="10.9">nvarchar(500)</text>
+        <text class="pele-er-name" x="4.44" y="10.9">MapImage</text>
+        <text class="pele-er-type" fill="var(--_m)" x="-105.91" y="40.9">float</text>
+        <text class="pele-er-name" x="4.44" y="40.9">Width</text>
+        <text class="pele-er-type" fill="var(--_m)" x="-105.91" y="70.9">float</text>
+        <text class="pele-er-name" x="4.44" y="70.9">Height</text>
+      </g>
+    </g>
+    <g class="pele-node pele-entity" data-id="FloorTranslation" transform="translate(489.17,556)">
+      <rect x="-117.28" y="-66" width="234.57" height="132" fill="var(--_s)" stroke="var(--_b)" style="rx:var(--_r)"/>
+      <g class="pele-er-stripes" fill="var(--_bg)">
+        <rect x="-117.28" width="234.57" y="-24" height="30"/>
+        <rect x="-117.28" width="234.57" y="36" height="30" style="rx:var(--_r)"/>
+        <rect x="-117.28" width="234.57" y="36" height="15"/>
+      </g>
+      <path class="pele-er-divider" d="M-117.28,-24H117.28" stroke="var(--_b)"/>
+      <rect x="-117.28" y="-66" width="234.57" height="132" fill="none" stroke="var(--_b)" style="rx:var(--_r)"/>
+      <text class="pele-label" x="0" y="-39.4" text-anchor="middle">FloorTranslation</text>
+      <g class="pele-er-attributes" font-size="14">
+        <text class="pele-er-type" fill="var(--_m)" x="-105.28" y="-4.1">int</text>
+        <text class="pele-er-name" x="5.3" y="-4.1">FloorId</text>
+        <text class="pele-er-keys" font-size="12" fill="var(--_m)" x="67.57" y="-4.1">PK, FK</text>
+        <text class="pele-er-type" fill="var(--_m)" x="-105.28" y="25.9">char(2)</text>
+        <text class="pele-er-name" x="5.3" y="25.9">Lang</text>
+        <text class="pele-er-keys" font-size="12" fill="var(--_m)" x="67.57" y="25.9">PK</text>
+        <text class="pele-er-type" fill="var(--_m)" x="-105.28" y="55.9">nvarchar(200)</text>
+        <text class="pele-er-name" x="5.3" y="55.9">Name</text>
+      </g>
+    </g>
+    <g class="pele-node pele-entity" data-id="Artifact" transform="translate(805.62,556)">
+      <rect x="-151.16" y="-171" width="302.32" height="342" fill="var(--_s)" stroke="var(--_b)" style="rx:var(--_r)"/>
+      <g class="pele-er-stripes" fill="var(--_bg)">
+        <rect x="-151.16" width="302.32" y="-129" height="30"/>
+        <rect x="-151.16" width="302.32" y="-69" height="30"/>
+        <rect x="-151.16" width="302.32" y="-9" height="30"/>
+        <rect x="-151.16" width="302.32" y="51" height="30"/>
+        <rect x="-151.16" width="302.32" y="111" height="30"/>
+      </g>
+      <path class="pele-er-divider" d="M-151.16,-129H151.16" stroke="var(--_b)"/>
+      <rect x="-151.16" y="-171" width="302.32" height="342" fill="none" stroke="var(--_b)" style="rx:var(--_r)"/>
+      <text class="pele-label" x="0" y="-144.4" text-anchor="middle">Artifact</text>
+      <g class="pele-er-attributes" font-size="14">
+        <text class="pele-er-type" fill="var(--_m)" x="-139.16" y="-109.1">nvarchar(50)</text>
+        <text class="pele-er-name" x="-37.64" y="-109.1">Id</text>
+        <text class="pele-er-keys" font-size="12" fill="var(--_m)" x="70.63" y="-109.1">PK</text>
+        <text class="pele-er-type" fill="var(--_m)" x="-139.16" y="-79.1">nvarchar(50)</text>
+        <text class="pele-er-name" x="-37.64" y="-79.1">Code</text>
+        <text class="pele-er-type" fill="var(--_m)" x="-139.16" y="-49.1">int</text>
+        <text class="pele-er-name" x="-37.64" y="-49.1">FloorId</text>
+        <text class="pele-er-keys" font-size="12" fill="var(--_m)" x="70.63" y="-49.1">FK</text>
+        <text class="pele-er-type" fill="var(--_m)" x="-139.16" y="-19.1">float</text>
+        <text class="pele-er-name" x="-37.64" y="-19.1">MapX</text>
+        <text class="pele-er-type" fill="var(--_m)" x="-139.16" y="10.9">float</text>
+        <text class="pele-er-name" x="-37.64" y="10.9">MapY</text>
+        <text class="pele-er-type" fill="var(--_m)" x="-139.16" y="40.9">float</text>
+        <text class="pele-er-name" x="-37.64" y="40.9">Latitude</text>
+        <text class="pele-er-comment" fill="var(--_m)" x="102.36" y="40.9">NULL</text>
+        <text class="pele-er-type" fill="var(--_m)" x="-139.16" y="70.9">float</text>
+        <text class="pele-er-name" x="-37.64" y="70.9">Longitude</text>
+        <text class="pele-er-comment" fill="var(--_m)" x="102.36" y="70.9">NULL</text>
+        <text class="pele-er-type" fill="var(--_m)" x="-139.16" y="100.9">float</text>
+        <text class="pele-er-name" x="-37.64" y="100.9">TriggerRadius</text>
+        <text class="pele-er-comment" fill="var(--_m)" x="102.36" y="100.9">NULL</text>
+        <text class="pele-er-type" fill="var(--_m)" x="-139.16" y="130.9">bigint</text>
+        <text class="pele-er-name" x="-37.64" y="130.9">CreatedAt</text>
+        <text class="pele-er-comment" fill="var(--_m)" x="102.36" y="130.9">NULL</text>
+        <text class="pele-er-type" fill="var(--_m)" x="-139.16" y="160.9">int</text>
+        <text class="pele-er-name" x="-37.64" y="160.9">SortOrder</text>
+      </g>
+    </g>
+    <g class="pele-node pele-entity" data-id="ArtifactTranslation" transform="translate(171.55,989.26)">
+      <rect x="-132.76" y="-81" width="265.52" height="162" fill="var(--_s)" stroke="var(--_b)" style="rx:var(--_r)"/>
+      <g class="pele-er-stripes" fill="var(--_bg)">
+        <rect x="-132.76" width="265.52" y="-39" height="30"/>
+        <rect x="-132.76" width="265.52" y="21" height="30"/>
+      </g>
+      <path class="pele-er-divider" d="M-132.76,-39H132.76" stroke="var(--_b)"/>
+      <rect x="-132.76" y="-81" width="265.52" height="162" fill="none" stroke="var(--_b)" style="rx:var(--_r)"/>
+      <text class="pele-label" x="0" y="-54.4" text-anchor="middle">ArtifactTranslation</text>
+      <g class="pele-er-attributes" font-size="14">
+        <text class="pele-er-type" fill="var(--_m)" x="-120.76" y="-19.1">nvarchar(50)</text>
+        <text class="pele-er-name" x="-8.59" y="-19.1">ArtifactId</text>
+        <text class="pele-er-keys" font-size="12" fill="var(--_m)" x="83.04" y="-19.1">PK, FK</text>
+        <text class="pele-er-type" fill="var(--_m)" x="-120.76" y="10.9">char(2)</text>
+        <text class="pele-er-name" x="-8.59" y="10.9">Lang</text>
+        <text class="pele-er-keys" font-size="12" fill="var(--_m)" x="83.04" y="10.9">PK</text>
+        <text class="pele-er-type" fill="var(--_m)" x="-120.76" y="40.9">nvarchar(500)</text>
+        <text class="pele-er-name" x="-8.59" y="40.9">Title</text>
+        <text class="pele-er-type" fill="var(--_m)" x="-120.76" y="70.9">nvarchar(max)</text>
+        <text class="pele-er-name" x="-8.59" y="70.9">Description</text>
+      </g>
+    </g>
+    <g class="pele-node pele-entity" data-id="ArtifactImage" transform="translate(482.05,989.26)">
+      <rect x="-129.74" y="-66" width="259.48" height="132" fill="var(--_s)" stroke="var(--_b)" style="rx:var(--_r)"/>
+      <g class="pele-er-stripes" fill="var(--_bg)">
+        <rect x="-129.74" width="259.48" y="-24" height="30"/>
+        <rect x="-129.74" width="259.48" y="36" height="30" style="rx:var(--_r)"/>
+        <rect x="-129.74" width="259.48" y="36" height="15"/>
+      </g>
+      <path class="pele-er-divider" d="M-129.74,-24H129.74" stroke="var(--_b)"/>
+      <rect x="-129.74" y="-66" width="259.48" height="132" fill="none" stroke="var(--_b)" style="rx:var(--_r)"/>
+      <text class="pele-label" x="0" y="-39.4" text-anchor="middle">ArtifactImage</text>
+      <g class="pele-er-attributes" font-size="14">
+        <text class="pele-er-type" fill="var(--_m)" x="-117.74" y="-4.1">nvarchar(50)</text>
+        <text class="pele-er-name" x="-1.16" y="-4.1">ArtifactId</text>
+        <text class="pele-er-keys" font-size="12" fill="var(--_m)" x="80.03" y="-4.1">PK, FK</text>
+        <text class="pele-er-type" fill="var(--_m)" x="-117.74" y="25.9">int</text>
+        <text class="pele-er-name" x="-1.16" y="25.9">SortOrder</text>
+        <text class="pele-er-keys" font-size="12" fill="var(--_m)" x="80.03" y="25.9">PK</text>
+        <text class="pele-er-type" fill="var(--_m)" x="-117.74" y="55.9">nvarchar(1000)</text>
+        <text class="pele-er-name" x="-1.16" y="55.9">Url</text>
+      </g>
+    </g>
+    <g class="pele-node pele-entity" data-id="ArtifactAudio" transform="translate(787.37,989.26)">
+      <rect x="-127.58" y="-66" width="255.17" height="132" fill="var(--_s)" stroke="var(--_b)" style="rx:var(--_r)"/>
+      <g class="pele-er-stripes" fill="var(--_bg)">
+        <rect x="-127.58" width="255.17" y="-24" height="30"/>
+        <rect x="-127.58" width="255.17" y="36" height="30" style="rx:var(--_r)"/>
+        <rect x="-127.58" width="255.17" y="36" height="15"/>
+      </g>
+      <path class="pele-er-divider" d="M-127.58,-24H127.58" stroke="var(--_b)"/>
+      <rect x="-127.58" y="-66" width="255.17" height="132" fill="none" stroke="var(--_b)" style="rx:var(--_r)"/>
+      <text class="pele-label" x="0" y="-39.4" text-anchor="middle">ArtifactAudio</text>
+      <g class="pele-er-attributes" font-size="14">
+        <text class="pele-er-type" fill="var(--_m)" x="-115.58" y="-4.1">nvarchar(50)</text>
+        <text class="pele-er-name" x="1" y="-4.1">ArtifactId</text>
+        <text class="pele-er-keys" font-size="12" fill="var(--_m)" x="77.87" y="-4.1">PK, FK</text>
+        <text class="pele-er-type" fill="var(--_m)" x="-115.58" y="25.9">char(2)</text>
+        <text class="pele-er-name" x="1" y="25.9">Lang</text>
+        <text class="pele-er-keys" font-size="12" fill="var(--_m)" x="77.87" y="25.9">PK</text>
+        <text class="pele-er-type" fill="var(--_m)" x="-115.58" y="55.9">nvarchar(1000)</text>
+        <text class="pele-er-name" x="1" y="55.9">Url</text>
+      </g>
+    </g>
+    <g class="pele-node pele-entity" data-id="SubtitleCue" transform="translate(1090.49,989.26)">
+      <rect x="-127.53" y="-111" width="255.07" height="222" fill="var(--_s)" stroke="var(--_b)" style="rx:var(--_r)"/>
+      <g class="pele-er-stripes" fill="var(--_bg)">
+        <rect x="-127.53" width="255.07" y="-69" height="30"/>
+        <rect x="-127.53" width="255.07" y="-9" height="30"/>
+        <rect x="-127.53" width="255.07" y="51" height="30"/>
+      </g>
+      <path class="pele-er-divider" d="M-127.53,-69H127.53" stroke="var(--_b)"/>
+      <rect x="-127.53" y="-111" width="255.07" height="222" fill="none" stroke="var(--_b)" style="rx:var(--_r)"/>
+      <text class="pele-label" x="0" y="-84.4" text-anchor="middle">SubtitleCue</text>
+      <g class="pele-er-attributes" font-size="14">
+        <text class="pele-er-type" fill="var(--_m)" x="-115.53" y="-49.1">nvarchar(50)</text>
+        <text class="pele-er-name" x="-3.37" y="-49.1">ArtifactId</text>
+        <text class="pele-er-keys" font-size="12" fill="var(--_m)" x="77.82" y="-49.1">PK, FK</text>
+        <text class="pele-er-type" fill="var(--_m)" x="-115.53" y="-19.1">char(2)</text>
+        <text class="pele-er-name" x="-3.37" y="-19.1">Lang</text>
+        <text class="pele-er-keys" font-size="12" fill="var(--_m)" x="77.82" y="-19.1">PK</text>
+        <text class="pele-er-type" fill="var(--_m)" x="-115.53" y="10.9">int</text>
+        <text class="pele-er-name" x="-3.37" y="10.9">SortOrder</text>
+        <text class="pele-er-keys" font-size="12" fill="var(--_m)" x="77.82" y="10.9">PK</text>
+        <text class="pele-er-type" fill="var(--_m)" x="-115.53" y="40.9">float</text>
+        <text class="pele-er-name" x="-3.37" y="40.9">StartSec</text>
+        <text class="pele-er-type" fill="var(--_m)" x="-115.53" y="70.9">float</text>
+        <text class="pele-er-name" x="-3.37" y="70.9">EndSec</text>
+        <text class="pele-er-type" fill="var(--_m)" x="-115.53" y="100.9">nvarchar(max)</text>
+        <text class="pele-er-name" x="-3.37" y="100.9">Text</text>
+      </g>
+    </g>
+    <g class="pele-node pele-entity" data-id="AdminUser" transform="translate(980.63,170)">
+      <rect x="-185.58" y="-126" width="371.15" height="252" fill="var(--_s)" stroke="var(--_b)" style="rx:var(--_r)"/>
+      <g class="pele-er-stripes" fill="var(--_bg)">
+        <rect x="-185.58" width="371.15" y="-84" height="30"/>
+        <rect x="-185.58" width="371.15" y="-24" height="30"/>
+        <rect x="-185.58" width="371.15" y="36" height="30"/>
+        <rect x="-185.58" width="371.15" y="96" height="30" style="rx:var(--_r)"/>
+        <rect x="-185.58" width="371.15" y="96" height="15"/>
+      </g>
+      <path class="pele-er-divider" d="M-185.58,-84H185.58" stroke="var(--_b)"/>
+      <rect x="-185.58" y="-126" width="371.15" height="252" fill="none" stroke="var(--_b)" style="rx:var(--_r)"/>
+      <text class="pele-label" x="0" y="-99.4" text-anchor="middle">AdminUser</text>
+      <g class="pele-er-attributes" font-size="14">
+        <text class="pele-er-type" fill="var(--_m)" x="-173.58" y="-64.1">int</text>
+        <text class="pele-er-name" x="-62.99" y="-64.1">Id</text>
+        <text class="pele-er-keys" font-size="12" fill="var(--_m)" x="51.71" y="-64.1">PK</text>
+        <text class="pele-er-comment" fill="var(--_m)" x="84.71" y="-64.1">IDENTITY(1,1)</text>
+        <text class="pele-er-type" fill="var(--_m)" x="-173.58" y="-34.1">nvarchar(200)</text>
+        <text class="pele-er-name" x="-62.99" y="-34.1">Email</text>
+        <text class="pele-er-keys" font-size="12" fill="var(--_m)" x="51.71" y="-34.1">UK</text>
+        <text class="pele-er-type" fill="var(--_m)" x="-173.58" y="-4.1">nvarchar(200)</text>
+        <text class="pele-er-name" x="-62.99" y="-4.1">PasswordHash</text>
+        <text class="pele-er-type" fill="var(--_m)" x="-173.58" y="25.9">nvarchar(200)</text>
+        <text class="pele-er-name" x="-62.99" y="25.9">DisplayName</text>
+        <text class="pele-er-type" fill="var(--_m)" x="-173.58" y="55.9">nvarchar(30)</text>
+        <text class="pele-er-name" x="-62.99" y="55.9">Role</text>
+        <text class="pele-er-type" fill="var(--_m)" x="-173.58" y="85.9">int</text>
+        <text class="pele-er-name" x="-62.99" y="85.9">FailedAttempts</text>
+        <text class="pele-er-type" fill="var(--_m)" x="-173.58" y="115.9">datetime2</text>
+        <text class="pele-er-name" x="-62.99" y="115.9">LockedUntil</text>
+        <text class="pele-er-comment" fill="var(--_m)" x="84.71" y="115.9">NULL</text>
+      </g>
+    </g>
+    <g class="pele-node pele-entity" data-id="VisitorSession" transform="translate(1481.84,556)">
+      <rect x="-172.77" y="-141" width="345.55" height="282" fill="var(--_s)" stroke="var(--_b)" style="rx:var(--_r)"/>
+      <g class="pele-er-stripes" fill="var(--_bg)">
+        <rect x="-172.77" width="345.55" y="-99" height="30"/>
+        <rect x="-172.77" width="345.55" y="-39" height="30"/>
+        <rect x="-172.77" width="345.55" y="21" height="30"/>
+        <rect x="-172.77" width="345.55" y="81" height="30"/>
+      </g>
+      <path class="pele-er-divider" d="M-172.77,-99H172.77" stroke="var(--_b)"/>
+      <rect x="-172.77" y="-141" width="345.55" height="282" fill="none" stroke="var(--_b)" style="rx:var(--_r)"/>
+      <text class="pele-label" x="0" y="-114.4" text-anchor="middle">VisitorSession</text>
+      <g class="pele-er-attributes" font-size="14">
+        <text class="pele-er-type" fill="var(--_m)" x="-160.77" y="-79.1">nvarchar(100)</text>
+        <text class="pele-er-name" x="-50.42" y="-79.1">SessionId</text>
+        <text class="pele-er-keys" font-size="12" fill="var(--_m)" x="92.24" y="-79.1">PK</text>
+        <text class="pele-er-type" fill="var(--_m)" x="-160.77" y="-49.1">nvarchar(20)</text>
+        <text class="pele-er-name" x="-50.42" y="-49.1">DeviceType</text>
+        <text class="pele-er-type" fill="var(--_m)" x="-160.77" y="-19.1">nvarchar(50)</text>
+        <text class="pele-er-name" x="-50.42" y="-19.1">Browser</text>
+        <text class="pele-er-type" fill="var(--_m)" x="-160.77" y="10.9">nvarchar(10)</text>
+        <text class="pele-er-name" x="-50.42" y="10.9">Lang</text>
+        <text class="pele-er-type" fill="var(--_m)" x="-160.77" y="40.9">nvarchar(50)</text>
+        <text class="pele-er-name" x="-50.42" y="40.9">CurrentArtifactId</text>
+        <text class="pele-er-comment" fill="var(--_m)" x="123.97" y="40.9">NULL</text>
+        <text class="pele-er-type" fill="var(--_m)" x="-160.77" y="70.9">nvarchar(500)</text>
+        <text class="pele-er-name" x="-50.42" y="70.9">CurrentArtifactTitle</text>
+        <text class="pele-er-comment" fill="var(--_m)" x="123.97" y="70.9">NULL</text>
+        <text class="pele-er-type" fill="var(--_m)" x="-160.77" y="100.9">bigint</text>
+        <text class="pele-er-name" x="-50.42" y="100.9">StartedAt</text>
+        <text class="pele-er-type" fill="var(--_m)" x="-160.77" y="130.9">bigint</text>
+        <text class="pele-er-name" x="-50.42" y="130.9">LastActive</text>
+      </g>
+    </g>
+    <g class="pele-node pele-entity" data-id="ListenEvent" transform="translate(1431.74,989.26)">
+      <rect x="-165.72" y="-126" width="331.43" height="252" fill="var(--_s)" stroke="var(--_b)" style="rx:var(--_r)"/>
+      <g class="pele-er-stripes" fill="var(--_bg)">
+        <rect x="-165.72" width="331.43" y="-84" height="30"/>
+        <rect x="-165.72" width="331.43" y="-24" height="30"/>
+        <rect x="-165.72" width="331.43" y="36" height="30"/>
+        <rect x="-165.72" width="331.43" y="96" height="30" style="rx:var(--_r)"/>
+        <rect x="-165.72" width="331.43" y="96" height="15"/>
+      </g>
+      <path class="pele-er-divider" d="M-165.72,-84H165.72" stroke="var(--_b)"/>
+      <rect x="-165.72" y="-126" width="331.43" height="252" fill="none" stroke="var(--_b)" style="rx:var(--_r)"/>
+      <text class="pele-label" x="0" y="-99.4" text-anchor="middle">ListenEvent</text>
+      <g class="pele-er-attributes" font-size="14">
+        <text class="pele-er-type" fill="var(--_m)" x="-153.72" y="-64.1">nvarchar(100)</text>
+        <text class="pele-er-name" x="-43.37" y="-64.1">Id</text>
+        <text class="pele-er-keys" font-size="12" fill="var(--_m)" x="56.53" y="-64.1">PK</text>
+        <text class="pele-er-type" fill="var(--_m)" x="-153.72" y="-34.1">nvarchar(100)</text>
+        <text class="pele-er-name" x="-43.37" y="-34.1">SessionId</text>
+        <text class="pele-er-comment" fill="var(--_m)" x="88.27" y="-34.1">logical ref</text>
+        <text class="pele-er-type" fill="var(--_m)" x="-153.72" y="-4.1">nvarchar(50)</text>
+        <text class="pele-er-name" x="-43.37" y="-4.1">ArtifactId</text>
+        <text class="pele-er-comment" fill="var(--_m)" x="88.27" y="-4.1">logical ref</text>
+        <text class="pele-er-type" fill="var(--_m)" x="-153.72" y="25.9">nvarchar(50)</text>
+        <text class="pele-er-name" x="-43.37" y="25.9">ArtifactCode</text>
+        <text class="pele-er-type" fill="var(--_m)" x="-153.72" y="55.9">nvarchar(500)</text>
+        <text class="pele-er-name" x="-43.37" y="55.9">ArtifactTitle</text>
+        <text class="pele-er-type" fill="var(--_m)" x="-153.72" y="85.9">nvarchar(10)</text>
+        <text class="pele-er-name" x="-43.37" y="85.9">Lang</text>
+        <text class="pele-er-type" fill="var(--_m)" x="-153.72" y="115.9">bigint</text>
+        <text class="pele-er-name" x="-43.37" y="115.9">Timestamp</text>
+      </g>
+    </g>
+  </g>
+</svg>

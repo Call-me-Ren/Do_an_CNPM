@@ -1,0 +1,184 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="pele pele-flowchart" viewBox="0 0 1557 1532" width="1557" height="1532" style="max-width:100%;height:auto;--_bg:var(--pele-bg,#fff);--_fg:var(--pele-fg,#1f1f1f);--_m:var(--pele-muted,#6e6e6e);--_l:var(--pele-line,#1f1f1f);--_s:var(--pele-surface,#f3f3f3);--_a:var(--pele-surface-alt,#e6e6e6);--_b:var(--pele-border,#8a8a8a);--_c:var(--pele-accent,#5b7bd5);color:var(--_fg);--_r:var(--pele-radius,4px);--_fm:var(--pele-font-mono,ui-monospace, SFMono-Regular, &quot;Cascadia Code&quot;, &quot;IBM Plex Mono&quot;, &quot;Roboto Mono&quot;, &quot;DejaVu Sans Mono&quot;, &quot;Liberation Mono&quot;, Menlo, Monaco, &quot;Consolas&quot;, &quot;Source Code Pro&quot;, monospace);font:16px sans-serif;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;font-family:var(--pele-font,-apple-system, BlinkMacSystemFont, &quot;Inter Variable&quot;, Inter, &quot;Segoe UI&quot;, Helvetica, Arial, sans-serif)" fill="var(--_fg)" role="graphics-document document" aria-roledescription="flowchart">
+  <g class="pele-edges" fill="none" stroke="var(--_l)" stroke-linecap="round">
+    <g class="pele-edge" data-id="L_Camera_P21_0">
+      <path d="M795.38,119L795.38,276.81C795.38,309.56 739.85,309.56 739.85,342.31L739.85,348.31"/>
+      <path class="pele-marker" d="M739.85,355.31L736.49,347.31L743.21,347.31Z" fill="var(--_l)" stroke="none"/>
+    </g>
+    <g class="pele-edge" data-id="L_Visitor_P21_0">
+      <path d="M378.66,119L378.66,132C378.66,191.9 644.27,191.9 644.27,251.81L644.27,276.81C644.27,309.56 707.8,309.56 707.8,342.31L707.8,348.31"/>
+      <path class="pele-marker" d="M707.8,355.31L704.44,347.31L711.16,347.31Z" fill="var(--_l)" stroke="none"/>
+    </g>
+    <g class="pele-edge" data-id="L_D2_P21_0">
+      <path d="M1235.2,118.71C1235.2,185.26 1016.22,185.26 1016.22,251.81L1016.22,276.81C1016.22,309.56 755.85,309.56 755.85,342.31L755.85,348.31"/>
+      <path class="pele-marker" d="M755.85,355.31L752.49,347.31L759.21,347.31Z" fill="var(--_l)" stroke="none"/>
+    </g>
+    <g class="pele-edge" data-id="L_P21_D4_0">
+      <path d="M687.4,442.31L687.4,625.31"/>
+      <path class="pele-marker" d="M687.4,632.31L684.04,624.31L690.76,624.31Z" fill="var(--_l)" stroke="none"/>
+    </g>
+    <g class="pele-edge" data-id="L_P21_P31_0">
+      <path d="M747.85,442.31C747.85,483.06 1337.91,483.06 1337.91,523.81L1337.91,1001.47C1337.91,1089.97 1122.72,1089.97 1122.72,1178.47L1122.72,1184.47"/>
+      <path class="pele-marker" d="M1122.72,1191.47L1119.36,1183.47L1126.08,1183.47Z" fill="var(--_l)" stroke="none"/>
+    </g>
+    <g class="pele-edge" data-id="L_GPS_P22_0">
+      <path d="M1030.96,119C1030.96,185.4 1213.36,185.4 1213.36,251.81L1213.36,348.31"/>
+      <path class="pele-marker" d="M1213.36,355.31L1210,347.31L1216.72,347.31Z" fill="var(--_l)" stroke="none"/>
+    </g>
+    <g class="pele-edge" data-id="L_D2_P22_0">
+      <path d="M1281.05,118.71C1281.05,185.26 1354.13,185.26 1354.13,251.81L1354.13,276.81C1354.13,309.56 1259.23,309.56 1259.23,342.31L1259.23,348.31"/>
+      <path class="pele-marker" d="M1259.23,355.31L1255.87,347.31L1262.59,347.31Z" fill="var(--_l)" stroke="none"/>
+    </g>
+    <g class="pele-edge" data-id="L_P22_P23_0">
+      <path d="M1221.36,442.31C1221.36,537.31 1132.14,537.31 1132.14,632.31L1132.14,823.81C1132.14,862.1 525.78,862.1 525.78,900.39L525.78,906.39"/>
+      <path class="pele-marker" d="M525.78,913.39L522.42,905.39L529.14,905.39Z" fill="var(--_l)" stroke="none"/>
+    </g>
+    <g class="pele-edge" data-id="L_D4_P23_0">
+      <path d="M679.4,722.28L679.4,833.81C679.4,867.1 509.78,867.1 509.78,900.39L509.78,906.39"/>
+      <path class="pele-marker" d="M509.78,913.39L506.42,905.39L513.14,905.39Z" fill="var(--_l)" stroke="none"/>
+    </g>
+    <g class="pele-edge" data-id="L_P23_Visitor_0">
+      <path d="M426.03,913.39L426.03,900.39C426.03,811.35 315.52,811.35 315.52,722.31L315.52,126"/>
+      <path class="pele-marker" d="M315.52,119L318.88,127L312.16,127Z" fill="var(--_l)" stroke="none"/>
+    </g>
+    <g class="pele-edge" data-id="L_Visitor_P23_0">
+      <path d="M362.66,119L362.66,132C362.66,243.65 422.99,243.65 422.99,355.31L422.99,722.31C422.99,811.35 442.03,811.35 442.03,900.39L442.03,906.39"/>
+      <path class="pele-marker" d="M442.03,913.39L438.67,905.39L445.39,905.39Z" fill="var(--_l)" stroke="none"/>
+    </g>
+    <g class="pele-edge" data-id="L_P23_P31_0">
+      <path d="M481.42,1000.39L481.42,1112.97C481.42,1142.51 1062.3,1148.92 1062.3,1178.47L1062.3,1184.47"/>
+      <path class="pele-marker" d="M1062.3,1191.47L1058.94,1183.47L1065.66,1183.47Z" fill="var(--_l)" stroke="none"/>
+    </g>
+    <g class="pele-edge" data-id="L_D3_P31_0">
+      <path d="M1451.97,1001.47L1451.97,1112.97C1451.97,1145.72 1138.72,1145.72 1138.72,1178.47L1138.72,1184.47"/>
+      <path class="pele-marker" d="M1138.72,1191.47L1135.36,1183.47L1142.08,1183.47Z" fill="var(--_l)" stroke="none"/>
+    </g>
+    <g class="pele-edge" data-id="L_D4_P31_0">
+      <path d="M712.11,721.99C712.11,762.9 1148.14,762.9 1148.14,803.81L1148.14,1001.47C1148.14,1089.97 1106.72,1089.97 1106.72,1178.47L1106.72,1184.47"/>
+      <path class="pele-marker" d="M1106.72,1191.47L1103.36,1183.47L1110.08,1183.47Z" fill="var(--_l)" stroke="none"/>
+    </g>
+    <g class="pele-edge" data-id="L_P31_Visitor_0">
+      <path d="M1046.3,1191.47L1046.3,1178.47C1046.3,1154.21 106.55,1127.23 106.55,1102.97L106.55,355.31C106.55,243.65 299.52,243.65 299.52,132L299.52,126"/>
+      <path class="pele-marker" d="M299.52,119L302.88,127L296.16,127Z" fill="var(--_l)" stroke="none"/>
+    </g>
+    <g class="pele-edge" data-id="L_P31_D5_0">
+      <path d="M1082.15,1278.47L1082.15,1446.47"/>
+      <path class="pele-marker" d="M1082.15,1453.47L1078.79,1445.47L1085.51,1445.47Z" fill="var(--_l)" stroke="none"/>
+    </g>
+  </g>
+  <g class="pele-edge-labels" font-size="14">
+    <g class="pele-edge-label" data-id="L_Camera_P21_0">
+      <rect x="747.67" y="253.81" width="95.43" height="21" rx="3" fill="var(--_bg)"/>
+      <text x="795.38" y="269.21" text-anchor="middle">Chuỗi QR thô</text>
+    </g>
+    <g class="pele-edge-label" data-id="L_Visitor_P21_0">
+      <rect x="560.88" y="253.81" width="166.78" height="21" rx="3" fill="var(--_bg)"/>
+      <text x="644.27" y="269.21" text-anchor="middle">Mã nhập tay (dự phòng)</text>
+    </g>
+    <g class="pele-edge-label" data-id="L_D2_P21_0">
+      <rect x="956.12" y="253.81" width="120.2" height="21" rx="3" fill="var(--_bg)"/>
+      <text x="1016.22" y="269.21" text-anchor="middle">Tra cứu id / code</text>
+    </g>
+    <g class="pele-edge-label" data-id="L_P21_D4_0">
+      <rect x="601.7" y="515.81" width="171.4" height="36" rx="3" fill="var(--_bg)"/>
+      <text text-anchor="middle" xml:space="preserve"><tspan x="687.4" y="529.71">Ghi hasScannedQr=true,</tspan><tspan x="687.4" y="547.71">anchorId</tspan></text>
+    </g>
+    <g class="pele-edge-label" data-id="L_P21_P31_0">
+      <rect x="1254.35" y="666.81" width="167.12" height="21" rx="3" fill="var(--_bg)"/>
+      <text x="1337.91" y="682.21" text-anchor="middle">Mở thuyết minh hiện vật</text>
+    </g>
+    <g class="pele-edge-label" data-id="L_GPS_P22_0">
+      <rect x="1147.82" y="253.81" width="131.07" height="21" rx="3" fill="var(--_bg)"/>
+      <text x="1213.36" y="269.21" text-anchor="middle">(lat, lng, accuracy)</text>
+    </g>
+    <g class="pele-edge-label" data-id="L_D2_P22_0">
+      <rect x="1298.89" y="253.81" width="110.48" height="21" rx="3" fill="var(--_bg)"/>
+      <text x="1354.13" y="269.21" text-anchor="middle">Tọa độ hiện vật</text>
+    </g>
+    <g class="pele-edge-label" data-id="L_P22_P23_0">
+      <rect x="1029.92" y="659.31" width="204.43" height="36" rx="3" fill="var(--_bg)"/>
+      <text text-anchor="middle" xml:space="preserve"><tspan x="1132.14" y="673.21">Danh sách nearby đã sắp xếp</tspan><tspan x="1132.14" y="691.21">(chỉ khi accuracy &lt;= 150m)</tspan></text>
+    </g>
+    <g class="pele-edge-label" data-id="L_D4_P23_0">
+      <rect x="597" y="795.81" width="164.78" height="36" rx="3" fill="var(--_bg)"/>
+      <text text-anchor="middle" xml:space="preserve"><tspan x="679.4" y="809.71">Trạng thái đã quét QR &amp;</tspan><tspan x="679.4" y="827.71">heardIds</tspan></text>
+    </g>
+    <g class="pele-edge-label" data-id="L_P23_Visitor_0">
+      <rect x="231.1" y="659.31" width="168.83" height="36" rx="3" fill="var(--_bg)"/>
+      <text text-anchor="middle" xml:space="preserve"><tspan x="315.52" y="673.21">Hộp thoại gợi ý (switch /</tspan><tspan x="315.52" y="691.21">replay)</tspan></text>
+    </g>
+    <g class="pele-edge-label" data-id="L_Visitor_P23_0">
+      <rect x="333.52" y="388.31" width="178.95" height="21" rx="3" fill="var(--_bg)"/>
+      <text x="422.99" y="403.71" text-anchor="middle">Xác nhận chuyển/nghe lại</text>
+    </g>
+    <g class="pele-edge-label" data-id="L_P23_P31_0">
+      <rect x="384.94" y="1074.97" width="192.97" height="36" rx="3" fill="var(--_bg)"/>
+      <text text-anchor="middle" xml:space="preserve"><tspan x="481.42" y="1088.87">Tự động kích hoạt (distance</tspan><tspan x="481.42" y="1106.87">&lt;= 15m)</tspan></text>
+    </g>
+    <g class="pele-edge-label" data-id="L_D3_P31_0">
+      <rect x="1357.85" y="1082.47" width="188.23" height="21" rx="3" fill="var(--_bg)"/>
+      <text x="1451.97" y="1097.87" text-anchor="middle">Audio URL/Bundled + Cues</text>
+    </g>
+    <g class="pele-edge-label" data-id="L_D4_P31_0">
+      <rect x="1085.61" y="946.39" width="125.05" height="21" rx="3" fill="var(--_bg)"/>
+      <text x="1148.14" y="961.79" text-anchor="middle">Ngôn ngữ hiện tại</text>
+    </g>
+    <g class="pele-edge-label" data-id="L_P31_Visitor_0">
+      <rect x="10" y="666.81" width="193.1" height="21" rx="3" fill="var(--_bg)"/>
+      <text x="106.55" y="682.21" text-anchor="middle">Âm thanh + Phụ đề đồng bộ</text>
+    </g>
+    <g class="pele-edge-label" data-id="L_P31_D5_0">
+      <rect x="1008.52" y="1351.97" width="147.27" height="21" rx="3" fill="var(--_bg)"/>
+      <text x="1082.15" y="1367.37" text-anchor="middle">Ghi nhận ListenEvent</text>
+    </g>
+  </g>
+  <g class="pele-nodes">
+    <g class="pele-node pele-shape-rect" data-id="Visitor" transform="translate(338.56,95)">
+      <rect x="-84.1" y="-24" width="168.2" height="48" fill="var(--_s)" stroke="var(--_b)" style="rx:var(--_r)"/>
+      <text class="pele-label" x="0" y="5.6" text-anchor="middle">Khách tham quan</text>
+    </g>
+    <g class="pele-node pele-shape-rect" data-id="Camera" transform="translate(795.38,95)">
+      <rect x="-75.42" y="-24" width="150.85" height="48" fill="var(--_s)" stroke="var(--_b)" style="rx:var(--_r)"/>
+      <text class="pele-label" x="0" y="5.6" text-anchor="middle">Camera thiết bị</text>
+    </g>
+    <g class="pele-node pele-shape-rect" data-id="GPS" transform="translate(1030.96,95)">
+      <rect x="-72.28" y="-24" width="144.57" height="48" fill="var(--_s)" stroke="var(--_b)" style="rx:var(--_r)"/>
+      <text class="pele-label" x="0" y="5.6" text-anchor="middle">Cảm biến GPS</text>
+    </g>
+    <g class="pele-node pele-shape-stadium" data-id="P21" transform="translate(727.83,398.81)">
+      <rect x="-103.53" y="-43.5" width="207.05" height="87" rx="43.5" fill="var(--_s)" stroke="var(--_b)"/>
+      <text class="pele-label" text-anchor="middle" xml:space="preserve"><tspan x="0" y="-15.4">2.1</tspan><tspan x="0" y="5.6">Giải mã QR &amp;</tspan><tspan x="0" y="26.6">Thiết lập mốc neo</tspan></text>
+    </g>
+    <g class="pele-node pele-shape-stadium" data-id="P22" transform="translate(1221.36,398.81)">
+      <rect x="-121.37" y="-43.5" width="242.73" height="87" rx="43.5" fill="var(--_s)" stroke="var(--_b)"/>
+      <text class="pele-label" text-anchor="middle" xml:space="preserve"><tspan x="0" y="-15.4">2.2</tspan><tspan x="0" y="5.6">Tính khoảng cách</tspan><tspan x="0" y="26.6">Haversine &amp; Lọc sai số</tspan></text>
+    </g>
+    <g class="pele-node pele-shape-stadium" data-id="P23" transform="translate(481.42,956.89)">
+      <rect x="-119.86" y="-43.5" width="239.72" height="87" rx="43.5" fill="var(--_s)" stroke="var(--_b)"/>
+      <text class="pele-label" text-anchor="middle" xml:space="preserve"><tspan x="0" y="-15.4">2.3</tspan><tspan x="0" y="5.6">Quyết định kích hoạt</tspan><tspan x="0" y="26.6">hoặc Gợi ý chuyển bài</tspan></text>
+    </g>
+    <g class="pele-node pele-shape-stadium" data-id="P31" transform="translate(1082.15,1234.97)">
+      <rect x="-111.35" y="-43.5" width="222.7" height="87" rx="43.5" fill="var(--_s)" stroke="var(--_b)"/>
+      <text class="pele-label" text-anchor="middle" xml:space="preserve"><tspan x="0" y="-15.4">3.1</tspan><tspan x="0" y="5.6">Nạp Audio &amp; Phụ đề</tspan><tspan x="0" y="26.6">(Offline/Stream)</tspan></text>
+    </g>
+    <g class="pele-node pele-shape-cyl" data-id="D2" transform="translate(1258.12,63.5)">
+      <path d="M-104.87,-43.5A104.88,12 0 0 1 104.88,-43.5V43.5A104.88,12 0 0 1 -104.87,43.5Z" fill="var(--_s)" stroke="var(--_b)"/>
+      <path d="M-104.87,-43.5A104.88,12 0 0 0 104.88,-43.5" fill="none" stroke="var(--_b)"/>
+      <text class="pele-label" text-anchor="middle" xml:space="preserve"><tspan x="0" y="-9.4">D2: Danh mục Hiện vật</tspan><tspan x="0" y="11.6">(geoCoordinates,</tspan><tspan x="0" y="32.6">triggerRadius)</tspan></text>
+    </g>
+    <g class="pele-node pele-shape-cyl" data-id="D3" transform="translate(1451.97,956.89)">
+      <path d="M-81.06,-33A81.06,11.58 0 0 1 81.06,-33V33A81.06,11.58 0 0 1 -81.06,33Z" fill="var(--_s)" stroke="var(--_b)"/>
+      <path d="M-81.06,-33A81.06,11.58 0 0 0 81.06,-33" fill="none" stroke="var(--_b)"/>
+      <text class="pele-label" text-anchor="middle" xml:space="preserve"><tspan x="0" y="0.89">D3: Kho Media &amp;</tspan><tspan x="0" y="21.89">SubtitleCue</tspan></text>
+    </g>
+    <g class="pele-node pele-shape-cyl" data-id="D4" transform="translate(687.4,677.31)">
+      <path d="M-107.86,-33A107.86,12 0 0 1 107.86,-33V33A107.86,12 0 0 1 -107.86,33Z" fill="var(--_s)" stroke="var(--_b)"/>
+      <path d="M-107.86,-33A107.86,12 0 0 0 107.86,-33" fill="none" stroke="var(--_b)"/>
+      <text class="pele-label" text-anchor="middle" xml:space="preserve"><tspan x="0" y="1.1">D4: Trạng thái phiên</tspan><tspan x="0" y="22.1">(anchor, heardIds, lang)</tspan></text>
+    </g>
+    <g class="pele-node pele-shape-cyl" data-id="D5" transform="translate(1082.15,1488.45)">
+      <path d="M-76.87,-24A76.87,10.98 0 0 1 76.87,-24V24A76.87,10.98 0 0 1 -76.87,24Z" fill="var(--_s)" stroke="var(--_b)"/>
+      <path d="M-76.87,-24A76.87,10.98 0 0 0 76.87,-24" fill="none" stroke="var(--_b)"/>
+      <text class="pele-label" x="0" y="11.09" text-anchor="middle">D5: ListenEvent</text>
+    </g>
+  </g>
+</svg>

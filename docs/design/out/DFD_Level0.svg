@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="pele pele-flowchart" viewBox="0 0 1132 296" width="1132" height="296" style="max-width:100%;height:auto;--_bg:var(--pele-bg,#fff);--_fg:var(--pele-fg,#1f1f1f);--_m:var(--pele-muted,#6e6e6e);--_l:var(--pele-line,#1f1f1f);--_s:var(--pele-surface,#f3f3f3);--_a:var(--pele-surface-alt,#e6e6e6);--_b:var(--pele-border,#8a8a8a);--_c:var(--pele-accent,#5b7bd5);color:var(--_fg);--_r:var(--pele-radius,4px);--_fm:var(--pele-font-mono,ui-monospace, SFMono-Regular, &quot;Cascadia Code&quot;, &quot;IBM Plex Mono&quot;, &quot;Roboto Mono&quot;, &quot;DejaVu Sans Mono&quot;, &quot;Liberation Mono&quot;, Menlo, Monaco, &quot;Consolas&quot;, &quot;Source Code Pro&quot;, monospace);font:16px sans-serif;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;font-family:var(--pele-font,-apple-system, BlinkMacSystemFont, &quot;Inter Variable&quot;, Inter, &quot;Segoe UI&quot;, Helvetica, Arial, sans-serif)" fill="var(--_fg)" role="graphics-document document" aria-roledescription="flowchart">
+  <g class="pele-edges" fill="none" stroke="var(--_l)" stroke-linecap="round">
+    <g class="pele-edge" data-id="L_Visitor_System_0">
+      <path d="M204.68,128.75L212.56,128.75C217.62,128.75 217.62,75.25 222.68,75.25L432.75,75.25C438.1,75.25 438.1,148.93 443.46,148.93L447.03,148.93"/>
+      <path class="pele-marker" d="M454.03,148.93L446.03,152.29L446.03,145.57Z" fill="var(--_l)" stroke="none"/>
+    </g>
+    <g class="pele-edge" data-id="L_System_Visitor_0">
+      <path d="M451.07,167.25L222.68,167.25C218.56,167.25 218.56,144.75 214.43,144.75L211.68,144.75"/>
+      <path class="pele-marker" d="M204.68,144.75L212.68,141.39L212.68,148.11Z" fill="var(--_l)" stroke="none"/>
+    </g>
+    <g class="pele-edge" data-id="L_GPS_System_0">
+      <path d="M204.68,245.25L432.75,245.25C438.1,245.25 438.1,202.57 443.46,202.57L447.03,202.57"/>
+      <path class="pele-marker" d="M454.03,202.57L446.03,205.93L446.03,199.21Z" fill="var(--_l)" stroke="none"/>
+    </g>
+    <g class="pele-edge" data-id="L_Admin_System_0">
+      <path d="M920.15,106.25L912.28,106.25C907.22,106.25 907.22,55 902.15,55L691.47,55C685.13,55 685.13,139.97 678.79,139.97L674.56,139.97"/>
+      <path class="pele-marker" d="M667.56,139.97L675.56,136.61L675.56,143.33Z" fill="var(--_l)" stroke="none"/>
+    </g>
+    <g class="pele-edge" data-id="L_System_Admin_0">
+      <path d="M671.7,155.97L680.35,155.97C685.91,155.97 685.91,147 691.47,147L902.15,147C906.28,147 906.28,122.25 910.4,122.25L913.15,122.25"/>
+      <path class="pele-marker" d="M920.15,122.25L912.15,125.61L912.15,118.89Z" fill="var(--_l)" stroke="none"/>
+    </g>
+    <g class="pele-edge" data-id="L_System_TranslateAPI_0">
+      <path d="M671.7,195.53L680.35,195.53C685.91,195.53 685.91,204.5 691.47,204.5L902.15,204.5C906.28,204.5 906.28,222.5 910.4,222.5L913.15,222.5"/>
+      <path class="pele-marker" d="M920.15,222.5L912.15,225.86L912.15,219.14Z" fill="var(--_l)" stroke="none"/>
+    </g>
+    <g class="pele-edge" data-id="L_TranslateAPI_System_0">
+      <path d="M920.15,238.5L912.28,238.5C907.22,238.5 907.22,253 902.15,253L691.47,253C685.13,253 685.13,211.53 678.79,211.53L674.56,211.53"/>
+      <path class="pele-marker" d="M667.56,211.53L675.56,208.17L675.56,214.89Z" fill="var(--_l)" stroke="none"/>
+    </g>
+  </g>
+  <g class="pele-edge-labels" font-size="14">
+    <g class="pele-edge-label" data-id="L_Visitor_System_0">
+      <rect x="233.53" y="39.25" width="188.38" height="72" rx="3" fill="var(--_bg)"/>
+      <text text-anchor="middle" xml:space="preserve"><tspan x="327.72" y="53.15">Mã QR / Mã hiện vật,</tspan><tspan x="327.72" y="71.15">Từ khóa tìm kiếm,</tspan><tspan x="327.72" y="89.15">Chọn ngôn ngữ / Yêu thích,</tspan><tspan x="327.72" y="107.15">Tín hiệu thao tác nghe</tspan></text>
+    </g>
+    <g class="pele-edge-label" data-id="L_System_Visitor_0">
+      <rect x="224.68" y="131.25" width="206.07" height="72" rx="3" fill="var(--_bg)"/>
+      <text text-anchor="middle" xml:space="preserve"><tspan x="327.72" y="145.15">Thông tin bảo tàng &amp; hiện vật,</tspan><tspan x="327.72" y="163.15">Sơ đồ tầng, Âm thanh &amp; Phụ</tspan><tspan x="327.72" y="181.15">đề,</tspan><tspan x="327.72" y="199.15">Gợi ý chuyển/nghe lại bài</tspan></text>
+    </g>
+    <g class="pele-edge-label" data-id="L_GPS_System_0">
+      <rect x="227.88" y="227.25" width="199.67" height="36" rx="3" fill="var(--_bg)"/>
+      <text text-anchor="middle" xml:space="preserve"><tspan x="327.72" y="241.15">Tọa độ (Latitude, Longitude),</tspan><tspan x="327.72" y="259.15">Độ chính xác (Accuracy)</tspan></text>
+    </g>
+    <g class="pele-edge-label" data-id="L_Admin_System_0">
+      <rect x="707.93" y="10" width="177.77" height="90" rx="3" fill="var(--_bg)"/>
+      <text text-anchor="middle" xml:space="preserve"><tspan x="796.81" y="23.9">Thông tin đăng nhập,</tspan><tspan x="796.81" y="41.9">Dữ liệu hiện vật, Tọa độ</tspan><tspan x="796.81" y="59.9">(X,Y,GPS),</tspan><tspan x="796.81" y="77.9">Tệp âm thanh/ảnh, Bộ lọc</tspan><tspan x="796.81" y="95.9">thống kê</tspan></text>
+    </g>
+    <g class="pele-edge-label" data-id="L_System_Admin_0">
+      <rect x="693.47" y="120" width="206.68" height="54" rx="3" fill="var(--_bg)"/>
+      <text text-anchor="middle" xml:space="preserve"><tspan x="796.81" y="133.9">Token JWT / Trạng thái khóa,</tspan><tspan x="796.81" y="151.9">Mã QR cổng &amp; hiện vật (PNG),</tspan><tspan x="796.81" y="169.9">Báo cáo thống kê &amp; CSV</tspan></text>
+    </g>
+    <g class="pele-edge-label" data-id="L_System_TranslateAPI_0">
+      <rect x="699.02" y="194" width="195.58" height="21" rx="3" fill="var(--_bg)"/>
+      <text x="796.81" y="209.4" text-anchor="middle">Văn bản gốc (tiêu đề, mô tả)</text>
+    </g>
+    <g class="pele-edge-label" data-id="L_TranslateAPI_System_0">
+      <rect x="700.15" y="235" width="193.32" height="36" rx="3" fill="var(--_bg)"/>
+      <text text-anchor="middle" xml:space="preserve"><tspan x="796.81" y="248.9">Bản dịch 5 ngôn ngữ (vi, en,</tspan><tspan x="796.81" y="266.9">zh, ko, ja)</tspan></text>
+    </g>
+  </g>
+  <g class="pele-nodes">
+    <g class="pele-node pele-shape-rect" data-id="Visitor" transform="translate(107.03,136.75)">
+      <rect x="-97.66" y="-33" width="195.32" height="66" fill="var(--_s)" stroke="var(--_b)" style="rx:var(--_r)"/>
+      <text class="pele-label" text-anchor="middle" xml:space="preserve"><tspan x="0" y="-4.9">Khách tham quan</tspan><tspan x="0" y="16.1">(Web &amp; Android App)</tspan></text>
+    </g>
+    <g class="pele-node pele-shape-rect" data-id="Admin" transform="translate(1007.82,114.25)">
+      <rect x="-87.67" y="-33" width="175.33" height="66" fill="var(--_s)" stroke="var(--_b)" style="rx:var(--_r)"/>
+      <text class="pele-label" text-anchor="middle" xml:space="preserve"><tspan x="0" y="-4.9">Quản trị viên</tspan><tspan x="0" y="16.1">(Admin Web CMS)</tspan></text>
+    </g>
+    <g class="pele-node pele-shape-rect" data-id="GPS" transform="translate(106.34,245.25)">
+      <rect x="-98.34" y="-33" width="196.68" height="66" fill="var(--_s)" stroke="var(--_b)" style="rx:var(--_r)"/>
+      <text class="pele-label" text-anchor="middle" xml:space="preserve"><tspan x="0" y="-4.9">Hệ thống định vị GPS</tspan><tspan x="0" y="16.1">(Thiết bị di động)</tspan></text>
+    </g>
+    <g class="pele-node pele-shape-rect" data-id="TranslateAPI" transform="translate(1021.59,230.5)">
+      <rect x="-101.43" y="-33" width="202.87" height="66" fill="var(--_s)" stroke="var(--_b)" style="rx:var(--_r)"/>
+      <text class="pele-label" text-anchor="middle" xml:space="preserve"><tspan x="0" y="-4.9">Dịch vụ dịch thuật</tspan><tspan x="0" y="16.1">(Google / MyMemory)</tspan></text>
+    </g>
+    <g class="pele-node pele-shape-circle" data-id="System" transform="translate(562.11,175.75)">
+      <circle r="111.36" fill="var(--_s)" stroke="var(--_b)"/>
+      <text class="pele-label" text-anchor="middle" xml:space="preserve"><tspan x="0" y="-25.9">0</tspan><tspan x="0" y="-4.9">Hệ Thống Thuyết Minh</tspan><tspan x="0" y="16.1">Tự Động Đa Ngôn Ngữ</tspan><tspan x="0" y="37.1">(Web, Android, Backend)</tspan></text>
+    </g>
+  </g>
+</svg>
