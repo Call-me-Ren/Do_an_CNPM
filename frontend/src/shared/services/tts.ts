@@ -454,7 +454,12 @@ class TTSService {
       };
 
       this.currentUtterance = utterance;
-      window.speechSynthesis.speak(utterance);
+      // Đợi speechSynthesis.cancel() trong stop() hoàn tất trước khi phát để trình duyệt giữ đúng voice đã chọn
+      setTimeout(() => {
+        if (this.currentUtterance === utterance) {
+          window.speechSynthesis.speak(utterance);
+        }
+      }, 70);
     } catch (err) {
       console.error('Failed to speak cue:', err);
       this.cueCallbacks?.onError?.(err);
@@ -739,7 +744,12 @@ class TTSService {
       };
 
       this.currentUtterance = utterance;
-      window.speechSynthesis.speak(utterance);
+      // Đợi speechSynthesis.cancel() trong stop() hoàn tất trước khi phát để trình duyệt giữ đúng voice đã chọn
+      setTimeout(() => {
+        if (this.currentUtterance === utterance) {
+          window.speechSynthesis.speak(utterance);
+        }
+      }, 70);
     } catch (err) {
       console.error('Failed to trigger speech synthesis:', err);
       callbacks?.onError?.(err);

@@ -99,6 +99,21 @@ export const AutoTranslateModal: React.FC<AutoTranslateModalProps> = ({
     }
   };
 
+  const handleClearFile = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (parsedFile?.text && inputDescription === parsedFile.text) {
+      setInputDescription('');
+    }
+    if (parsedFile?.suggestedTitle && inputTitle === parsedFile.suggestedTitle) {
+      setInputTitle('');
+    }
+    setSelectedFile(null);
+    setParsedFile(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+  };
+
   const processSelectedFile = async (file: File) => {
     try {
       setSelectedFile(file);
@@ -172,9 +187,20 @@ export const AutoTranslateModal: React.FC<AutoTranslateModalProps> = ({
       return;
     }
 
+    const lines = textToSpeak
+      .split(/\r?\n|(?<=[.!?。！？])\s+/)
+      .map((s) => s.trim())
+      .filter(Boolean);
+    let cur = 0;
+    const cues = (lines.length > 0 ? lines : [textToSpeak]).map((line) => {
+      const cue = { start: cur, end: cur + 6, text: line };
+      cur += 6;
+      return cue;
+    });
+
     setIsPlayingTTS(true);
-    ttsService.speak(textToSpeak, lang, 1.0, {
-      onEnd: () => setIsPlayingTTS(false),
+    ttsService.playCues(cues, 0, lang, 1.0, {
+      onFinish: () => setIsPlayingTTS(false),
       onError: () => setIsPlayingTTS(false),
     });
   };
@@ -285,27 +311,38 @@ export const AutoTranslateModal: React.FC<AutoTranslateModalProps> = ({
               className="hidden"
             />
             {selectedFile ? (
-              <div className="flex items-center gap-3">
-                <div className="p-3 bg-emerald-500/20 text-emerald-400 rounded-2xl">
-                  {parsedFile?.type === 'audio' ? (
-                    <FileAudio className="w-7 h-7" />
-                  ) : parsedFile?.type === 'subtitles' ? (
-                    <FileCode className="w-7 h-7" />
-                  ) : (
-                    <FileText className="w-7 h-7" />
-                  )}
-                </div>
-                <div className="text-left">
-                  <div className="text-sm font-bold text-white flex items-center gap-2">
-                    {selectedFile.name}
-                    <span className="text-[10px] px-2 py-0.5 rounded-md bg-emerald-500/20 text-emerald-300 font-semibold uppercase">
-                      Đã nạp tệp
-                    </span>
+              <div className="flex items-center justify-between gap-3 w-full">
+                <div className="flex items-center gap-3 min-w-0">
+                  <div className="p-3 bg-emerald-500/20 text-emerald-400 rounded-2xl shrink-0">
+                    {parsedFile?.type === 'audio' ? (
+                      <FileAudio className="w-7 h-7" />
+                    ) : parsedFile?.type === 'subtitles' ? (
+                      <FileCode className="w-7 h-7" />
+                    ) : (
+                      <FileText className="w-7 h-7" />
+                    )}
                   </div>
-                  <div className="text-xs text-slate-400">
-                    {(selectedFile.size / 1024).toFixed(1)} KB • Bấm để chọn tệp khác hoặc chỉnh sửa văn bản bên dưới
+                  <div className="text-left min-w-0">
+                    <div className="text-sm font-bold text-white flex items-center gap-2 truncate">
+                      <span className="truncate">{selectedFile.name}</span>
+                      <span className="text-[10px] px-2 py-0.5 rounded-md bg-emerald-500/20 text-emerald-300 font-semibold uppercase shrink-0">
+                        Đã nạp tệp
+                      </span>
+                    </div>
+                    <div className="text-xs text-slate-400">
+                      {(selectedFile.size / 1024).toFixed(1)} KB • Bấm để chọn tệp khác hoặc nhấn X để gỡ tệp
+                    </div>
                   </div>
                 </div>
+                <button
+                  type="button"
+                  onClick={handleClearFile}
+                  title="Xóa tệp đã chọn"
+                  aria-label="Xóa tệp đã chọn"
+                  className="p-2 rounded-xl bg-slate-800 hover:bg-red-500/20 text-slate-400 hover:text-red-400 border border-slate-700 hover:border-red-500/40 transition shrink-0 cursor-pointer"
+                >
+                  <X className="w-4 h-4" />
+                </button>
               </div>
             ) : (
               <>
