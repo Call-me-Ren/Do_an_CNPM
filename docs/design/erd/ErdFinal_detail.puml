@@ -1,0 +1,144 @@
+@startuml ErdFinal_detail
+title Mô hình quan hệ thực thể chi tiết (ERD 12 bảng chuẩn 3NF) - Hệ thống thuyết minh tự động đa ngôn ngữ
+hide circle
+skinparam defaultFontName Inter
+skinparam linetype ortho
+
+' ========================================================
+' ĐỊNH NGHĨA 12 THỰC THỂ CƠ SỞ DỮ LIỆU CHUẨN HÓA 3NF
+' (Đồng bộ 100% với backend/src/db/schema.sql)
+' ========================================================
+
+entity "Museum" as Museum {
+    * Id : int <<PK, CHECK(Id=1)>> -- CHECK (Id = 1): Bảng cấu hình đơn nguyên duy nhất (singleton)
+    --
+    * Hotline : nvarchar(50) -- Số điện thoại đường dây nóng hỗ trợ du khách
+    * Banner : nvarchar(500) -- Đường dẫn tệp ảnh biểu ngữ chính hiển thị trên trang chủ
+}
+
+entity "MuseumTranslation" as MuseumTranslation {
+    * Lang : char(2) <<PK>> -- Mã ngôn ngữ ISO 639-1 ('vi', 'en', 'zh', 'ko', 'ja')
+    --
+    * Name : nvarchar(300) -- Tên gọi chính thức của bảo tàng theo ngôn ngữ
+    * Address : nvarchar(500) -- Địa chỉ liên hệ của bảo tàng
+    * OpenHours : nvarchar(300) -- Khung giờ mở cửa đón khách tham quan
+    * Description : nvarchar(max) -- Toàn văn bài giới thiệu tổng quan bảo tàng (UC06)
+}
+
+entity "Floor" as Floor {
+    * Id : int <<PK>> -- Mã định danh tầng / khu vực trưng bày
+    --
+    * MapImage : nvarchar(500) -- Đường dẫn tệp ảnh sơ đồ mặt bằng
+    * Width : float -- Chiều rộng không gian sơ đồ
+    * Height : float -- Chiều cao không gian sơ đồ
+}
+
+entity "FloorTranslation" as FloorTranslation {
+    * FloorId : int <<PK, FK>> -- Khóa ngoại liên kết Floor(Id) ON DELETE CASCADE
+    * Lang : char(2) <<PK>> -- Mã ngôn ngữ ISO 639-1 ('vi', 'en', 'zh', 'ko', 'ja')
+    --
+    * Name : nvarchar(200) -- Tên tầng theo ngôn ngữ tương ứng
+}
+
+entity "Artifact" as Artifact {
+    * Id : nvarchar(50) <<PK>> -- Mã định danh hệ thống (vd: 'WRM-001', 'art-01')
+    --
+    * Code : nvarchar(50) -- Mã hiện vật chuẩn hóa tra cứu và quét mã QR ('ART-001')
+    * FloorId : int <<FK>> -- Khóa ngoại liên kết Floor(Id)
+    * MapX : float -- Tọa độ X tương đối trên sơ đồ (0.0 - 1.0)
+    * MapY : float -- Tọa độ Y tương đối trên sơ đồ (0.0 - 1.0)
+    Latitude : float -- Tọa độ vĩ độ GPS thực tế phục vụ giải thuật Haversine
+    Longitude : float -- Tọa độ kinh độ GPS thực tế phục vụ giải thuật Haversine
+    TriggerRadius : float -- Bán kính kích hoạt Geofencing (mặc định 12 mét theo đặc tả v2)
+    CreatedAt : bigint -- Thời điểm tạo bản ghi hiện vật (Unix timestamp)
+    * SortOrder : int -- Thứ tự ưu tiên sắp xếp hiển thị danh mục
+}
+
+entity "ArtifactTranslation" as ArtifactTranslation {
+    * ArtifactId : nvarchar(50) <<PK, FK>> -- Khóa ngoại liên kết Artifact(Id) ON DELETE CASCADE
+    * Lang : char(2) <<PK>> -- Mã ngôn ngữ ISO 639-1
+    --
+    * Title : nvarchar(500) -- Tên gọi hiện vật theo ngôn ngữ
+    * Description : nvarchar(max) -- Bài giới thiệu thuyết minh chi tiết
+}
+
+entity "ArtifactImage" as ArtifactImage {
+    * ArtifactId : nvarchar(50) <<PK, FK>> -- Khóa ngoại liên kết Artifact(Id) ON DELETE CASCADE
+    * SortOrder : int <<PK>> -- Thứ tự trình chiếu ảnh trong thư viện ảnh (gallery)
+    --
+    * Url : nvarchar(1000) -- Đường dẫn tệp ảnh chất lượng cao trên CDN
+}
+
+entity "ArtifactAudio" as ArtifactAudio {
+    * ArtifactId : nvarchar(50) <<PK, FK>> -- Khóa ngoại liên kết Artifact(Id) ON DELETE CASCADE
+    * Lang : char(2) <<PK>> -- Mã ngôn ngữ phát âm thanh
+    --
+    * Url : nvarchar(1000) -- Đường dẫn tệp âm thanh thuyết minh MP3/WAV/AAC trên CDN
+}
+
+entity "SubtitleCue" as SubtitleCue {
+    * ArtifactId : nvarchar(50) <<PK, FK>> -- Khóa ngoại liên kết Artifact(Id) ON DELETE CASCADE
+    * Lang : char(2) <<PK>> -- Ngôn ngữ phụ đề
+    * SortOrder : int <<PK>> -- Thứ tự đoạn phụ đề (cue)
+    --
+    * StartSec : float -- Mốc thời gian bắt đầu đoạn thoại (giây)
+    * EndSec : float -- Mốc thời gian kết thúc đoạn thoại (giây)
+    * Text : nvarchar(max) -- Nội dung văn bản phụ đề chạy chữ karaoke
+}
+
+entity "AdminUser" as AdminUser {
+    * Id : int <<PK, IDENTITY>> -- Mã định danh tự tăng IDENTITY(1,1)
+    --
+    * Email : nvarchar(200) <<UNIQUE>> -- Email đăng nhập quản trị
+    * PasswordHash : nvarchar(200) -- Mật khẩu băm an toàn (bcrypt/argon2)
+    * DisplayName : nvarchar(200) -- Tên hiển thị người dùng
+    * Role : nvarchar(30) -- Vai trò quản trị ('ADMIN')
+    * FailedAttempts : int -- Bộ đếm số lần đăng nhập sai liên tiếp (ngưỡng N = 5)
+    LockedUntil : datetime2 -- Mốc thời gian mở khóa (khóa 5 phút khi sai 5 lần liên tiếp)
+}
+
+entity "VisitorSession" as VisitorSession {
+    * SessionId : nvarchar(100) <<PK>> -- Mã định danh phiên ẩn danh của khách (UUID v4)
+    --
+    * DeviceType : nvarchar(20) -- Thiết bị ('mobile', 'tablet', 'desktop')
+    * Browser : nvarchar(50) -- Trình duyệt ('Chrome', 'Safari', v.v.)
+    * Lang : nvarchar(10) -- Ngôn ngữ đang kích hoạt của khách
+    CurrentArtifactId : nvarchar(50) -- Mã hiện vật đang tham quan gần nhất
+    CurrentArtifactTitle : nvarchar(500) -- Tên hiện vật đang nghe gần nhất
+    * StartedAt : bigint -- Thời điểm bắt đầu phiên tham quan (Unix timestamp)
+    * LastActive : bigint -- Thời điểm hoạt động cuối (heartbeat duy trì phiên trực tuyến)
+}
+
+entity "ListenEvent" as ListenEvent {
+    * Id : nvarchar(100) <<PK>> -- Mã định danh duy nhất của sự kiện nghe
+    --
+    * SessionId : nvarchar(100) -- Mã phiên (tham chiếu logic VisitorSession)
+    * ArtifactId : nvarchar(50) -- Mã hiện vật (tham chiếu logic Artifact)
+    * ArtifactCode : nvarchar(50) -- Mã hiện vật tại thời điểm nghe ('ART-xxx')
+    * ArtifactTitle : nvarchar(500) -- Tên hiện vật tại thời điểm nghe
+    * Lang : nvarchar(10) -- Ngôn ngữ bài thuyết minh đã phát
+    * Timestamp : bigint -- Thời điểm chính xác phát sinh sự kiện nghe (Unix timestamp)
+}
+
+' ========================================================
+' CÁC MỐI QUAN HỆ KHÓA NGOẠI THỰC TẾ (PHYSICAL FOREIGN KEYS)
+' ========================================================
+Floor ||--o{ FloorTranslation : "co_ten_da_ngu"
+Floor ||--o{ Artifact : "chua"
+
+Artifact ||--o{ ArtifactTranslation : "co_ban_dich"
+Artifact ||--o{ ArtifactImage : "co_hinh_anh"
+Artifact ||--o{ ArtifactAudio : "co_am_thanh"
+Artifact ||--o{ SubtitleCue : "co_phu_de"
+
+' ========================================================
+' CÁC MỐI QUAN HỆ LOGIC NGHIỆP VỤ (LOGICAL ASSOCIATIONS)
+' (Không ràng buộc FK cứng trong DDL để hỗ trợ xóa session hết hạn & offline sync)
+' ========================================================
+VisitorSession ||..o{ ListenEvent : "phat_sinh"
+Artifact ||..o{ ListenEvent : "duoc_nghe"
+
+' Museum là bảng đơn cấu hình Id=1, MuseumTranslation khóa chính là Lang
+Museum ||..o{ MuseumTranslation : "co_ban_dich"
+
+@enduml

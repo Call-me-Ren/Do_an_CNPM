@@ -1,0 +1,118 @@
+---
+title: ERD - Hệ thống thuyết minh (12 bảng, đối chiếu backend/src/db/schema.sql)
+---
+erDiagram
+    Museum {
+        int Id PK "CHECK(Id=1)"
+        nvarchar(50) Hotline
+        nvarchar(500) Banner
+    }
+
+    MuseumTranslation {
+        char(2) Lang PK
+        nvarchar(300) Name
+        nvarchar(500) Address
+        nvarchar(300) OpenHours
+        nvarchar(max) Description
+    }
+
+    Floor {
+        int Id PK
+        nvarchar(500) MapImage
+        float Width
+        float Height
+    }
+
+    FloorTranslation {
+        int FloorId PK, FK
+        char(2) Lang PK
+        nvarchar(200) Name
+    }
+
+    Artifact {
+        nvarchar(50) Id PK
+        nvarchar(50) Code
+        int FloorId FK
+        float MapX
+        float MapY
+        float Latitude "NULL"
+        float Longitude "NULL"
+        float TriggerRadius "NULL"
+        bigint CreatedAt "NULL"
+        int SortOrder
+    }
+
+    ArtifactTranslation {
+        nvarchar(50) ArtifactId PK, FK
+        char(2) Lang PK
+        nvarchar(500) Title
+        nvarchar(max) Description
+    }
+
+    ArtifactImage {
+        nvarchar(50) ArtifactId PK, FK
+        int SortOrder PK
+        nvarchar(1000) Url
+    }
+
+    ArtifactAudio {
+        nvarchar(50) ArtifactId PK, FK
+        char(2) Lang PK
+        nvarchar(1000) Url
+    }
+
+    SubtitleCue {
+        nvarchar(50) ArtifactId PK, FK
+        char(2) Lang PK
+        int SortOrder PK
+        float StartSec
+        float EndSec
+        nvarchar(max) Text
+    }
+
+    AdminUser {
+        int Id PK "IDENTITY(1,1)"
+        nvarchar(200) Email UK
+        nvarchar(200) PasswordHash
+        nvarchar(200) DisplayName
+        nvarchar(30) Role
+        int FailedAttempts
+        datetime2 LockedUntil "NULL"
+    }
+
+    VisitorSession {
+        nvarchar(100) SessionId PK
+        nvarchar(20) DeviceType
+        nvarchar(50) Browser
+        nvarchar(10) Lang
+        nvarchar(50) CurrentArtifactId "NULL"
+        nvarchar(500) CurrentArtifactTitle "NULL"
+        bigint StartedAt
+        bigint LastActive
+    }
+
+    ListenEvent {
+        nvarchar(100) Id PK
+        nvarchar(100) SessionId "logical ref"
+        nvarchar(50) ArtifactId "logical ref"
+        nvarchar(50) ArtifactCode
+        nvarchar(500) ArtifactTitle
+        nvarchar(10) Lang
+        bigint Timestamp
+    }
+
+    %% Quan hệ khóa ngoại thực tế trong schema.sql (Physical FK)
+    Floor ||--o{ FloorTranslation : "co_ten_da_ngu"
+    Floor ||--o{ Artifact : "chua"
+
+    Artifact ||--o{ ArtifactTranslation : "co_ban_dich"
+    Artifact ||--o{ ArtifactImage : "co_hinh_anh"
+    Artifact ||--o{ ArtifactAudio : "co_am_thanh"
+    Artifact ||--o{ SubtitleCue : "co_phu_de"
+
+    %% Quan hệ logic theo nghiệp vụ (Logical Associations)
+    VisitorSession ||..o{ ListenEvent : "phat_sinh"
+    Artifact ||..o{ ListenEvent : "duoc_nghe"
+
+    %% Museum là bảng đơn cấu hình Id=1, MuseumTranslation khóa chính là Lang
+    Museum ||..o{ MuseumTranslation : "co_ban_dich"

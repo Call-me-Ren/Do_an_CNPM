@@ -1,0 +1,118 @@
+---
+title: Mô hình quan hệ thực thể v2 (ERD 12 bảng chuẩn 3NF) - Hệ thống thuyết minh tự động đa ngôn ngữ
+---
+erDiagram
+    Museum {
+        int Id PK "CHECK(Id=1) - bản ghi cấu hình duy nhất"
+        nvarchar(50) Hotline "Số điện thoại đường dây nóng hỗ trợ"
+        nvarchar(500) Banner "Đường dẫn tệp ảnh biểu ngữ chính"
+    }
+
+    MuseumTranslation {
+        char(2) Lang PK "Mã ngôn ngữ ('vi', 'en', 'zh', 'ko', 'ja')"
+        nvarchar(300) Name "Tên gọi bảo tàng theo ngôn ngữ"
+        nvarchar(500) Address "Địa chỉ bảo tàng"
+        nvarchar(300) OpenHours "Giờ mở cửa tham quan"
+        nvarchar(max) Description "Toàn văn bài giới thiệu tổng quan bảo tàng"
+    }
+
+    Floor {
+        int Id PK "Mã định danh tầng / khu vực"
+        nvarchar(500) MapImage "Đường dẫn tệp ảnh sơ đồ mặt bằng"
+        float Width "Chiều rộng sơ đồ"
+        float Height "Chiều cao sơ đồ"
+    }
+
+    FloorTranslation {
+        int FloorId PK, FK "Khóa ngoại liên kết Floor(Id)"
+        char(2) Lang PK "ISO 639-1 ('vi', 'en', 'zh', 'ko', 'ja')"
+        nvarchar(200) Name "Tên tầng theo ngôn ngữ tương ứng"
+    }
+
+    Artifact {
+        nvarchar(50) Id PK "Mã định danh hệ thống (vd: 'WRM-001')"
+        nvarchar(50) Code "Mã tra cứu / QR deep link (vd: 'ART-001')"
+        int FloorId FK "Khóa ngoại liên kết Floor(Id)"
+        float MapX "Tọa độ X tương đối trên sơ đồ (0.0 - 1.0)"
+        float MapY "Tọa độ Y tương đối trên sơ đồ (0.0 - 1.0)"
+        float Latitude "[NULL] Vĩ độ GPS thực tế"
+        float Longitude "[NULL] Kinh độ GPS thực tế"
+        float TriggerRadius "[NULL] Bán kính kích hoạt Geofencing (mặc định 12 mét)"
+        bigint CreatedAt "[NULL] Thời điểm tạo bản ghi (Unix timestamp)"
+        int SortOrder "Thứ tự sắp xếp hiển thị"
+    }
+
+    ArtifactTranslation {
+        nvarchar(50) ArtifactId PK, FK "Khóa ngoại liên kết Artifact(Id)"
+        char(2) Lang PK "Mã ngôn ngữ ISO 639-1"
+        nvarchar(500) Title "Tên gọi hiện vật theo ngôn ngữ"
+        nvarchar(max) Description "Bài giới thiệu thuyết minh chi tiết"
+    }
+
+    ArtifactImage {
+        nvarchar(50) ArtifactId PK, FK "Khóa ngoại liên kết Artifact(Id)"
+        int SortOrder PK "Thứ tự trình chiếu ảnh trong thư viện"
+        nvarchar(1000) Url "Đường dẫn tệp ảnh chất lượng cao"
+    }
+
+    ArtifactAudio {
+        nvarchar(50) ArtifactId PK, FK "Khóa ngoại liên kết Artifact(Id)"
+        char(2) Lang PK "Mã ngôn ngữ phát âm thanh"
+        nvarchar(1000) Url "Đường dẫn tệp âm thanh thuyết minh MP3"
+    }
+
+    SubtitleCue {
+        nvarchar(50) ArtifactId PK, FK "Khóa ngoại liên kết Artifact(Id)"
+        char(2) Lang PK "Ngôn ngữ phụ đề"
+        int SortOrder PK "Thứ tự đoạn phụ đề"
+        float StartSec "Mốc thời gian bắt đầu (giây)"
+        float EndSec "Mốc thời gian kết thúc (giây)"
+        nvarchar(max) Text "Nội dung phụ đề chạy chữ karaoke"
+    }
+
+    AdminUser {
+        int Id PK "IDENTITY(1,1)"
+        nvarchar(200) Email UK "Email đăng nhập quản trị"
+        nvarchar(200) PasswordHash "Mật khẩu băm an toàn"
+        nvarchar(200) DisplayName "Tên hiển thị người dùng"
+        nvarchar(30) Role "Vai trò quản trị ('ADMIN')"
+        int FailedAttempts "Đếm số lần đăng nhập sai liên tiếp (ngưỡng N = 5)"
+        datetime2 LockedUntil "[NULL] Mốc mở khóa (khóa 5 phút khi sai 5 lần)"
+    }
+
+    VisitorSession {
+        nvarchar(100) SessionId PK "Mã định danh phiên ẩn danh của khách"
+        nvarchar(20) DeviceType "Thiết bị ('mobile', 'tablet', 'desktop')"
+        nvarchar(50) Browser "Trình duyệt ('Chrome', 'Safari', v.v.)"
+        nvarchar(10) Lang "Ngôn ngữ đang kích hoạt của khách"
+        nvarchar(50) CurrentArtifactId "[NULL] Mã hiện vật đang tham quan gần nhất"
+        nvarchar(500) CurrentArtifactTitle "[NULL] Tên hiện vật đang nghe gần nhất"
+        bigint StartedAt "Thời điểm bắt đầu phiên tham quan"
+        bigint LastActive "Thời điểm hoạt động cuối (heartbeat)"
+    }
+
+    ListenEvent {
+        nvarchar(100) Id PK "Mã định danh bản ghi sự kiện nghe"
+        nvarchar(100) SessionId "Mã phiên (tham chiếu logic VisitorSession)"
+        nvarchar(50) ArtifactId "Mã hiện vật (tham chiếu logic Artifact)"
+        nvarchar(50) ArtifactCode "Mã hiện vật ('ART-xxx')"
+        nvarchar(500) ArtifactTitle "Tên hiện vật tại thời điểm nghe"
+        nvarchar(10) Lang "Ngôn ngữ bài thuyết minh đã phát"
+        bigint Timestamp "Thời điểm bắt đầu nghe thuyết minh"
+    }
+
+    %% Quan hệ khóa ngoại thực tế trong schema.sql
+    Floor ||--o{ FloorTranslation : "dịch_tên_tầng"
+    Floor ||--o{ Artifact : "chứa_hiện_vật"
+
+    Artifact ||--o{ ArtifactTranslation : "dịch_nội_dung"
+    Artifact ||--o{ ArtifactImage : "chứa_ảnh"
+    Artifact ||--o{ ArtifactAudio : "chứa_audio"
+    Artifact ||--o{ SubtitleCue : "đồng_bộ_phụ_đề"
+
+    %% Quan hệ logic theo nghiệp vụ (không ràng buộc FK cứng trong DDL)
+    VisitorSession ||..o{ ListenEvent : "phát_sinh"
+    Artifact ||..o{ ListenEvent : "được_ghi_nhận"
+
+    %% Museum là bảng đơn cấu hình Id=1, MuseumTranslation khóa chính là Lang
+    Museum ||..o{ MuseumTranslation : "bản_dịch_hồ_sơ"

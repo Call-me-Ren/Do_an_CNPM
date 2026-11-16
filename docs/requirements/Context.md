@@ -92,7 +92,7 @@ Các từ khoá **PHẢI** (MUST), **BẮT BUỘC** (REQUIRED), **KHÔNG ĐƯỢ
   - Web APIs tích hợp: Web Audio API, Geolocation API, Camera Scanner (`html5-qrcode`), LocalStorage & SessionStorage.
 - **Backend & Lưu trữ dữ liệu:**
   - Máy chủ dịch vụ: Node.js, Express, TypeScript.
-  - Hệ quản trị cơ sở dữ liệu: Microsoft SQL Server (MSSQL) với 11 bảng chuẩn hóa dạng 3NF (`schema.sql`).
+  - Hệ quản trị cơ sở dữ liệu: Microsoft SQL Server (MSSQL) với 12 bảng chuẩn hóa dạng 3NF (`schema.sql`).
   - Ảo hóa môi trường: Docker & Docker Compose (`frontend`, `backend`, `mssql`).
 - **Hạ tầng phân phối & Giám sát:**
   - Máy chủ lưu trữ tĩnh: GitHub Pages Edge CDN (phân phối tệp HTML/JS/CSS, âm thanh MP3 và ảnh sơ đồ).

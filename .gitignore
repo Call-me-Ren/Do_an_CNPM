@@ -45,6 +45,7 @@ cloudflared.exe
 sample_*
 
 
-/docs/syntax/*
-/archive/*
+/docs/syntax/
+/archive/
 /docs/design-doc-v2-planning
+/docs/design/out/

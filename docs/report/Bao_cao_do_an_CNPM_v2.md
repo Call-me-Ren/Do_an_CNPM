@@ -167,7 +167,7 @@ Sơ đồ triển khai mô hình hóa cấu trúc triển khai vật lý thực 
 
 ## 2.3. Mô hình dữ liệu quan hệ (ERD)
 
-Mô hình dữ liệu của hệ thống được chuẩn hóa theo dạng chuẩn 3 (3NF), phản ánh trọn vẹn các mối quan hệ nghiệp vụ giữa quản trị viên, hiện vật, bản dịch đa ngôn ngữ, tệp âm thanh, phụ đề karaoke và nhật ký phiên tham quan. Mô hình vật lý được đồng bộ 100% với tệp cấu trúc cơ sở dữ liệu `backend/src/db/schema.sql` gồm **11 thực thể cốt lõi**:
+Mô hình dữ liệu của hệ thống được chuẩn hóa theo dạng chuẩn 3 (3NF), phản ánh trọn vẹn các mối quan hệ nghiệp vụ giữa quản trị viên, hiện vật, bản dịch đa ngôn ngữ, tệp âm thanh, phụ đề karaoke và nhật ký phiên tham quan. Mô hình vật lý được đồng bộ 100% với tệp cấu trúc cơ sở dữ liệu `backend/src/db/schema.sql` gồm **12 thực thể cốt lõi (12 bảng vật lý)**:
 
 1. **`AdminUser` (Người dùng quản trị):** Quản lý thông tin xác thực và phân quyền của cán bộ quản trị bảo tàng.
    - `Id` [PK, int, IDENTITY]: Mã định danh tự tăng của tài khoản quản trị.
@@ -228,20 +228,22 @@ Mô hình dữ liệu của hệ thống được chuẩn hóa theo dạng chu�
    - `LastActive` [bigint]: Mốc thời gian tương tác cuối cùng (heartbeat duy trì tín hiệu trực tuyến).
 10. **`ListenEvent` (Nhật ký sự kiện nghe thuyết minh):**
     - `Id` [PK, string]: Mã định danh duy nhất của sự kiện nghe.
-    - `SessionId` [FK, string]: Khóa ngoại liên kết tới `VisitorSession`.
-    - `ArtifactId` [FK, string]: Khóa ngoại liên kết tới `Artifact`.
+    - `SessionId` [string]: Mã định danh phiên tham chiếu logic tới `VisitorSession` (không ràng buộc khóa ngoại cứng để hỗ trợ giải phóng phiên hết hạn và đồng bộ ngoại tuyến).
+    - `ArtifactId` [string]: Mã hiện vật tham chiếu logic tới `Artifact`.
     - `ArtifactCode` [string]: Mã hiện vật tại thời điểm phát sinh sự kiện (`ART-xxx`).
     - `ArtifactTitle` [string]: Tên gọi hiện vật tại thời điểm phát sinh sự kiện.
     - `Lang` [string]: Ngôn ngữ bài thuyết minh được phát.
     - `Timestamp` [bigint]: Thời điểm chính xác phát sinh sự kiện nghe (Unix timestamp).
-11. **`MuseumTranslation` & `Museum` (Hồ sơ thông tin bảo tàng đa ngữ):**
-    - `MuseumTranslation` lưu trữ bản dịch đa ngữ thông tin bảo tàng (UC06):
-      - `Lang` [PK, char(2)]: Mã ngôn ngữ ISO 639-1.
-      - `Name` [string]: Tên gọi chính thức của bảo tàng theo ngôn ngữ tương ứng.
-      - `Address` [string]: Địa chỉ liên hệ của bảo tàng.
-      - `OpenHours` [string]: Khung giờ mở cửa đón khách tham quan.
-      - `Description` [text]: Toàn văn bài giới thiệu lịch sử và quy mô bảo tàng.
-    - Bảng liên kết `Museum`: Quản lý cấu hình toàn cục duy nhất (`Id = 1`) chứa `Hotline` (đường dây nóng hỗ trợ) và `Banner` (đường dẫn ảnh bìa biểu ngữ chính).
+11. **`Museum` (Cấu hình đơn nguyên & Thông tin liên hệ bảo tàng):**
+    - `Id` [PK, int, CHECK(Id=1)]: Mã cấu hình duy nhất bảo đảm nguyên tắc đơn nguyên (singleton table).
+    - `Hotline` [string]: Số điện thoại đường dây nóng hỗ trợ du khách.
+    - `Banner` [string]: Đường dẫn tệp ảnh biểu ngữ chính hiển thị trên trang chủ.
+12. **`MuseumTranslation` (Bản dịch hồ sơ thông tin bảo tàng đa ngữ):**
+    - `Lang` [PK, char(2)]: Mã ngôn ngữ ISO 639-1 (`vi`, `en`, `zh`, `ko`, `ja`).
+    - `Name` [string]: Tên gọi chính thức của bảo tàng theo ngôn ngữ tương ứng.
+    - `Address` [string]: Địa chỉ liên hệ của bảo tàng.
+    - `OpenHours` [string]: Khung giờ mở cửa đón khách tham quan.
+    - `Description` [text]: Toàn văn bài giới thiệu lịch sử và quy mô bảo tàng (UC06).
     *(Lưu ý: Tính năng lưu danh mục hiện vật yêu thích của khách vãng lai được lưu trữ trực tiếp và bền vững tại bộ nhớ trình duyệt `LocalStorage` với khóa `user_favorites`, đảm bảo trải nghiệm tức thì không cần tài khoản)*.
 
 ![](./media/6-erd.png)
