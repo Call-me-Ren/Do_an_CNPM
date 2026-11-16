@@ -1,0 +1,14 @@
+usecase-beta
+direction LR
+
+actor Visitor("Khách tham quan")
+actor AudioSystem("Hệ thống âm thanh")
+
+systemBoundary sys["Hệ thống thuyết minh tự động đa ngôn ngữ"]
+  UC03("Nghe thuyết minh")
+  UC07("Xem phụ đề đồng bộ")
+end
+
+Visitor --> UC03
+AudioSystem --> UC03
+UC07 ..> : extend UC03

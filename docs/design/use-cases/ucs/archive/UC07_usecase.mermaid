@@ -1,0 +1,14 @@
+usecase-beta
+direction LR
+
+actor Visitor("Khách tham quan")
+
+systemBoundary subtitleSys["Phân hệ phụ đề đồng bộ (Karaoke)"]
+  UC03("UC03: Nghe thuyết minh")
+  UC07("`**UC07: Xem phụ đề đồng bộ**
+(Khớp mốc thời gian start-end của SubtitleCue
+Chạm câu phụ đề để tua âm thanh)`")
+end
+
+Visitor --> UC03
+UC07 ..> : extend UC03

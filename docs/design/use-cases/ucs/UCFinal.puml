@@ -1,0 +1,355 @@
+' ============================================================
+' HỆ THỐNG THUYẾT MINH TỰ ĐỘNG ĐA NGÔN NGỮ (MUSEUM SMART AUDIO GUIDE)
+' SƠ ĐỒ USE CASE FINAL CHUẨN HÓA (UML 2.5) — 14 CA SỬ DỤNG TRỌNG TÂM
+' Phong cách tối giản (Minimal), chuẩn UML theo mẫu UCv1'.puml
+' Khớp 100% mã nguồn Web SPA, Mobile Android App (Offline-First) và Backend MSSQL
+' ============================================================
+
+' ---------- General Overview ----------
+@startuml General
+title Sơ đồ use case tổng quát Final (14 use cases) - Hệ thống thuyết minh tự động đa ngôn ngữ
+!pragma layout smetana
+left to right direction
+skinparam defaultFontName Arial
+skinparam packageStyle rectangle
+skinparam roundCorner 8
+skinparam shadowing false
+skinparam nodesep 28
+skinparam ranksep 60
+
+actor "Khách tham quan" as Visitor
+actor "Quản trị viên (Admin)" as Admin
+actor "Hệ thống định vị GPS" as GpsSystem
+actor "Hệ thống âm thanh" as AudioSystem
+
+rectangle "Hệ thống thuyết minh tự động đa ngôn ngữ" {
+  ' --- Nhóm Khách tham quan (Không bắt buộc đăng nhập)
+  together {
+    usecase "Quét mã QR" as UC02
+    usecase "Nghe thuyết minh" as UC03
+    usecase "Chuyển đổi ngôn ngữ" as UC04
+    usecase "Lưu hiện vật yêu thích" as UC05
+    usecase "Xem hồ sơ bảo tàng" as UC06
+    usecase "Xem phụ đề đồng bộ" as UC07
+    usecase "Tìm kiếm hiện vật" as UC08
+    usecase "Định vị & Tự động thuyết minh" as UC14
+  }
+
+  ' --- Phân hệ xác thực quản trị
+  usecase "Đăng nhập quản trị" as UC01
+
+  ' --- Nhóm Quản trị viên (Bắt buộc xác thực)
+  together {
+    usecase "Quản lý hiện vật" as UC09
+    usecase "Quản lý phiên & Mã QR" as UC10
+    usecase "Quản lý tệp âm thanh" as UC11
+    usecase "Xem thống kê lượt nghe" as UC12
+    usecase "Quản lý sơ đồ tầng" as UC13
+  }
+}
+
+' ---- Tác nhân: Khách tham quan
+Visitor -- UC02
+Visitor -- UC03
+Visitor -- UC04
+Visitor -- UC05
+Visitor -- UC06
+Visitor -- UC08
+Visitor -- UC14
+
+' ---- Tác nhân: Quản trị viên (Admin CMS)
+Admin -- UC01
+Admin -- UC09
+Admin -- UC10
+Admin -- UC11
+Admin -- UC12
+Admin -- UC13
+
+' ---- Tác nhân hệ thống ngoài
+GpsSystem -- UC14
+AudioSystem -- UC03
+
+' ---- Quan hệ <<include>>
+UC09 ..> UC01 : <<include>>
+UC10 ..> UC01 : <<include>>
+UC11 ..> UC01 : <<include>>
+UC12 ..> UC01 : <<include>>
+UC13 ..> UC01 : <<include>>
+
+' ---- Quan hệ <<extend>>
+UC07 ..> UC03 : <<extend>>
+UC14 ..> UC03 : <<extend>>
+
+@enduml
+
+' ---------- UC01_usecase ----------
+@startuml UC01_usecase
+title Phân rã use case UC01 — Đăng nhập quản trị
+left to right direction
+skinparam defaultFontName Arial
+skinparam packageStyle rectangle
+skinparam roundCorner 8
+skinparam shadowing false
+
+actor "Quản trị viên (Admin)" as Admin
+
+rectangle "Hệ thống thuyết minh tự động đa ngôn ngữ" {
+  usecase "Đăng nhập quản trị" as UC01
+}
+
+Admin --> UC01
+@enduml
+
+' ---------- UC02_usecase ----------
+@startuml UC02_usecase
+title Phân rã use case UC02 — Quét mã QR
+left to right direction
+skinparam defaultFontName Arial
+skinparam packageStyle rectangle
+skinparam roundCorner 8
+skinparam shadowing false
+
+actor "Khách tham quan" as Visitor
+
+rectangle "Hệ thống thuyết minh tự động đa ngôn ngữ" {
+  usecase "Quét mã QR" as UC02
+}
+
+Visitor --> UC02
+@enduml
+
+' ---------- UC03_usecase ----------
+@startuml UC03_usecase
+title Phân rã use case UC03 — Nghe thuyết minh
+left to right direction
+skinparam defaultFontName Arial
+skinparam packageStyle rectangle
+skinparam roundCorner 8
+skinparam shadowing false
+
+actor "Khách tham quan" as Visitor
+actor "Hệ thống âm thanh" as AudioSystem
+
+rectangle "Hệ thống thuyết minh tự động đa ngôn ngữ" {
+  usecase "Nghe thuyết minh" as UC03
+  usecase "Xem phụ đề đồng bộ" as UC07
+}
+
+Visitor --> UC03
+AudioSystem --> UC03
+UC07 ..> UC03 : <<extend>>
+@enduml
+
+' ---------- UC04_usecase ----------
+@startuml UC04_usecase
+title Phân rã use case UC04 — Chuyển đổi ngôn ngữ
+left to right direction
+skinparam defaultFontName Arial
+skinparam packageStyle rectangle
+skinparam roundCorner 8
+skinparam shadowing false
+
+actor "Khách tham quan" as Visitor
+
+rectangle "Hệ thống thuyết minh tự động đa ngôn ngữ" {
+  usecase "Chuyển đổi ngôn ngữ" as UC04
+}
+
+Visitor --> UC04
+@enduml
+
+' ---------- UC05_usecase ----------
+@startuml UC05_usecase
+title Phân rã use case UC05 — Lưu hiện vật yêu thích
+left to right direction
+skinparam defaultFontName Arial
+skinparam packageStyle rectangle
+skinparam roundCorner 8
+skinparam shadowing false
+
+actor "Khách tham quan" as Visitor
+
+rectangle "Hệ thống thuyết minh tự động đa ngôn ngữ" {
+  usecase "Lưu hiện vật yêu thích" as UC05
+}
+
+Visitor --> UC05
+@enduml
+
+' ---------- UC06_usecase ----------
+@startuml UC06_usecase
+title Phân rã use case UC06 — Xem hồ sơ bảo tàng
+left to right direction
+skinparam defaultFontName Arial
+skinparam packageStyle rectangle
+skinparam roundCorner 8
+skinparam shadowing false
+
+actor "Khách tham quan" as Visitor
+
+rectangle "Hệ thống thuyết minh tự động đa ngôn ngữ" {
+  usecase "Xem hồ sơ bảo tàng" as UC06
+}
+
+Visitor --> UC06
+@enduml
+
+' ---------- UC07_usecase ----------
+@startuml UC07_usecase
+title Phân rã use case UC07 — Xem phụ đề đồng bộ
+left to right direction
+skinparam defaultFontName Arial
+skinparam packageStyle rectangle
+skinparam roundCorner 8
+skinparam shadowing false
+
+actor "Khách tham quan" as Visitor
+
+rectangle "Hệ thống thuyết minh tự động đa ngôn ngữ" {
+  usecase "Nghe thuyết minh" as UC03
+  usecase "Xem phụ đề đồng bộ" as UC07
+}
+
+Visitor --> UC03
+UC07 ..> UC03 : <<extend>>
+@enduml
+
+' ---------- UC08_usecase ----------
+@startuml UC08_usecase
+title Phân rã use case UC08 — Tìm kiếm hiện vật
+left to right direction
+skinparam defaultFontName Arial
+skinparam packageStyle rectangle
+skinparam roundCorner 8
+skinparam shadowing false
+
+actor "Khách tham quan" as Visitor
+
+rectangle "Hệ thống thuyết minh tự động đa ngôn ngữ" {
+  usecase "Tìm kiếm hiện vật" as UC08
+}
+
+Visitor --> UC08
+@enduml
+
+' ---------- UC09_usecase ----------
+@startuml UC09_usecase
+title Phân rã use case UC09 — Quản lý hiện vật
+left to right direction
+skinparam defaultFontName Arial
+skinparam packageStyle rectangle
+skinparam roundCorner 8
+skinparam shadowing false
+
+actor "Quản trị viên (Admin)" as Admin
+
+rectangle "Hệ thống thuyết minh tự động đa ngôn ngữ" {
+  usecase "Quản lý hiện vật" as UC09
+  usecase "Đăng nhập quản trị" as UC01
+}
+
+Admin --> UC09
+UC09 ..> UC01 : <<include>>
+@enduml
+
+' ---------- UC10_usecase ----------
+@startuml UC10_usecase
+title Phân rã use case UC10 — Quản lý phiên & Mã QR
+left to right direction
+skinparam defaultFontName Arial
+skinparam packageStyle rectangle
+skinparam roundCorner 8
+skinparam shadowing false
+
+actor "Quản trị viên (Admin)" as Admin
+
+rectangle "Hệ thống thuyết minh tự động đa ngôn ngữ" {
+  usecase "Quản lý phiên & Mã QR" as UC10
+  usecase "Đăng nhập quản trị" as UC01
+}
+
+Admin --> UC10
+UC10 ..> UC01 : <<include>>
+@enduml
+
+' ---------- UC11_usecase ----------
+@startuml UC11_usecase
+title Phân rã use case UC11 — Quản lý tệp âm thanh
+left to right direction
+skinparam defaultFontName Arial
+skinparam packageStyle rectangle
+skinparam roundCorner 8
+skinparam shadowing false
+
+actor "Quản trị viên (Admin)" as Admin
+
+rectangle "Hệ thống thuyết minh tự động đa ngôn ngữ" {
+  usecase "Quản lý tệp âm thanh" as UC11
+  usecase "Đăng nhập quản trị" as UC01
+}
+
+Admin --> UC11
+UC11 ..> UC01 : <<include>>
+@enduml
+
+' ---------- UC12_usecase ----------
+@startuml UC12_usecase
+title Phân rã use case UC12 — Xem thống kê lượt nghe
+left to right direction
+skinparam defaultFontName Arial
+skinparam packageStyle rectangle
+skinparam roundCorner 8
+skinparam shadowing false
+
+actor "Quản trị viên (Admin)" as Admin
+
+rectangle "Hệ thống thuyết minh tự động đa ngôn ngữ" {
+  usecase "Xem thống kê lượt nghe" as UC12
+  usecase "Đăng nhập quản trị" as UC01
+}
+
+Admin --> UC12
+UC12 ..> UC01 : <<include>>
+@enduml
+
+' ---------- UC13_usecase ----------
+@startuml UC13_usecase
+title Phân rã use case UC13 — Quản lý sơ đồ tầng
+left to right direction
+skinparam defaultFontName Arial
+skinparam packageStyle rectangle
+skinparam roundCorner 8
+skinparam shadowing false
+
+actor "Quản trị viên (Admin)" as Admin
+
+rectangle "Hệ thống thuyết minh tự động đa ngôn ngữ" {
+  usecase "Quản lý sơ đồ tầng" as UC13
+  usecase "Đăng nhập quản trị" as UC01
+}
+
+Admin --> UC13
+UC13 ..> UC01 : <<include>>
+@enduml
+
+' ---------- UC14_usecase ----------
+@startuml UC14_usecase
+title Phân rã use case UC14 — Định vị & Tự động thuyết minh
+left to right direction
+skinparam defaultFontName Arial
+skinparam packageStyle rectangle
+skinparam roundCorner 8
+skinparam shadowing false
+
+actor "Khách tham quan" as Visitor
+actor "Hệ thống định vị GPS" as GpsSystem
+
+rectangle "Hệ thống thuyết minh tự động đa ngôn ngữ" {
+  usecase "Định vị & Tự động thuyết minh" as UC14
+  usecase "Nghe thuyết minh" as UC03
+}
+
+Visitor --> UC14
+GpsSystem --> UC14
+UC14 ..> UC03 : <<extend>>
+@enduml

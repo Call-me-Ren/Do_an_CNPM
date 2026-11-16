@@ -1,0 +1,14 @@
+ACTIVITY UC05 — Lưu hiện vật yêu thích
+PARTITION actor = {Visitor, System*}
+
+START                                          @Visitor
+[Chọn chức năng Lưu hiện vật yêu thích]        @Visitor
+[Kiểm tra trạng thái lưu]
+IF (Đã lưu hay chưa?) THEN
+    [Hiển thị tùy chọn xóa]
+    [Chọn bỏ lưu]                              @Visitor
+    [Cập nhật biểu tượng]
+    FINAL
+
+[Thêm vào danh mục yêu thích]
+FINAL

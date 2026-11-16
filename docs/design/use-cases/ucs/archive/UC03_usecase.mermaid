@@ -1,0 +1,20 @@
+usecase-beta
+direction LR
+
+actor Visitor("Khách tham quan")
+actor AudioSystem("Hệ thống âm thanh")
+
+systemBoundary audioSys["Phân hệ phát âm thanh thuyết minh"]
+  UC03("`**UC03: Nghe thuyết minh**
+(Điều khiển Pause/Resume/Seek/Speed 1x-2x)`")
+  UC07("UC07: Xem phụ đề đồng bộ")
+end
+
+note for UC03 "`Đa nền tảng:
+- Android: nạp tệp MP3 đóng gói sẵn trong APK (assetMap), phát nền
+- Web: phát HTML5 Audio (fallback Web Speech TTS)
+- Telemetry: gửi POST /api/analytics/listen khi có mạng`"
+
+Visitor --> UC03
+AudioSystem --> UC03
+UC07 ..> : extend UC03

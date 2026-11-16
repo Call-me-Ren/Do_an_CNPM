@@ -1,0 +1,10 @@
+ACTIVITY UC04 — Chuyển đổi ngôn ngữ
+PARTITION actor = {Visitor, System*}
+
+START                                          @Visitor
+[Chọn chức năng Chuyển đổi ngôn ngữ]           @Visitor
+[Hiển thị danh sách ngôn ngữ được hỗ trợ]
+[Chọn ngôn ngữ mong muốn]                      @Visitor
+[Ghi nhận thiết lập ngôn ngữ mới]
+[Cập nhật i18n & tải nội dung theo ngôn ngữ mới (Zero Reload)]
+FINAL

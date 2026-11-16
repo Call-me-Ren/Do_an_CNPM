@@ -1,0 +1,14 @@
+usecase-beta
+direction LR
+
+actor Admin("Quản trị viên (Admin)")
+
+systemBoundary floorSys["Phân hệ biên tập sơ đồ mặt bằng"]
+  UC13("`**UC13: Quản lý sơ đồ tầng**
+(Upload ảnh mặt bằng tầng, giao diện kéo thả ghim vị trí hiện vật,
+cập nhật tọa độ pixel và tọa độ GPS / bán kính)`")
+  UC01("UC01: Đăng nhập quản trị")
+end
+
+Admin --> UC13
+UC13 ..> : include UC01

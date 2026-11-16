@@ -1,0 +1,12 @@
+usecase-beta
+direction LR
+
+actor Visitor("Khách tham quan")
+
+systemBoundary museumProfile["Phân hệ giới thiệu bảo tàng"]
+  UC06("`**UC06: Xem hồ sơ bảo tàng**
+(Tên, địa chỉ, giờ mở cửa, bài giới thiệu đa ngữ
+Chạm gọi Hotline trực tiếp trên Android)`")
+end
+
+Visitor --> UC06

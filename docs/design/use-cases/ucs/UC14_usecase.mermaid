@@ -1,0 +1,14 @@
+usecase-beta
+direction LR
+
+actor Visitor("Khách tham quan")
+actor GpsSystem("Hệ thống định vị GPS")
+
+systemBoundary sys["Hệ thống thuyết minh tự động đa ngôn ngữ"]
+  UC14("Định vị & Tự động thuyết minh")
+  UC03("Nghe thuyết minh")
+end
+
+Visitor --> UC14
+GpsSystem --> UC14
+UC14 ..> : extend UC03

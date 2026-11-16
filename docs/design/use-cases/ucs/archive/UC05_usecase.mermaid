@@ -1,0 +1,12 @@
+usecase-beta
+direction LR
+
+actor Visitor("Khách tham quan")
+
+systemBoundary favSys["Phân hệ cá nhân hóa cục bộ"]
+  UC05("`**UC05: Lưu hiện vật yêu thích**
+(Lưu ID cục bộ: Web localStorage, Android AsyncStorage
+Tự động dọn sạch ID hiện vật mồ côi)`")
+end
+
+Visitor --> UC05

@@ -1,0 +1,20 @@
+ACTIVITY UC08 — Tìm kiếm hiện vật
+PARTITION actor = {Visitor, System*}
+
+START                                          @Visitor
+[Chọn chức năng Tìm kiếm]                      @Visitor
+[Hiển thị ô nhập]
+
+
+L1: [Nhập từ khóa hoặc mã số hiện vật]         @Visitor
+    IF (Từ khóa rỗng?) THEN
+        [Yêu cầu người dùng nhập từ khóa hoặc mã]
+        GOTO L1
+
+    [Tìm trong CSDL]
+    IF !(Có kq?) THEN
+        [Báo không tìm thấy]
+        FINAL
+
+    [Trả về kết quả tìm kiếm]
+    FINAL

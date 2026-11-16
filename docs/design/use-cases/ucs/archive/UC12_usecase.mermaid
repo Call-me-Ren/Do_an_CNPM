@@ -1,0 +1,14 @@
+usecase-beta
+direction LR
+
+actor Admin("Quản trị viên (Admin)")
+
+systemBoundary statsSys["Phân hệ báo cáo thống kê"]
+  UC12("`**UC12: Xem thống kê lượt nghe**
+(Biểu đồ Recharts theo ngày/giờ, tỷ lệ ngôn ngữ, top hiện vật,
+xuất báo cáo định dạng CSV)`")
+  UC01("UC01: Đăng nhập quản trị")
+end
+
+Admin --> UC12
+UC12 ..> : include UC01

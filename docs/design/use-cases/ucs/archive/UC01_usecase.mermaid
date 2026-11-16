@@ -1,0 +1,13 @@
+usecase-beta
+direction LR
+
+actor Admin("Quản trị viên (Admin)")
+
+systemBoundary auth["Phân hệ xác thực quản trị"]
+  UC01("`**UC01: Đăng nhập quản trị**
+(Khóa 2 tầng sau 5 lần sai liên tiếp:
+- Frontend: khóa form 5 phút trong localStorage
+- Backend: khóa tài khoản 1 phút trong LockedUntil)`")
+end
+
+Admin --> UC01

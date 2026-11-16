@@ -1,0 +1,14 @@
+usecase-beta
+direction LR
+
+actor Admin("Quản trị viên (Admin)")
+
+systemBoundary sessionSys["Phân hệ phiên tham quan & Mã QR"]
+  UC10("`**UC10: Quản lý phiên & Mã QR**
+(Heartbeat 10-15s, timeout 35s, quản lý đoàn tham quan,
+sinh mã QR cổng và từng hiện vật, xuất PNG in ấn)`")
+  UC01("UC01: Đăng nhập quản trị")
+end
+
+Admin --> UC10
+UC10 ..> : include UC01

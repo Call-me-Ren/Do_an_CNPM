@@ -1,0 +1,19 @@
+usecase-beta
+direction LR
+
+actor Visitor("Khách tham quan")
+
+systemBoundary qrSys["Phân hệ nhận diện & Quét mã QR"]
+  UC02("`**UC02: Quét mã QR**
+(Camera html5-qrcode / expo-camera)`")
+  ManualEntry("`**A1: Nhập mã hiện vật thủ công**
+(Khi camera bị từ chối quyền hoặc hỏng)`")
+end
+
+note for UC02 "`Chuỗi QR được giải mã qua parseQrPayload():
+- ?artifact=<id|code>: đặt anchorArtifactId, bật GPS, mở chi tiết & phát audio
+- ?entry=gate: bật tự động thuyết minh GPS`"
+
+Visitor --> UC02
+Visitor --> ManualEntry
+ManualEntry ..> : extend UC02

@@ -1,0 +1,14 @@
+usecase-beta
+direction LR
+
+actor Admin("Quản trị viên (Admin)")
+
+systemBoundary artifactSys["Phân hệ quản trị hiện vật"]
+  UC09("`**UC09: Quản lý hiện vật**
+(CRUD hiện vật, dịch tự động 5 ngôn ngữ qua Google/MyMemory,
+upload ảnh hiện vật <= 10MB)`")
+  UC01("UC01: Đăng nhập quản trị")
+end
+
+Admin --> UC09
+UC09 ..> : include UC01

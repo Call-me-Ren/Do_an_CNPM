@@ -1,0 +1,56 @@
+usecase-beta
+direction LR
+
+actor Visitor("Khách tham quan")
+actor Admin("Quản trị viên (Admin)")
+actor GpsSystem("Hệ thống định vị GPS")
+actor AudioSystem("Hệ thống âm thanh")
+
+systemBoundary sys["Hệ thống thuyết minh tự động đa ngôn ngữ"]
+  UC01("Đăng nhập quản trị")
+  UC02("Quét mã QR")
+  UC03("Nghe thuyết minh")
+  UC04("Chuyển đổi ngôn ngữ")
+  UC05("Lưu hiện vật yêu thích")
+  UC06("Xem hồ sơ bảo tàng")
+  UC07("Xem phụ đề đồng bộ")
+  UC08("Tìm kiếm hiện vật")
+  UC09("Quản lý hiện vật")
+  UC10("Quản lý phiên & Mã QR")
+  UC11("Quản lý tệp âm thanh")
+  UC12("Xem thống kê lượt nghe")
+  UC13("Quản lý sơ đồ tầng")
+  UC14("Định vị & Tự động thuyết minh")
+end
+
+%% Tác nhân: Khách tham quan
+Visitor --> UC02
+Visitor --> UC03
+Visitor --> UC04
+Visitor --> UC05
+Visitor --> UC06
+Visitor --> UC08
+Visitor --> UC14
+
+%% Tác nhân: Quản trị viên
+Admin --> UC01
+Admin --> UC09
+Admin --> UC10
+Admin --> UC11
+Admin --> UC12
+Admin --> UC13
+
+%% Tác nhân hệ thống ngoài
+GpsSystem --> UC14
+AudioSystem --> UC03
+
+%% Quan hệ <<include>>
+UC09 ..> : include UC01
+UC10 ..> : include UC01
+UC11 ..> : include UC01
+UC12 ..> : include UC01
+UC13 ..> : include UC01
+
+%% Quan hệ <<extend>>
+UC07 ..> : extend UC03
+UC14 ..> : extend UC03

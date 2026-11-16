@@ -1,0 +1,370 @@
+' ============================================================
+' HỆ THỐNG THUYẾT MINH TỰ ĐỘNG ĐA NGÔN NGỮ (MUSEUM SMART AUDIO GUIDE)
+' SƠ ĐỒ USE CASE FINAL CHUẨN HÓA (UML 2.5) — 14 CA SỬ DỤNG TRỌNG TÂM
+' Bao gồm: Sơ đồ tổng quát (General) và 14 sơ đồ phân rã chi tiết (UC01..UC14)
+' Khớp 100% mã nguồn Web SPA, Mobile Android App (Offline-First) và Backend MSSQL
+' ============================================================
+
+' ---------- General Overview ----------
+@startuml General
+title Sơ đồ use case tổng quát Final (14 use cases) - Hệ thống thuyết minh tự động đa ngôn ngữ
+!pragma layout smetana
+left to right direction
+skinparam defaultFontName Arial
+skinparam packageStyle rectangle
+skinparam roundCorner 8
+skinparam shadowing false
+skinparam nodesep 28
+skinparam ranksep 60
+
+actor "Khách tham quan" as Visitor
+actor "Quản trị viên (Admin)" as Admin
+actor "Hệ thống định vị GPS" as GpsSystem
+actor "Hệ thống âm thanh" as AudioSystem
+
+rectangle "Hệ thống thuyết minh tự động đa ngôn ngữ (Web & Android App)" {
+  ' --- Nhóm Khách tham quan (Không bắt buộc đăng nhập)
+  together {
+    usecase "UC02: Quét mã QR" as UC02
+    usecase "UC03: Nghe thuyết minh" as UC03
+    usecase "UC04: Chuyển đổi ngôn ngữ" as UC04
+    usecase "UC05: Lưu hiện vật yêu thích" as UC05
+    usecase "UC06: Xem hồ sơ bảo tàng" as UC06
+    usecase "UC07: Xem phụ đề đồng bộ" as UC07
+    usecase "UC08: Tìm kiếm hiện vật" as UC08
+    usecase "UC14: Định vị & Tự động thuyết minh" as UC14
+  }
+
+  ' --- Phân hệ xác thực quản trị
+  usecase "UC01: Đăng nhập quản trị" as UC01
+
+  ' --- Nhóm Quản trị viên (Bắt buộc xác thực)
+  together {
+    usecase "UC09: Quản lý hiện vật" as UC09
+    usecase "UC10: Quản lý phiên & Mã QR" as UC10
+    usecase "UC11: Quản lý tệp âm thanh" as UC11
+    usecase "UC12: Xem thống kê lượt nghe" as UC12
+    usecase "UC13: Quản lý sơ đồ tầng" as UC13
+  }
+}
+
+' ---- Tác nhân: Khách tham quan (Không bắt buộc đăng nhập)
+Visitor -- UC02
+Visitor -- UC03
+Visitor -- UC04
+Visitor -- UC05
+Visitor -- UC06
+Visitor -- UC08
+Visitor -- UC14
+
+' ---- Tác nhân: Quản trị viên (Admin CMS)
+Admin -- UC01
+Admin -- UC09
+Admin -- UC10
+Admin -- UC11
+Admin -- UC12
+Admin -- UC13
+
+' ---- Tác nhân hệ thống ngoài
+GpsSystem -- UC14
+AudioSystem -- UC03
+
+' ---- Quan hệ <<include>> (Ràng buộc nghiệp vụ quản trị)
+UC09 ..> UC01 : <<include>>
+UC10 ..> UC01 : <<include>>
+UC11 ..> UC01 : <<include>>
+UC12 ..> UC01 : <<include>>
+UC13 ..> UC01 : <<include>>
+
+' ---- Quan hệ <<extend>> (Tính năng mở rộng khi phát thuyết minh)
+UC07 ..> UC03 : <<extend>>
+UC14 ..> UC03 : <<extend>>
+
+@enduml
+
+' ---------- UC01_usecase ----------
+@startuml UC01_usecase
+title Phân rã use case UC01 — Đăng nhập quản trị
+left to right direction
+skinparam defaultFontName Arial
+skinparam packageStyle rectangle
+skinparam roundCorner 8
+skinparam shadowing false
+
+actor "Quản trị viên (Admin)" as Admin
+
+rectangle "Phân hệ xác thực quản trị" {
+  usecase "UC01: Đăng nhập quản trị\n(Khóa 2 tầng sau 5 lần sai liên tiếp:\n- Frontend: khóa form 5 phút trong localStorage\n- Backend: khóa tài khoản 1 phút trong LockedUntil)" as UC01
+}
+
+Admin --> UC01
+@enduml
+
+' ---------- UC02_usecase ----------
+@startuml UC02_usecase
+title Phân rã use case UC02 — Quét mã QR
+left to right direction
+skinparam defaultFontName Arial
+skinparam packageStyle rectangle
+skinparam roundCorner 8
+skinparam shadowing false
+
+actor "Khách tham quan" as Visitor
+
+rectangle "Phân hệ nhận diện & Quét mã QR" {
+  usecase "UC02: Quét mã QR\n(Camera html5-qrcode / expo-camera)" as UC02
+  usecase "A1: Nhập mã hiện vật thủ công\n(Khi camera bị từ chối quyền hoặc hỏng)" as ManualEntry
+}
+
+Visitor --> UC02
+Visitor --> ManualEntry
+ManualEntry ..> UC02 : <<extend>>
+note right of UC02
+  Chuỗi QR được giải mã qua parseQrPayload():
+  - ?artifact=<id|code>: đặt anchorArtifactId, bật GPS, mở chi tiết & phát audio
+  - ?entry=gate: bật tự động thuyết minh GPS
+end note
+@enduml
+
+' ---------- UC03_usecase ----------
+@startuml UC03_usecase
+title Phân rã use case UC03 — Nghe thuyết minh
+left to right direction
+skinparam defaultFontName Arial
+skinparam packageStyle rectangle
+skinparam roundCorner 8
+skinparam shadowing false
+
+actor "Khách tham quan" as Visitor
+actor "Hệ thống âm thanh" as AudioSystem
+
+rectangle "Phân hệ phát âm thanh thuyết minh" {
+  usecase "UC03: Nghe thuyết minh\n(Điều khiển Pause/Resume/Seek/Speed 1x-2x)" as UC03
+  usecase "UC07: Xem phụ đề đồng bộ" as UC07
+}
+
+Visitor --> UC03
+AudioSystem --> UC03
+UC07 ..> UC03 : <<extend>>
+
+note bottom of UC03
+  Đa nền tảng:
+  - Android: nạp tệp MP3 đóng gói sẵn trong APK (assetMap), phát nền
+  - Web: phát HTML5 Audio (fallback Web Speech TTS)
+  - Telemetry: gửi POST /api/analytics/listen khi có mạng
+end note
+@enduml
+
+' ---------- UC04_usecase ----------
+@startuml UC04_usecase
+title Phân rã use case UC04 — Chuyển đổi ngôn ngữ
+left to right direction
+skinparam defaultFontName Arial
+skinparam packageStyle rectangle
+skinparam roundCorner 8
+skinparam shadowing false
+
+actor "Khách tham quan" as Visitor
+
+rectangle "Phân hệ bản địa hóa (i18n)" {
+  usecase "UC04: Chuyển đổi ngôn ngữ\n(Hỗ trợ 5 ngôn ngữ: vi, en, zh, ko, ja\nChuyển đổi tức thì, không tải lại trang)" as UC04
+}
+
+Visitor --> UC04
+@enduml
+
+' ---------- UC05_usecase ----------
+@startuml UC05_usecase
+title Phân rã use case UC05 — Lưu hiện vật yêu thích
+left to right direction
+skinparam defaultFontName Arial
+skinparam packageStyle rectangle
+skinparam roundCorner 8
+skinparam shadowing false
+
+actor "Khách tham quan" as Visitor
+
+rectangle "Phân hệ cá nhân hóa cục bộ" {
+  usecase "UC05: Lưu hiện vật yêu thích\n(Lưu ID cục bộ: Web localStorage, Android AsyncStorage\nTự động dọn sạch ID hiện vật mồ côi)" as UC05
+}
+
+Visitor --> UC05
+@enduml
+
+' ---------- UC06_usecase ----------
+@startuml UC06_usecase
+title Phân rã use case UC06 — Xem hồ sơ bảo tàng
+left to right direction
+skinparam defaultFontName Arial
+skinparam packageStyle rectangle
+skinparam roundCorner 8
+skinparam shadowing false
+
+actor "Khách tham quan" as Visitor
+
+rectangle "Phân hệ giới thiệu bảo tàng" {
+  usecase "UC06: Xem hồ sơ bảo tàng\n(Tên, địa chỉ, giờ mở cửa, bài giới thiệu đa ngữ\nChạm gọi Hotline trực tiếp trên Android)" as UC06
+}
+
+Visitor --> UC06
+@enduml
+
+' ---------- UC07_usecase ----------
+@startuml UC07_usecase
+title Phân rã use case UC07 — Xem phụ đề đồng bộ
+left to right direction
+skinparam defaultFontName Arial
+skinparam packageStyle rectangle
+skinparam roundCorner 8
+skinparam shadowing false
+
+actor "Khách tham quan" as Visitor
+
+rectangle "Phân hệ phụ đề đồng bộ (Karaoke)" {
+  usecase "UC03: Nghe thuyết minh" as UC03
+  usecase "UC07: Xem phụ đề đồng bộ\n(Khớp mốc thời gian start-end của SubtitleCue\nChạm câu phụ đề để tua âm thanh)" as UC07
+}
+
+Visitor --> UC03
+UC07 ..> UC03 : <<extend>>
+@enduml
+
+' ---------- UC08_usecase ----------
+@startuml UC08_usecase
+title Phân rã use case UC08 — Tìm kiếm hiện vật
+left to right direction
+skinparam defaultFontName Arial
+skinparam packageStyle rectangle
+skinparam roundCorner 8
+skinparam shadowing false
+
+actor "Khách tham quan" as Visitor
+
+rectangle "Phân hệ tra cứu thông tin" {
+  usecase "UC08: Tìm kiếm hiện vật\n(Lọc tức thì theo từ khóa tiêu đề, mô tả đa ngữ,\nmã hiện vật hoặc bộ lọc theo tầng)" as UC08
+}
+
+Visitor --> UC08
+@enduml
+
+' ---------- UC09_usecase ----------
+@startuml UC09_usecase
+title Phân rã use case UC09 — Quản lý hiện vật
+left to right direction
+skinparam defaultFontName Arial
+skinparam packageStyle rectangle
+skinparam roundCorner 8
+skinparam shadowing false
+
+actor "Quản trị viên (Admin)" as Admin
+
+rectangle "Phân hệ quản trị hiện vật" {
+  usecase "UC09: Quản lý hiện vật\n(CRUD hiện vật, dịch tự động 5 ngôn ngữ qua Google/MyMemory,\nupload ảnh hiện vật <= 10MB)" as UC09
+  usecase "UC01: Đăng nhập quản trị" as UC01
+}
+
+Admin --> UC09
+UC09 ..> UC01 : <<include>>
+@enduml
+
+' ---------- UC10_usecase ----------
+@startuml UC10_usecase
+title Phân rã use case UC10 — Quản lý phiên & Mã QR
+left to right direction
+skinparam defaultFontName Arial
+skinparam packageStyle rectangle
+skinparam roundCorner 8
+skinparam shadowing false
+
+actor "Quản trị viên (Admin)" as Admin
+
+rectangle "Phân hệ phiên tham quan & Mã QR" {
+  usecase "UC10: Quản lý phiên & Mã QR\n(Heartbeat 10-15s, timeout 35s, quản lý đoàn tham quan,\nsinh mã QR cổng và từng hiện vật, xuất PNG in ấn)" as UC10
+  usecase "UC01: Đăng nhập quản trị" as UC01
+}
+
+Admin --> UC10
+UC10 ..> UC01 : <<include>>
+@enduml
+
+' ---------- UC11_usecase ----------
+@startuml UC11_usecase
+title Phân rã use case UC11 — Quản lý tệp âm thanh
+left to right direction
+skinparam defaultFontName Arial
+skinparam packageStyle rectangle
+skinparam roundCorner 8
+skinparam shadowing false
+
+actor "Quản trị viên (Admin)" as Admin
+
+rectangle "Phân hệ quản trị tệp âm thanh" {
+  usecase "UC11: Quản lý tệp âm thanh\n(Upload tệp âm thanh audio/* <= 30MB, Nginx 35m,\nnghe thử trực tiếp và biên tập mốc phụ đề SubtitleCue)" as UC11
+  usecase "UC01: Đăng nhập quản trị" as UC01
+}
+
+Admin --> UC11
+UC11 ..> UC01 : <<include>>
+@enduml
+
+' ---------- UC12_usecase ----------
+@startuml UC12_usecase
+title Phân rã use case UC12 — Xem thống kê lượt nghe
+left to right direction
+skinparam defaultFontName Arial
+skinparam packageStyle rectangle
+skinparam roundCorner 8
+skinparam shadowing false
+
+actor "Quản trị viên (Admin)" as Admin
+
+rectangle "Phân hệ báo cáo thống kê" {
+  usecase "UC12: Xem thống kê lượt nghe\n(Biểu đồ Recharts theo ngày/giờ, tỷ lệ ngôn ngữ, top hiện vật,\nxuất báo cáo định dạng CSV)" as UC12
+  usecase "UC01: Đăng nhập quản trị" as UC01
+}
+
+Admin --> UC12
+UC12 ..> UC01 : <<include>>
+@enduml
+
+' ---------- UC13_usecase ----------
+@startuml UC13_usecase
+title Phân rã use case UC13 — Quản lý sơ đồ tầng
+left to right direction
+skinparam defaultFontName Arial
+skinparam packageStyle rectangle
+skinparam roundCorner 8
+skinparam shadowing false
+
+actor "Quản trị viên (Admin)" as Admin
+
+rectangle "Phân hệ biên tập sơ đồ mặt bằng" {
+  usecase "UC13: Quản lý sơ đồ tầng\n(Upload ảnh mặt bằng tầng, giao diện kéo thả ghim vị trí hiện vật,\ncập nhật tọa độ pixel và tọa độ GPS / bán kính)" as UC13
+  usecase "UC01: Đăng nhập quản trị" as UC01
+}
+
+Admin --> UC13
+UC13 ..> UC01 : <<include>>
+@enduml
+
+' ---------- UC14_usecase ----------
+@startuml UC14_usecase
+title Phân rã use case UC14 — Định vị & Tự động thuyết minh
+left to right direction
+skinparam defaultFontName Arial
+skinparam packageStyle rectangle
+skinparam roundCorner 8
+skinparam shadowing false
+
+actor "Khách tham quan" as Visitor
+actor "Hệ thống định vị GPS" as GpsSystem
+
+rectangle "Phân hệ định vị lai (Hybrid Geofencing)" {
+  usecase "UC14: Định vị & Tự động thuyết minh\n(GPS accuracy <= 150m, khoảng cách Haversine <= 15m,\ngợi ý chuyển bài hoặc nghe lại, hiển thị 'Bạn đang ở đây')" as UC14
+  usecase "UC03: Nghe thuyết minh" as UC03
+}
+
+Visitor --> UC14
+GpsSystem --> UC14
+UC14 ..> UC03 : <<extend>>
+@enduml

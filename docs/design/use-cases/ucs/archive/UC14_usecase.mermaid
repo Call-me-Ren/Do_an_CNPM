@@ -1,0 +1,16 @@
+usecase-beta
+direction LR
+
+actor Visitor("Khách tham quan")
+actor GpsSystem("Hệ thống định vị GPS")
+
+systemBoundary geoSys["Phân hệ định vị lai (Hybrid Geofencing)"]
+  UC14("`**UC14: Định vị & Tự động thuyết minh**
+(GPS accuracy <= 150m, khoảng cách Haversine <= 15m,
+gợi ý chuyển bài hoặc nghe lại, hiển thị 'Bạn đang ở đây')`")
+  UC03("UC03: Nghe thuyết minh")
+end
+
+Visitor --> UC14
+GpsSystem --> UC14
+UC14 ..> : extend UC03

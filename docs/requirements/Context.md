@@ -48,7 +48,7 @@ Các từ khoá **PHẢI** (MUST), **BẮT BUỘC** (REQUIRED), **KHÔNG ĐƯỢ
 |---|---|
 | REQ-GEO-001 | Hệ thống **PHẢI** dùng mã QR được quét đầu tiên làm điểm neo xuất phát (`anchorArtifactId`). |
 | REQ-GEO-002 | Hệ thống **PHẢI** lấy tọa độ GPS từ trình duyệt (`enableHighAccuracy`) và **PHẢI** tính khoảng cách bằng công thức Haversine. |
-| REQ-GEO-003 | Hệ thống **PHẢI** hỗ trợ bán kính kích hoạt riêng cho từng hiện vật (`TriggerRadius`). Khi hiện vật không khai báo bán kính riêng, hệ thống **PHẢI** áp dụng bán kính mặc định **12 mét**. |
+| REQ-GEO-003 | Hệ thống **PHẢI** hỗ trợ bán kính kích hoạt riêng cho từng hiện vật (`TriggerRadius`). Khi hiện vật không khai báo bán kính riêng, hệ thống **PHẢI** áp dụng bán kính mặc định **15 mét** (ngưỡng lọc sai số GPS tối đa 150 mét; quy đổi bản đồ 0.15 m/pixel khi chỉ có mốc neo QR). |
 | REQ-GEO-004 | Khi khách bước vào bán kính kích hoạt, hệ thống **PHẢI** tự động nhận diện hiện vật và kích hoạt thuyết minh tương ứng; hệ thống **KHÔNG ĐƯỢC** yêu cầu khách quét lại. |
 
 ### Trải nghiệm đa phương tiện
@@ -79,26 +79,26 @@ Các từ khoá **PHẢI** (MUST), **BẮT BUỘC** (REQUIRED), **KHÔNG ĐƯỢ
 | ID | Yêu cầu |
 |---|---|
 | REQ-ADM-001 | Hệ thống **PHẢI** cung cấp phân hệ quản trị cho quản trị viên với các chức năng: quản lý danh mục hiện vật; kéo thả tọa độ trên sơ đồ mặt bằng; quản lý tệp âm thanh đa ngữ; tạo ca tham quan (`SES-xx`); xuất mã QR đón tiếp; theo dõi thống kê lượt nghe trực quan. |
-| REQ-SEC-001 | Hệ thống **PHẢI** tự động khoá tạm thời quyền đăng nhập của tài khoản quản trị viên trong **300 giây (5 phút)** ngay khi ghi nhận **5 lần xác thực thất bại liên tiếp**. |
+| REQ-ADM-002 | Hệ thống **PHẢI** kiểm soát dung lượng tệp tải lên: tệp âm thanh không vượt quá **30MB** (`audio/*`), tệp hình ảnh không vượt quá **10MB** (`image/*`), và cấu hình Nginx giới hạn tải lên tối đa **35MB** (`client_max_body_size 35m`). |
+| REQ-SEC-001 | Hệ thống **PHẢI** tự động khoá tạm thời quyền đăng nhập của tài khoản quản trị viên ngay khi ghi nhận **5 lần xác thực thất bại liên tiếp** (Frontend khóa biểu mẫu trong **5 phút / 300 giây** tại `localStorage`; Backend khóa tài khoản trong **1 phút / 60 giây** tại DB `AdminUser.LockedUntil`). |
 
 ---
 
 # 2. CÔNG NGHỆ & KIẾN TRÚC HỆ THỐNG (TECH STACK & ARCHITECTURE)
 
-- **Client Front-end (Single-Page Application):**
-  - Công nghệ nền tảng: React 18, TypeScript, Vite.
-  - Giao diện: Tailwind CSS (chủ đề tối Dark Luxury, tối ưu độ tương phản trong không gian bảo tàng).
-  - Quản lý trạng thái: Zustand (`playerStore`, `geofenceStore`, `langStore`, `favStore`, `adminAuthStore`).
-  - Web APIs tích hợp: Web Audio API, Geolocation API, Camera Scanner (`html5-qrcode`), LocalStorage & SessionStorage.
+- **Client Front-end (Single-Page Application & Mobile App):**
+  - Web SPA: React 18, TypeScript, Vite, Tailwind CSS (chủ đề tối Dark Luxury), Zustand (`playerStore`, `geofenceStore`, `langStore`, `favStore`, `adminAuthStore`).
+  - Web APIs: Web Audio API, Geolocation API, Camera Scanner (`html5-qrcode`), LocalStorage & SessionStorage.
+  - Mobile Visitor App: Expo React Native SDK 58, TypeScript, `expo-audio`, `expo-location`, `expo-camera`, `AsyncStorage`, chạy **offline hoàn toàn** với toàn bộ âm thanh 5 thứ tiếng đóng gói sẵn trong APK (`assetMap.ts`).
 - **Backend & Lưu trữ dữ liệu:**
-  - Máy chủ dịch vụ: Node.js, Express, TypeScript.
+  - Máy chủ dịch vụ: Node.js 20, Express, TypeScript.
   - Hệ quản trị cơ sở dữ liệu: Microsoft SQL Server (MSSQL) với 12 bảng chuẩn hóa dạng 3NF (`schema.sql`).
   - Ảo hóa môi trường: Docker & Docker Compose (`frontend`, `backend`, `mssql`).
 - **Hạ tầng phân phối & Giám sát:**
-  - Máy chủ lưu trữ tĩnh: GitHub Pages Edge CDN (phân phối tệp HTML/JS/CSS, âm thanh MP3 và ảnh sơ đồ).
-  - Kênh truyền tin thời gian thực: Dịch vụ đám mây `ntfy.sh` (đồng bộ sự kiện nghe và phiên tham quan).
+  - Máy chủ lưu trữ tĩnh: GitHub Pages Edge CDN (phân phối Web SPA tĩnh).
+  - Tự động hóa CI/CD 3 đích: GitHub Pages, GitHub Container Registry (GHCR docker images), và GitHub Releases (`museum-audio-guide.apk`).
 - **Tự động hóa CI/CD & Kiểm thử:**
-  - Đường ống GitHub Actions: Kiểm tra cú pháp (ESLint), kiểm tra kiểu tĩnh (TypeScript `tsc`), chạy kiểm thử tự động (Vitest) và đóng gói/triển khai tự động.
+  - Đường ống GitHub Actions: Kiểm tra cú pháp (ESLint), kiểm tra kiểu tĩnh (TypeScript `tsc`), chạy kiểm thử tự động (Vitest cho Web/Backend, Jest cho Mobile) và đóng gói/triển khai tự động.
 
 ---
 
@@ -110,7 +110,10 @@ Các từ khoá **PHẢI** (MUST), **BẮT BUỘC** (REQUIRED), **KHÔNG ĐƯỢ
  v0 ─────┼─> v1'  (Chuẩn hóa 14 Use Case theo góp ý của giảng viên)
          └─> v1'' (Hiện thực mã nguồn thực tế: React SPA, Zustand, Geofencing)
               │
-              └─> v2  (Phiên bản tổng hợp chính thức: Báo cáo v2 + Sơ đồ UML 2.5 v2)
+              ├─> v2  (Phiên bản tổng hợp: Báo cáo v2 + Sơ đồ UML 2.5 v2)
+              ├─> v3  (Phiên bản đồng bộ mã nguồn: Mobile Offline APK, AUDIT_V3, DFD)
+              │
+              └─> Final (Phiên bản chuẩn hóa hoàn thiện: Báo cáo Final + Sơ đồ Final)
 ```
 
 ### 3.2. Cấu trúc thư mục tài liệu (`/docs/`)

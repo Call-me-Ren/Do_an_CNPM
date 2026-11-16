@@ -1,0 +1,12 @@
+usecase-beta
+direction LR
+
+actor Admin("Quản trị viên (Admin)")
+
+systemBoundary sys["Hệ thống thuyết minh tự động đa ngôn ngữ"]
+  UC11("Quản lý tệp âm thanh")
+  UC01("Đăng nhập quản trị")
+end
+
+Admin --> UC11
+UC11 ..> : include UC01

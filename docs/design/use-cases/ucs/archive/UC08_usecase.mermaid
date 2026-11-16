@@ -1,0 +1,12 @@
+usecase-beta
+direction LR
+
+actor Visitor("Khách tham quan")
+
+systemBoundary searchSys["Phân hệ tra cứu thông tin"]
+  UC08("`**UC08: Tìm kiếm hiện vật**
+(Lọc tức thì theo từ khóa tiêu đề, mô tả đa ngữ,
+mã hiện vật hoặc bộ lọc theo tầng)`")
+end
+
+Visitor --> UC08

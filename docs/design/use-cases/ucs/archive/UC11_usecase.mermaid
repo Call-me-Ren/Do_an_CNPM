@@ -1,0 +1,14 @@
+usecase-beta
+direction LR
+
+actor Admin("Quản trị viên (Admin)")
+
+systemBoundary audioManageSys["Phân hệ quản trị tệp âm thanh"]
+  UC11("`**UC11: Quản lý tệp âm thanh**
+(Upload tệp âm thanh audio/* <= 30MB, Nginx 35m,
+nghe thử trực tiếp và biên tập mốc phụ đề SubtitleCue)`")
+  UC01("UC01: Đăng nhập quản trị")
+end
+
+Admin --> UC11
+UC11 ..> : include UC01
