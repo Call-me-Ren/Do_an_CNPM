@@ -56,6 +56,29 @@ export function detectLanguage(text: string): SupportedLanguage {
   return 'en';
 }
 
+/** Chia văn bản dài thành các đoạn <= maxLen ký tự theo dòng/câu để tránh giới hạn 500 ký tự của MyMemory. */
+function chunkText(text: string, maxLen = 420): string[] {
+  if (text.length <= maxLen) return [text];
+  const chunks: string[] = [];
+  for (const line of text.split('\n')) {
+    if (line.length <= maxLen) {
+      chunks.push(line);
+      continue;
+    }
+    let current = '';
+    for (const part of line.split(/(?<=[.!?。！？])\s+/)) {
+      if ((current + ' ' + part).trim().length > maxLen) {
+        if (current) chunks.push(current.trim());
+        current = part;
+      } else {
+        current = current ? `${current} ${part}` : part;
+      }
+    }
+    if (current) chunks.push(current.trim());
+  }
+  return chunks.filter(Boolean);
+}
+
 /**
  * Dịch một đoạn văn bản từ ngôn ngữ nguồn sang ngôn ngữ đích
  */
@@ -68,6 +91,9 @@ export async function translateSingle(
   if (!clean) return '';
   if (from === to) return clean;
 
+  const sl = from === 'auto' ? 'auto' : GOOGLE_LANG_MAP[from] || from;
+  const tl = GOOGLE_LANG_MAP[to] || to;
+
   // 1. Thử qua backend nếu có
   if (apiEnabled) {
     try {
@@ -76,7 +102,7 @@ export async function translateSingle(
         from,
         to,
       });
-      if (res.data && res.data.translatedText) {
+      if (res.data?.translatedText && res.data.translatedText.trim() !== clean) {
         return res.data.translatedText;
       }
     } catch {
@@ -84,10 +110,24 @@ export async function translateSingle(
     }
   }
 
-  // 2. Thử Google Translate gtx client trực tiếp từ trình duyệt
+  // 2. Thử Google Translate clients5 (ít bị 429 hơn gtx)
   try {
-    const sl = from === 'auto' ? 'auto' : GOOGLE_LANG_MAP[from] || from;
-    const tl = GOOGLE_LANG_MAP[to] || to;
+    const url = `https://clients5.google.com/translate_a/t?client=dict-chrome-ex&sl=${sl}&tl=${tl}&q=${encodeURIComponent(clean)}`;
+    const res = await fetch(url);
+    if (res.ok) {
+      const data: unknown = await res.json();
+      if (Array.isArray(data) && data.length > 0) {
+        const first = data[0];
+        if (typeof first === 'string' && first.trim()) return first;
+        if (Array.isArray(first) && typeof first[0] === 'string' && first[0].trim()) return first[0];
+      }
+    }
+  } catch {
+    // Tiếp tục fallback bên dưới
+  }
+
+  // 3. Thử Google Translate gtx client trực tiếp từ trình duyệt
+  try {
     const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=${sl}&tl=${tl}&dt=t&q=${encodeURIComponent(clean)}`;
     const res = await fetch(url);
     if (res.ok) {
@@ -101,17 +141,30 @@ export async function translateSingle(
     // Tiếp tục fallback MyMemory
   }
 
-  // 3. Fallback qua MyMemory API
+  // 4. Fallback qua MyMemory API (chia đoạn <= 420 ký tự để không vượt giới hạn 500 ký tự)
   try {
-    const pair = `${from === 'auto' ? 'en' : from}|${to}`;
-    const url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(clean)}&langpair=${pair}`;
-    const res = await fetch(url);
-    if (res.ok) {
+    const detected = from === 'auto' ? detectLanguage(clean) : from;
+    const fromCode = GOOGLE_LANG_MAP[detected] || detected;
+    const parts = chunkText(clean, 420);
+    const out: string[] = [];
+    let ok = true;
+    for (const part of parts) {
+      const url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(part)}&langpair=${fromCode}|${tl}`;
+      const res = await fetch(url);
+      if (!res.ok) {
+        ok = false;
+        break;
+      }
       const json = await res.json();
       const txt = json?.responseData?.translatedText;
-      if (txt && typeof txt === 'string' && !txt.includes('MYMEMORY WARNING')) {
-        return txt;
+      if (!txt || typeof txt !== 'string' || txt.includes('MYMEMORY WARNING') || txt.includes('QUERY LENGTH LIMIT')) {
+        ok = false;
+        break;
       }
+      out.push(txt);
+    }
+    if (ok && out.length > 0) {
+      return out.join('\n');
     }
   } catch {
     // ignore
@@ -260,7 +313,7 @@ export function parseFileContent(file: File): Promise<ParsedFileInput> {
           text: lines.join('\n'),
           subtitles: cues,
           fileName: name,
-          suggestedTitle: name.replace(/\.[^/.]+$/, ''),
+          suggestedTitle: name.replace(/\.[^/.]+$/, '').replace(/[_-]/g, ' '),
         });
         return;
       }

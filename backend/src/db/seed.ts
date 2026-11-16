@@ -9,7 +9,7 @@ import { upsertAdmin } from '../repositories/adminRepo.js';
 import { saveArtifact, type ArtifactDto } from '../repositories/museumRepo.js';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
-const dataFile = path.resolve(here, '../../../frontend/public/mock/museum_data.json');
+const dataFile = path.resolve(here, '../../../frontend/src/data/museum_data.json');
 
 async function seed(): Promise<void> {
   await migrate();

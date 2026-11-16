@@ -19,10 +19,8 @@ import {
   Copy,
   Check,
   ExternalLink,
-  Sparkles,
   MapPin
 } from 'lucide-react';
-import { AutoTranslateModal, AutoTranslateResult } from '../components/AutoTranslateModal';
 import { GpsMapPickerModal } from '../components/GpsMapPickerModal';
 
 export const ArtifactsManageView: React.FC = () => {
@@ -38,7 +36,6 @@ export const ArtifactsManageView: React.FC = () => {
 
   // Modal State
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isAutoTranslateOpen, setIsAutoTranslateOpen] = useState(false);
   const [isGpsPickerOpen, setIsGpsPickerOpen] = useState(false);
   const [editingArtifact, setEditingArtifact] = useState<Artifact | null>(null);
   const [deletingArtifact, setDeletingArtifact] = useState<{ id: string; code: string; title: string } | null>(null);
@@ -234,14 +231,6 @@ export const ArtifactsManageView: React.FC = () => {
     }
 
     setIsModalOpen(false);
-  };
-
-  const handleApplyAutoTranslate = (res: AutoTranslateResult) => {
-    setFormTitles((prev) => ({ ...prev, ...res.titles }));
-    setFormDescriptions((prev) => ({ ...prev, ...res.descriptions }));
-    setActiveLangTab(res.sourceLang || 'vi');
-    setIsModalOpen(true);
-    setAlertMessage('Đã tự động dịch và điền đầy đủ nội dung cho cả 5 ngôn ngữ thành công!');
   };
 
   return (
@@ -566,14 +555,6 @@ export const ArtifactsManageView: React.FC = () => {
 
               <div className="flex items-center justify-between">
                 <span className="text-xs font-bold text-slate-300">Thông tin đa ngôn ngữ (5 thứ tiếng)</span>
-                <button
-                  type="button"
-                  onClick={() => setIsAutoTranslateOpen(true)}
-                  className="flex items-center gap-1.5 px-3 py-1.5 bg-white/15 hover:bg-white/25 text-white border border-white/30 rounded-xl text-xs font-bold transition shadow-xs cursor-pointer"
-                >
-                  <Sparkles className="w-3.5 h-3.5" />
-                  <span>🪄 Kéo thả tệp / Dịch tự động 5 ngôn ngữ</span>
-                </button>
               </div>
 
               {/* Multilingual Tabs */}
@@ -746,15 +727,6 @@ export const ArtifactsManageView: React.FC = () => {
           </div>
         </div>
       )}
-
-      {/* Auto Translate Modal */}
-      <AutoTranslateModal
-        isOpen={isAutoTranslateOpen}
-        onClose={() => setIsAutoTranslateOpen(false)}
-        onApply={handleApplyAutoTranslate}
-        defaultTitle={formTitles[activeLangTab]}
-        defaultDescription={formDescriptions[activeLangTab]}
-      />
 
       {/* GPS Map Picker Modal */}
       <GpsMapPickerModal
