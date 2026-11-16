@@ -155,12 +155,12 @@ export const AutoTranslateModal: React.FC<AutoTranslateModalProps> = ({
         }
       );
 
-      // 2. Nếu có tiêu đề riêng, dịch tiếp tiêu đề
+      // 2. Nếu có tiêu đề riêng, dịch tiếp tiêu đề (dùng chung ngôn ngữ gốc đã nhận diện từ nội dung)
       let titleResTranslations = descRes.translations;
       if (inputTitle.trim() && inputTitle.trim() !== inputDescription.trim()) {
         const titleRes = await translateToAllLanguages(
           inputTitle.trim(),
-          sourceLang
+          sourceLang === 'auto' ? descRes.sourceLang : sourceLang
         );
         titleResTranslations = titleRes.translations;
       }

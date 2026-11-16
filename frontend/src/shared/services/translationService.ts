@@ -313,7 +313,7 @@ export function parseFileContent(file: File): Promise<ParsedFileInput> {
           text: lines.join('\n'),
           subtitles: cues,
           fileName: name,
-          suggestedTitle: name.replace(/\.[^/.]+$/, ''),
+          suggestedTitle: name.replace(/\.[^/.]+$/, '').replace(/[_-]/g, ' '),
         });
         return;
       }
