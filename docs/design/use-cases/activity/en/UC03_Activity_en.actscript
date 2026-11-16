@@ -1,0 +1,22 @@
+ACTIVITY UC03 — Listen to Audio Guide
+PARTITION actor = {Visitor, ClientApp*, AudioEngine}
+
+START                                          @Visitor
+[Select artifact audio guide playback]         @Visitor
+[Halt all previously active audio streams]
+[Determine active language (vi/en/zh/ko/ja)]
+
+IF (Platform is Android App?) THEN
+    [Load pre-packaged MP3 file (assetMap)]    @AudioEngine
+ELSE
+    [Stream audio over Web Audio API or fallback TTS] @AudioEngine
+
+[Play audio stream & sync subtitles]           @AudioEngine
+[Send POST /api/analytics/listen (if online)]
+
+
+L1: [Listen & interact (Pause/Resume/Seek/Speed 1x-2x)] @Visitor
+    IF (Playback finishes or user clicks Close?) THEN
+        [Halt playback & release resources]    @AudioEngine
+        FINAL
+    GOTO L1

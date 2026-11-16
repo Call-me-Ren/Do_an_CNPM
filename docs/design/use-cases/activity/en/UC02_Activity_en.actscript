@@ -1,0 +1,24 @@
+ACTIVITY UC02 — Scan QR Code
+PARTITION actor = {Visitor, ClientApp*}
+
+START                                          @Visitor
+[Select Scan QR Code feature]                  @Visitor
+[Request Camera permissions (Android/Web)]
+
+IF !(Camera permissions granted?) THEN
+    [Display manual artifact code entry field]
+    [Enter artifact code or cancel]            @Visitor
+ELSE
+    [Open Camera scanner (html5-qrcode / expo-camera)]
+    [Point camera at QR code]                  @Visitor
+
+[Decode payload string via parseQrPayload()]
+IF (Matches artifact ?artifact= or raw code?) THEN
+    [Set anchorArtifactId & enable GPS tracking]
+    [Open detail view & trigger audio guide]
+ELSE IF (Matches entrance gate ?entry=gate?) THEN
+    [Activate automated GPS-guided audio mode]
+ELSE
+    [Display invalid QR code notification]
+
+FINAL

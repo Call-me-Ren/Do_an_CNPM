@@ -1,0 +1,39 @@
+@startuml
+' Data Flow Diagram (DFD) Level 2 — Detailed Sub-Processes of 2.0 & 3.0 (QR Scan, Geofencing & Audio Playback)
+left to right direction
+skinparam shadowing false
+
+rectangle "Visitor" as Visitor
+rectangle "Device Camera" as Camera
+rectangle "GPS Sensor" as GPS
+
+usecase "2.1\nDecode QR Payload &\nInitialize Origin Anchor" as P21
+usecase "2.2\nCompute Haversine Distance\n& Filter Sensor Noise" as P22
+usecase "2.3\nEvaluate Proximity Trigger\nor Switch/Replay Prompt" as P23
+usecase "3.1\nLoad Audio & Subtitles\n(Offline/Stream)" as P31
+
+database "D2: Artifact Catalog\n(geoCoordinates, triggerRadius)" as D2
+database "D3: Media Storage & SubtitleCue" as D3
+database "D4: Session State\n(anchor, heardIds, lang)" as D4
+database "D5: ListenEvent" as D5
+
+Camera --> P21 : "Raw QR Payload String"
+Visitor --> P21 : "Manual Code Input (Fallback)"
+D2 --> P21 : "Lookup id / code"
+P21 --> D4 : "Set hasScannedQr=true, anchorId"
+P21 --> P31 : "Trigger Artifact Narration"
+
+GPS --> P22 : "(lat, lng, accuracy)"
+D2 --> P22 : "Exhibit Coordinates"
+P22 --> P23 : "Sorted Nearby Exhibits List\n(Only when accuracy <= 150m)"
+
+D4 --> P23 : "QR Scanned State & heardIds"
+P23 --> Visitor : "Dialog Prompt (switch / replay)"
+Visitor --> P23 : "Confirm Switch/Replay"
+P23 --> P31 : "Auto-trigger Narration (distance <= 15m)"
+
+D3 --> P31 : "Audio URL/Bundled + Cues"
+D4 --> P31 : "Active Language"
+P31 --> Visitor : "Audio Stream + Synchronized Subtitles"
+P31 --> D5 : "Record ListenEvent Telemetry"
+@enduml

@@ -1,0 +1,41 @@
+flowchart TD
+    %% External entities
+    Visitor["Visitor"]
+    Camera["Device Camera"]
+    GPS["GPS Sensor"]
+
+    %% Processes
+    P21(("2.1<br/>Decode QR Payload &<br/>Initialize Origin Anchor"))
+    P22(("2.2<br/>Compute Haversine Distance<br/>& Filter Sensor Noise"))
+    P23(("2.3<br/>Evaluate Proximity Trigger<br/>or Switch/Replay Prompt"))
+    P31(("3.1<br/>Load Audio & Subtitles<br/>(Offline/Stream)"))
+
+    %% Data stores
+    D2@{ shape: datastore, label: "D2: Artifact Catalog<br/>(geoCoordinates, triggerRadius)" }
+    D3@{ shape: datastore, label: "D3: Media Storage & SubtitleCue" }
+    D4@{ shape: datastore, label: "D4: Session State<br/>(anchor, heardIds, lang)" }
+    D5@{ shape: datastore, label: "D5: ListenEvent" }
+
+    %% 2.1 QR decoding
+    Camera -->|"Raw QR Payload String"| P21
+    Visitor -->|"Manual Code Input (Fallback)"| P21
+    D2 -->|"Lookup id / code"| P21
+    P21 -->|"Set hasScannedQr=true, anchorId"| D4
+    P21 -->|"Trigger Artifact Narration"| P31
+
+    %% 2.2 Haversine
+    GPS -->|"(lat, lng, accuracy)"| P22
+    D2 -->|"Exhibit Coordinates"| P22
+    P22 -->|"Sorted Nearby Exhibits List<br/>(Only when accuracy <= 150m)"| P23
+
+    %% 2.3 Decision
+    D4 -->|"QR Scanned State & heardIds"| P23
+    P23 -->|"Dialog Prompt (switch / replay)"| Visitor
+    Visitor -->|"Confirm Switch/Replay"| P23
+    P23 -->|"Auto-trigger Narration (distance <= 15m)"| P31
+
+    %% 3.1 Playback
+    D3 -->|"Audio URL/Bundled + Cues"| P31
+    D4 -->|"Active Language"| P31
+    P31 -->|"Audio Stream + Synchronized Subtitles"| Visitor
+    P31 -->|"Record ListenEvent Telemetry"| D5

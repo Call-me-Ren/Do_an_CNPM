@@ -1,0 +1,14 @@
+ACTIVITY UC05 — Save Favorite Artifacts
+PARTITION actor = {Visitor, System*}
+
+START                                          @Visitor
+[Select Save Favorite Artifact feature]        @Visitor
+[Check bookmark persistence state]
+IF (Already bookmarked?) THEN
+    [Display removal option]
+    [Choose to remove bookmark]                @Visitor
+    [Update heart icon state]
+    FINAL
+
+[Append to favorites list]
+FINAL

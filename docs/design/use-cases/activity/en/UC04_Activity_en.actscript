@@ -1,0 +1,10 @@
+ACTIVITY UC04 — Switch Language
+PARTITION actor = {Visitor, System*}
+
+START                                          @Visitor
+[Select Language Selector feature]             @Visitor
+[Display list of supported languages]
+[Choose target language]                       @Visitor
+[Persist updated language configuration]
+[Update i18n store & swap content (Zero Page Reload)]
+FINAL

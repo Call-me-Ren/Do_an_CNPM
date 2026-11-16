@@ -1,0 +1,49 @@
+ACTIVITY UC10 — Manage Sessions & QR Codes
+PARTITION actor = {Admin, System*}
+
+START                                          @Admin
+[Authenticate identity]                        @Admin
+[Display welcome portal and management options]
+[Select Manage Sessions]                       @Admin
+
+
+L1: [Fetch visitor sessions list]
+    IF !(Sessions loaded successfully?) THEN
+        [Display retrieval error]
+        GOTO L1
+
+    IF (Scheduled transition time reached?) THEN
+        [Update session status dynamically]
+
+
+L2: [Render session cards]
+    [Select management operation]              @Admin
+    IF (Choose to delete?) THEN
+        [Display confirmation dialog]
+        IF (Click Cancel?) THEN GOTO L2
+        [Delete tour session record]
+        IF (Deletion failure occurs?) THEN
+            [Display deletion error]
+            GOTO L2
+        [Confirm deletion success]
+        GOTO L2
+
+    IF !(Choose to edit or add new?) THEN FINAL
+
+    [Render session input modal]
+
+
+L3: [Populate session parameters]              @Admin
+    IF (Click Cancel?) THEN GOTO L2
+    [Validate schedule time constraints]
+    IF !(Schedule parameters valid?) THEN
+        [Display invalid timeframe error]
+        GOTO L3
+    [Save tour session entity]
+    IF (Persistence failure occurs?) THEN
+        [Display database persistence error]
+        GOTO L3
+
+    [Confirm operation success]
+    [Update sessions catalog]
+    FINAL

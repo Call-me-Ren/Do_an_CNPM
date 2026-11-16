@@ -1,0 +1,27 @@
+ACTIVITY UC14 — Geofencing & Auto Guide
+PARTITION actor = {Visitor, ClientApp*, GPS}
+
+START                                          @Visitor
+[Enable location tracking]
+[Request GPS location permissions]
+
+IF !(Permission granted AND GPS enabled?) THEN
+    [Set state denied/unavailable; fallback to 0.15m/px map distance if anchor exists]
+    FINAL
+
+
+L1: [Receive coordinate frame (lat, lng, accuracy)] @GPS
+    IF (accuracy > 150m?) THEN
+        [Set low-accuracy state, pause auto-trigger]
+        GOTO L1
+
+    [Compute Haversine distances to exhibits]
+    [Identify closest exhibit <= triggerRadius (default 15m)]
+    IF (Exhibit in range AND hasScannedQr = true?) THEN
+        IF (Another track is actively playing?) THEN
+            [Display Switch Track prompt (switch)]
+        ELSE IF (Already listened in session?) THEN
+            [Display Replay prompt (replay)]
+        ELSE
+            [Autonomously trigger audio narration (UC03)]
+    GOTO L1

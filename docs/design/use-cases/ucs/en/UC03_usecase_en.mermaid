@@ -1,0 +1,14 @@
+usecase-beta
+direction LR
+
+actor Visitor("Visitor")
+actor AudioSystem("Audio System")
+
+systemBoundary sys["Museum Multilingual Smart Audio Guide System"]
+  UC03("Listen to Audio Guide")
+  UC07("View Synchronized Subtitles")
+end
+
+Visitor --> UC03
+AudioSystem --> UC03
+UC07 ..> : extend UC03

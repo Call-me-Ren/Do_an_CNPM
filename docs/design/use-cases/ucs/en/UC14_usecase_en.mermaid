@@ -1,0 +1,14 @@
+usecase-beta
+direction LR
+
+actor Visitor("Visitor")
+actor GpsSystem("GPS Positioning System")
+
+systemBoundary sys["Museum Multilingual Smart Audio Guide System"]
+  UC14("Geofencing & Auto Guide")
+  UC03("Listen to Audio Guide")
+end
+
+Visitor --> UC14
+GpsSystem --> UC14
+UC14 ..> : extend UC03

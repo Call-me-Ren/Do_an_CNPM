@@ -1,0 +1,21 @@
+ACTIVITY UC07 — View Synchronized Subtitles
+PARTITION actor = {Visitor, System*}
+
+START                                          @Visitor
+[Select View Subtitles feature]                @Visitor
+[Determine active language]
+[Query subtitle cue stream]
+IF !(Subtitle cues exist?) THEN
+    [Notify that no subtitles are available]
+    FINAL
+
+[Display subtitle sheet]
+
+
+L1: [Update subtitle progression]
+    IF (Language switched?) THEN
+        [Load new language subtitle stream]
+        GOTO L1
+
+    [Render time-synchronized karaoke text alongside audio]
+    FINAL

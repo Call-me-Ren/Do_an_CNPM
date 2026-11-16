@@ -1,0 +1,28 @@
+ACTIVITY UC12 — View Listening Analytics
+PARTITION actor = {Admin, System*}
+
+START                                          @Admin
+[Select Login feature]                         @Admin
+[Display welcome portal and management options]
+[Select View Listening Analytics]              @Admin
+[Render analytics filter controls]
+
+
+L1: [Configure filter criteria, click View Analytics] @Admin
+    IF !(Filter criteria valid?) THEN
+        [Display filter validation alert]
+        GOTO L1
+
+    IF !(Telemetry records exist?) THEN
+        [Display no data available prompt]
+        GOTO L1
+
+    [Render analytical charts and summary table]
+    IF !(Export report requested?) THEN FINAL
+
+
+L2: [Select export file format]                @Admin
+    IF !(File generation succeeds?) THEN GOTO L2
+
+    [Download CSV file to client machine]       @Admin
+    FINAL

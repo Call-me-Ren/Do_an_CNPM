@@ -1,0 +1,355 @@
+' ============================================================
+' MUSEUM MULTILINGUAL SMART AUDIO GUIDE SYSTEM
+' STANDARDIZED FINAL USE CASE DIAGRAM (UML 2.5) — 14 CORE USE CASES
+' Minimalist style, conforming to UML 2.5 standards
+' 100% aligned with Web SPA, Offline-First Android App, and MSSQL Backend
+' ============================================================
+
+' ---------- General Overview ----------
+@startuml General
+title Final General Use Case Diagram (14 Core Use Cases) — Museum Multilingual Smart Audio Guide System
+!pragma layout smetana
+left to right direction
+skinparam defaultFontName Arial
+skinparam packageStyle rectangle
+skinparam roundCorner 8
+skinparam shadowing false
+skinparam nodesep 28
+skinparam ranksep 60
+
+actor "Visitor" as Visitor
+actor "System Administrator (Admin)" as Admin
+actor "GPS Positioning System" as GpsSystem
+actor "Audio System" as AudioSystem
+
+rectangle "Museum Multilingual Smart Audio Guide System" {
+  ' --- Visitor Subsystem (No Authentication Required)
+  together {
+    usecase "Scan QR Code" as UC02
+    usecase "Listen to Audio Guide" as UC03
+    usecase "Switch Language" as UC04
+    usecase "Save Favorite Artifacts" as UC05
+    usecase "View Museum Information" as UC06
+    usecase "View Synchronized Subtitles" as UC07
+    usecase "Search Artifacts" as UC08
+    usecase "Geofencing & Auto Guide" as UC14
+  }
+
+  ' --- Administrative Authentication Gateway
+  usecase "Admin Authentication" as UC01
+
+  ' --- Admin CMS Subsystem (Authentication Required)
+  together {
+    usecase "Manage Artifacts" as UC09
+    usecase "Manage Sessions & QR Codes" as UC10
+    usecase "Manage Audio Files" as UC11
+    usecase "View Listening Analytics" as UC12
+    usecase "Manage Floor Maps" as UC13
+  }
+}
+
+' ---- Visitor Actor Associations
+Visitor -- UC02
+Visitor -- UC03
+Visitor -- UC04
+Visitor -- UC05
+Visitor -- UC06
+Visitor -- UC08
+Visitor -- UC14
+
+' ---- Admin Actor Associations
+Admin -- UC01
+Admin -- UC09
+Admin -- UC10
+Admin -- UC11
+Admin -- UC12
+Admin -- UC13
+
+' ---- External System Actors
+GpsSystem -- UC14
+AudioSystem -- UC03
+
+' ---- <<include>> Relationships
+UC09 ..> UC01 : <<include>>
+UC10 ..> UC01 : <<include>>
+UC11 ..> UC01 : <<include>>
+UC12 ..> UC01 : <<include>>
+UC13 ..> UC01 : <<include>>
+
+' ---- <<extend>> Relationships
+UC07 ..> UC03 : <<extend>>
+UC14 ..> UC03 : <<extend>>
+
+@enduml
+
+' ---------- UC01_usecase ----------
+@startuml UC01_usecase
+title Use Case Decomposition UC01 — Admin Authentication
+left to right direction
+skinparam defaultFontName Arial
+skinparam packageStyle rectangle
+skinparam roundCorner 8
+skinparam shadowing false
+
+actor "System Administrator (Admin)" as Admin
+
+rectangle "Museum Multilingual Smart Audio Guide System" {
+  usecase "Admin Authentication" as UC01
+}
+
+Admin --> UC01
+@enduml
+
+' ---------- UC02_usecase ----------
+@startuml UC02_usecase
+title Use Case Decomposition UC02 — Scan QR Code
+left to right direction
+skinparam defaultFontName Arial
+skinparam packageStyle rectangle
+skinparam roundCorner 8
+skinparam shadowing false
+
+actor "Visitor" as Visitor
+
+rectangle "Museum Multilingual Smart Audio Guide System" {
+  usecase "Scan QR Code" as UC02
+}
+
+Visitor --> UC02
+@enduml
+
+' ---------- UC03_usecase ----------
+@startuml UC03_usecase
+title Use Case Decomposition UC03 — Listen to Audio Guide
+left to right direction
+skinparam defaultFontName Arial
+skinparam packageStyle rectangle
+skinparam roundCorner 8
+skinparam shadowing false
+
+actor "Visitor" as Visitor
+actor "Audio System" as AudioSystem
+
+rectangle "Museum Multilingual Smart Audio Guide System" {
+  usecase "Listen to Audio Guide" as UC03
+  usecase "View Synchronized Subtitles" as UC07
+}
+
+Visitor --> UC03
+AudioSystem --> UC03
+UC07 ..> UC03 : <<extend>>
+@enduml
+
+' ---------- UC04_usecase ----------
+@startuml UC04_usecase
+title Use Case Decomposition UC04 — Switch Language
+left to right direction
+skinparam defaultFontName Arial
+skinparam packageStyle rectangle
+skinparam roundCorner 8
+skinparam shadowing false
+
+actor "Visitor" as Visitor
+
+rectangle "Museum Multilingual Smart Audio Guide System" {
+  usecase "Switch Language" as UC04
+}
+
+Visitor --> UC04
+@enduml
+
+' ---------- UC05_usecase ----------
+@startuml UC05_usecase
+title Use Case Decomposition UC05 — Save Favorite Artifacts
+left to right direction
+skinparam defaultFontName Arial
+skinparam packageStyle rectangle
+skinparam roundCorner 8
+skinparam shadowing false
+
+actor "Visitor" as Visitor
+
+rectangle "Museum Multilingual Smart Audio Guide System" {
+  usecase "Save Favorite Artifacts" as UC05
+}
+
+Visitor --> UC05
+@enduml
+
+' ---------- UC06_usecase ----------
+@startuml UC06_usecase
+title Use Case Decomposition UC06 — View Museum Information
+left to right direction
+skinparam defaultFontName Arial
+skinparam packageStyle rectangle
+skinparam roundCorner 8
+skinparam shadowing false
+
+actor "Visitor" as Visitor
+
+rectangle "Museum Multilingual Smart Audio Guide System" {
+  usecase "View Museum Information" as UC06
+}
+
+Visitor --> UC06
+@enduml
+
+' ---------- UC07_usecase ----------
+@startuml UC07_usecase
+title Use Case Decomposition UC07 — View Synchronized Subtitles
+left to right direction
+skinparam defaultFontName Arial
+skinparam packageStyle rectangle
+skinparam roundCorner 8
+skinparam shadowing false
+
+actor "Visitor" as Visitor
+
+rectangle "Museum Multilingual Smart Audio Guide System" {
+  usecase "Listen to Audio Guide" as UC03
+  usecase "View Synchronized Subtitles" as UC07
+}
+
+Visitor --> UC03
+UC07 ..> UC03 : <<extend>>
+@enduml
+
+' ---------- UC08_usecase ----------
+@startuml UC08_usecase
+title Use Case Decomposition UC08 — Search Artifacts
+left to right direction
+skinparam defaultFontName Arial
+skinparam packageStyle rectangle
+skinparam roundCorner 8
+skinparam shadowing false
+
+actor "Visitor" as Visitor
+
+rectangle "Museum Multilingual Smart Audio Guide System" {
+  usecase "Search Artifacts" as UC08
+}
+
+Visitor --> UC08
+@enduml
+
+' ---------- UC09_usecase ----------
+@startuml UC09_usecase
+title Use Case Decomposition UC09 — Manage Artifacts
+left to right direction
+skinparam defaultFontName Arial
+skinparam packageStyle rectangle
+skinparam roundCorner 8
+skinparam shadowing false
+
+actor "System Administrator (Admin)" as Admin
+
+rectangle "Museum Multilingual Smart Audio Guide System" {
+  usecase "Manage Artifacts" as UC09
+  usecase "Admin Authentication" as UC01
+}
+
+Admin --> UC09
+UC09 ..> UC01 : <<include>>
+@enduml
+
+' ---------- UC10_usecase ----------
+@startuml UC10_usecase
+title Use Case Decomposition UC10 — Manage Sessions & QR Codes
+left to right direction
+skinparam defaultFontName Arial
+skinparam packageStyle rectangle
+skinparam roundCorner 8
+skinparam shadowing false
+
+actor "System Administrator (Admin)" as Admin
+
+rectangle "Museum Multilingual Smart Audio Guide System" {
+  usecase "Manage Sessions & QR Codes" as UC10
+  usecase "Admin Authentication" as UC01
+}
+
+Admin --> UC10
+UC10 ..> UC01 : <<include>>
+@enduml
+
+' ---------- UC11_usecase ----------
+@startuml UC11_usecase
+title Use Case Decomposition UC11 — Manage Audio Files
+left to right direction
+skinparam defaultFontName Arial
+skinparam packageStyle rectangle
+skinparam roundCorner 8
+skinparam shadowing false
+
+actor "System Administrator (Admin)" as Admin
+
+rectangle "Museum Multilingual Smart Audio Guide System" {
+  usecase "Manage Audio Files" as UC11
+  usecase "Admin Authentication" as UC01
+}
+
+Admin --> UC11
+UC11 ..> UC01 : <<include>>
+@enduml
+
+' ---------- UC12_usecase ----------
+@startuml UC12_usecase
+title Use Case Decomposition UC12 — View Listening Analytics
+left to right direction
+skinparam defaultFontName Arial
+skinparam packageStyle rectangle
+skinparam roundCorner 8
+skinparam shadowing false
+
+actor "System Administrator (Admin)" as Admin
+
+rectangle "Museum Multilingual Smart Audio Guide System" {
+  usecase "View Listening Analytics" as UC12
+  usecase "Admin Authentication" as UC01
+}
+
+Admin --> UC12
+UC12 ..> UC01 : <<include>>
+@enduml
+
+' ---------- UC13_usecase ----------
+@startuml UC13_usecase
+title Use Case Decomposition UC13 — Manage Floor Maps
+left to right direction
+skinparam defaultFontName Arial
+skinparam packageStyle rectangle
+skinparam roundCorner 8
+skinparam shadowing false
+
+actor "System Administrator (Admin)" as Admin
+
+rectangle "Museum Multilingual Smart Audio Guide System" {
+  usecase "Manage Floor Maps" as UC13
+  usecase "Admin Authentication" as UC01
+}
+
+Admin --> UC13
+UC13 ..> UC01 : <<include>>
+@enduml
+
+' ---------- UC14_usecase ----------
+@startuml UC14_usecase
+title Use Case Decomposition UC14 — Geofencing & Auto Guide
+left to right direction
+skinparam defaultFontName Arial
+skinparam packageStyle rectangle
+skinparam roundCorner 8
+skinparam shadowing false
+
+actor "Visitor" as Visitor
+actor "GPS Positioning System" as GpsSystem
+
+rectangle "Museum Multilingual Smart Audio Guide System" {
+  usecase "Geofencing & Auto Guide" as UC14
+  usecase "Listen to Audio Guide" as UC03
+}
+
+Visitor --> UC14
+GpsSystem --> UC14
+UC14 ..> UC03 : <<extend>>
+@enduml

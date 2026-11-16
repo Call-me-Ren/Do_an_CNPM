@@ -1,0 +1,37 @@
+ACTIVITY UC09 — Manage Artifacts
+PARTITION actor = {Admin, System*}
+
+START                                          @Admin
+[Select Login feature]                         @Admin
+[Display welcome portal and management options]
+[Select Manage Artifacts]                      @Admin
+[Render artifact inventory table]
+
+
+L1: [Select management operation]              @Admin
+    IF (Choose to delete?) THEN
+        [Display confirmation dialog]
+        [Delete artifact and confirm success]
+        GOTO L1
+
+    IF !(Choose to edit or add new?) THEN FINAL
+
+    [Render artifact management form modal]
+
+
+L2: [Populate form fields]                     @Admin
+    IF (Click Cancel?) THEN GOTO L1
+
+    IF !(All required fields provided?) THEN
+        [Display missing field validation error]
+        GOTO L2
+
+    IF (Artifact code is duplicated?) THEN
+        [Display duplicate identifier error]
+        GOTO L2
+
+    IF !(Database write succeeds?) THEN
+        [Display database persistence error]
+        GOTO L2
+
+    FINAL

@@ -1,0 +1,12 @@
+usecase-beta
+direction LR
+
+actor Admin("System Administrator (Admin)")
+
+systemBoundary sys["Museum Multilingual Smart Audio Guide System"]
+  UC11("Manage Audio Files")
+  UC01("Admin Authentication")
+end
+
+Admin --> UC11
+UC11 ..> : include UC01

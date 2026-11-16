@@ -1,0 +1,58 @@
+flowchart TD
+    %% External entities
+    Visitor["Visitor"]
+    Admin["System Administrator"]
+    GPS["GPS System"]
+    TranslateAPI["Google / MyMemory API"]
+
+    %% Processes
+    P1(("1.0<br/>Admin Authentication<br/>Management (UC01)"))
+    P2(("2.0<br/>Exploration, QR Scan &<br/>Geofencing Tracking<br/>(UC02, UC06, UC08, UC14)"))
+    P3(("3.0<br/>Audio Narration, Subtitles<br/>& Localization<br/>(UC03, UC04, UC07)"))
+    P4(("4.0<br/>Local Favorites<br/>Management (UC05)"))
+    P5(("5.0<br/>Catalog, Floor Map,<br/>Audio & Translation Admin<br/>(UC09, UC11, UC13)"))
+    P6(("6.0<br/>Session Tracking, QR Gen<br/>& Listening Telemetry<br/>(UC10, UC12)"))
+
+    %% Data stores
+    D1@{ shape: datastore, label: "D1: AdminUser<br/>(MSSQL + LoginLock)" }
+    D2@{ shape: datastore, label: "D2: Museum, Floor,<br/>Artifact, Translation<br/>(MSSQL / Bundled JSON)" }
+    D3@{ shape: datastore, label: "D3: Audio, Image,<br/>SubtitleCue<br/>(/uploads & Bundled APK)" }
+    D4@{ shape: datastore, label: "D4: Local / AsyncStorage<br/>(Favorites, Anchor, Lang)" }
+    D5@{ shape: datastore, label: "D5: VisitorSession &<br/>ListenEvent (MSSQL)" }
+
+    %% 1.0 Auth
+    Admin -->|"Email, Password"| P1
+    P1 <-->|"Verify Hash,<br/>Update FailedAttempts/LockedUntil"| D1
+    P1 -->|"JWT Token / Lockout Error"| Admin
+
+    %% 2.0 Explore / QR / Geofence
+    Visitor -->|"QR Code, Keyword, Floor Selection"| P2
+    GPS -->|"GPS Coordinates & Accuracy"| P2
+    D2 -->|"Artifact Catalog, Coordinates, Floor Plans"| P2
+    P2 -->|"Save Anchor & Closest Exhibit"| D4
+    P2 -->|"Artifact Details, Position on Floor Map"| Visitor
+    P2 -->|"Playback Request (ArtifactId)"| P3
+
+    %% 3.0 Playback
+    Visitor -->|"Select Language, Play/Pause/Seek/Speed"| P3
+    D3 -->|"MP3/WAV Audio Files & SubtitleCues"| P3
+    D4 <-->|"Read/Save Preferred Language"| P3
+    P3 -->|"Audio Stream & Karaoke Subtitles"| Visitor
+    P3 -->|"Listening Telemetry (ListenEvent)"| P6
+
+    %% 4.0 Favorites
+    Visitor -->|"Add/Remove Favorite"| P4
+    P4 <-->|"Read/Write Bookmarked IDs"| D4
+    P4 -->|"Favorites Catalog"| Visitor
+
+    %% 5.0 Admin content
+    Admin -->|"CRUD Artifacts, Coordinates, Upload MP3/Images"| P5
+    P5 -->|"Update Museum/Floor/Artifact"| D2
+    P5 -->|"Store Media Files & SubtitleCue"| D3
+    P5 <-->|"Automated 5-Language Translation"| TranslateAPI
+
+    %% 6.0 Sessions / stats
+    Visitor -->|"Session Heartbeat (10–15s)"| P6
+    P6 <-->|"Store Session & ListenEvent"| D5
+    Admin -->|"Analytics Query / Export CSV"| P6
+    P6 -->|"Charts, Session List, QR Codes, CSV File"| Admin

@@ -1,0 +1,20 @@
+ACTIVITY UC08 — Search Artifacts
+PARTITION actor = {Visitor, System*}
+
+START                                          @Visitor
+[Select Search feature]                        @Visitor
+[Display search input field]
+
+
+L1: [Input keyword or artifact code]           @Visitor
+    IF (Keyword is empty?) THEN
+        [Prompt user to enter keyword or code]
+        GOTO L1
+
+    [Execute query against database catalog]
+    IF !(Matching results found?) THEN
+        [Display no results found notification]
+        FINAL
+
+    [Render filtered search results]
+    FINAL

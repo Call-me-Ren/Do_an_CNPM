@@ -1,0 +1,36 @@
+ACTIVITY UC13 — Manage Floor Maps
+PARTITION actor = {Admin, System*}
+
+START                                          @Admin
+[Select Login feature]                         @Admin
+[Display welcome portal and management options]
+[Select Manage Floor Maps]                     @Admin
+[Render floor maps catalog]
+
+
+L1: [Select management operation]              @Admin
+    IF (Choose to delete?) THEN
+        [Display confirmation dialog]
+        [Delete floor map and confirm success]
+        GOTO L1
+
+    IF !(Choose to edit or add new?) THEN FINAL
+
+    [Open interactive floor map editor]
+
+
+L2: [Upload new floor layout image]            @Admin
+    IF !(File is valid image?) THEN
+        [Display invalid image file error]
+        GOTO L2
+
+    [Drag and drop artifact pin icons onto layout] @Admin
+
+
+L3: [Save floor plan configuration]            @Admin
+    IF !(Database write succeeds?) THEN
+        [Display database persistence error]
+        GOTO L3
+
+    [Confirm operation success]
+    FINAL

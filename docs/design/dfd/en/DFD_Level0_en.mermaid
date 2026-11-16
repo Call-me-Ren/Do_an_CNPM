@@ -1,0 +1,18 @@
+flowchart LR
+    Visitor["Visitor<br/>(Web & Android App)"]
+    Admin["System Administrator<br/>(Admin Web CMS)"]
+    GPS["GPS Positioning System<br/>(Mobile Device Sensors)"]
+    TranslateAPI["Translation Services<br/>(Google / MyMemory API)"]
+
+    System(("0<br/>Museum Multilingual<br/>Smart Audio Guide System<br/>(Web, Android, Backend)"))
+
+    Visitor -->|"QR Code / Artifact Code,<br/>Search Keywords,<br/>Language Selection / Favorites,<br/>Playback Control Signals"| System
+    System -->|"Museum & Artifact Information,<br/>Floor Maps, Audio & Subtitles,<br/>Switch/Replay Prompts"| Visitor
+
+    GPS -->|"Coordinates (Latitude, Longitude),<br/>Accuracy Variance (Accuracy)"| System
+
+    Admin -->|"Login Credentials,<br/>Artifact Data, Coordinates (X,Y,GPS),<br/>Audio/Image Files, Analytics Filters"| System
+    System -->|"JWT Token / Lockout State,<br/>Gate & Artifact QR Codes (PNG),<br/>Analytics Reports & CSV"| Admin
+
+    System -->|"Source Text (Title, Description)"| TranslateAPI
+    TranslateAPI -->|"5-Language Translations (vi, en, zh, ko, ja)"| System

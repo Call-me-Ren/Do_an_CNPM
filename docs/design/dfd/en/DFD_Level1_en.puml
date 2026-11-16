@@ -1,0 +1,57 @@
+@startuml
+' Data Flow Diagram (DFD) Level 1 — Functional Decomposition of Core Business Processes
+left to right direction
+skinparam shadowing false
+
+rectangle "Visitor" as Visitor
+rectangle "System Administrator" as Admin
+rectangle "GPS System" as GPS
+rectangle "Google / MyMemory API" as TranslateAPI
+
+' Processes
+usecase "1.0\nAdmin Authentication\nManagement (UC01)" as P1
+usecase "2.0\nExploration, QR Scan &\nGeofencing Tracking\n(UC02, UC06, UC08, UC14)" as P2
+usecase "3.0\nAudio Narration, Subtitles\n& Localization\n(UC03, UC04, UC07)" as P3
+usecase "4.0\nLocal Favorites\nManagement (UC05)" as P4
+usecase "5.0\nCatalog, Floor Map,\nAudio & Translation Admin\n(UC09, UC11, UC13)" as P5
+usecase "6.0\nSession Tracking, QR Gen\n& Listening Telemetry\n(UC10, UC12)" as P6
+
+' Data Stores
+database "D1: AdminUser\n(MSSQL + LoginLock)" as D1
+database "D2: Museum, Floor,\nArtifact, Translation\n(MSSQL / Bundled JSON)" as D2
+database "D3: Audio, Image,\nSubtitleCue\n(/uploads & Bundled APK)" as D3
+database "D4: Local / AsyncStorage\n(Favorites, Anchor, Lang)" as D4
+database "D5: VisitorSession &\nListenEvent (MSSQL)" as D5
+
+' Data Flows
+Admin --> P1 : "Email, Password"
+P1 <--> D1 : "Verify Hash,\nUpdate FailedAttempts/LockedUntil"
+P1 --> Admin : "JWT Token / Lockout Error"
+
+Visitor --> P2 : "QR Code, Keyword, Floor Selection"
+GPS --> P2 : "GPS Coordinates & Accuracy"
+D2 --> P2 : "Artifact Catalog, Coordinates, Floor Plans"
+P2 --> D4 : "Save Anchor & Closest Exhibit"
+P2 --> Visitor : "Artifact Details, Position on Floor Map"
+P2 --> P3 : "Playback Request (ArtifactId)"
+
+Visitor --> P3 : "Select Language, Play/Pause/Seek/Speed"
+D3 --> P3 : "MP3/WAV Audio Files & SubtitleCues"
+D4 <--> P3 : "Read/Save Preferred Language"
+P3 --> Visitor : "Audio Stream & Karaoke Subtitles"
+P3 --> P6 : "Listening Telemetry (ListenEvent)"
+
+Visitor --> P4 : "Add/Remove Favorite"
+P4 <--> D4 : "Read/Write Bookmarked IDs"
+P4 --> Visitor : "Favorites Catalog"
+
+Admin --> P5 : "CRUD Artifacts, Coordinates, Upload MP3/Images"
+P5 --> D2 : "Update Museum/Floor/Artifact"
+P5 --> D3 : "Store Media Files & SubtitleCue"
+P5 <--> TranslateAPI : "Automated 5-Language Translation"
+
+Visitor --> P6 : "Session Heartbeat (10–15s)"
+P6 <--> D5 : "Store Session & ListenEvent"
+Admin --> P6 : "Analytics Query / Export CSV"
+P6 --> Admin : "Charts, Session List, QR Codes, CSV File"
+@enduml

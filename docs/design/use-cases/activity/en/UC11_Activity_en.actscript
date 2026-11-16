@@ -1,0 +1,15 @@
+ACTIVITY UC11 — Manage Audio Files
+PARTITION actor = {Admin, WebCMS*, Backend}
+
+START                                          @Admin
+[Navigate to Audio Files section (/admin/audio)] @Admin
+[Select target artifact & language]            @Admin
+[Choose audio file from disk (MP3/WAV <= 30MB)] @Admin
+[Dispatch POST /api/uploads/audio]             @WebCMS
+IF (File format valid and <= 30MB?) THEN
+    [Save file to /uploads/audio & return URL] @Backend
+    [Audition audio & author SubtitleCue timeline] @Admin
+    [Save updates via PUT /api/artifacts/:id]  @Backend
+ELSE
+    [Display invalid format or file size error] @WebCMS
+FINAL

@@ -1,0 +1,24 @@
+ACTIVITY UC01 — Admin Authentication
+PARTITION actor = {Admin, Frontend*, Backend}
+
+START                                          @Admin
+[Navigate to /admin/login]                      @Admin
+[Check lockout state in localStorage]          @Frontend
+
+
+L1:
+    IF (Locked out for 5 minutes?) THEN
+        [Display countdown timer]              @Frontend
+        FINAL
+
+    [Enter Email & Password]                   @Admin
+    [Send POST /api/auth/login]                @Frontend
+    [Verify LockedUntil & bcryptjs hash]       @Backend
+    IF !(Password is valid?) THEN
+        [Increment FailedAttempts (Backend locks 1m if >=5; Frontend locks 5m if >=5)] @Backend
+        [Display authentication error message] @Frontend
+        GOTO L1
+
+    [Reset FailedAttempts & issue JWT Token]   @Backend
+    [Store Token & open Admin Dashboard]       @Frontend
+    FINAL

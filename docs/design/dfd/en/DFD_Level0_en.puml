@@ -1,0 +1,23 @@
+@startuml
+' Data Flow Diagram (DFD) Level 0 — System Context Diagram
+left to right direction
+skinparam shadowing false
+
+rectangle "Visitor\n(Web & Android App)" as Visitor
+rectangle "System Administrator\n(Admin Web CMS)" as Admin
+rectangle "GPS Positioning System\n(Mobile Device Sensors)" as GPS
+rectangle "Translation Services\n(Google / MyMemory API)" as TranslateAPI
+
+usecase "0\nMuseum Multilingual\nSmart Audio Guide System\n(Web, Android, Backend)" as System
+
+Visitor --> System : "QR Code / Artifact Code,\nSearch Keywords,\nLanguage Selection / Favorites,\nPlayback Control Signals"
+System --> Visitor : "Museum & Artifact Information,\nFloor Maps, Audio & Subtitles,\nSwitch/Replay Prompts"
+
+GPS --> System : "Coordinates (Latitude, Longitude),\nAccuracy Variance (Accuracy)"
+
+Admin --> System : "Login Credentials,\nArtifact Data, Coordinates (X,Y,GPS),\nAudio/Image Files, Analytics Filters"
+System --> Admin : "JWT Token / Lockout State,\nGate & Artifact QR Codes (PNG),\nAnalytics Reports & CSV"
+
+System --> TranslateAPI : "Source Text (Title, Description)"
+TranslateAPI --> System : "5-Language Translations (vi, en, zh, ko, ja)"
+@enduml

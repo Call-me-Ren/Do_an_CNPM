@@ -1,0 +1,22 @@
+ACTIVITY UC06 — View Museum Information
+PARTITION actor = {Visitor, System*}
+
+START                                          @Visitor
+[Select View Museum Profile feature]           @Visitor
+
+
+L1: [Query museum profile metadata]
+    IF !(Profile data loaded?) THEN
+        [Display error alert and retry button]
+        GOTO L1
+
+    [Display museum profile]
+
+
+L2: [Review information]                       @Visitor
+    IF (View floor layout map?) THEN
+        [Display floor map view]
+        GOTO L2
+
+    [Close profile view]                       @Visitor
+    FINAL

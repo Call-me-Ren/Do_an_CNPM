@@ -1,0 +1,56 @@
+usecase-beta
+direction LR
+
+actor Visitor("Visitor")
+actor Admin("System Administrator (Admin)")
+actor GpsSystem("GPS Positioning System")
+actor AudioSystem("Audio System")
+
+systemBoundary sys["Museum Multilingual Smart Audio Guide System"]
+  UC01("Admin Authentication")
+  UC02("Scan QR Code")
+  UC03("Listen to Audio Guide")
+  UC04("Switch Language")
+  UC05("Save Favorite Artifacts")
+  UC06("View Museum Information")
+  UC07("View Synchronized Subtitles")
+  UC08("Search Artifacts")
+  UC09("Manage Artifacts")
+  UC10("Manage Sessions & QR Codes")
+  UC11("Manage Audio Files")
+  UC12("View Listening Analytics")
+  UC13("Manage Floor Maps")
+  UC14("Geofencing & Auto Guide")
+end
+
+%% Visitor Actor Associations
+Visitor --> UC02
+Visitor --> UC03
+Visitor --> UC04
+Visitor --> UC05
+Visitor --> UC06
+Visitor --> UC08
+Visitor --> UC14
+
+%% Admin Actor Associations
+Admin --> UC01
+Admin --> UC09
+Admin --> UC10
+Admin --> UC11
+Admin --> UC12
+Admin --> UC13
+
+%% External System Actors
+GpsSystem --> UC14
+AudioSystem --> UC03
+
+%% <<include>> Relationships
+UC09 ..> : include UC01
+UC10 ..> : include UC01
+UC11 ..> : include UC01
+UC12 ..> : include UC01
+UC13 ..> : include UC01
+
+%% <<extend>> Relationships
+UC07 ..> : extend UC03
+UC14 ..> : extend UC03
