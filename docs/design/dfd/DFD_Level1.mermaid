@@ -1,0 +1,58 @@
+flowchart TD
+    %% External entities
+    Visitor["Khách tham quan"]
+    Admin["Quản trị viên"]
+    GPS["Hệ thống GPS"]
+    TranslateAPI["Google / MyMemory API"]
+
+    %% Processes
+    P1(("1.0<br/>Quản lý xác thực<br/>Quản trị (UC01)"))
+    P2(("2.0<br/>Khám phá, Quét QR &<br/>Định vị Geofence<br/>(UC02, UC06, UC08, UC14)"))
+    P3(("3.0<br/>Phát thuyết minh,<br/>Phụ đề & Đa ngôn ngữ<br/>(UC03, UC04, UC07)"))
+    P4(("4.0<br/>Quản lý yêu thích<br/>(UC05)"))
+    P5(("5.0<br/>Quản trị hiện vật, Sơ đồ,<br/>Âm thanh & Dịch<br/>(UC09, UC11, UC13)"))
+    P6(("6.0<br/>Ghi nhận phiên, Sinh QR<br/>& Thống kê lượt nghe<br/>(UC10, UC12)"))
+
+    %% Data stores
+    D1@{ shape: datastore, label: "D1: AdminUser<br/>(MSSQL + LoginLock)" }
+    D2@{ shape: datastore, label: "D2: Museum, Floor,<br/>Artifact, Translation<br/>(MSSQL / Bundled JSON)" }
+    D3@{ shape: datastore, label: "D3: Audio, Image,<br/>SubtitleCue<br/>(/uploads & Bundled APK)" }
+    D4@{ shape: datastore, label: "D4: Local / AsyncStorage<br/>(Favorites, Anchor, Lang)" }
+    D5@{ shape: datastore, label: "D5: VisitorSession &<br/>ListenEvent (MSSQL)" }
+
+    %% 1.0 Auth
+    Admin -->|"Email, Mật khẩu"| P1
+    P1 <-->|"Kiểm tra Hash,<br/>Cập nhật FailedAttempts/LockedUntil"| D1
+    P1 -->|"JWT Token / Lỗi khóa"| Admin
+
+    %% 2.0 Explore / QR / Geofence
+    Visitor -->|"Mã QR, Từ khóa, Chọn tầng"| P2
+    GPS -->|"Tọa độ GPS & Accuracy"| P2
+    D2 -->|"Danh sách hiện vật, Tọa độ, Sơ đồ"| P2
+    P2 -->|"Lưu Anchor & Điểm gần nhất"| D4
+    P2 -->|"Chi tiết hiện vật, Vị trí trên sơ đồ"| Visitor
+    P2 -->|"Yêu cầu phát (ArtifactId)"| P3
+
+    %% 3.0 Playback
+    Visitor -->|"Chọn ngôn ngữ, Play/Pause/Tua/Tốc độ"| P3
+    D3 -->|"Tệp MP3/WAV & SubtitleCues"| P3
+    D4 <-->|"Đọc/Lưu ngôn ngữ ưu tiên"| P3
+    P3 -->|"Luồng âm thanh & Phụ đề karaoke"| Visitor
+    P3 -->|"Sự kiện nghe (ListenEvent)"| P6
+
+    %% 4.0 Favorites
+    Visitor -->|"Thêm/Xóa yêu thích"| P4
+    P4 <-->|"Đọc/Ghi danh sách ID"| D4
+    P4 -->|"Danh mục yêu thích"| Visitor
+
+    %% 5.0 Admin content
+    Admin -->|"CRUD hiện vật, Tọa độ, Upload MP3/Ảnh"| P5
+    P5 -->|"Cập nhật Museum/Floor/Artifact"| D2
+    P5 -->|"Lưu tệp media & SubtitleCue"| D3
+    P5 <-->|"Dịch tự động 5 ngôn ngữ"| TranslateAPI
+
+    %% 6.0 Sessions / stats
+    Visitor -->|"Heartbeat phiên (10-15s)"| P6
+    P6 <-->|"Lưu Session & ListenEvent"| D5
+    Admin -->|"Yêu cầu xem thống kê / Xuất CSV"| P6
+    P6 -->|"Biểu đồ, Danh sách phiên, Mã QR, File CSV"| Admin

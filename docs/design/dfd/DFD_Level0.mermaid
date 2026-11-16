@@ -1,0 +1,18 @@
+flowchart LR
+    Visitor["Khách tham quan<br/>(Web & Android App)"]
+    Admin["Quản trị viên<br/>(Admin Web CMS)"]
+    GPS["Hệ thống định vị GPS<br/>(Thiết bị di động)"]
+    TranslateAPI["Dịch vụ dịch thuật<br/>(Google / MyMemory)"]
+
+    System(("0<br/>Hệ Thống Thuyết Minh<br/>Tự Động Đa Ngôn Ngữ<br/>(Web, Android, Backend)"))
+
+    Visitor -->|"Mã QR / Mã hiện vật,<br/>Từ khóa tìm kiếm,<br/>Chọn ngôn ngữ / Yêu thích,<br/>Tín hiệu thao tác nghe"| System
+    System -->|"Thông tin bảo tàng & hiện vật,<br/>Sơ đồ tầng, Âm thanh & Phụ đề,<br/>Gợi ý chuyển/nghe lại bài"| Visitor
+
+    GPS -->|"Tọa độ (Latitude, Longitude),<br/>Độ chính xác (Accuracy)"| System
+
+    Admin -->|"Thông tin đăng nhập,<br/>Dữ liệu hiện vật, Tọa độ (X,Y,GPS),<br/>Tệp âm thanh/ảnh, Bộ lọc thống kê"| System
+    System -->|"Token JWT / Trạng thái khóa,<br/>Mã QR cổng & hiện vật (PNG),<br/>Báo cáo thống kê & CSV"| Admin
+
+    System -->|"Văn bản gốc (tiêu đề, mô tả)"| TranslateAPI
+    TranslateAPI -->|"Bản dịch 5 ngôn ngữ (vi, en, zh, ko, ja)"| System

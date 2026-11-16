@@ -1,0 +1,41 @@
+flowchart TD
+    %% External entities
+    Visitor["Khách tham quan"]
+    Camera["Camera thiết bị"]
+    GPS["Cảm biến GPS"]
+
+    %% Processes
+    P21(("2.1<br/>Giải mã QR &<br/>Thiết lập mốc neo"))
+    P22(("2.2<br/>Tính khoảng cách<br/>Haversine & Lọc sai số"))
+    P23(("2.3<br/>Quyết định kích hoạt<br/>hoặc Gợi ý chuyển bài"))
+    P31(("3.1<br/>Nạp Audio & Phụ đề<br/>(Offline/Stream)"))
+
+    %% Data stores
+    D2@{ shape: datastore, label: "D2: Danh mục Hiện vật<br/>(geoCoordinates, triggerRadius)" }
+    D3@{ shape: datastore, label: "D3: Kho Media & SubtitleCue" }
+    D4@{ shape: datastore, label: "D4: Trạng thái phiên<br/>(anchor, heardIds, lang)" }
+    D5@{ shape: datastore, label: "D5: ListenEvent" }
+
+    %% 2.1 QR decoding
+    Camera -->|"Chuỗi QR thô"| P21
+    Visitor -->|"Mã nhập tay (dự phòng)"| P21
+    D2 -->|"Tra cứu id / code"| P21
+    P21 -->|"Ghi hasScannedQr=true, anchorId"| D4
+    P21 -->|"Mở thuyết minh hiện vật"| P31
+
+    %% 2.2 Haversine
+    GPS -->|"(lat, lng, accuracy)"| P22
+    D2 -->|"Tọa độ hiện vật"| P22
+    P22 -->|"Danh sách nearby đã sắp xếp<br/>(chỉ khi accuracy <= 150m)"| P23
+
+    %% 2.3 Decision
+    D4 -->|"Trạng thái đã quét QR & heardIds"| P23
+    P23 -->|"Hộp thoại gợi ý (switch / replay)"| Visitor
+    Visitor -->|"Xác nhận chuyển/nghe lại"| P23
+    P23 -->|"Tự động kích hoạt (distance <= 15m)"| P31
+
+    %% 3.1 Playback
+    D3 -->|"Audio URL/Bundled + Cues"| P31
+    D4 -->|"Ngôn ngữ hiện tại"| P31
+    P31 -->|"Âm thanh + Phụ đề đồng bộ"| Visitor
+    P31 -->|"Ghi nhận ListenEvent"| D5

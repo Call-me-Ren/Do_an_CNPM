@@ -27,11 +27,11 @@ CÔNG NGHỆ PHẦN MỀM**
 
 # LỜI CẢM ƠN
 
-Trong suốt quá trình theo học, nghiên cứu và thực hành đồ án học phần Công nghệ phần mềm tại Trường Đại học Sài Gòn, chúng tôi đã nhận được sự quan tâm tận tình và động viên quý báu từ các giảng viên cùng các bạn đồng niên và các anh chị khóa trên của khoa Công nghệ thông tin.
+Trong suốt quá trình học tập, nghiên cứu và hoàn thành đồ án môn học Công nghệ phần mềm tại Trường Đại học Sài Gòn, chúng tôi đã nhận được sự quan tâm, chỉ dẫn tận tình và động viên quý báu từ quý thầy cô cùng các anh chị khóa trước của khoa Công nghệ thông tin.
 
-Chúng tôi trân trọng gửi lời cảm ơn sâu sắc nhất đến TS. Nguyễn Quốc Huy, thầy là giảng viên của học phần và trực tiếp hướng dẫn đồ án của nhóm. Nhờ những nhận xét chuyên môn của thầy, định hướng giàu thâm niên ở các buổi góp ý, chỉnh sửa đã giúp chúng tôi tinh gọn số lượng danh mục ca sử dụng trọng tâm, nhờ đó mà chúng tôi đã có thể nắm chắc và hoàn thiện đồ án một cách bài bản từ khâu phân tích đề tài, thiết kế kiến trúc cho tới soạn thảo mã nguồn.
+Chúng tôi xin trân trọng gửi lời cảm ơn sâu sắc nhất đến TS. Nguyễn Quốc Huy - giảng viên trực tiếp hướng dẫn đồ án. Nhờ những nhận xét chuyên môn xác đáng, định hướng kỹ thuật giàu kinh nghiệm cùng những buổi góp ý, chỉnh sửa tỉ mỉ giúp tinh gọn danh mục ca sử dụng từ 20 Use Case ban đầu xuống 14 Use Case trọng tâm, chúng tôi đã hoàn thiện đồ án một cách bài bản từ khâu phân tích đề tài, thiết kế kiến trúc cho đến hiện thực mã nguồn.
 
-Dù nhóm thực hiện đã cố gắng hết sức, song do giới hạn về thời gian và kinh nghiệm thực tế, đồ án này khó mà tránh khỏi đâu đó những thiếu sót nhất định mà nhóm chúng tôi chưa thể lường trước. Chúng tôi rất mong nhận được những ý kiến đóng góp quý báu từ thầy để đồ án có thể được hoàn thiện hơn, hướng tới nhu cầu ứng dụng thực tiễn tại thực địa là các địa danh bảo tàng và di tích lịch sử các cấp tại địa phương.
+Dù đã nỗ lực hết mình trong việc tra cứu tài liệu, thiết kế hệ thống và hoàn thiện sản phẩm, song do giới hạn về thời gian và kinh nghiệm thực tế, đồ án khó tránh khỏi những khiếm khuyết nhất định. Chúng tôi rất mong nhận được những ý kiến đóng góp, chỉ bảo quý báu từ thầy để đề tài ngày càng hoàn thiện hơn, hướng tới khả năng ứng dụng thực tế tại các bảo tàng và di tích lịch sử tại các địa phương.
 
 **Trân trọng cảm ơn!**  
 *Sinh viên thực hiện: Nguyễn Trí Cường, Nguyễn Hoài Quân, Đặng Phú Thành*
@@ -43,9 +43,9 @@ Dù nhóm thực hiện đã cố gắng hết sức, song do giới hạn về 
 | **Thông số** | **Mô tả chi tiết** |
 |:---|:---|
 | **Tên đề tài:** | Hệ thống thuyết minh tự động đa ngôn ngữ (Museum Multilingual Smart Audio Guide) |
-| **Chuyên đề thực hiện:** | Kỹ nghệ Phần mềm & Front-end Engineering (React.js SPA / React Native Mobile) kết hợp Backend Dịch vụ, Streaming Audio, Hybrid Geofencing (QR + GPS) và Tự động hóa CI/CD |
-| **Quy mô phân tích:** | Xây dựng trọn vẹn hồ sơ thiết kế theo chuẩn UML 2.5.1 & DFD: Sơ đồ Thành phần (Component Diagram), Sơ đồ Triển khai (Deployment Diagram), Mô hình Quan hệ Thực thể (ERD 12 bảng), Sơ đồ Luồng Dữ liệu (DFD Mức 0–2) và 14 Use Cases đặc tả sâu kèm Sơ đồ Hoạt động (Activity diagrams) |
-| **Công nghệ ứng dụng:** | React 18, Expo React Native, TypeScript, Vite, Tailwind CSS, Zustand State Management, HTML5 / Expo Audio, Geolocation & Camera API, Express / Node.js API, MSSQL Server, Docker, GitHub Actions |
+| **Chuyên đề thực hiện:** | Kỹ nghệ phần mềm & Lập trình Front-end (React SPA / React Native Mobile) kết hợp dịch vụ máy chủ, phát âm thanh trực tuyến (Streaming Audio), định vị kết hợp (QR + GPS) và tự động hóa CI/CD |
+| **Quy mô phân tích:** | Xây dựng trọn vẹn hồ sơ thiết kế theo chuẩn UML 2.5.1 và DFD: sơ đồ thành phần (Component diagram), sơ đồ triển khai (Deployment diagram), mô hình dữ liệu quan hệ (ERD 12 bảng), sơ đồ luồng dữ liệu (DFD Mức 0–2) và 14 Use Case đặc tả chi tiết kèm sơ đồ hoạt động (Activity diagram) |
+| **Công nghệ ứng dụng:** | React 18, Expo React Native, TypeScript, Vite, Tailwind CSS, Zustand, HTML5 / Expo Audio, Geolocation & Camera API, Express / Node.js API, MSSQL Server, Docker, GitHub Actions |
 | **Đơn vị đào tạo:** | Khoa Công nghệ thông tin – Trường Đại học Sài Gòn (SGU) |
 | **Năm thực hiện:** | 2026 |
 
@@ -97,24 +97,24 @@ Sau khi tiếp thu ý kiến đóng góp từ giảng viên hướng dẫn, ph�
 
 ## 2.1. Sơ đồ thành phần (Component diagram)
 
-Sơ đồ thành phần mô tả cấu trúc phân rã của hệ thống thành 3 phân tầng kiến trúc tách biệt hoàn toàn (3 Bên), có tính đóng gói cao, giao tiếp với nhau thông qua các cổng giao tiếp chuẩn hóa (Ports) và giao diện được định nghĩa rõ ràng (Provided Interfaces hình quả bóng `()` và Required Interfaces hình ổ cắm `..(`) theo đặc tả UML 2.5:
+Sơ đồ thành phần mô tả cấu trúc phân rã của hệ thống thành 3 phân tầng kiến trúc độc lập (Tầng Client, Tầng máy chủ dịch vụ, Tầng lưu trữ), có tính đóng gói cao, giao tiếp với nhau thông qua các cổng giao tiếp chuẩn hóa (Ports) và giao diện được định nghĩa rõ ràng (Provided Interfaces hình quả bóng `()` và Required Interfaces hình ổ cắm `..(`) theo đặc tả UML 2.5:
 
-1. **Bên 1: Phân tầng ứng dụng Client (Client Applications - Frontend SPA & Mobile App):**
+1. **Phân tầng ứng dụng Client (Client Applications - Frontend SPA & Mobile App):**
    - **Phân hệ khách tham quan (Visitor Subsystem):** Bao gồm `UI Shell & Router` (điều hướng giao diện), `QR Scanner` (module camera quét mã QR hiện vật và cổng), `Audio Player & Subtitle Sync` (trình phát Web/Native Audio ghim đáy màn hình kèm phụ đề chạy chữ karaoke), `Geofence Engine` (module định vị GPS độ chính xác cao và giải thuật Haversine), `Interactive Floor Map` (sơ đồ tầng tương tác với halo "Bạn đang ở đây"), và `Artifact Explorer & Localizer` (khám phá danh mục, tìm kiếm và chuyển đổi 5 ngôn ngữ).
    - **Phân hệ quản trị (Admin CMS Subsystem):** Bao gồm `Admin Auth Guard` (cổng xác thực bảo vệ chống brute-force khóa kép), `Artifact & Coordinate Editor` (CRUD hiện vật, kéo thả gán tọa độ X,Y và tọa độ GPS), `Audio & Subtitle Manager` (quản lý tệp MP3 và mốc phụ đề đa ngữ), `Session & QR Generator` (tạo ca tham quan đoàn và sinh mã QR tự động), và `Analytics Dashboard` (báo cáo biểu đồ Recharts và xuất tệp CSV).
    - **Tương tác nội bộ Client:** `QR Scanner` sau khi giải mã mã QR sẽ lập tức truyền định danh hiện vật đến `Artifact Explorer` để nạp dữ liệu, kích hoạt `Audio Player` phát bài thuyết minh và gửi mốc neo ban đầu đến `Geofence Engine`. `Geofence Engine` lấy dữ liệu tọa độ từ `Artifact Explorer`, tính toán khoảng cách theo giải thuật Haversine; khi du khách bước vào bán kính kích hoạt (mặc định 15m), engine sẽ chủ động điều khiển `Audio Player` phát hoặc gợi ý chuyển bài, cập nhật vị trí "Bạn đang ở đây" lên `Floor Map`, đồng thời lưu điểm mốc neo.
    - **Cổng giao tiếp Client (Client Ports):** Xuất các cổng `ClientPortAuth`, `ClientPortMuseum`, `ClientPortAudio`, `ClientPortAnalytics` và `ClientPortStorage` kết nối đến các giao diện dịch vụ qua socket `..(`.
 
-2. **Bên 2: Phân tầng máy chủ dịch vụ (Application Server Tier - Node.js Express API):**
+2. **Phân tầng máy chủ dịch vụ (Application Server Tier - Node.js Express API):**
    - Đóng vai trò cung cấp dịch vụ máy chủ thông qua các cổng tiếp nhận `ServerPortAuth`, `ServerPortMuseum`, `ServerPortAudio`, `ServerPortAnalytics` và cung cấp (Provided Interfaces) các giao diện: `I_Auth` (xác thực JWT), `I_Museum_Catalog` (REST/JSON dữ liệu bảo tàng), `I_Audio_Stream` (HTTP Range streaming âm thanh), `I_Analytics` (ghi nhận sự kiện nghe và ca làm việc), `I_Translate` (dịch tự động qua Google Translate / MyMemory fallback).
-   - Các dịch vụ nghiệp vụ cốt lõi bên trong:
+   - Các dịch vụ nghiệp vụ trọng tâm bên trong:
      - `Auth & Security Service`: Quản lý phiên làm việc, băm mật khẩu bcrypt và cơ chế khóa tài khoản `AdminUser.LockedUntil`.
      - `Museum & Artifact Service`: Quản lý kho hiện vật, sơ đồ tầng và xử lý tải lên tệp tin qua Multer.
      - `Audio Streamer & Subtitle Service`: Phục vụ luồng phát âm thanh và mốc phụ đề WebVTT đồng bộ.
      - `Analytics & Session Tracker`: Theo dõi nhịp tim thiết bị (Heartbeat), phiên tham quan và lịch sử lượt nghe.
      - `Auto-Translation Service`: Kết nối dịch vụ dịch tự động đa ngữ.
 
-3. **Bên 3: Phân tầng lưu trữ và cơ sở dữ liệu (Storage & Persistence Tier):**
+3. **Phân tầng lưu trữ và cơ sở dữ liệu (Storage & Persistence Tier):**
    - Đóng gói toàn bộ các kho dữ liệu của hệ thống, tiếp nhận kết nối qua các cổng `StoragePortDb`, `StoragePortStorage` và `StoragePortClientStore`, cung cấp các giao diện `I_Database` (kết nối Microsoft SQL Server Pool qua giao thức TDS), `I_File_Storage` (gắn kết thư mục lưu trữ đĩa) và `I_Client_Storage` (truy xuất Web Storage / AsyncStorage API):
      - `System Database Server`: Hệ quản trị cơ sở dữ liệu quan hệ Microsoft SQL Server gồm 12 bảng chuẩn hóa 3NF.
      - `Media Storage Server`: Kho lưu trữ tệp tin đĩa cứng (`/uploads`) chứa tệp âm thanh thuyết minh MP3 (giới hạn 30MB) và kho ảnh sơ đồ/hiện vật (giới hạn 10MB).
@@ -122,7 +122,7 @@ Sơ đồ thành phần mô tả cấu trúc phân rã của hệ thống thành
 
 ![](./media/ComponentV3.drawio.png)
 
-***Hình 2.1: Sơ đồ thành phần của hệ thống (nguồn chuẩn: `docs/design/components/ComponentFinal.drawio`)***
+***Hình 2.1: Sơ đồ thành phần (Component diagram)***
 
 ## 2.2. Sơ đồ triển khai (Deployment diagram)
 
@@ -155,6 +155,8 @@ Sơ đồ triển khai mô hình hóa cấu trúc triển khai vật lý thực 
    - `GitHub Actions Cloud Runner`: Tự động hóa kiểm thử và phát hành đồng thời lên 3 đích: GitHub Pages (Web Demo), GHCR (Docker Images) và GitHub Releases (Android APK).
 
 ![](./media/DeploymentFinal.drawio.png)
+
+***Hình 2.2: Sơ đồ triển khai (Deployment diagram)***
 
 ## 2.3. Mô hình dữ liệu quan hệ (ERD)
 
@@ -239,18 +241,29 @@ Mô hình dữ liệu của hệ thống được chuẩn hóa theo dạng chu�
 
 ![](./media/ErdFinal.png)
 
-***Hình 2.3: Mô hình quan hệ thực thể cơ sở dữ liệu (ERD Final — 12 bảng, nguồn: `docs/design/erd/ErdFinal_detail.puml` và `ErdFinal.puml`)***
+***Hình 2.3: Mô hình thực thể quan hệ***
 
-## 2.4. Sơ đồ luồng dữ liệu (Data Flow Diagram — DFD)
+## 2.4. Sơ đồ luồng dữ liệu (DFD)
 
 Để làm rõ luồng di chuyển dữ liệu xuyên suốt Web SPA, Android App và Backend MSSQL theo yêu cầu bổ sung của giảng viên, đồ án xây dựng bộ sơ đồ DFD gồm 3 cấp độ (`docs/design/dfd/DFD.md`):
 
 - **DFD Mức 0 (`DFD_Level0.puml`):** Mô hình hóa ranh giới hệ thống với 4 thực thể ngoài: **Khách tham quan** (Web & Android App), **Quản trị viên** (Web CMS), **Hệ thống định vị GPS** và **Dịch vụ dịch thuật ngoài** (Google Translate API & MyMemory API).
+
 ![](./media/DFD_Level0.png)
+
+***Hình 2.4: Sơ đồ luồng dữ liệu (DFD) mức 0 (Ngữ cảnh hệ thống)***
+
 - **DFD Mức 1 (`DFD_Level1.puml`):** Phân rã thành 6 tiến trình chính (`1.0` Xác thực Quản trị, `2.0` Khám phá/QR/Geofence, `3.0` Phát thuyết minh/Phụ đề/Đa ngôn ngữ, `4.0` Yêu thích cục bộ, `5.0` Quản trị hiện vật/Sơ đồ/Audio/Dịch, `6.0` Phiên/Mã QR/Thống kê) tương tác với 5 kho dữ liệu (`D1` AdminUser, `D2` Museum/Floor/Artifact/Translation, `D3` Audio/Image/SubtitleCue, `D4` Local/AsyncStorage, `D5` VisitorSession/ListenEvent).
+
 ![](./media/DFD_Level1.png)
+
+***Hình 2.5: Sơ đồ luồng dữ liệu (DFD) mức 1 (Phân rã chức năng)***
+
 - **DFD Mức 2 (`DFD_Level2_Geofence.puml`):** Đặc tả sâu luồng xử lý lõi `2.1` (Giải mã QR & đặt `anchorArtifactId`) → `2.2` (Lọc GPS `accuracy <= 150m` & tính Haversine) → `2.3` (So sánh `distance <= 15m` để tự động phát hoặc gợi ý `switch`/`replay`) → `3.1` (Nạp audio/phụ đề & ghi `ListenEvent`).
-![](./media/DFD_Level2_Geofence.png)
+
+![](./media/DFD_Level2.png)
+
+***Hình 2.6: Sơ đồ luồng dữ liệu (DFD) mức 2 (Tiến trình định vị Geofencing)***
 
 
 
@@ -258,15 +271,15 @@ Mô hình dữ liệu của hệ thống được chuẩn hóa theo dạng chu�
 
 ## 3.1. Sơ đồ Use Case tổng quát và phân loại tác nhân
 
-Hệ thống Thuyết minh Tự động Đa ngôn ngữ được thiết kế xoay quanh 4 tác nhân chính tham gia vào quy trình nghiệp vụ (nguồn chuẩn: `docs/design/use-cases/final/UCFinal.puml` và `UCFinal.md`):
+Hệ thống Thuyết minh Tự động Đa ngôn ngữ được thiết kế xoay quanh 4 tác nhân chính tham gia vào quy trình nghiệp vụ:
 
-![](./media/overview.png)
+![](./media/automated_guidance_system.png)
 
 ***Hình 3.1: Sơ đồ Use Case tổng quát Final (14 ca sử dụng)***
 
 | **Tác nhân (Actor)** | **Phân loại** | **Mô tả vai trò & quyền hạn** |
 |:---|:---|:---|
-| **Khách tham quan (`Visitor`)** | Tác nhân con người (Human Actor) | Người dùng phổ thông trải nghiệm ứng dụng qua Web SPA hoặc Android App (`museum-audio-guide.apk`). Được quyền tra cứu, quét mã QR, nghe thuyết minh, xem phụ đề, chuyển đổi ngôn ngữ, xem hồ sơ bảo tàng và lưu hiện vật yêu thích mà **tuyệt đối không bắt buộc đăng ký hay đăng nhập tài khoản**. |
+| **Khách tham quan (`Visitor`)** | Tác nhân con người (Human Actor) | Người dùng phổ thông trải nghiệm ứng dụng qua Web SPA hoặc Android App (`museum-audio-guide.apk`). Được quyền tra cứu, quét mã QR, nghe thuyết minh, xem phụ đề, chuyển đổi ngôn ngữ, xem hồ sơ bảo tàng và lưu hiện vật yêu thích mà không bắt buộc đăng ký hay đăng nhập tài khoản. |
 | **Quản trị viên (`Admin`)** | Tác nhân con người (Human Actor) | Nhân sự phụ trách quản trị bảo tàng. Sau khi đăng nhập xác thực tại `/admin/login`, có toàn quyền quản lý kho hiện vật, bản dịch 5 thứ tiếng, sơ đồ mặt bằng, ca/phiên tham quan, tệp âm thanh và theo dõi thống kê lượt nghe. |
 | **Hệ thống âm thanh (`AudioSystem`)** | Tác nhân hệ thống ngoài (System Actor) | Hạ tầng cung cấp và phát luồng âm thanh đa ngữ: Trên Android là Audio Engine ngoại vi của hệ điều hành phát tệp MP3 đóng gói sẵn trong bộ cài APK (`assetMap.ts`); trên Web là Web Audio API / luồng phát tĩnh từ máy chủ kết hợp Web Speech API (fallback). Tác nhân này liên kết trực tiếp với UC03 (Nghe thuyết minh). |
 | **Hệ thống định vị GPS (`GpsSystem`)** | Tác nhân cảm biến (Sensor Actor) | Cảm biến GPS tích hợp trên thiết bị di động của khách tham quan và API Geolocation của trình duyệt (`navigator.geolocation` / `expo-location`), cung cấp dữ liệu tọa độ định kỳ `(lat, lng, accuracy)` phục vụ tính toán khoảng cách Haversine tự động. |
@@ -291,7 +304,7 @@ Hệ thống Thuyết minh Tự động Đa ngôn ngữ được thiết kế xo
 | **Mức độ hoàn thiện** | Focused Use Case |
 | **Mô tả tóm tắt** | Xác thực danh tính của Quản trị viên bằng tài khoản và mật khẩu được cấp trước để phân quyền truy cập vào phân hệ Dashboard quản trị. Tích hợp cơ chế bảo mật khóa 2 tầng tự động nếu nhập sai nhiều lần liên tiếp. |
 | **Điều kiện tiên quyết** | Quản trị viên chưa đăng nhập hoặc phiên làm việc trước đó đã hết hạn. |
-| **Sự kiện kích hoạt (Trigger)** | Quản trị viên chọn chức năng "Đăng Nhập" tại đường dẫn `/admin/login`. |
+| **Sự kiện kích hoạt (Trigger)** | Quản trị viên chọn chức năng "Đăng nhập" tại đường dẫn `/admin/login`. |
 | **Điều kiện kết thúc** | - **Thành công:** Phiên làm việc (Session Token) được khởi tạo thành công, hệ thống chuyển hướng vào giao diện Admin Dashboard.<br>- **Thất bại:** Hệ thống từ chối truy cập, hiển thị thông báo lỗi và không tạo phiên làm việc. |
 
 ***Dòng sự kiện chính (Main success scenario) — UC01:***
@@ -391,7 +404,7 @@ Hệ thống Thuyết minh Tự động Đa ngôn ngữ được thiết kế xo
 | 7 | | Khi bắt đầu phát, hệ thống gửi sự kiện `POST /api/analytics/listen` ghi nhận nhật ký lượt nghe về cơ sở dữ liệu (nếu có mạng). Use Case kết thúc thành công. |
 
 ***Luồng thay thế (Alternative flows):***
-- **A1 – Bật phụ đề đồng bộ (Extension Point: Xem Phụ Đề):** Khách bấm nút "Bật Phụ Đề" trên trình phát. Hệ thống kích hoạt use case {Xem phụ đề} (UC07), tải dữ liệu bản dịch và hiển thị chữ trôi đồng bộ theo từng giây âm thanh.
+- **A1 – Bật phụ đề đồng bộ (Extension Point: Xem phụ đề):** Khách bấm nút "Bật phụ đề" trên trình phát. Hệ thống kích hoạt use case {Xem phụ đề} (UC07), tải dữ liệu bản dịch và hiển thị chữ trôi đồng bộ theo từng giây âm thanh.
 - **A2 – Đổi ngôn ngữ giữa chừng:** Khách bấm chọn ngôn ngữ khác thông qua use case {Chuyển đổi ngôn ngữ} (UC04). Hệ thống lưu vị trí phát hiện tại, nạp tệp âm thanh của ngôn ngữ mới và tiếp tục phát từ mốc thời gian đó.
 
 ***Luồng ngoại lệ (Exception flows):***
@@ -449,7 +462,7 @@ Hệ thống Thuyết minh Tự động Đa ngôn ngữ được thiết kế xo
 |:---|:---|
 | **Tác nhân (Actor)** | Khách tham quan (`Visitor`) |
 | **Mức độ hoàn thiện** | Focused Use Case |
-| **Mô tả tóm tắt** | Cho phép khách tham quan đánh dấu lưu lại các hiện vật ấn tượng vào danh sách "Yêu thích" cá nhân để tiện xem lại hoặc nghe lại sau đó. Dữ liệu được lưu trữ cục bộ trên thiết bị của khách (`localStorage` / `AsyncStorage`), đảm bảo tính riêng tư tuyệt đối mà không cần đăng ký tài khoản. |
+| **Mô tả tóm tắt** | Cho phép khách tham quan đánh dấu lưu lại các hiện vật ấn tượng vào danh sách "Yêu thích" cá nhân để tiện xem lại hoặc nghe lại sau đó. Dữ liệu được lưu trữ cục bộ trên thiết bị của khách (`localStorage` / `AsyncStorage`), bảo đảm quyền riêng tư mà không cần đăng ký tài khoản. |
 | **Điều kiện tiên quyết** | Khách đang xem danh sách hiện vật hoặc đang mở trang chi tiết một hiện vật. |
 | **Sự kiện kích hoạt (Trigger)** | Khách bấm vào biểu tượng hình trái tim trên thẻ hiện vật hoặc màn hình chi tiết. |
 | **Điều kiện kết thúc** | Trạng thái yêu thích của hiện vật được cập nhật và lưu trữ bền vững tại bộ nhớ thiết bị. |
@@ -618,7 +631,7 @@ Hệ thống Thuyết minh Tự động Đa ngôn ngữ được thiết kế xo
 
 ---
 
-### 3.2.10. UC10 — Quản lý phiên & Mã QR
+### 3.2.10. UC10 — Quản lý phiên và mã QR
 
 ***Sơ đồ Use Case — UC10***
 
@@ -648,7 +661,7 @@ Hệ thống Thuyết minh Tự động Đa ngôn ngữ được thiết kế xo
 | 7 | | Hệ thống làm mới danh sách và hiển thị thẻ phiên mới. Use Case kết thúc thành công. |
 
 ***Luồng thay thế (Alternative flows):***
-- **A1 – Tạo phiên mới:** Admin bấm "Tạo Phiên Mới". Hệ thống mở biểu mẫu nhập: Tên ca tham quan, Ngày diễn ra, Giờ bắt đầu, Giờ kết thúc, Ghi chú đón tiếp. Admin nhập thông tin và tiếp tục bước 4.
+- **A1 – Tạo phiên mới:** Admin bấm "Tạo phiên mới". Hệ thống mở biểu mẫu nhập: Tên ca tham quan, Ngày diễn ra, Giờ bắt đầu, Giờ kết thúc, Ghi chú đón tiếp. Admin nhập thông tin và tiếp tục bước 4.
 - **A2 – Chỉnh sửa phiên:** Admin bấm biểu tượng sửa trên thẻ phiên. Hệ thống mở biểu mẫu điền sẵn dữ liệu. Admin điều chỉnh khung giờ hoặc ghi chú rồi nhấn Lưu.
 - **A3 – Xóa phiên:** Admin bấm biểu tượng xóa trên thẻ phiên. Hệ thống hiển thị cảnh báo nếu phiên đã có lượt nghe phát sinh. Admin xác nhận đồng ý, hệ thống xóa phiên khỏi cơ sở dữ liệu.
 - **A4 – Xuất mã QR đón tiếp & mã QR hiện vật:** Admin chọn phiên hoặc hiện vật và bấm nút "Xuất Mã QR". Hệ thống tạo tệp ảnh QR độ phân giải cao kèm logo bảo tàng và cho phép tải về dưới định dạng PNG để in ấn phục vụ dán tại cổng hoặc quầy lễ tân.
@@ -772,12 +785,12 @@ Hệ thống Thuyết minh Tự động Đa ngôn ngữ được thiết kế xo
 | 1 | Admin chọn menu "Sơ đồ tầng". | |
 | 2 | | Hệ thống hiển thị danh sách các tầng/khu vực trưng bày hiện có kèm hình ảnh mặt bằng tương ứng. |
 | 3 | Admin chọn một thao tác quản lý sơ đồ (A1, A2, A3). | |
-| 4 | Admin thực hiện các thao tác biên tập trên giao diện tương tác và nhấn "Lưu Sơ Đồ" (A4). | |
+| 4 | Admin thực hiện các thao tác biên tập trên giao diện tương tác và nhấn "Lưu sơ đồ" (A4). | |
 | 5 | | Hệ thống kiểm tra tính hợp lệ của dữ liệu tọa độ (E1). |
 | 6 | | Hệ thống lưu cấu hình sơ đồ và tọa độ các hiện vật vào cơ sở dữ liệu (`PUT /api/floors/:id`, `PUT /api/artifacts/:id`), làm mới danh sách và thông báo thành công. Use Case kết thúc thành công. |
 
 ***Luồng thay thế (Alternative flows):***
-- **A1 – Thêm sơ đồ tầng mới:** Admin bấm "Thêm Sơ Đồ Mới", nhập tên tầng, số tầng và tải lên tệp ảnh sơ đồ mặt bằng (PNG/JPG). Hệ thống kiểm tra dung lượng ảnh (E1) và mở màn hình biên tập gán vị trí. Admin tiếp tục bước 4.
+- **A1 – Thêm sơ đồ tầng mới:** Admin bấm "Thêm sơ đồ mới", nhập tên tầng, số tầng và tải lên tệp ảnh sơ đồ mặt bằng (PNG/JPG). Hệ thống kiểm tra dung lượng ảnh (E1) và mở màn hình biên tập gán vị trí. Admin tiếp tục bước 4.
 - **A2 – Chỉnh sửa sơ đồ & gán vị trí kéo thả:** Admin chọn một tầng và bấm "Biên tập Sơ đồ". Hệ thống hiển thị bản đồ mặt bằng tương tác và danh sách các hiện vật thuộc tầng đó. Admin dùng chuột kéo thả các điểm ghim hiện vật vào đúng vị trí thực tế trên sơ đồ. Hệ thống tự động ghi nhận tỷ lệ tọa độ tương đối (X, Y từ 0.0 đến 1.0). Admin tiếp tục bước 4.
 - **A3 – Xóa sơ đồ tầng:** Admin chọn sơ đồ và bấm "Xóa". Khi Admin xác nhận, hệ thống xóa sơ đồ mặt bằng và giải phóng tọa độ đã gán của các hiện vật liên quan.
 - **A4 – Hủy thao tác:** Admin bấm "Hủy". Hệ thống đóng giao diện biên tập và không lưu các thay đổi vị trí vừa kéo thả.
@@ -792,7 +805,7 @@ Hệ thống Thuyết minh Tự động Đa ngôn ngữ được thiết kế xo
 
 ---
 
-### 3.2.14. UC14 — Định vị & Tự động thuyết minh
+### 3.2.14. UC14 — Định vị và tự động thuyết minh
 
 ***Sơ đồ Use Case — UC14***
 
@@ -880,20 +893,20 @@ Mỗi Use Case và thành phần kiến trúc trong tài liệu thiết kế đ�
 
 | **STT** | **Mã Use Case** | **Tên Use Case** | **Tệp mã nguồn Web & Mobile** | **Thành phần / logic kỹ thuật đảm nhiệm** |
 |:---:|:---|:---|:---|:---|
-| 1 | **UC01** | Đăng Nhập Quản Trị | `AdminLoginView.tsx`<br>`loginLock.ts`<br>`auth.ts` | Xác thực tài khoản quản trị, đếm số lần sai liên tiếp, khóa bảo mật 2 tầng (5 phút ở Frontend `localStorage`, 1 phút ở Backend `AdminUser.LockedUntil`) và cấp JWT token |
-| 2 | **UC02** | Quét Mã QR | `QRScannerModal.tsx`<br>`qrHelper.ts`<br>`mobile/app/scanner.tsx` | Khởi tạo camera qua Web API / `expo-camera`, giải mã URL payload (`?artifact=` hoặc `?entry=gate`), hỗ trợ nhập mã thủ công A1, ghi nhận điểm neo xuất phát |
-| 3 | **UC03** | Nghe Thuyết Minh | `AudioPlayerBar.tsx`<br>`playerStore.ts`<br>`mobile/src/shared/assetMap.ts` | Trình phát Web/Native Audio ghim đáy màn hình, phát tệp MP3 offline nhúng sẵn trong APK (Android), điều khiển Play/Pause/Seek, điều chỉnh tốc độ đọc (1x – 2x), gửi telemetry |
-| 4 | **UC04** | Chuyển Đổi Ngôn Ngữ | `LanguageSwitcher.tsx`<br>`langStore.ts` | Chuyển đổi trạng thái tức thì giữa 5 thứ tiếng (vi, en, zh, ko, ja), lưu `localStorage`/`AsyncStorage`, không reload trang |
-| 5 | **UC05** | Lưu Hiện Vật Yêu Thích | `FavoritesView.tsx`<br>`mobile/app/(tabs)/favorites.tsx` | Lưu và xóa hiện vật yêu thích trực tiếp trong `localStorage` / `AsyncStorage` (`user_favorites`), dọn ID mồ côi |
-| 6 | **UC06** | Xem Hồ Sơ Bảo Tàng | `InfoView.tsx`<br>`mobile/app/(tabs)/info.tsx` | Hiển thị thông tin giới thiệu, lịch sử, giờ mở cửa, đường dây nóng hotline (chạm gọi điện trực tiếp trên di động) |
-| 7 | **UC07** | Xem Phụ Đề Đồng Bộ | `AudioPlayerBar.tsx`<br>`mobile/app/artifact/[id].tsx` | Đồng bộ hóa phụ đề chạy chữ karaoke từng giây (`SubtitleCue`), hỗ trợ chạm câu phụ đề để tua bài |
-| 8 | **UC08** | Tìm Kiếm Hiện Vật | `ExploreView.tsx`<br>`mobile/app/(tabs)/index.tsx` | Tìm kiếm đa tiêu chí theo tên hiện vật, mô tả đa ngữ, mã định danh (`WRM001`) và bộ lọc theo tầng |
-| 9 | **UC09** | Quản Lý Hiện Vật | `ArtifactManageView.tsx`<br>`translate.ts`<br>`uploads.ts` | CRUD thông tin hiện vật, dịch tự động 5 ngôn ngữ qua Google Translate / MyMemory fallback, upload ảnh (≤ 10MB) |
-| 10 | **UC10** | Quản Lý Phiên & Mã QR | `SessionManageView.tsx`<br>`QRManageView.tsx`<br>`analytics.ts` | Quản lý ca mở cửa (`SES-xx`), heartbeat 10-15s, timeout 35s, tạo và xuất mã QR độ phân giải cao định dạng PNG in ấn |
-| 11 | **UC11** | Quản Lý Tệp Âm Thanh | `AudioManageView.tsx`<br>`uploads.ts` | Tải lên tệp âm thanh MP3/WAV (≤ 30MB, Nginx 35m), nghe thử trực tiếp và biên tập các mốc phụ đề `SubtitleCue` |
-| 12 | **UC12** | Xem Thống Kê Lượt Nghe | `AnalyticsView.tsx`<br>`analytics.ts` | Biểu đồ Recharts trực quan hóa tần suất nghe theo ngày/giờ, tỷ lệ ngôn ngữ, top hiện vật và xuất báo cáo CSV |
-| 13 | **UC13** | Quản Lý Sơ Đồ Tầng | `MapManageView.tsx`<br>`floorHelper.ts` | Tải lên sơ đồ mặt bằng các tầng, giao diện kéo thả trực quan để gán tọa độ pixel (X, Y) và tọa độ GPS / bán kính |
-| 14 | **UC14** | Định Vị & Tự Động Thuyết Minh | `geofence.ts`<br>`geofenceStore.ts`<br>`FloorMapView.tsx` | Cơ chế lai: QR neo xuất phát + GPS độ chính xác cao, tính khoảng cách Haversine, kích hoạt vùng 15m, lọc sai số GPS > 150m, hộp thoại switch/replay |
+| 1 | **UC01** | Đăng nhập quản trị | `AdminLoginView.tsx`<br>`loginLock.ts`<br>`auth.ts` | Xác thực tài khoản quản trị, đếm số lần sai liên tiếp, khóa bảo mật 2 tầng (5 phút ở Frontend `localStorage`, 1 phút ở Backend `AdminUser.LockedUntil`) và cấp JWT token |
+| 2 | **UC02** | Quét mã QR | `QRScannerModal.tsx`<br>`qrHelper.ts`<br>`mobile/app/scanner.tsx` | Khởi tạo camera qua Web API / `expo-camera`, giải mã URL payload (`?artifact=` hoặc `?entry=gate`), hỗ trợ nhập mã thủ công A1, ghi nhận điểm neo xuất phát |
+| 3 | **UC03** | Nghe thuyết minh | `AudioPlayerBar.tsx`<br>`playerStore.ts`<br>`mobile/src/shared/assetMap.ts` | Trình phát Web/Native Audio ghim đáy màn hình, phát tệp MP3 offline nhúng sẵn trong APK (Android), điều khiển Play/Pause/Seek, điều chỉnh tốc độ đọc (1x – 2x), gửi telemetry |
+| 4 | **UC04** | Chuyển đổi ngôn ngữ | `LanguageSwitcher.tsx`<br>`langStore.ts` | Chuyển đổi trạng thái tức thì giữa 5 thứ tiếng (vi, en, zh, ko, ja), lưu `localStorage`/`AsyncStorage`, không reload trang |
+| 5 | **UC05** | Lưu hiện vật yêu thích | `FavoritesView.tsx`<br>`mobile/app/(tabs)/favorites.tsx` | Lưu và xóa hiện vật yêu thích trực tiếp trong `localStorage` / `AsyncStorage` (`user_favorites`), dọn ID mồ côi |
+| 6 | **UC06** | Xem hồ sơ bảo tàng | `InfoView.tsx`<br>`mobile/app/(tabs)/info.tsx` | Hiển thị thông tin giới thiệu, lịch sử, giờ mở cửa, đường dây nóng hotline (chạm gọi điện trực tiếp trên di động) |
+| 7 | **UC07** | Xem phụ đề đồng bộ | `AudioPlayerBar.tsx`<br>`mobile/app/artifact/[id].tsx` | Đồng bộ hóa phụ đề chạy chữ karaoke từng giây (`SubtitleCue`), hỗ trợ chạm câu phụ đề để tua bài |
+| 8 | **UC08** | Tìm kiếm hiện vật | `ExploreView.tsx`<br>`mobile/app/(tabs)/index.tsx` | Tìm kiếm đa tiêu chí theo tên hiện vật, mô tả đa ngữ, mã định danh (`WRM001`) và bộ lọc theo tầng |
+| 9 | **UC09** | Quản lý hiện vật | `ArtifactManageView.tsx`<br>`translate.ts`<br>`uploads.ts` | CRUD thông tin hiện vật, dịch tự động 5 ngôn ngữ qua Google Translate / MyMemory fallback, upload ảnh (≤ 10MB) |
+| 10 | **UC10** | Quản lý phiên và mã QR | `SessionManageView.tsx`<br>`QRManageView.tsx`<br>`analytics.ts` | Quản lý ca mở cửa (`SES-xx`), heartbeat 10-15s, timeout 35s, tạo và xuất mã QR độ phân giải cao định dạng PNG in ấn |
+| 11 | **UC11** | Quản lý tệp âm thanh | `AudioManageView.tsx`<br>`uploads.ts` | Tải lên tệp âm thanh MP3/WAV (≤ 30MB, Nginx 35m), nghe thử trực tiếp và biên tập các mốc phụ đề `SubtitleCue` |
+| 12 | **UC12** | Xem thống kê lượt nghe | `AnalyticsView.tsx`<br>`analytics.ts` | Biểu đồ Recharts trực quan hóa tần suất nghe theo ngày/giờ, tỷ lệ ngôn ngữ, top hiện vật và xuất báo cáo CSV |
+| 13 | **UC13** | Quản lý sơ đồ tầng | `MapManageView.tsx`<br>`floorHelper.ts` | Tải lên sơ đồ mặt bằng các tầng, giao diện kéo thả trực quan để gán tọa độ pixel (X, Y) và tọa độ GPS / bán kính |
+| 14 | **UC14** | Định vị và tự động thuyết minh | `geofence.ts`<br>`geofenceStore.ts`<br>`FloorMapView.tsx` | Cơ chế lai: QR neo xuất phát + GPS độ chính xác cao, tính khoảng cách Haversine, kích hoạt vùng 15m, lọc sai số GPS > 150m, hộp thoại switch/replay |
 
 ***Bảng 4.1: Đối chiếu sơ đồ thiết kế và mã nguồn thực tế***
 
@@ -936,7 +949,7 @@ Quy trình Tích hợp Liên tục và Triển khai Liên tục (CI/CD) được
 
 ## 5.2. Kế hoạch kiểm thử và kết quả thực nghiệm
 
-Toàn bộ 14 Use Cases của hệ thống đã được kiểm thử chức năng (Functional Testing) và kiểm thử thực nghiệm trên các thiết bị di động thực tế với kết quả đạt 100% tiêu chí đề ra:
+Toàn bộ 14 Use Case của hệ thống đã trải qua kiểm thử chức năng (Functional Testing) và kiểm thử thực nghiệm trên các thiết bị di động thực tế, đáp ứng tốt các tiêu chí đặt ra:
 
 | **Mã kịch bản** | **Ca sử dụng kiểm tra** | **Nội dung kịch bản thực hiện** | **Kết quả kỳ vọng** | **Kết quả thực nghiệm** |
 |:---:|:---|:---|:---|:---:|
@@ -966,7 +979,7 @@ Trải qua quá trình tìm hiểu lý thuyết kỹ nghệ phần mềm, phân 
    - Xác định rõ và tinh gọn phạm vi nghiệp vụ thành **14 Use Case trọng tâm**, gạt bỏ rào cản đăng ký tài khoản đối với khách tham quan.
    - Mô hình hóa chi tiết sơ đồ thành phần (Component diagram), sơ đồ triển khai (Deployment diagram), mô hình dữ liệu quan hệ (ERD 12 bảng), bộ sơ đồ luồng dữ liệu (DFD Mức 0, Mức 1, Mức 2) và 14 sơ đồ hoạt động (Activity diagram) bằng cú pháp ActScript có công cụ kiểm tra cú pháp (linter) tự động đạt chuẩn 100% (0 error, 0 warning).
 2. **Về mặt sản phẩm phần mềm:**
-   - Xây dựng thành công ứng dụng Single-Page Application (SPA) hoàn chỉnh và ứng dụng di động Android Offline-First hoàn chỉnh, vận hành êm thuận trên thiết bị di động với tốc độ tải trang nhanh.
+   - Xây dựng thành công ứng dụng Single-Page Application (SPA) trên nền web cùng ứng dụng di động Android Offline-First, vận hành êm thuận trên thiết bị di động với tốc độ tải trang nhanh.
    - Giao diện Dark Luxury trang nhã, tạo cảm giác lắng đọng, phù hợp với không gian trưng bày tại các bảo tàng lịch sử.
 3. **Về mặt tính năng nghiệp vụ:**
    - Hiện thực hiệu quả cơ chế định vị kết hợp (Hybrid Geofencing): dùng mã QR làm mốc ban đầu, theo dõi khoảng cách trong phạm vi 15 mét (lọc sai số GPS > 150 mét) và tự động phát/gợi ý thuyết minh khi khách di chuyển tới gần hiện vật tiếp theo.
@@ -1005,9 +1018,9 @@ Trong các giai đoạn nghiên cứu và nâng cấp tiếp theo, hệ thống 
 
 ---
 
-# PHỤ LỤC BỔ SUNG (BỘ HỒ SƠ THIẾT KẾ FINAL & ĐỐI CHIẾU MÃ NGUỒN)
+# PHỤ LỤC: HỒ SƠ THIẾT KẾ VÀ ĐỐI CHIẾU MÃ NGUỒN
 
-## 1. Mở rộng Phân hệ Khách Tham Quan sang Mobile App (Expo React Native)
+## 1. Mở rộng phân hệ khách tham quan sang ứng dụng di động (Expo React Native)
 Để đáp ứng đầy đủ định hướng chuyên đề **React Native + React.js** và tối ưu trải nghiệm tham quan không phụ thuộc Wi-Fi bảo tàng, đồ án đã phát triển thêm ứng dụng di động **`mobile/`** (Android APK):
 - **Kiến trúc Offline-First:** Toàn bộ 100 tệp tài nguyên (âm thanh 5 ngôn ngữ `.mp3/.wav`, ảnh hiện vật, bản đồ 4 tầng) cùng `museum_data.json` được đóng gói trực tiếp vào APK thông qua ánh xạ tĩnh `mobile/src/shared/assetMap.ts`.
 - **Các module Native tích hợp:**
@@ -1017,16 +1030,8 @@ Trong các giai đoạn nghiên cứu và nâng cấp tiếp theo, hệ thống 
   - `@react-native-async-storage/async-storage`: Lưu ngôn ngữ ưu tiên và danh sách hiện vật yêu thích cục bộ.
 - **Đồng bộ tùy chọn khi có mạng:** Khi cấu hình `EXPO_PUBLIC_API_URL`, ứng dụng gọi `GET /api/museum` để cập nhật dữ liệu mới nhất và gửi telemetry (`POST /api/sessions/heartbeat`, `POST /api/analytics/listen`) về cùng hệ thống Backend Express + MSSQL.
 
-## 2. Hoàn thiện Chuỗi CI/CD 3 Đích Triển Khai
+## 2. Hoàn thiện chuỗi CI/CD với 3 đích triển khai
 - **Web Demo:** `.github/workflows/deploy.yml` chạy ESLint, Vitest (22 tests), Vite build và deploy lên **GitHub Pages**.
 - **Container (Frontend + Backend):** `.github/workflows/docker.yml` đóng gói đồng thời image `frontend` (Nginx) và `backend` (Node.js Express) đẩy lên **GHCR**.
 - **Android APK:** `.github/workflows/mobile.yml` chạy ESLint, `tsc --noEmit`, Jest (10 tests), `expo prebuild --platform android` và `./gradlew assembleRelease` để xuất file `museum-audio-guide.apk` lên Artifacts / **GitHub Releases**.
 
-## 3. Bộ Sơ Đồ Thiết Kế Chuẩn Hóa Final
-Toàn bộ sai lệch giữa các tài liệu V0–V2 và mã nguồn đã được chuẩn hóa tại bộ hồ sơ Final:
-- **Component Diagram Final:** `docs/design/components/ComponentFinal.drawio`
-- **Deployment Diagram Final:** `docs/design/deployment/DeploymentFinal.drawio` (và `docs/design/deployment/DeployDiagramV3.puml`)
-- **ERD Final (12 bảng đồng bộ 100% `schema.sql`):** `docs/design/erd/ErdFinal_detail.puml` và `docs/design/erd/ErdFinal.puml`
-- **Use Case Final (14 UC chuẩn hóa & 14 sơ đồ con):** `docs/design/use-cases/final/UCFinal.puml` và đặc tả chi tiết `docs/design/use-cases/final/UCFinal.md`
-- **Sơ đồ hoạt động ActScript (14/14 tệp 0 error, 0 warning):** `docs/design/use-cases/final/activity/UC01_Activity.actscript` .. `UC14_Activity.actscript`
-- **Sơ đồ Luồng Dữ Liệu (DFD Mức 0, Mức 1, Mức 2):** `docs/design/dfd/DFD_Level0.puml`, `docs/design/dfd/DFD_Level1.puml`, `docs/design/dfd/DFD_Level2_Geofence.puml`, `docs/design/dfd/DFD.md`
