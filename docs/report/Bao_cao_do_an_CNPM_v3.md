@@ -121,7 +121,7 @@ Sơ đồ thành phần mô tả cấu trúc phân rã của hệ thống thành
      - `Media Storage Server`: Kho lưu trữ tệp tin đĩa cứng (`/uploads`) chứa tệp âm thanh thuyết minh MP3 và tệp ảnh sơ đồ/hiện vật.
      - `Browser LocalStorage`: Hệ thống lưu trữ cục bộ phía trình duyệt, quản lý mốc neo vị trí GPS và danh sách hiện vật yêu thích của khách tham quan.
 
-![](./media/4-component.png)
+![](./media/DeploymentFinal.drawio.png)
 
 ***Hình 2.1: Sơ đồ thành phần của hệ thống (nguồn chuẩn: `docs/design/components/ComponentFinal.drawio`)***
 
@@ -167,7 +167,7 @@ Sơ đồ triển khai mô hình hóa cấu trúc triển khai vật lý thực 
 
 ## 2.3. Mô hình dữ liệu quan hệ (ERD)
 
-Mô hình dữ liệu của hệ thống được chuẩn hóa theo dạng chuẩn 3 (3NF), phản ánh trọn vẹn các mối quan hệ nghiệp vụ giữa quản trị viên, hiện vật, bản dịch đa ngôn ngữ, tệp âm thanh, phụ đề karaoke và nhật ký phiên tham quan. Mô hình vật lý được đồng bộ 100% với tệp cấu trúc cơ sở dữ liệu `backend/src/db/schema.sql` gồm **12 bảng cốt lõi** (`ErdV3.puml`):
+Mô hình dữ liệu của hệ thống được chuẩn hóa theo dạng chuẩn 3 (3NF), phản ánh trọn vẹn các mối quan hệ nghiệp vụ giữa quản trị viên, hiện vật, bản dịch đa ngôn ngữ, tệp âm thanh, phụ đề karaoke và nhật ký phiên tham quan. Mô hình vật lý được đồng bộ 100% với tệp cấu trúc cơ sở dữ liệu `backend/src/db/schema.sql` gồm 12 thực thể trọng tâm:
 
 1. **`AdminUser` (Người dùng quản trị):** Quản lý thông tin xác thực và phân quyền của cán bộ quản trị bảo tàng.
    - `Id` [PK, int, IDENTITY]: Mã định danh tự tăng của tài khoản quản trị.
@@ -176,7 +176,7 @@ Mô hình dữ liệu của hệ thống được chuẩn hóa theo dạng chu�
    - `DisplayName` [string]: Tên hiển thị của quản trị viên.
    - `Role` [string]: Phân quyền quản trị (mặc định `'ADMIN'`).
    - `FailedAttempts` [int]: Bộ đếm số lần đăng nhập sai liên tiếp phục vụ cơ chế chống brute-force (khóa tạm khi đạt ngưỡng $N = 5$).
-   - `LockedUntil` [datetime2, nullable]: Mốc thời gian tài khoản được mở khóa tạm tại Backend (**1 phút**, `LOCK_MS = 60_000` trong `auth.ts`; kết hợp khóa giao diện **5 phút** trong `localStorage` ở `loginLock.ts`).
+   - `LockedUntil` [datetime2, nullable]: Mốc thời gian tài khoản được mở khóa tạm tại Backend (1 phút, `LOCK_MS = 60_000` trong `auth.ts`; kết hợp khóa giao diện 5 phút trong `localStorage` ở `loginLock.ts`).
 2. **`Floor` (Sơ đồ mặt bằng / Tầng trưng bày):**
    - `Id` [PK, int]: Mã định danh tầng hoặc khu trưng bày (ví dụ: `1` - Khu ngoài trời, `2` - Tầng trệt).
    - `MapImage` [string]: Đường dẫn tệp ảnh bản đồ mặt bằng phục vụ hiển thị.
@@ -194,7 +194,7 @@ Mô hình dữ liệu của hệ thống được chuẩn hóa theo dạng chu�
    - `MapY` [float]: Tọa độ tương đối trục tung trên ảnh sơ đồ (tỷ lệ 0.0 – 1.0).
    - `Latitude` [float, nullable]: Tọa độ vĩ độ GPS thực tế phục vụ thuật toán khoảng cách Haversine.
    - `Longitude` [float, nullable]: Tọa độ kinh độ GPS thực tế phục vụ thuật toán khoảng cách Haversine.
-   - `TriggerRadius` [float, nullable]: Bán kính kích hoạt Geofencing cấu hình riêng cho từng hiện vật (mặc định **15 mét** theo `DEFAULT_TRIGGER_RADIUS` trong `geofence.ts`).
+   - `TriggerRadius` [float, nullable]: Bán kính kích hoạt Geofencing cấu hình riêng cho từng hiện vật (mặc định 15 mét theo `DEFAULT_TRIGGER_RADIUS` trong `geofence.ts`).
    - `CreatedAt` [bigint, nullable]: Thời điểm tạo bản ghi hiện vật (Unix timestamp).
    - `SortOrder` [int]: Thứ tự ưu tiên sắp xếp hiển thị danh mục hiện vật.
 5. **`ArtifactTranslation` (Bản dịch thông tin hiện vật đa ngữ):**
@@ -228,20 +228,22 @@ Mô hình dữ liệu của hệ thống được chuẩn hóa theo dạng chu�
    - `LastActive` [bigint]: Mốc thời gian tương tác cuối cùng (heartbeat duy trì tín hiệu trực tuyến).
 10. **`ListenEvent` (Nhật ký sự kiện nghe thuyết minh):**
     - `Id` [PK, string]: Mã định danh duy nhất của sự kiện nghe.
-    - `SessionId` [FK, string]: Khóa ngoại liên kết tới `VisitorSession`.
-    - `ArtifactId` [FK, string]: Khóa ngoại liên kết tới `Artifact`.
+    - `SessionId` [string]: Mã định danh phiên tham chiếu logic tới `VisitorSession` (không ràng buộc khóa ngoại cứng để hỗ trợ giải phóng phiên hết hạn và đồng bộ ngoại tuyến).
+    - `ArtifactId` [string]: Mã hiện vật tham chiếu logic tới `Artifact`.
     - `ArtifactCode` [string]: Mã hiện vật tại thời điểm phát sinh sự kiện (`ART-xxx`).
     - `ArtifactTitle` [string]: Tên gọi hiện vật tại thời điểm phát sinh sự kiện.
     - `Lang` [string]: Ngôn ngữ bài thuyết minh được phát.
     - `Timestamp` [bigint]: Thời điểm chính xác phát sinh sự kiện nghe (Unix timestamp).
-11. **`MuseumTranslation` & `Museum` (Hồ sơ thông tin bảo tàng đa ngữ):**
-    - `MuseumTranslation` lưu trữ bản dịch đa ngữ thông tin bảo tàng (UC06):
-      - `Lang` [PK, char(2)]: Mã ngôn ngữ ISO 639-1.
-      - `Name` [string]: Tên gọi chính thức của bảo tàng theo ngôn ngữ tương ứng.
-      - `Address` [string]: Địa chỉ liên hệ của bảo tàng.
-      - `OpenHours` [string]: Khung giờ mở cửa đón khách tham quan.
-      - `Description` [text]: Toàn văn bài giới thiệu lịch sử và quy mô bảo tàng.
-    - Bảng liên kết `Museum`: Quản lý cấu hình toàn cục duy nhất (`Id = 1`) chứa `Hotline` (đường dây nóng hỗ trợ) và `Banner` (đường dẫn ảnh bìa biểu ngữ chính).
+11. **`Museum` (Cấu hình đơn nguyên & Thông tin liên hệ bảo tàng):**
+    - `Id` [PK, int, CHECK(Id=1)]: Mã cấu hình duy nhất bảo đảm nguyên tắc đơn nguyên (singleton table).
+    - `Hotline` [string]: Số điện thoại đường dây nóng hỗ trợ du khách.
+    - `Banner` [string]: Đường dẫn tệp ảnh biểu ngữ chính hiển thị trên trang chủ.
+12. **`MuseumTranslation` (Bản dịch hồ sơ thông tin bảo tàng đa ngữ):**
+    - `Lang` [PK, char(2)]: Mã ngôn ngữ ISO 639-1 (`vi`, `en`, `zh`, `ko`, `ja`).
+    - `Name` [string]: Tên gọi chính thức của bảo tàng theo ngôn ngữ tương ứng.
+    - `Address` [string]: Địa chỉ liên hệ của bảo tàng.
+    - `OpenHours` [string]: Khung giờ mở cửa đón khách tham quan.
+    - `Description` [text]: Toàn văn bài giới thiệu lịch sử và quy mô bảo tàng (UC06).
     *(Lưu ý: Tính năng lưu danh mục hiện vật yêu thích của khách vãng lai được lưu trữ trực tiếp và bền vững tại bộ nhớ trình duyệt `LocalStorage` với khóa `user_favorites`, đảm bảo trải nghiệm tức thì không cần tài khoản)*.
 
 ![](./media/6-erd.png)
@@ -313,7 +315,7 @@ Hệ thống Thuyết minh Tự động Đa ngôn ngữ được thiết kế xo
 
 ***Luồng ngoại lệ (Exception flows):***
 - **E1 – Sai thông tin đăng nhập:** Nếu email hoặc mật khẩu không chính xác, hệ thống hiển thị thông báo "Email hoặc mật khẩu không chính xác", ghi nhận số lần thử sai và cho phép nhập lại.
-- **E2 – Kích hoạt cơ chế khóa bảo vệ (Lockout Brute-Force):** Nếu Admin nhập sai mật khẩu quá 5 lần liên tiếp, Frontend tự động khóa form đăng nhập **5 phút** (`300.000 ms` trong `localStorage`) kèm đồng hồ đếm ngược, đồng thời Backend khóa tài khoản **1 phút** (`LOCK_MS = 60_000` trong `AdminUser.LockedUntil`, trả mã HTTP `429`) và từ chối mọi yêu cầu đăng nhập trong khoảng thời gian này.
+- **E2 – Kích hoạt cơ chế khóa bảo vệ (Lockout Brute-Force):** Nếu Admin nhập sai mật khẩu quá 5 lần liên tiếp, Frontend tự động khóa form đăng nhập 5 phút (`300.000 ms` trong `localStorage`) kèm đồng hồ đếm ngược, đồng thời Backend khóa tài khoản 1 phút (`LOCK_MS = 60_000` trong `AdminUser.LockedUntil`, trả mã HTTP `429`) và từ chối mọi yêu cầu đăng nhập trong khoảng thời gian này.
 
 ***Sơ đồ hoạt động (Activity diagram) — UC01:***
 
@@ -1040,7 +1042,7 @@ Trải qua quá trình tìm hiểu lý thuyết kỹ nghệ phần mềm, phân 
    - Xây dựng thành công ứng dụng Single-Page Application (SPA) hoàn chỉnh, vận hành êm thuận trên thiết bị di động với tốc độ tải trang nhanh.
    - Giao diện Dark Luxury trang nhã, tạo cảm giác lắng đọng, phù hợp với không gian trưng bày tại các bảo tàng lịch sử.
 3. **Về mặt tính năng nghiệp vụ:**
-   - Hiện thực hiệu quả cơ chế định vị kết hợp (Hybrid Geofencing): dùng mã QR làm mốc ban đầu, theo dõi khoảng cách trong phạm vi **15 mét** (lọc sai số GPS > 150 mét) và tự động phát/gợi ý thuyết minh khi khách di chuyển tới gần hiện vật tiếp theo.
+   - Hiện thực hiệu quả cơ chế định vị kết hợp (Hybrid Geofencing): dùng mã QR làm mốc ban đầu, theo dõi khoảng cách trong phạm vi 15 mét (lọc sai số GPS > 150 mét) và tự động phát/gợi ý thuyết minh khi khách di chuyển tới gần hiện vật tiếp theo.
    - Trình phát âm thanh nổi tích hợp phụ đề đồng bộ chạy chữ nhịp nhàng từng giây và hỗ trợ chuyển đổi linh hoạt giữa 5 ngôn ngữ.
    - Bảng điều khiển quản trị tiện ích: quản lý hiện vật, sơ đồ mặt bằng trực quan hỗ trợ kéo thả tọa độ, tạo lập phiên tham quan và xuất mã QR.
 4. **Về mặt quy trình kỹ nghệ:**

@@ -1,9 +1,8 @@
 @startuml
 ' Theo quy chuan trinh bay V0 - Kien truc thuc te V3 (Web SPA + Mobile App + Backend + Storage)
 left to right direction
-skinparam linetype polyline
-skinparam nodesep 30
-skinparam ranksep 70
+skinparam nodesep 100
+skinparam ranksep 150
 
 ' ---------- Client 1: Web SPA (Visitor + Admin)
 component "Web Client (React 18 SPA)" as WebClient {
@@ -93,18 +92,18 @@ AdminAuth -- AdminLocal
 AdminCrud -- AdminAuth
 AdminAnalytics -- AdminAuth
 
-WebVisitorGui -- WebQr
-WebVisitorGui -- WebAudio
-WebVisitorGui -- WebGeo
-WebVisitorGui -- VisitorLocal
+WebVisitorGui -left- WebQr
+WebVisitorGui -left- WebAudio
+WebVisitorGui -left- WebGeo
+WebVisitorGui -left- VisitorLocal
 
-AdminAuth -- WebPortAuth
-AdminCrud -- WebPortUpload
-AdminCrud -- WebPortTranslate
-AdminCrud -- WebPortCatalog
-WebVisitorGui -- WebPortCatalog
-AdminAnalytics -- WebPortAnalytics
-WebVisitorGui -- WebPortAnalytics
+AdminAuth ---- WebPortAuth
+AdminCrud ---- WebPortUpload
+AdminCrud ---- WebPortTranslate
+AdminCrud ---- WebPortCatalog
+WebVisitorGui ---- WebPortCatalog
+AdminAnalytics ---- WebPortAnalytics
+WebVisitorGui ---- WebPortAnalytics
 
 ' ---- Mobile Client internals
 MobileGui -- MobileQr
@@ -112,8 +111,8 @@ MobileGui -- MobileAudio
 MobileGui -- MobileGeo
 MobileGui -- MobileLocal
 MobileAudio -- MobileLocal
-MobileGui -- MobPortCatalog
-MobileGui -- MobPortAnalytics
+MobileGui ---- MobPortCatalog
+MobileGui ---- MobPortAnalytics
 
 ' ---- Clients -> Interfaces -> Server (song song tu tren xuong)
 WebPortAuth ..( IAuth

@@ -1,6 +1,6 @@
 @startuml
 ' Theo quy chuan trinh bay V0 - Chot 14 Use Cases chuan hoa khop code V3 (Web + Mobile)
-!pragma layout smetana
+
 left to right direction
 skinparam packageStyle rectangle
 
